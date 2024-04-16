@@ -159,11 +159,10 @@ public class PseudoErosion extends NoiseFunction {
         double vc = LinearAlgebraFunctions.dotProduct(gcx, gcy, fx, fy - 1);
         double vd = LinearAlgebraFunctions.dotProduct(gdx, gdy, fx - 1, fy - 1);
 
-        double v = uy * (va - vb - vc + vd) + vb + vc - va;
-        double u2x = gax + (gbx - gax) * ux + (gcx - gax) * uy + (gax - gbx - gcx + gdx) * ux * uy + dux * v;
-        double u2y = gay + (gby - gay) * ux + (gcy - gay) * uy + (gay - gby - gcy + gdy) * ux * uy + duy * v;
+        double u2x = gax + (gbx - gax) * ux + (gcx - gax) * uy + (gax - gbx - gcx + gdx) * ux * uy + dux * (uy * (va - vb - vc + vd) + vb - va);
+        double u2y = gay + (gby - gay) * ux + (gcy - gay) * uy + (gay - gby - gcy + gdy) * ux * uy + duy * (ux * (va - vb - vc + vd) + vc - va);
 
-        return new double[]{va + ux * (vb - va) + uy * (vc - va) + ux * uy * (va - vb - vc + vd), u2x, u2y};
+        return new double[] { va + ux * (vb - va) + uy * (vc - va) + ux * uy * (va - vb - vc + vd), u2x, u2y };
     }
 
     @Override
@@ -179,7 +178,7 @@ public class PseudoErosion extends NoiseFunction {
         double na = heightAmp;
         for (int i = 0; i < heightOctaves; i++) {
             double[] noise = noised(px * nf, py * nf);
-            nx += noise[0] * na * nf;
+            nx += noise[0] * na;
             ny += noise[1] * na * nf;
             nz += noise[2] * na * nf;
             na *= heightGain;
