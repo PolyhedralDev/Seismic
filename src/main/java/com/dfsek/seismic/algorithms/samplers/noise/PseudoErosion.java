@@ -3,7 +3,9 @@ package com.dfsek.seismic.algorithms.samplers.noise;
 
 import  com.dfsek.seismic.math.algebra.LinearAlgebraFunctions;
 import  com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.math.exponential.ExponentialFunctions;
 import  com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.trigonometry.TrigonometryConstants;
 import  com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 
 public class PseudoErosion extends NoiseFunction {
@@ -95,7 +97,6 @@ public class PseudoErosion extends NoiseFunction {
         double ipy = FloatingPointFunctions.floor(py);
         double fpx = px - ipx;
         double fpy = py - ipy;
-        double f = 2.0 * Math.PI;
         double vax = 0.0f;
         double vay = 0.0f;
         double vaz = 0.0f;
@@ -111,12 +112,13 @@ public class PseudoErosion extends NoiseFunction {
                 double ppx = fpx + ox - hx;
                 double ppy = fpy + oy - hy;
                 double d = ppx * ppx + ppy * ppy;
-                double w = Math.exp(-d * 2.0);
+                double w = ExponentialFunctions.exp(-d * 2.0);
                 wt += w;
-                double mag = ppx * dirx + ppy * diry;
-                vax += TrigonometryFunctions.cos(mag * f) * w;
-                vay += -TrigonometryFunctions.sin(mag * f) * (ppx + dirx) * w;
-                vaz += -TrigonometryFunctions.sin(mag * f) * (ppy + diry) * w;
+                double mag = (ppx * dirx + ppy * diry) * TrigonometryConstants.TAU;
+                double magsin = (-TrigonometryFunctions.sin(mag) * w);
+                vax += TrigonometryFunctions.cos(mag) * w;
+                vay += magsin * (ppx + dirx);
+                vaz += magsin * (ppy + diry);
             }
         }
 
