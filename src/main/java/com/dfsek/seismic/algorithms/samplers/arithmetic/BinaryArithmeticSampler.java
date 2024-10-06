@@ -1,6 +1,6 @@
 package com.dfsek.seismic.algorithms.samplers.arithmetic;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
 
 
 public abstract class BinaryArithmeticSampler implements NoiseSampler {

@@ -6,6 +6,7 @@ public class AlgebraFunctions {
      * {@code double} value.
      *
      * @param a a value.
+     *
      * @return the positive inverse square root of {@code a}.
      */
     public static double invSqrt(double a) {

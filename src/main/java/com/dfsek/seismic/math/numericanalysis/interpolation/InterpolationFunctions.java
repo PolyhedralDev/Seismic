@@ -1,6 +1,7 @@
 package com.dfsek.seismic.math.numericanalysis.interpolation;
 
-import  com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+
 
 public class InterpolationFunctions {
     /**
@@ -9,6 +10,7 @@ public class InterpolationFunctions {
      * @param v0 the value at the left corner of the first line in the 1x2 grid.
      * @param v1 the value at the right corner of the first line in the 1x2 grid.
      * @param t  the interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double lerp(double v0, double v1, double t) {
@@ -24,6 +26,7 @@ public class InterpolationFunctions {
      * @param v11 the value at the front-bottom-right corner of the first 2x2 grid in the 2x2x2 grid.
      * @param tx  the horizontal interpolation parameter.
      * @param ty  the vertical interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double biLerp(double v00, double v10, double v01, double v11, double tx, double ty) {
@@ -46,9 +49,11 @@ public class InterpolationFunctions {
      * @param tx   the horizontal interpolation parameter.
      * @param ty   the vertical interpolation parameter.
      * @param tz   the depth interpolation parameter.
+     *
      * @return the interpolated value.
      */
-    public static double triLerp(double v000, double v100, double v010, double v110, double v001, double v101, double v011, double v111, double tx, double ty, double tz) {
+    public static double triLerp(double v000, double v100, double v010, double v110, double v001, double v101, double v011, double v111,
+                                 double tx, double ty, double tz) {
         double x00 = biLerp(v000, v100, v010, v110, tx, ty);
         double x11 = biLerp(v001, v101, v011, v111, tx, ty);
         return lerp(x00, x11, tz);
@@ -62,6 +67,7 @@ public class InterpolationFunctions {
      * @param v01 the value at the back-left corner of the first cubic line in the 1x4 grid.
      * @param v11 the value at the back-right corner of the first cubic line in the 1x4 grid.
      * @param t   the interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double cubicLerp(double v00, double v10, double v01, double v11, double t) {
@@ -93,6 +99,7 @@ public class InterpolationFunctions {
      * @param v33 the value at the front-bottom-right corner of the second 4x4 grid in the 4x4x4 grid.
      * @param tx  the horizontal interpolation parameter.
      * @param ty  the vertical interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double biCubicLerp(double v00, double v10, double v20, double v30,
@@ -177,6 +184,7 @@ public class InterpolationFunctions {
      * @param tx   the horizontal interpolation parameter.
      * @param ty   the vertical interpolation parameter.
      * @param tz   the depth interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double triCubicLerp(double v000, double v100, double v200, double v300,
@@ -207,6 +215,7 @@ public class InterpolationFunctions {
      * Returns the result of a quintic easing function.
      *
      * @param t the interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double easingQuinticInterpolation(double t) {
@@ -217,6 +226,7 @@ public class InterpolationFunctions {
      * Returns the result of a Hermite easing function.
      *
      * @param t the interpolation parameter.
+     *
      * @return the interpolated value.
      */
     public static double easingHermiteInterpolation(double t) {

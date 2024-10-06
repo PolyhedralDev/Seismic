@@ -25,8 +25,8 @@ public class ImageSampler implements NoiseSampler {
     @Override
     public double getNoise(long seed, double x, double y) {
         return ((channel.getChannel(image.getRGB(Math.floorMod((int) Math.floor(x * frequency), image.getWidth()),
-                Math.floorMod((int) Math.floor(y * frequency), image.getHeight()))) / 255D) - 0.5) *
-                2;
+            Math.floorMod((int) Math.floor(y * frequency), image.getHeight()))) / 255D) - 0.5) *
+               2;
     }
 
     @Override

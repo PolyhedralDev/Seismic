@@ -118,10 +118,10 @@ public class PseudoErosionSampler extends NoiseFunction {
         // Stack erosion octaves
         for(int i = 0; i < octaves; i++) {
             double[] erosionResult = erosion((int) seed,
-                    x * freq * erosionFrequency,
-                    y * freq * erosionFrequency,
-                    baseDirX + dirY * branchStrength,
-                    baseDirY - dirX * branchStrength);
+                x * freq * erosionFrequency,
+                y * freq * erosionFrequency,
+                baseDirX + dirY * branchStrength,
+                baseDirY - dirX * branchStrength);
             erosion += erosionResult[0] * amp;
             dirX += erosionResult[1] * amp * freq;
             dirY += erosionResult[2] * amp * freq;
@@ -139,7 +139,8 @@ public class PseudoErosionSampler extends NoiseFunction {
         // this reduces erosion amplitude towards smaller gradients to avoid this
         if(slopeMask) {
             double dirMagSq = LinearAlgebraFunctions.dotProduct(baseDirX, baseDirY, baseDirX, baseDirY);
-            double flatness = SmoothstepFunctions.cubicPolynomialSmoothstep(NormalizationFunctions.normalizeToRange(slopeMaskNoneSq, slopeMaskFullSq, dirMagSq));
+            double flatness = SmoothstepFunctions.cubicPolynomialSmoothstep(
+                NormalizationFunctions.normalizeToRange(slopeMaskNoneSq, slopeMaskFullSq, dirMagSq));
             erosion *= flatness;
         }
 

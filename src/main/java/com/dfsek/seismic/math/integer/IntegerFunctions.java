@@ -6,6 +6,7 @@ public class IntegerFunctions {
      *
      * @param first the first integer.
      * @param last  the last integer.
+     *
      * @return the squashed long value.
      */
     public static long squash(int first, int last) {
@@ -17,6 +18,7 @@ public class IntegerFunctions {
      * Undefined behavior for x <= 0.
      *
      * @param x a value.
+     *
      * @return the power of 10 for the given long value.
      */
     public static long pow10(long x) {
@@ -24,10 +26,12 @@ public class IntegerFunctions {
     }
 
     /**
-     * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 2 of the argument and is equal to a mathematical integer.
+     * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 2 of the argument
+     * and is equal to a mathematical integer.
      * Undefined behavior for x <= 0.
      *
      * @param x a value
+     *
      * @return log2 of the value ceilinged.
      */
     public static long log2Ceil(long x) {
@@ -35,10 +39,12 @@ public class IntegerFunctions {
     }
 
     /**
-     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 2 of the argument and is equal to a mathematical integer.
+     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 2 of the argument and
+     * is equal to a mathematical integer.
      * Undefined behavior for x <= 0.
      *
      * @param x a value
+     *
      * @return log2 of the value floored.
      */
     public static long log2Floor(long x) {
@@ -46,10 +52,12 @@ public class IntegerFunctions {
     }
 
     /**
-     * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 10 of the argument and is equal to a mathematical integer.
+     * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 10 of the argument
+     * and is equal to a mathematical integer.
      * Undefined behavior for x <= 0.
      *
      * @param x a value
+     *
      * @return ceilinged log10 of the value.
      */
     public static long log10Ceil(long x) {
@@ -58,10 +66,12 @@ public class IntegerFunctions {
     }
 
     /**
-     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 10 of the argument and is equal to a mathematical integer.
+     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 10 of the argument and
+     * is equal to a mathematical integer.
      * Undefined behavior for x <= 0.
      *
      * @param x a value
+     *
      * @return floored log10 of the value.
      */
     public static long log10Floor(long x) {

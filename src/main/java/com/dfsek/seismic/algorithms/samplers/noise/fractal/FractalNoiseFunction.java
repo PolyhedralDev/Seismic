@@ -7,8 +7,8 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.fractal;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
-import  com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
 
 
 public abstract class FractalNoiseFunction extends NoiseFunction {
@@ -28,7 +28,7 @@ public abstract class FractalNoiseFunction extends NoiseFunction {
         double gain = Math.abs(this.gain);
         double amp = gain;
         double ampFractal = 1.0;
-        for (int i = 1; i < octaves; i++) {
+        for(int i = 1; i < octaves; i++) {
             ampFractal += amp;
             amp *= gain;
         }

@@ -7,7 +7,7 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
 
 
 public abstract class NoiseFunction implements NoiseSampler {

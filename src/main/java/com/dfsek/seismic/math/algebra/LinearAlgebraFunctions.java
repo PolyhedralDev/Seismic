@@ -8,6 +8,7 @@ public class LinearAlgebraFunctions {
      * @param y1 the y-coordinate of the first vector.
      * @param x2 the x-coordinate of the second vector.
      * @param y2 the y-coordinate of the second vector.
+     *
      * @return the dot product of the two vectors.
      */
     public static double dotProduct(double x1, double y1, double x2, double y2) {

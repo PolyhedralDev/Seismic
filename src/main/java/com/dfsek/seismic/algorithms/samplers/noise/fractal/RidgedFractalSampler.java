@@ -7,7 +7,7 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.fractal;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 
@@ -22,7 +22,7 @@ public class RidgedFractalSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = Math.abs(input.getNoise(seed++, x, y));
             sum += (noise * -2 + 1) * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, 1 - noise);
@@ -40,7 +40,7 @@ public class RidgedFractalSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = Math.abs(input.getNoise(seed++, x, y, z));
             sum += (noise * -2 + 1) * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, 1 - noise);

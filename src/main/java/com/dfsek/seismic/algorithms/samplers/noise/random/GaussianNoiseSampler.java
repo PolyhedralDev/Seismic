@@ -8,7 +8,8 @@
 package com.dfsek.seismic.algorithms.samplers.noise.random;
 
 
-import  com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+import com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+
 
 /**
  * NoiseSampler implementation to provide random, normally distributed (Gaussian) noise.
@@ -27,7 +28,7 @@ public class GaussianNoiseSampler extends NoiseFunction {
             v1 = whiteNoiseSampler.getNoise(seed++, x, y);
             v2 = whiteNoiseSampler.getNoise(seed++, x, y);
             s = v1 * v1 + v2 * v2;
-        } while (s >= 1 || s == 0);
+        } while(s >= 1 || s == 0);
         double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s) / s);
         return v1 * multiplier;
     }
@@ -39,7 +40,7 @@ public class GaussianNoiseSampler extends NoiseFunction {
             v1 = whiteNoiseSampler.getNoise(seed++, x, y, z);
             v2 = whiteNoiseSampler.getNoise(seed++, x, y, z);
             s = v1 * v1 + v2 * v2;
-        } while (s >= 1 || s == 0);
+        } while(s >= 1 || s == 0);
         double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s) / s);
         return v1 * multiplier;
     }

@@ -7,7 +7,7 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.fractal;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 
@@ -33,7 +33,7 @@ public class PingPongSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = pingPong((input.getNoise(seed++, x, y) + 1) * pingPongStrength);
             sum += (noise - 0.5) * 2 * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, noise);
@@ -51,7 +51,7 @@ public class PingPongSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = pingPong((input.getNoise(seed++, x, y, z) + 1) * pingPongStrength);
             sum += (noise - 0.5) * 2 * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, noise);

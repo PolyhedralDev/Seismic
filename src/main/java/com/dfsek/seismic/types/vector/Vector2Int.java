@@ -1,6 +1,7 @@
 package com.dfsek.seismic.types.vector;
 
-import  com.dfsek.seismic.types.Rotation;
+import com.dfsek.seismic.types.Rotation;
+
 
 public class Vector2Int {
     private static final Vector2Int ZERO = new Vector2Int(0, 0);
@@ -41,7 +42,7 @@ public class Vector2Int {
     }
 
     public Vector2Int rotate(Rotation rotation) {
-        return switch (rotation) {
+        return switch(rotation) {
             case CW_90 -> of(z, -x);
             case CCW_90 -> of(-z, x);
             case CW_180 -> of(-x, -z);
@@ -56,7 +57,7 @@ public class Vector2Int {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Vector2Int that) {
+        if(obj instanceof Vector2Int that) {
             return this.x == that.x && this.z == that.z;
         }
         return false;

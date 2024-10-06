@@ -6,6 +6,7 @@ public class NormalizationFunctions {
      *
      * @param val  the value to be normalized.
      * @param size the size to normalize the value against.
+     *
      * @return the normalized index.
      */
     public static int normalizeIndex(double val, int size) {
@@ -16,6 +17,7 @@ public class NormalizationFunctions {
      * Returns the clamped value to range of [-1, 1].
      *
      * @param in the value to clamp.
+     *
      * @return the clamped value.
      */
     public static double clamp(double in) {
@@ -28,6 +30,7 @@ public class NormalizationFunctions {
      * @param min the minimum value.
      * @param max the maximum value.
      * @param i   the input value.
+     *
      * @return the clamped value.
      */
     public static double clamp(double min, double max, double i) {
@@ -40,6 +43,7 @@ public class NormalizationFunctions {
      * @param min the minimum value.
      * @param max the maximum value.
      * @param i   the input value.
+     *
      * @return the clamped value.
      */
     public static int clamp(int min, int max, int i) {
@@ -52,6 +56,7 @@ public class NormalizationFunctions {
      * @param edge0 the lower bound of the range.
      * @param edge1 the upper bound of the range.
      * @param x     the value to be normalized.
+     *
      * @return the normalized value.
      */
     public static double normalizeToRange(double edge0, double edge1, double x) {

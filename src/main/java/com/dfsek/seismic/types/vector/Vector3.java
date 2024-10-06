@@ -7,10 +7,11 @@
 
 package com.dfsek.seismic.types.vector;
 
-import  com.dfsek.seismic.math.algebra.AlgebraFunctions;
-import  com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
-import  com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
+import com.dfsek.seismic.math.algebra.AlgebraFunctions;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import org.jetbrains.annotations.NotNull;
+
 
 public class Vector3 {
     private static final Vector3 ZERO = new Vector3(0, 0, 0);
@@ -55,6 +56,7 @@ public class Vector3 {
      * will be caused if the distance is too long.
      *
      * @param o The other vector
+     *
      * @return the distance
      */
     public double distance(@NotNull Vector3 o) {
@@ -65,6 +67,7 @@ public class Vector3 {
      * Get the squared distance between this vector and another.
      *
      * @param o The other vector
+     *
      * @return the distance
      */
     public double distanceSquared(@NotNull Vector3 o) {
@@ -76,6 +79,7 @@ public class Vector3 {
      * is defined as x1*x2+y1*y2+z1*z2. The returned value is a scalar.
      *
      * @param other The other vector
+     *
      * @return dot product
      */
     public double dot(@NotNull Vector3 other) {
@@ -142,8 +146,9 @@ public class Vector3 {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Vector3 other)) return false;
-        return FloatingPointFunctions.equals(x, other.getX()) && FloatingPointFunctions.equals(y, other.getY()) && FloatingPointFunctions.equals(z, other.getZ());
+        if(!(obj instanceof Vector3 other)) return false;
+        return FloatingPointFunctions.equals(x, other.getX()) && FloatingPointFunctions.equals(y, other.getY()) &&
+               FloatingPointFunctions.equals(z, other.getZ());
     }
 
     public Vector3Int toInt() {
@@ -228,6 +233,7 @@ public class Vector3 {
          * is defined as x1*x2+y1*y2+z1*z2. The returned value is a scalar.
          *
          * @param other The other vector
+         *
          * @return dot product
          */
         public double dot(@NotNull Vector3 other) {
@@ -290,7 +296,9 @@ public class Vector3 {
          *              rotation. Please use {@link Mutable#normalize()} on the instance before
          *              passing it to this method
          * @param angle the angle to rotate the vector around the axis
+         *
          * @return the same vector
+         *
          * @throws IllegalArgumentException if the provided axis vector instance is
          *                                  null
          */
@@ -313,7 +321,9 @@ public class Vector3 {
          *
          * @param axis  the axis to rotate the vector around.
          * @param angle the angle to rotate the vector around the axis
+         *
          * @return the same vector
+         *
          * @throws IllegalArgumentException if the provided axis vector instance is
          *                                  null
          */
@@ -327,14 +337,14 @@ public class Vector3 {
             double dotProduct = this.dot(axis);
 
             double xPrime = x2 * dotProduct * (1d - cosTheta)
-                    + x * cosTheta
-                    + (-z2 * y + y2 * z) * sinTheta;
+                            + x * cosTheta
+                            + (-z2 * y + y2 * z) * sinTheta;
             double yPrime = y2 * dotProduct * (1d - cosTheta)
-                    + y * cosTheta
-                    + (z2 * x - x2 * z) * sinTheta;
+                            + y * cosTheta
+                            + (z2 * x - x2 * z) * sinTheta;
             double zPrime = z2 * dotProduct * (1d - cosTheta)
-                    + z * cosTheta
-                    + (-y2 * x + x2 * y) * sinTheta;
+                            + z * cosTheta
+                            + (-y2 * x + x2 * y) * sinTheta;
 
             return setX(xPrime).setY(yPrime).setZ(zPrime);
         }
@@ -349,6 +359,7 @@ public class Vector3 {
          *
          * @param angle the angle to rotate the vector about. This angle is passed
          *              in radians
+         *
          * @return the same vector
          */
         @NotNull
@@ -371,6 +382,7 @@ public class Vector3 {
          *
          * @param angle the angle to rotate the vector about. This angle is passed
          *              in radians
+         *
          * @return the same vector
          */
         @NotNull
@@ -393,6 +405,7 @@ public class Vector3 {
          *
          * @param angle the angle to rotate the vector about. This angle is passed
          *              in radians
+         *
          * @return the same vector
          */
         @NotNull

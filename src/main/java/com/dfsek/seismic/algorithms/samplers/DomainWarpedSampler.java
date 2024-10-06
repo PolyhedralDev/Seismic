@@ -22,17 +22,17 @@ public class DomainWarpedSampler implements NoiseSampler {
     @Override
     public double getNoise(long seed, double x, double y) {
         return function.getNoise(seed++,
-                x + warp.getNoise(seed++, x, y) * amplitude,
-                y + warp.getNoise(seed, x, y) * amplitude
+            x + warp.getNoise(seed++, x, y) * amplitude,
+            y + warp.getNoise(seed, x, y) * amplitude
         );
     }
 
     @Override
     public double getNoise(long seed, double x, double y, double z) {
         return function.getNoise(seed++,
-                x + warp.getNoise(seed++, x, y, z) * amplitude,
-                y + warp.getNoise(seed++, x, y, z) * amplitude,
-                z + warp.getNoise(seed, x, y, z) * amplitude
+            x + warp.getNoise(seed++, x, y, z) * amplitude,
+            y + warp.getNoise(seed++, x, y, z) * amplitude,
+            z + warp.getNoise(seed, x, y, z) * amplitude
         );
     }
 }

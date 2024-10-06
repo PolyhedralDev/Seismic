@@ -20,7 +20,7 @@ public enum Rotation {
     }
 
     public static Rotation fromDegrees(int deg) {
-        return switch (Math.floorMod(deg, 360)) {
+        return switch(Math.floorMod(deg, 360)) {
             case 0 -> Rotation.NONE;
             case 90 -> Rotation.CW_90;
             case 180 -> Rotation.CW_180;
@@ -30,7 +30,7 @@ public enum Rotation {
     }
 
     public Rotation inverse() {
-        return switch (this) {
+        return switch(this) {
             case NONE -> NONE;
             case CCW_90 -> CW_90;
             case CW_90 -> CCW_90;

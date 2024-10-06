@@ -8,8 +8,9 @@
 package com.dfsek.seismic.algorithms.samplers.noise.value;
 
 
-import  com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import  com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
+import com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+
 
 public abstract class ValueStyleNoise extends NoiseFunction {
 

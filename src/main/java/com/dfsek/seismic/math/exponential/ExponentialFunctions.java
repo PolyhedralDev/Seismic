@@ -5,6 +5,7 @@ public class ExponentialFunctions {
      * Calculates the exponential of a given value using a specific formula.
      *
      * @param val the value for which to calculate the exponential
+     *
      * @return the calculated exponential of the input value
      */
     public static double exp(double val) {

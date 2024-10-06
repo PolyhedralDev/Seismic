@@ -9,15 +9,15 @@ package com.dfsek.seismic.algorithms.samplers.noise.simplex;
 
 public class SimplexSampler extends SimplexStyleSampler {
     private static final Double2[] GRAD_2D = {
-            new Double2(-1, -1), new Double2(1, -1), new Double2(-1, 1), new Double2(1, 1),
-            new Double2(0, -1), new Double2(-1, 0), new Double2(0, 1), new Double2(1, 0),
-    };
+        new Double2(-1, -1), new Double2(1, -1), new Double2(-1, 1), new Double2(1, 1),
+        new Double2(0, -1), new Double2(-1, 0), new Double2(0, 1), new Double2(1, 0),
+        };
     private static final Double3[] GRAD_3D = {
-            new Double3(1, 1, 0), new Double3(-1, 1, 0), new Double3(1, -1, 0), new Double3(-1, -1, 0),
-            new Double3(1, 0, 1), new Double3(-1, 0, 1), new Double3(1, 0, -1), new Double3(-1, 0, -1),
-            new Double3(0, 1, 1), new Double3(0, -1, 1), new Double3(0, 1, -1), new Double3(0, -1, -1),
-            new Double3(1, 1, 0), new Double3(0, -1, 1), new Double3(-1, 1, 0), new Double3(0, -1, -1),
-    };
+        new Double3(1, 1, 0), new Double3(-1, 1, 0), new Double3(1, -1, 0), new Double3(-1, -1, 0),
+        new Double3(1, 0, 1), new Double3(-1, 0, 1), new Double3(1, 0, -1), new Double3(-1, 0, -1),
+        new Double3(0, 1, 1), new Double3(0, -1, 1), new Double3(0, 1, -1), new Double3(0, -1, -1),
+        new Double3(1, 1, 0), new Double3(0, -1, 1), new Double3(-1, 1, 0), new Double3(0, -1, -1),
+        };
 
     private static final double F2 = 1.0 / 2.0;
     private static final double F3 = (1.0 / 3.0);
@@ -72,7 +72,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         double y0 = y - Y0;
 
         int i1, j1;
-        if (x0 > y0) {
+        if(x0 > y0) {
             i1 = 1;
             j1 = 0;
         } else {
@@ -88,7 +88,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         double n0, n1, n2;
 
         t = 0.5 - x0 * x0 - y0 * y0;
-        if (t < 0) {
+        if(t < 0) {
             n0 = 0;
         } else {
             t *= t;
@@ -96,7 +96,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         t = 0.5 - x1 * x1 - y1 * y1;
-        if (t < 0) {
+        if(t < 0) {
             n1 = 0;
         } else {
             t *= t;
@@ -104,7 +104,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         t = 0.5 - x2 * x2 - y2 * y2;
-        if (t < 0) {
+        if(t < 0) {
             n2 = 0;
         } else {
             t *= t;
@@ -130,15 +130,15 @@ public class SimplexSampler extends SimplexStyleSampler {
         int i1, j1, k1;
         int i2, j2, k2;
 
-        if (x0 >= y0) {
-            if (y0 >= z0) {
+        if(x0 >= y0) {
+            if(y0 >= z0) {
                 i1 = 1;
                 j1 = 0;
                 k1 = 0;
                 i2 = 1;
                 j2 = 1;
                 k2 = 0;
-            } else if (x0 >= z0) {
+            } else if(x0 >= z0) {
                 i1 = 1;
                 j1 = 0;
                 k1 = 0;
@@ -156,14 +156,14 @@ public class SimplexSampler extends SimplexStyleSampler {
             }
         } else // x0 < y0
         {
-            if (y0 < z0) {
+            if(y0 < z0) {
                 i1 = 0;
                 j1 = 0;
                 k1 = 1;
                 i2 = 0;
                 j2 = 1;
                 k2 = 1;
-            } else if (x0 < z0) {
+            } else if(x0 < z0) {
                 i1 = 0;
                 j1 = 1;
                 k1 = 0;
@@ -194,14 +194,14 @@ public class SimplexSampler extends SimplexStyleSampler {
         double n0, n1, n2, n3;
 
         t = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
-        if (t < 0) n0 = 0;
+        if(t < 0) n0 = 0;
         else {
             t *= t;
             n0 = t * t * gradCoord3D(seed, i, j, k, x0, y0, z0);
         }
 
         t = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
-        if (t < 0) {
+        if(t < 0) {
             n1 = 0;
         } else {
             t *= t;
@@ -209,7 +209,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         t = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
-        if (t < 0) {
+        if(t < 0) {
             n2 = 0;
         } else {
             t *= t;
@@ -217,7 +217,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         t = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
-        if (t < 0) {
+        if(t < 0) {
             n3 = 0;
         } else {
             t *= t;

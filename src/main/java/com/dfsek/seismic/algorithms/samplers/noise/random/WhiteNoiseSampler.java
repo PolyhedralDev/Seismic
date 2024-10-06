@@ -7,8 +7,9 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.random;
 
-import  com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import  com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
+import com.dfsek.seismic.algorithms.samplers.noise.NoiseFunction;
+
 
 /**
  * NoiseSampler implementation to produce random, uniformly distributed (white) noise.

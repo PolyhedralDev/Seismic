@@ -7,7 +7,8 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.simplex;
 
-import  com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+
 
 /**
  * NoiseSampler implementation to provide OpenSimplex2 noise.
@@ -107,32 +108,32 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         double value = 0;
         double a = (0.6f - x0 * x0) - (y0 * y0 + z0 * z0);
 
-        for (int l = 0; ; l++) {
-            if (a > 0) {
+        for(int l = 0; ; l++) {
+            if(a > 0) {
                 value += (a * a) * (a * a) * gradCoord(seed, i, j, k, x0, y0, z0);
             }
 
-            if (ax0 >= ay0 && ax0 >= az0) {
+            if(ax0 >= ay0 && ax0 >= az0) {
                 double b = a + ax0 + ax0;
-                if (b > 1) {
+                if(b > 1) {
                     b -= 1;
                     value += (b * b) * (b * b) * gradCoord(seed, i - xNSign * PRIME_X, j, k, x0 + xNSign, y0, z0);
                 }
-            } else if (ay0 > ax0 && ay0 >= az0) {
+            } else if(ay0 > ax0 && ay0 >= az0) {
                 double b = a + ay0 + ay0;
-                if (b > 1) {
+                if(b > 1) {
                     b -= 1;
                     value += (b * b) * (b * b) * gradCoord(seed, i, j - yNSign * PRIME_Y, k, x0, y0 + yNSign, z0);
                 }
             } else {
                 double b = a + az0 + az0;
-                if (b > 1) {
+                if(b > 1) {
                     b -= 1;
                     value += (b * b) * (b * b) * gradCoord(seed, i, j, k - zNSign * PRIME_Z, x0, y0, z0 + zNSign);
                 }
             }
 
-            if (l == 1) break;
+            if(l == 1) break;
 
             ax0 = 0.5 - ax0;
             ay0 = 0.5 - ay0;

@@ -8,9 +8,10 @@
 package com.dfsek.seismic.algorithms.samplers.noise;
 
 
-import  com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import  com.dfsek.seismic.algorithms.samplers.noise.random.WhiteNoiseSampler;
-import  com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
+import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
+import com.dfsek.seismic.algorithms.samplers.noise.random.WhiteNoiseSampler;
+import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
+
 
 public class GaborNoiseSampler extends NoiseFunction {
     private final WhiteNoiseSampler rand;
@@ -45,8 +46,8 @@ public class GaborNoiseSampler extends NoiseFunction {
         double xf = x - xi;
         double yf = y - yi;
         double noise = 0;
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
+        for(int dx = -1; dx <= 1; dx++) {
+            for(int dz = -1; dz <= 1; dz++) {
                 noise += calculateCell(seed, xi + dx, yi + dz, xf - dx, yf - dz);
             }
         }
@@ -58,23 +59,24 @@ public class GaborNoiseSampler extends NoiseFunction {
 
         double gaussianSource = (rand.getNoiseRaw(mashedSeed++) + 1) / 2;
         int impulses = 0;
-        while (gaussianSource > g) {
+        while(gaussianSource > g) {
             impulses++;
             gaussianSource *= (rand.getNoiseRaw(mashedSeed++) + 1) / 2;
         }
 
         double noise = 0;
-        for (int i = 0; i < impulses; i++) {
+        for(int i = 0; i < impulses; i++) {
             noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * Math.PI : omega0,
-                    x * kernelRadius, y * kernelRadius);
+                x * kernelRadius, y * kernelRadius);
         }
         return noise;
     }
 
     private double gabor(double omega_0, double x, double y) {
-        return k * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(2 * Math.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
-                y * TrigonometryFunctions.sin(
-                        omega_0))));
+        return k * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
+            2 * Math.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
+                                y * TrigonometryFunctions.sin(
+                                    omega_0))));
     }
 
     public void setA(double a) {

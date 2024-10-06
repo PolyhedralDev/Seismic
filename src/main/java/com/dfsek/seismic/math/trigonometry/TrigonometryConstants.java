@@ -21,7 +21,7 @@ public class TrigonometryConstants {
      * to its radius.
      *
      * @apiNote The value of <i>pi</i> is one half that of <i>tau</i>; in other
-     * words, <i>tau</i> is double <i>pi</i> .
+     *     words, <i>tau</i> is double <i>pi</i> .
      */
     public static final double TAU = Math.TAU;
 
@@ -31,7 +31,7 @@ public class TrigonometryConstants {
      * to its radius.
      *
      * @apiNote The value of <i>pi</i> is one half that of <i>tau</i>; in other
-     * words, <i>tau</i> is double <i>pi</i> .
+     *     words, <i>tau</i> is double <i>pi</i> .
      */
     public static final double TAU_SUP = Double.longBitsToDouble(Double.doubleToRawLongBits(TAU) + 1);
 }

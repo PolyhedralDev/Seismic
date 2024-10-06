@@ -7,7 +7,7 @@
 
 package com.dfsek.seismic.algorithms.samplers.noise.fractal;
 
-import  com.dfsek.seismic.algorithms.samplers.NoiseSampler;
+import com.dfsek.seismic.algorithms.samplers.NoiseSampler;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 
@@ -21,7 +21,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = input.getNoise(seed++, x, y);
             sum += noise * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, Math.min(noise + 1, 2) * 0.5);
@@ -39,7 +39,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         double sum = 0;
         double amp = fractalBounding;
 
-        for (int i = 0; i < octaves; i++) {
+        for(int i = 0; i < octaves; i++) {
             double noise = input.getNoise(seed++, x, y, z);
             sum += noise * amp;
             amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, (noise + 1) * 0.5);

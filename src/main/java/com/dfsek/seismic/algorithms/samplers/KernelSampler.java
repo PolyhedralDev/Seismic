@@ -28,10 +28,10 @@ public class KernelSampler implements NoiseSampler {
         y *= frequency;
         double accumulator = 0;
 
-        for (int kx = 0; kx < kernel.length; kx++) {
-            for (int ky = 0; ky < kernel[kx].length; ky++) {
+        for(int kx = 0; kx < kernel.length; kx++) {
+            for(int ky = 0; ky < kernel[kx].length; ky++) {
                 double k = kernel[kx][ky];
-                if (k != 0) {
+                if(k != 0) {
                     accumulator += in.getNoise(seed, x + kx, y + ky) * k;
                 }
             }
@@ -47,10 +47,10 @@ public class KernelSampler implements NoiseSampler {
         z *= frequency;
         double accumulator = 0;
 
-        for (int kx = 0; kx < kernel.length; kx++) {
-            for (int ky = 0; ky < kernel[kx].length; ky++) {
+        for(int kx = 0; kx < kernel.length; kx++) {
+            for(int ky = 0; ky < kernel[kx].length; ky++) {
                 double k = kernel[kx][ky];
-                if (k != 0) {
+                if(k != 0) {
                     accumulator += in.getNoise(seed, x + kx, y, z + ky) * k;
                 }
             }

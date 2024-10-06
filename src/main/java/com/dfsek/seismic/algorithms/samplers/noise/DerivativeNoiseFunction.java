@@ -3,6 +3,7 @@ package com.dfsek.seismic.algorithms.samplers.noise;
 
 import com.dfsek.seismic.algorithms.samplers.DerivativeNoiseSampler;
 
+
 public abstract class DerivativeNoiseFunction extends NoiseFunction implements DerivativeNoiseSampler {
     @Override
     public boolean isDifferentiable() {

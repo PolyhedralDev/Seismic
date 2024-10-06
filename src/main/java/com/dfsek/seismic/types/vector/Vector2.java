@@ -7,7 +7,8 @@
 
 package com.dfsek.seismic.types.vector;
 
-import  com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+
 
 public class Vector2 {
     private static final Vector2 ZERO = new Vector2(0, 0);
@@ -60,6 +61,7 @@ public class Vector2 {
      * Get the distance from this vector to another.
      *
      * @param other Another vector
+     *
      * @return Distance between vectors
      */
     public double distance(Vector2 other) {
@@ -70,6 +72,7 @@ public class Vector2 {
      * Get the squared distance between 2 vectors.
      *
      * @param other Another vector
+     *
      * @return Squared distance
      */
     public double distanceSquared(Vector2 other) {
@@ -119,7 +122,7 @@ public class Vector2 {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof Vector2 other)) return false;
+        if(!(obj instanceof Vector2 other)) return false;
         return FloatingPointFunctions.equals(this.x, other.x) && FloatingPointFunctions.equals(this.z, other.z);
     }
 
@@ -189,6 +192,7 @@ public class Vector2 {
          * Multiply X and Z components by a value.
          *
          * @param m Value to multiply
+         *
          * @return Mutated vector, for chaining.
          */
         public Mutable multiply(double m) {
@@ -201,6 +205,7 @@ public class Vector2 {
          * Add this vector to another.
          *
          * @param other Vector to add
+         *
          * @return Mutated vector, for chaining.
          */
         public Mutable add(Vector2 other) {
@@ -213,6 +218,7 @@ public class Vector2 {
          * Subtract a vector from this vector,
          *
          * @param other Vector to subtract
+         *
          * @return Mutated vector, for chaining.
          */
         public Mutable subtract(Vector2 other) {
@@ -235,6 +241,7 @@ public class Vector2 {
          * Divide X and Z components by a value.
          *
          * @param d Divisor
+         *
          * @return Mutated vector, for chaining.
          */
         public Mutable divide(double d) {

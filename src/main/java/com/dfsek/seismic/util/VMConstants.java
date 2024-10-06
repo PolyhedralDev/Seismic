@@ -15,9 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.dfsek.seismic.util;
 
 import java.util.logging.Logger;
+
 
 /**
  * Some useful constants.
@@ -27,7 +29,7 @@ public final class VMConstants {
      * True if the Java runtime is a client runtime and C2 compiler is not enabled.
      */
     public static final boolean IS_CLIENT_VM =
-            getSysProp("java.vm.info", "").contains("emulated-client");
+        getSysProp("java.vm.info", "").contains("emulated-client");
     /**
      * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic.
      */
@@ -36,7 +38,7 @@ public final class VMConstants {
      * True if jvmci is enabled (e.g. graalvm)
      */
     public static final boolean IS_JVMCI_VM =
-            HotspotVMOptionsUtils.get("UseJVMCICompiler").map(Boolean::valueOf).orElse(false);
+        HotspotVMOptionsUtils.get("UseJVMCICompiler").map(Boolean::valueOf).orElse(false);
     private static final String UNKNOWN = "Unknown";
     /**
      * JVM vendor info.
@@ -90,17 +92,17 @@ public final class VMConstants {
      * true if FMA likely means a cpu instruction and not BigDecimal logic.
      */
     private static final boolean HAS_FMA =
-            (!IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(false);
+        (!IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(false);
     /**
      * maximum supported vectorsize.
      */
     private static final int MAX_VECTOR_SIZE =
-            HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(0);
+        HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(0);
     /**
      * true for an AMD cpu with SSE4a instructions.
      */
     private static final boolean HAS_SSE4A =
-            HotspotVMOptionsUtils.get("UseXmmI2F").map(Boolean::valueOf).orElse(false);
+        HotspotVMOptionsUtils.get("UseXmmI2F").map(Boolean::valueOf).orElse(false);
     /**
      * true if we know VFMA has faster throughput than separate vmul/vadd.
      */
@@ -127,7 +129,7 @@ public final class VMConstants {
 
     private static boolean is64Bit() {
         final String datamodel = getSysProp("sun.arch.data.model");
-        if (datamodel != null) {
+        if(datamodel != null) {
             return datamodel.contains("64");
         } else {
             return (OS_ARCH != null && OS_ARCH.contains("64"));
@@ -135,17 +137,17 @@ public final class VMConstants {
     }
 
     private static boolean hasFastVectorFMA() {
-        if (HAS_FMA) {
+        if(HAS_FMA) {
             String value = getSysProp("paralithic.useVectorFMA", "auto");
-            if ("auto".equals(value)) {
+            if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
                 // the problem is just apple silicon (this is a practical heuristic)
-                if (OS_ARCH.equals("aarch64") && !MAC_OS_X) {
+                if(OS_ARCH.equals("aarch64") && !MAC_OS_X) {
                     return true;
                 }
                 // zen cores or newer, its a wash, turn it on as it doesn't hurt
                 // starts to yield gains for vectors only at zen4+
-                if (HAS_SSE4A && MAX_VECTOR_SIZE >= 32) {
+                if(HAS_SSE4A && MAX_VECTOR_SIZE >= 32) {
                     return true;
                 }
                 // intel has their act together
@@ -159,17 +161,17 @@ public final class VMConstants {
     }
 
     private static boolean hasFastScalarFMA() {
-        if (HAS_FMA) {
+        if(HAS_FMA) {
             String value = getSysProp("paralithic.useScalarFMA", "auto");
-            if ("auto".equals(value)) {
+            if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
                 // the problem is just apple silicon (this is a practical heuristic)
-                if (OS_ARCH.equals("aarch64") && !MAC_OS_X) {
+                if(OS_ARCH.equals("aarch64") && !MAC_OS_X) {
                     return true;
                 }
                 // latency becomes 4 for the Zen3 (0x19h), but still a wash
                 // until the Zen4 anyway, and big drop on previous zens:
-                if (HAS_SSE4A && MAX_VECTOR_SIZE >= 64) {
+                if(HAS_SSE4A && MAX_VECTOR_SIZE >= 64) {
                     return true;
                 }
                 // intel has their act together
@@ -190,9 +192,9 @@ public final class VMConstants {
     private static String getSysProp(String property) {
         try {
             return AccessControllerUtils.doPrivileged(() -> System.getProperty(property));
-        } catch (
-                @SuppressWarnings("unused")
-                SecurityException se) {
+        } catch(
+            @SuppressWarnings("unused")
+            SecurityException se) {
             logSecurityWarning(property);
             return null;
         }
@@ -201,9 +203,9 @@ public final class VMConstants {
     private static String getSysProp(String property, String def) {
         try {
             return AccessControllerUtils.doPrivileged(() -> System.getProperty(property, def));
-        } catch (
-                @SuppressWarnings("unused")
-                SecurityException se) {
+        } catch(
+            @SuppressWarnings("unused")
+            SecurityException se) {
             logSecurityWarning(property);
             return def;
         }

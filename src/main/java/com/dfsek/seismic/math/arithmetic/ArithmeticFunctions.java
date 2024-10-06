@@ -1,6 +1,7 @@
 package com.dfsek.seismic.math.arithmetic;
 
-import  com.dfsek.seismic.util.VMConstants;
+import com.dfsek.seismic.util.VMConstants;
+
 
 public class ArithmeticFunctions {
     /**
@@ -18,10 +19,11 @@ public class ArithmeticFunctions {
      * @param a a value.
      * @param b a value.
      * @param c a value.
+     *
      * @return (< i > a < / i > & nbsp ; & times ; & nbsp ; < i > b < / i > & nbsp ; + & nbsp ; < i > c < / i >).
      */
     public static double fma(double a, double b, double c) {
-        if (VMConstants.HAS_FAST_SCALAR_FMA) {
+        if(VMConstants.HAS_FAST_SCALAR_FMA) {
             return Math.fma(a, b, c);
         } else {
             return a * b + c;

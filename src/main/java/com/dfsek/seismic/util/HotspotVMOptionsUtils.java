@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.dfsek.seismic.util;
 
 import java.lang.reflect.Method;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
+
 
 /**
  * Accessor to get Hotspot VM Options (if available).
@@ -43,38 +45,38 @@ final class HotspotVMOptionsUtils {
             // we use reflection for this, because the management factory is not part
             // of java.base module:
             final Object hotSpotBean =
-                    Class.forName(MANAGEMENT_FACTORY_CLASS)
-                            .getMethod("getPlatformMXBean", Class.class)
-                            .invoke(null, beanClazz);
-            if (hotSpotBean != null) {
+                Class.forName(MANAGEMENT_FACTORY_CLASS)
+                    .getMethod("getPlatformMXBean", Class.class)
+                    .invoke(null, beanClazz);
+            if(hotSpotBean != null) {
                 final Method getVMOptionMethod = beanClazz.getMethod("getVMOption", String.class);
                 final Method getValueMethod = getVMOptionMethod.getReturnType().getMethod("getValue");
                 isHotspot = true;
                 accessor =
-                        name -> {
-                            try {
-                                final Object vmOption = getVMOptionMethod.invoke(hotSpotBean, name);
-                                return Optional.of(getValueMethod.invoke(vmOption).toString());
-                            } catch (@SuppressWarnings("unused")
-                            ReflectiveOperationException
-                            | RuntimeException e) {
-                                return Optional.empty();
-                            }
-                        };
+                    name -> {
+                        try {
+                            final Object vmOption = getVMOptionMethod.invoke(hotSpotBean, name);
+                            return Optional.of(getValueMethod.invoke(vmOption).toString());
+                        } catch(@SuppressWarnings("unused")
+                        ReflectiveOperationException
+                        | RuntimeException e) {
+                            return Optional.empty();
+                        }
+                    };
             }
-        } catch (@SuppressWarnings("unused") ReflectiveOperationException | RuntimeException e) {
+        } catch(@SuppressWarnings("unused") ReflectiveOperationException | RuntimeException e) {
             final Logger log = Logger.getLogger(HotspotVMOptionsUtils.class.getName());
             final Module module = HotspotVMOptionsUtils.class.getModule();
             final ModuleLayer layer = module.getLayer();
             // classpath / unnamed module has no layer, so we need to check:
-            if (layer != null
-                    && !layer.findModule("jdk.management").map(module::canRead).orElse(false)) {
+            if(layer != null
+               && !layer.findModule("jdk.management").map(module::canRead).orElse(false)) {
                 log.warning(
-                        "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
-                                + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
+                    "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
+                    + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
             } else {
                 log.warning(
-                        "Seismic cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
+                    "Seismic cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
             }
         }
         IS_HOTSPOT_VM = isHotspot;

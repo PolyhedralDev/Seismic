@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.samplers.noise.value;
 
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
+
 public class ValueCubicSampler extends ValueStyleNoise {
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
@@ -30,15 +31,15 @@ public class ValueCubicSampler extends ValueStyleNoise {
         int y3 = y1 + (PRIME_Y << 1);
 
         return InterpolationFunctions.cubicLerp(
-                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0), valCoord(seed, x1, y0), valCoord(seed, x2, y0), valCoord(seed, x3, y0),
-                        xs),
-                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1), valCoord(seed, x1, y1), valCoord(seed, x2, y1), valCoord(seed, x3, y1),
-                        xs),
-                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2), valCoord(seed, x1, y2), valCoord(seed, x2, y2), valCoord(seed, x3, y2),
-                        xs),
-                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3), valCoord(seed, x1, y3), valCoord(seed, x2, y3), valCoord(seed, x3, y3),
-                        xs),
-                ys) * (1 / (1.5 * 1.5));
+            InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0), valCoord(seed, x1, y0), valCoord(seed, x2, y0), valCoord(seed, x3, y0),
+                xs),
+            InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1), valCoord(seed, x1, y1), valCoord(seed, x2, y1), valCoord(seed, x3, y1),
+                xs),
+            InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2), valCoord(seed, x1, y2), valCoord(seed, x2, y2), valCoord(seed, x3, y2),
+                xs),
+            InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3), valCoord(seed, x1, y3), valCoord(seed, x2, y3), valCoord(seed, x3, y3),
+                xs),
+            ys) * (1 / (1.5 * 1.5));
     }
 
     @Override
@@ -67,46 +68,46 @@ public class ValueCubicSampler extends ValueStyleNoise {
         int z3 = z1 + (PRIME_Z << 1);
 
         return InterpolationFunctions.cubicLerp(
-                InterpolationFunctions.cubicLerp(
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z0), valCoord(seed, x1, y0, z0), valCoord(seed, x2, y0, z0),
-                                valCoord(seed, x3, y0, z0), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z0), valCoord(seed, x1, y1, z0), valCoord(seed, x2, y1, z0),
-                                valCoord(seed, x3, y1, z0), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z0), valCoord(seed, x1, y2, z0), valCoord(seed, x2, y2, z0),
-                                valCoord(seed, x3, y2, z0), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z0), valCoord(seed, x1, y3, z0), valCoord(seed, x2, y3, z0),
-                                valCoord(seed, x3, y3, z0), xs),
-                        ys),
-                InterpolationFunctions.cubicLerp(
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z1), valCoord(seed, x1, y0, z1), valCoord(seed, x2, y0, z1),
-                                valCoord(seed, x3, y0, z1), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z1), valCoord(seed, x1, y1, z1), valCoord(seed, x2, y1, z1),
-                                valCoord(seed, x3, y1, z1), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z1), valCoord(seed, x1, y2, z1), valCoord(seed, x2, y2, z1),
-                                valCoord(seed, x3, y2, z1), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z1), valCoord(seed, x1, y3, z1), valCoord(seed, x2, y3, z1),
-                                valCoord(seed, x3, y3, z1), xs),
-                        ys),
-                InterpolationFunctions.cubicLerp(
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z2), valCoord(seed, x1, y0, z2), valCoord(seed, x2, y0, z2),
-                                valCoord(seed, x3, y0, z2), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z2), valCoord(seed, x1, y1, z2), valCoord(seed, x2, y1, z2),
-                                valCoord(seed, x3, y1, z2), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z2), valCoord(seed, x1, y2, z2), valCoord(seed, x2, y2, z2),
-                                valCoord(seed, x3, y2, z2), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z2), valCoord(seed, x1, y3, z2), valCoord(seed, x2, y3, z2),
-                                valCoord(seed, x3, y3, z2), xs),
-                        ys),
-                InterpolationFunctions.cubicLerp(
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z3), valCoord(seed, x1, y0, z3), valCoord(seed, x2, y0, z3),
-                                valCoord(seed, x3, y0, z3), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z3), valCoord(seed, x1, y1, z3), valCoord(seed, x2, y1, z3),
-                                valCoord(seed, x3, y1, z3), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z3), valCoord(seed, x1, y2, z3), valCoord(seed, x2, y2, z3),
-                                valCoord(seed, x3, y2, z3), xs),
-                        InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z3), valCoord(seed, x1, y3, z3), valCoord(seed, x2, y3, z3),
-                                valCoord(seed, x3, y3, z3), xs),
-                        ys),
-                zs) * (1 / (1.5 * 1.5 * 1.5));
+            InterpolationFunctions.cubicLerp(
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z0), valCoord(seed, x1, y0, z0), valCoord(seed, x2, y0, z0),
+                    valCoord(seed, x3, y0, z0), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z0), valCoord(seed, x1, y1, z0), valCoord(seed, x2, y1, z0),
+                    valCoord(seed, x3, y1, z0), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z0), valCoord(seed, x1, y2, z0), valCoord(seed, x2, y2, z0),
+                    valCoord(seed, x3, y2, z0), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z0), valCoord(seed, x1, y3, z0), valCoord(seed, x2, y3, z0),
+                    valCoord(seed, x3, y3, z0), xs),
+                ys),
+            InterpolationFunctions.cubicLerp(
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z1), valCoord(seed, x1, y0, z1), valCoord(seed, x2, y0, z1),
+                    valCoord(seed, x3, y0, z1), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z1), valCoord(seed, x1, y1, z1), valCoord(seed, x2, y1, z1),
+                    valCoord(seed, x3, y1, z1), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z1), valCoord(seed, x1, y2, z1), valCoord(seed, x2, y2, z1),
+                    valCoord(seed, x3, y2, z1), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z1), valCoord(seed, x1, y3, z1), valCoord(seed, x2, y3, z1),
+                    valCoord(seed, x3, y3, z1), xs),
+                ys),
+            InterpolationFunctions.cubicLerp(
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z2), valCoord(seed, x1, y0, z2), valCoord(seed, x2, y0, z2),
+                    valCoord(seed, x3, y0, z2), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z2), valCoord(seed, x1, y1, z2), valCoord(seed, x2, y1, z2),
+                    valCoord(seed, x3, y1, z2), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z2), valCoord(seed, x1, y2, z2), valCoord(seed, x2, y2, z2),
+                    valCoord(seed, x3, y2, z2), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z2), valCoord(seed, x1, y3, z2), valCoord(seed, x2, y3, z2),
+                    valCoord(seed, x3, y3, z2), xs),
+                ys),
+            InterpolationFunctions.cubicLerp(
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y0, z3), valCoord(seed, x1, y0, z3), valCoord(seed, x2, y0, z3),
+                    valCoord(seed, x3, y0, z3), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y1, z3), valCoord(seed, x1, y1, z3), valCoord(seed, x2, y1, z3),
+                    valCoord(seed, x3, y1, z3), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y2, z3), valCoord(seed, x1, y2, z3), valCoord(seed, x2, y2, z3),
+                    valCoord(seed, x3, y2, z3), xs),
+                InterpolationFunctions.cubicLerp(valCoord(seed, x0, y3, z3), valCoord(seed, x1, y3, z3), valCoord(seed, x2, y3, z3),
+                    valCoord(seed, x3, y3, z3), xs),
+                ys),
+            zs) * (1 / (1.5 * 1.5 * 1.5));
     }
 }

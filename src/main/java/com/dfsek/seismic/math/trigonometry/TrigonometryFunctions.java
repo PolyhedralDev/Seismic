@@ -5,6 +5,7 @@ public class TrigonometryFunctions {
      * Returns the trigonometric sine of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the sine of the argument.
      */
     public static double sin(double angle) {
@@ -15,16 +16,19 @@ public class TrigonometryFunctions {
      * Returns the trigonometric cosine of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the cosine of the argument.
      */
     public static double cos(double angle) {
-        return TrigonometryUtils.sinLookup((long) (angle * TrigonometryUtils.radianToIndex + TrigonometryUtils.lookupTableSize) & 0xFFFFFFFFL);
+        return TrigonometryUtils.sinLookup(
+            (long) (angle * TrigonometryUtils.radianToIndex + TrigonometryUtils.lookupTableSize) & 0xFFFFFFFFL);
     }
 
     /**
      * Returns the trigonometric tangent of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the tangent of the argument.
      */
     public static double tan(double angle) {
@@ -35,6 +39,7 @@ public class TrigonometryFunctions {
      * Returns the trigonometric secant of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the secant of the argument.
      */
     public static double sec(double angle) {
@@ -45,6 +50,7 @@ public class TrigonometryFunctions {
      * Returns the trigonometric cosecant of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the cosecant of the argument.
      */
     public static double csc(double angle) {
@@ -55,6 +61,7 @@ public class TrigonometryFunctions {
      * Returns the trigonometric cotangent of an angle.
      *
      * @param angle an angle, in radians.
+     *
      * @return the cotangent of the argument.
      */
     public static double cot(double angle) {

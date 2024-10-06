@@ -5,15 +5,16 @@ public class HashingFunctions {
      * Returns a {@code long} hash code of a string.
      *
      * @param s a string.
+     *
      * @return the hashcode of the string.
      */
     public static long hash(String s) {
-        if (s == null) {
+        if(s == null) {
             return 0;
         }
 
         long hash = 0;
-        for (char c : s.toCharArray()) {
+        for(char c : s.toCharArray()) {
             hash = 31L * hash + c;
         }
         return hash;
@@ -26,6 +27,7 @@ public class HashingFunctions {
      * @param seed    the seed for the hash function.
      * @param xPrimed the primed x-coordinate.
      * @param yPrimed the primed y-coordinate.
+     *
      * @return the computed hash code.
      */
     public static int hashPrimeCoords(int seed, int xPrimed, int yPrimed) {
@@ -41,6 +43,7 @@ public class HashingFunctions {
      * @param xPrimed the primed x-coordinate.
      * @param yPrimed the primed y-coordinate.
      * @param zPrimed the primed z-coordinate.
+     *
      * @return the computed hash code.
      */
     public static int hashPrimeCoords(int seed, int xPrimed, int yPrimed, int zPrimed) {
@@ -54,6 +57,7 @@ public class HashingFunctions {
      * Returns the Murmur64 hash of a {@code long} value.
      *
      * @param h a value.
+     *
      * @return Murmur64 hash.
      */
     public static long murmur64(long h) {
