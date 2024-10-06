@@ -315,7 +315,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         double a0 = (2.0 / 3.0) - x0 * x0 - y0 * y0;
         double aa0 = a0 * a0, aaa0 = aa0 * a0, aaaa0 = aa0 * aa0;
         int gi0 = gradCoordIndex(seed, i, j);
-        double gx0 = GRADIENTS_2_D[gi0], gy0 = GRADIENTS_2_D[gi0 | 1];
+        double gx0 = GRADIENTS_2D[gi0], gy0 = GRADIENTS_2D[gi0 | 1];
         double rampValue0 = gx0 * x0 + gy0 * y0;
         out[0] = aaaa0 * rampValue0;
         out[1] = gx0 * aaaa0 - 8 * rampValue0 * aaa0 * x0;
@@ -327,7 +327,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         double y1 = y0 - (1 - 2 * G2);
         double aa1 = a1 * a1, aaa1 = aa1 * a1, aaaa1 = aa1 * aa1;
         int gi1 = gradCoordIndex(seed, i1, j1);
-        double gx1 = GRADIENTS_2_D[gi1], gy1 = GRADIENTS_2_D[gi1 | 1];
+        double gx1 = GRADIENTS_2D[gi1], gy1 = GRADIENTS_2D[gi1 | 1];
         double rampValue1 = gx1 * x1 + gy1 * y1;
         out[0] += aaaa1 * rampValue1;
         out[1] += gx1 * aaaa1 - 8 * rampValue1 * aaa1 * x1;
@@ -343,7 +343,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i + (PRIME_X << 1), j + PRIME_Y);
-                    double gx2 = GRADIENTS_2_D[gi2 | 0], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2 | 0], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -356,7 +356,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i, j + PRIME_Y);
-                    double gx2 = GRADIENTS_2_D[gi2], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -371,7 +371,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
                     int gi3 = gradCoordIndex(seed, i + PRIME_X, j + (PRIME_Y << 1));
-                    double gx3 = GRADIENTS_2_D[gi3], gy3 = GRADIENTS_2_D[gi3 | 1];
+                    double gx3 = GRADIENTS_2D[gi3], gy3 = GRADIENTS_2D[gi3 | 1];
                     double rampValue3 = gx3 * x3 + gy3 * y3;
                     out[0] += aaaa3 * rampValue3;
                     out[1] += gx3 * aaaa3 - 8 * rampValue3 * aaa3 * x3;
@@ -384,7 +384,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
                     int gi3 = gradCoordIndex(seed, i + PRIME_X, j);
-                    double gx3 = GRADIENTS_2_D[gi3], gy3 = GRADIENTS_2_D[gi3 | 1];
+                    double gx3 = GRADIENTS_2D[gi3], gy3 = GRADIENTS_2D[gi3 | 1];
                     double rampValue3 = gx3 * x3 + gy3 * y3;
                     out[0] += aaaa3 * rampValue3;
                     out[1] += gx3 * aaaa3 - 8 * rampValue3 * aaa3 * x3;
@@ -399,7 +399,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i - PRIME_X, j);
-                    double gx2 = GRADIENTS_2_D[gi2], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -412,7 +412,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i + PRIME_X, j);
-                    double gx2 = GRADIENTS_2_D[gi2], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -427,7 +427,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i, j - PRIME_Y);
-                    double gx2 = GRADIENTS_2_D[gi2], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -440,7 +440,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = gradCoordIndex(seed, i, j + PRIME_Y);
-                    double gx2 = GRADIENTS_2_D[gi2], gy2 = GRADIENTS_2_D[gi2 | 1];
+                    double gx2 = GRADIENTS_2D[gi2], gy2 = GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;

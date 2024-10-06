@@ -16,7 +16,7 @@ import com.dfsek.seismic.algorithms.samplers.noise.DerivativeNoiseFunction;
  * Abstract NoiseSampler implementation for simplex-style noise functions.
  */
 public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
-    protected static final double[] GRADIENTS_2_D = {
+    protected static final double[] GRADIENTS_2D = {
         0.130526192220052d, 0.99144486137381d, 0.38268343236509d, 0.923879532511287d, 0.608761429008721d, 0.793353340291235d,
         0.793353340291235d, 0.608761429008721d, 0.923879532511287d, 0.38268343236509d, 0.99144486137381d, 0.130526192220051d,
         0.99144486137381d, -0.130526192220051d, 0.923879532511287d, -0.38268343236509d, 0.793353340291235d, -0.60876142900872d,
@@ -92,8 +92,8 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     protected static double gradCoord(int seed, int xPrimed, int yPrimed, double xd, double yd) {
         int index = gradCoordIndex(seed, xPrimed, yPrimed);
 
-        double xg = GRADIENTS_2_D[index];
-        double yg = GRADIENTS_2_D[index | 1];
+        double xg = GRADIENTS_2D[index];
+        double yg = GRADIENTS_2D[index | 1];
 
         return xd * xg + yd * yg;
     }

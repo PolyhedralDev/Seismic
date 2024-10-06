@@ -194,7 +194,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         if(a > 0) {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
             int gi = gradCoordIndex(seed, i, j);
-            double gx = GRADIENTS_2_D[gi], gy = GRADIENTS_2_D[gi | 1];
+            double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
             double rampValue = gx * x0 + gy * y0;
             out[0] += aaaa * rampValue;
             out[1] += gx * aaaa - 8 * rampValue * aaa * x0;
@@ -207,7 +207,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             double y2 = y0 + (2 * G2 - 1);
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
             int gi = gradCoordIndex(seed, i + PRIME_X, j + PRIME_Y);
-            double gx = GRADIENTS_2_D[gi], gy = GRADIENTS_2_D[gi | 1];
+            double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
             double rampValue = gx * x2 + gy * y2;
             out[0] += cccc * rampValue;
             out[1] += gx * cccc - 8 * rampValue * ccc * x2;
@@ -221,7 +221,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = gradCoordIndex(seed, i, j + PRIME_Y);
-                double gx = GRADIENTS_2_D[gi], gy = GRADIENTS_2_D[gi | 1];
+                double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
                 double rampValue = gx * x1 + gy * y1;
                 out[0] += bbbb * rampValue;
                 out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
@@ -234,7 +234,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = gradCoordIndex(seed, i + PRIME_X, j);
-                double gx = GRADIENTS_2_D[gi], gy = GRADIENTS_2_D[gi | 1];
+                double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
                 double rampValue = gx * x1 + gy * y1;
                 out[0] += bbbb * rampValue;
                 out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
