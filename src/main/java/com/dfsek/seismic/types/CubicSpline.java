@@ -1,6 +1,6 @@
 package com.dfsek.seismic.types;
 
-import  com.dfsek.seismic.math.numericanalysis.NumericAnalysisFunctions;
+import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -51,7 +51,7 @@ public class CubicSpline {
 
             double t = (in - fromLeft) / fromDelta;
 
-            return NumericAnalysisFunctions.lerp(t, toLeft, toRight) + t * (1.0F - t) * NumericAnalysisFunctions.lerp(t, gradientLeft * fromDelta - toDelta,
+            return InterpolationFunctions.lerp(t, toLeft, toRight) + t * (1.0F - t) * InterpolationFunctions.lerp(t, gradientLeft * fromDelta - toDelta,
                 -gradientRight * fromDelta + toDelta);
         }
     }

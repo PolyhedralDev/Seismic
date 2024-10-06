@@ -45,4 +45,17 @@ public class NormalizationFunctions {
     public static int clamp(int min, int max, int i) {
         return Math.max(Math.min(i, max), min);
     }
+
+    /**
+     * Returns the normalized value to the range of [0, 1].
+     *
+     * @param edge0 the lower bound of the range.
+     * @param edge1 the upper bound of the range.
+     * @param x     the value to be normalized.
+     * @return the normalized value.
+     */
+    public static double normalizeToRange(double edge0, double edge1, double x) {
+        // Scale, bias and saturate x to 0..1 range
+        return clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+    }
 }

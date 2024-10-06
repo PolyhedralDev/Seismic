@@ -24,12 +24,12 @@ import java.util.logging.Logger;
  */
 public final class VMConstants {
     /**
-     * True iff the Java runtime is a client runtime and C2 compiler is not enabled.
+     * True if the Java runtime is a client runtime and C2 compiler is not enabled.
      */
     public static final boolean IS_CLIENT_VM =
             getSysProp("java.vm.info", "").contains("emulated-client");
     /**
-     * True iff the Java VM is based on Hotspot and has the Hotspot MX bean readable by UnnamedMathLib.
+     * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic.
      */
     public static final boolean IS_HOTSPOT_VM = HotspotVMOptionsUtils.IS_HOTSPOT_VM;
     /**
@@ -51,23 +51,23 @@ public final class VMConstants {
      */
     public static final String OS_NAME = getSysProp("os.name", UNKNOWN);
     /**
-     * True iff running on Linux.
+     * True if running on Linux.
      */
     public static final boolean LINUX = OS_NAME.startsWith("Linux");
     /**
-     * True iff running on Windows.
+     * True if running on Windows.
      */
     public static final boolean WINDOWS = OS_NAME.startsWith("Windows");
     /**
-     * True iff running on SunOS.
+     * True if running on SunOS.
      */
     public static final boolean SUN_OS = OS_NAME.startsWith("SunOS");
     /**
-     * True iff running on Mac OS X
+     * True if running on Mac OS X
      */
     public static final boolean MAC_OS_X = OS_NAME.startsWith("Mac OS X");
     /**
-     * True iff running on FreeBSD
+     * True if running on FreeBSD
      */
     public static final boolean FREE_BSD = OS_NAME.startsWith("FreeBSD");
     /**
@@ -75,7 +75,7 @@ public final class VMConstants {
      */
     public static final String OS_ARCH = getSysProp("os.arch", UNKNOWN);
     /**
-     * True iff running on a 64bit JVM
+     * True if running on a 64bit JVM
      */
     public static final boolean JRE_IS_64BIT = is64Bit();
     /**
@@ -102,23 +102,23 @@ public final class VMConstants {
     private static final boolean HAS_SSE4A =
             HotspotVMOptionsUtils.get("UseXmmI2F").map(Boolean::valueOf).orElse(false);
     /**
-     * true iff we know VFMA has faster throughput than separate vmul/vadd.
+     * true if we know VFMA has faster throughput than separate vmul/vadd.
      */
     public static final boolean HAS_FAST_VECTOR_FMA = hasFastVectorFMA();
     /**
-     * true iff we know FMA has faster throughput than separate mul/add.
+     * true if we know FMA has faster throughput than separate mul/add.
      */
     public static final boolean HAS_FAST_SCALAR_FMA = hasFastScalarFMA();
     /**
-     * true iff we know ROUND intrinsics are available.
+     * true if we know ROUND intrinsics are available.
      */
     public static final boolean HAS_FAST_SCALAR_ROUND = hasFastScalarRound();
     /**
-     * true iff we know FLOOR intrinsics are available.
+     * true if we know FLOOR intrinsics are available.
      */
     public static final boolean HAS_FAST_SCALAR_FLOOR = hasFastScalarRound();
     /**
-     * true iff we know CEIL intrinsics are available.
+     * true if we know CEIL intrinsics are available.
      */
     public static final boolean HAS_FAST_SCALAR_CEIL = hasFastScalarRound();
 

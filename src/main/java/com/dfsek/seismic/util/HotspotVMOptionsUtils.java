@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 final class HotspotVMOptionsUtils {
     /**
-     * True iff the Java VM is based on Hotspot and has the Hotspot MX bean readable by UnnamedMathLib
+     * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic
      */
     public static final boolean IS_HOTSPOT_VM;
     private static final String MANAGEMENT_FACTORY_CLASS = "java.lang.management.ManagementFactory";
@@ -63,7 +63,6 @@ final class HotspotVMOptionsUtils {
                         };
             }
         } catch (@SuppressWarnings("unused") ReflectiveOperationException | RuntimeException e) {
-            isHotspot = false;
             final Logger log = Logger.getLogger(HotspotVMOptionsUtils.class.getName());
             final Module module = HotspotVMOptionsUtils.class.getModule();
             final ModuleLayer layer = module.getLayer();
@@ -71,11 +70,11 @@ final class HotspotVMOptionsUtils {
             if (layer != null
                     && !layer.findModule("jdk.management").map(module::canRead).orElse(false)) {
                 log.warning(
-                        "UnnamedMathLib cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
+                        "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
                                 + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
             } else {
                 log.warning(
-                        "UnnamedMathLib cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
+                        "Seismic cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
             }
         }
         IS_HOTSPOT_VM = isHotspot;

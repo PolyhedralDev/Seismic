@@ -1,8 +1,8 @@
-package com.dfsek.seismic.math.numericanalysis;
+package com.dfsek.seismic.math.numericanalysis.interpolation;
 
 import  com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 
-public class NumericAnalysisFunctions {
+public class InterpolationFunctions {
     /**
      * Returns the result of a 1D linear interpolation between two points.
      *
