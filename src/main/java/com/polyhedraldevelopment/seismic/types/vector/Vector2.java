@@ -2,6 +2,7 @@ package com.polyhedraldevelopment.seismic.types.vector;
 
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 
+
 public class Vector2 {
     private static final Vector2 ZERO = new Vector2(0, 0);
     private static final Vector2 UNIT = new Vector2(0, 1);
@@ -41,6 +42,7 @@ public class Vector2 {
      *
      * @param x the X component
      * @param z the Z component
+     *
      * @return the new vector
      */
     public static Vector2 of(double x, double z) {
@@ -69,6 +71,7 @@ public class Vector2 {
      * Get the distance from this vector to another.
      *
      * @param other another vector
+     *
      * @return the distance between vectors
      */
     public double distance(Vector2 other) {
@@ -79,6 +82,7 @@ public class Vector2 {
      * Get the squared distance between two vectors.
      *
      * @param other another vector
+     *
      * @return the squared distance
      */
     public double distanceSquared(Vector2 other) {
@@ -91,6 +95,7 @@ public class Vector2 {
      * Extrudes this vector to a 3D vector with the specified Y component.
      *
      * @param y the Y component
+     *
      * @return the new 3D vector
      */
     public Vector3 extrude(double y) {
@@ -143,7 +148,7 @@ public class Vector2 {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Vector2 other)) return false;
+        if(!(obj instanceof Vector2 other)) return false;
         return FloatingPointFunctions.equals(this.x, other.x) && FloatingPointFunctions.equals(this.z, other.z);
     }
 
@@ -180,6 +185,7 @@ public class Vector2 {
          * Set the X component.
          *
          * @param x the new X component
+         *
          * @return this vector for chaining
          */
         public Mutable setX(double x) {
@@ -200,6 +206,7 @@ public class Vector2 {
          * Set the Z component.
          *
          * @param z the new Z component
+         *
          * @return this vector for chaining
          */
         public Mutable setZ(double z) {
@@ -239,6 +246,7 @@ public class Vector2 {
          *
          * @param x the X component to add
          * @param z the Z component to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(double x, double z) {
@@ -251,6 +259,7 @@ public class Vector2 {
          * Multiplies the X and Z components by a value.
          *
          * @param m the value to multiply
+         *
          * @return this vector for chaining
          */
         public Mutable multiply(double m) {
@@ -263,6 +272,7 @@ public class Vector2 {
          * Adds another vector to this vector.
          *
          * @param other the vector to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(Vector2 other) {
@@ -275,6 +285,7 @@ public class Vector2 {
          * Subtracts another vector from this vector.
          *
          * @param other the vector to subtract
+         *
          * @return this vector for chaining
          */
         public Mutable subtract(Vector2 other) {
@@ -297,6 +308,7 @@ public class Vector2 {
          * Divides the X and Z components by a value.
          *
          * @param d the divisor
+         *
          * @return this vector for chaining
          */
         public Mutable divide(double d) {

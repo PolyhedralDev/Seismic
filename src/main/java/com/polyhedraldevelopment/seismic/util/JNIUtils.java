@@ -20,25 +20,27 @@ public class JNIUtils {
      * If the library is already loaded, it returns the mapped library name.
      * Otherwise, it copies the library to a temporary file and loads it.
      *
-     * @param name the name of the library to load
+     * @param name     the name of the library to load
      * @param rootPath the root path where the library is located
+     *
      * @return the mapped library name
+     *
      * @throws IOException if an I/O error occurs while loading the library
      */
     public static synchronized String loadLib(String name, Path rootPath) throws IOException {
         try {
-            while (loadLock.get()) {
+            while(loadLock.get()) {
                 try {
                     Thread.sleep(1000);
-                } catch (Exception ignored) {
+                } catch(Exception ignored) {
                     //best to keep this forcefully synced
                 }
             }
             loadLock.set(true);
-            if (!loadedLibs.containsKey(name)) {
+            if(!loadedLibs.containsKey(name)) {
                 String filename = (rootPath.toString().equals("/") ? "native/" : rootPath + "/native/") + System.mapLibraryName(name);
                 InputStream libStream = JNIUtils.class.getResourceAsStream(filename);
-                if (libStream == null) {
+                if(libStream == null) {
                     libStream = new FileInputStream(filename);
                 }
 

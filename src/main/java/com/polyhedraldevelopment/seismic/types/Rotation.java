@@ -23,7 +23,9 @@ public enum Rotation {
      * Converts degrees to a corresponding Rotation enum value.
      *
      * @param deg the degrees to convert
+     *
      * @return the corresponding Rotation enum value
+     *
      * @throws IllegalArgumentException if the degrees do not match any Rotation
      */
     public static Rotation fromDegrees(int deg) {
@@ -54,6 +56,7 @@ public enum Rotation {
      * Rotates the current Rotation by the specified Rotation.
      *
      * @param rotation the Rotation to apply
+     *
      * @return the resulting Rotation
      */
     public Rotation rotate(Rotation rotation) {

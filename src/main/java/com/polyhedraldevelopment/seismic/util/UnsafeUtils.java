@@ -4,33 +4,33 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
-public class UnsafeUtils {
-    public static final Unsafe UNSAFE = findUnsafe();
 
+public class UnsafeUtils {
     public static boolean canUseUnsafe = true;
+    public static final Unsafe UNSAFE = findUnsafe();
 
     private static Unsafe findUnsafe() {
         try {
             return Unsafe.getUnsafe();
-        } catch (SecurityException se) {
+        } catch(SecurityException se) {
             try {
                 try {
                     Class.forName("java.security.AccessController");
                     return AccessControllerUtils.doPrivileged(() -> {
                         try {
                             return UnsafeUtils.getUnsafeWithoutAccessController();
-                        } catch (IllegalAccessException e) {
+                        } catch(IllegalAccessException e) {
                             System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
                             canUseUnsafe = false;
                             return null;
                         }
                     });
-                } catch (ClassNotFoundException e) {
-                    if (canUseUnsafe) {
+                } catch(ClassNotFoundException e) {
+                    if(canUseUnsafe) {
                         return getUnsafeWithoutAccessController();
                     }
                 }
-            } catch (Exception e) {
+            } catch(Exception e) {
                 System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
                 canUseUnsafe = false;
                 return null;
@@ -45,9 +45,9 @@ public class UnsafeUtils {
             Field field = ReflectionUtils.getField(type, "theUnsafe");
             ReflectionUtils.setFieldToPublic(field);
             return type.cast(field.get(type));
-        } catch (Exception e) {
-            for (Field field : type.getDeclaredFields()) {
-                if (type.isAssignableFrom(field.getType())) {
+        } catch(Exception e) {
+            for(Field field : type.getDeclaredFields()) {
+                if(type.isAssignableFrom(field.getType())) {
                     ReflectionUtils.setFieldToPublic(field);
                     return type.cast(field.get(type));
                 }
@@ -60,9 +60,10 @@ public class UnsafeUtils {
     /**
      * Retrieves the value of a static field as an Object.
      *
-     * @param <T> the type of the class containing the static field
+     * @param <T>         the type of the class containing the static field
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static <T> Object getStaticFieldObject(Class<T> targetClass, Field field) {
@@ -74,7 +75,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as a char.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static char getStaticFieldChar(Class<?> targetClass, Field field) {
@@ -86,7 +88,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as an int.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static int getStaticFieldInt(Class<?> targetClass, Field field) {
@@ -98,7 +101,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as a long.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static long getStaticFieldLong(Class<?> targetClass, Field field) {
@@ -110,7 +114,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as a float.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static float getStaticFieldFloat(Class<?> targetClass, Field field) {
@@ -122,7 +127,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as a double.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static double getStaticFieldDouble(Class<?> targetClass, Field field) {
@@ -134,7 +140,8 @@ public class UnsafeUtils {
      * Retrieves the value of a static field as a boolean.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to retrieve the value from
+     * @param field       the field to retrieve the value from
+     *
      * @return the value of the static field
      */
     public static boolean getStaticFieldBoolean(Class<?> targetClass, Field field) {
@@ -145,10 +152,10 @@ public class UnsafeUtils {
     /**
      * Sets the value of a static field as an Object.
      *
-     * @param <T> the type of the class containing the static field
+     * @param <T>         the type of the class containing the static field
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static <T> void putStaticFieldObject(Class<T> targetClass, Field field, Object value) {
         assert UNSAFE != null;
@@ -159,8 +166,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as a char.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldChar(Class<?> targetClass, Field field, char value) {
         assert UNSAFE != null;
@@ -171,8 +178,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as an int.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldInt(Class<?> targetClass, Field field, int value) {
         assert UNSAFE != null;
@@ -183,8 +190,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as a long.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldLong(Class<?> targetClass, Field field, long value) {
         assert UNSAFE != null;
@@ -195,8 +202,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as a float.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldFloat(Class<?> targetClass, Field field, float value) {
         assert UNSAFE != null;
@@ -207,8 +214,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as a double.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldDouble(Class<?> targetClass, Field field, double value) {
         assert UNSAFE != null;
@@ -219,8 +226,8 @@ public class UnsafeUtils {
      * Sets the value of a static field as a boolean.
      *
      * @param targetClass the class containing the static field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field       the field to set the value to
+     * @param value       the value to set
      */
     public static void putStaticFieldBoolean(Class<?> targetClass, Field field, boolean value) {
         assert UNSAFE != null;
@@ -231,7 +238,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as an Object.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static Object getFieldObject(Object targetObject, Field field) {
@@ -243,7 +251,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as a char.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static char getFieldChar(Object targetObject, Field field) {
@@ -255,7 +264,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as an int.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static int getFieldInt(Object targetObject, Field field) {
@@ -267,7 +277,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as a long.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static long getFieldLong(Object targetObject, Field field) {
@@ -279,7 +290,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as a float.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static float getFieldFloat(Object targetObject, Field field) {
@@ -291,7 +303,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as a double.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static double getFieldDouble(Object targetObject, Field field) {
@@ -303,7 +316,8 @@ public class UnsafeUtils {
      * Retrieves the value of a field as a boolean.
      *
      * @param targetObject the object containing the field
-     * @param field the field to retrieve the value from
+     * @param field        the field to retrieve the value from
+     *
      * @return the value of the field
      */
     public static boolean getFieldBoolean(Object targetObject, Field field) {
@@ -315,8 +329,8 @@ public class UnsafeUtils {
      * Sets the value of a field as an Object.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param in the value to set
+     * @param field        the field to set the value to
+     * @param in           the value to set
      */
     public static void putFieldObject(Object targetObject, Field field, Object in) {
         assert UNSAFE != null;
@@ -327,8 +341,8 @@ public class UnsafeUtils {
      * Sets the value of a field as a char.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field        the field to set the value to
+     * @param value        the value to set
      */
     public static void putFieldChar(Object targetObject, Field field, char value) {
         assert UNSAFE != null;
@@ -339,8 +353,8 @@ public class UnsafeUtils {
      * Sets the value of a field as an int.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field        the field to set the value to
+     * @param value        the value to set
      */
     public static void putFieldInt(Object targetObject, Field field, int value) {
         assert UNSAFE != null;
@@ -351,8 +365,8 @@ public class UnsafeUtils {
      * Sets the value of a field as a long.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field        the field to set the value to
+     * @param value        the value to set
      */
     public static void putFieldLong(Object targetObject, Field field, long value) {
         assert UNSAFE != null;
@@ -363,8 +377,8 @@ public class UnsafeUtils {
      * Sets the value of a field as a float.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field        the field to set the value to
+     * @param value        the value to set
      */
     public static void putFieldFloat(Object targetObject, Field field, float value) {
         assert UNSAFE != null;
@@ -375,8 +389,8 @@ public class UnsafeUtils {
      * Sets the value of a field as a double.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param value the value to set
+     * @param field        the field to set the value to
+     * @param value        the value to set
      */
     public static void putFieldDouble(Object targetObject, Field field, double value) {
         assert UNSAFE != null;
@@ -387,8 +401,8 @@ public class UnsafeUtils {
      * Sets the value of a field as a boolean.
      *
      * @param targetObject the object containing the field
-     * @param field the field to set the value to
-     * @param in the value to set
+     * @param field        the field to set the value to
+     * @param in           the value to set
      */
     public static void putFieldBoolean(Object targetObject, Field field, Boolean in) {
         assert UNSAFE != null;

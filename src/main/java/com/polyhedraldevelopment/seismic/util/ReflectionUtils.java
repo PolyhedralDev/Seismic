@@ -25,6 +25,7 @@ public class ReflectionUtils {
      * Retrieves the class object associated with the given class name.
      *
      * @param className the name of the class
+     *
      * @return the class object for the given class name
      */
     public static Class getClass(String className) {
@@ -36,6 +37,7 @@ public class ReflectionUtils {
      *
      * @param clss the class containing the field
      * @param fild the name of the field
+     *
      * @return the field object for the given class and field name
      */
     public static Field getField(Class clss, String fild) {
@@ -63,15 +65,15 @@ public class ReflectionUtils {
     private static void setAccessibleObjectToPublic(AccessibleObject obj) {
         try {
             obj.setAccessible(true);
-        } catch (SecurityException se) {
+        } catch(SecurityException se) {
             try {
                 Class.forName("java.security.AccessController");
                 AccessControllerUtils.doPrivileged(() -> {
                     obj.setAccessible(true);
                     return null;
                 });
-            } catch (ClassNotFoundException e) {
-                if (UnsafeUtils.canUseUnsafe) {
+            } catch(ClassNotFoundException e) {
+                if(UnsafeUtils.canUseUnsafe) {
                     UnsafeUtils.putFieldBoolean(obj, getField(obj.getClass(), "override"), true);
                 }
             }
@@ -81,7 +83,7 @@ public class ReflectionUtils {
     private static Field getReflectedField(ClassField clssfild) {
         try {
             return clssfild.clss.getField(clssfild.fild());
-        } catch (NoSuchFieldException e) {
+        } catch(NoSuchFieldException e) {
             e.printStackTrace();
         }
         return null;
@@ -91,14 +93,14 @@ public class ReflectionUtils {
         try {
             Class classObj;
             int $loc = className.indexOf("$");
-            if ($loc > -1) {
+            if($loc > -1) {
                 classObj = getNestedClass(Class.forName(className.substring(0, $loc)), className.substring($loc + 1));
             } else {
                 classObj = Class.forName(className);
             }
             assert classObj != null;
             return classObj;
-        } catch (ClassNotFoundException e) {
+        } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -106,8 +108,8 @@ public class ReflectionUtils {
 
     private static Class getNestedClass(Class upperClass, String nestedClassName) {
         Class[] classObjArr = upperClass.getDeclaredClasses();
-        for (Class classArrObj : classObjArr) {
-            if (classArrObj.getName().equals(upperClass.getName() + "$" + nestedClassName)) {
+        for(Class classArrObj : classObjArr) {
+            if(classArrObj.getName().equals(upperClass.getName() + "$" + nestedClassName)) {
                 return classArrObj;
             }
         }
@@ -117,10 +119,10 @@ public class ReflectionUtils {
     /**
      * Executes the given operation if the specified annotation is present on the element.
      *
-     * @param <T> the type of the annotation
-     * @param element the annotated element
+     * @param <T>        the type of the annotation
+     * @param element    the annotated element
      * @param annotation the annotation class
-     * @param operation the operation to execute if the annotation is present
+     * @param operation  the operation to execute if the annotation is present
      */
     public static <T extends Annotation> void ifAnnotationPresent(AnnotatedElement element, Class<? extends T> annotation,
                                                                   Consumer<T> operation) {
@@ -132,6 +134,7 @@ public class ReflectionUtils {
      * Returns the raw type of the given type.
      *
      * @param type the type to get the raw type of
+     *
      * @return the raw type of the given type
      */
     public static Class<?> getRawType(Type type) {
@@ -158,6 +161,7 @@ public class ReflectionUtils {
      * Converts the given type to a string representation.
      *
      * @param type the type to convert to a string
+     *
      * @return the string representation of the type
      */
     public static String typeToString(Type type) {
@@ -169,6 +173,7 @@ public class ReflectionUtils {
      *
      * @param a the first type to compare
      * @param b the second type to compare
+     *
      * @return true if the types are equal, false otherwise
      */
     public static boolean equals(Type a, Type b) {
@@ -208,5 +213,9 @@ public class ReflectionUtils {
         }
     }
 
-    private record ClassField(Class clss, String fild) {};
+    private record ClassField(Class clss, String fild) {
+    }
+
+
+    ;
 }

@@ -5,6 +5,7 @@ import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctio
 import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
 import org.jetbrains.annotations.NotNull;
 
+
 public class Vector3 {
     private static final Vector3 ZERO = new Vector3(0, 0, 0);
     private static final Vector3 UNIT = new Vector3(0, 1, 0);
@@ -40,6 +41,7 @@ public class Vector3 {
      * @param x the X component
      * @param y the Y component
      * @param z the Z component
+     *
      * @return the new vector
      */
     public static Vector3 of(double x, double y, double z) {
@@ -77,6 +79,7 @@ public class Vector3 {
      * Get the distance between this vector and another.
      *
      * @param o the other vector
+     *
      * @return the distance
      */
     public double distance(@NotNull Vector3 o) {
@@ -87,6 +90,7 @@ public class Vector3 {
      * Get the squared distance between this vector and another.
      *
      * @param o the other vector
+     *
      * @return the squared distance
      */
     public double distanceSquared(@NotNull Vector3 o) {
@@ -97,6 +101,7 @@ public class Vector3 {
      * Calculates the dot product of this vector with another.
      *
      * @param other the other vector
+     *
      * @return the dot product
      */
     public double dot(@NotNull Vector3 other) {
@@ -184,11 +189,12 @@ public class Vector3 {
      * Checks to see if two objects are equal.
      *
      * @param obj the object to compare to
+     *
      * @return true if the objects are equal, false otherwise
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Vector3 other)) return false;
+        if(!(obj instanceof Vector3 other)) return false;
         return FloatingPointFunctions.equals(x, other.getX()) && FloatingPointFunctions.equals(y, other.getY()) &&
                FloatingPointFunctions.equals(z, other.getZ());
     }
@@ -227,6 +233,7 @@ public class Vector3 {
          * @param x the X component
          * @param y the Y component
          * @param z the Z component
+         *
          * @return the new mutable vector
          */
         public static Mutable of(double x, double y, double z) {
@@ -255,6 +262,7 @@ public class Vector3 {
          * Set the Z component.
          *
          * @param z the new Z component
+         *
          * @return this vector for chaining
          */
         public Mutable setZ(double z) {
@@ -275,6 +283,7 @@ public class Vector3 {
          * Set the X component.
          *
          * @param x the new X component
+         *
          * @return this vector for chaining
          */
         public Mutable setX(double x) {
@@ -295,6 +304,7 @@ public class Vector3 {
          * Set the Y component.
          *
          * @param y the new Y component
+         *
          * @return this vector for chaining
          */
         public Mutable setY(double y) {
@@ -344,6 +354,7 @@ public class Vector3 {
          * @param x the X component to subtract
          * @param y the Y component to subtract
          * @param z the Z component to subtract
+         *
          * @return this vector for chaining
          */
         public Mutable subtract(int x, int y, int z) {
@@ -357,6 +368,7 @@ public class Vector3 {
          * Calculates the dot product of this vector with another.
          *
          * @param other the other vector
+         *
          * @return the dot product
          */
         public double dot(@NotNull Vector3 other) {
@@ -367,6 +379,7 @@ public class Vector3 {
          * Subtracts another vector from this vector.
          *
          * @param end the vector to subtract
+         *
          * @return this vector for chaining
          */
         public Mutable subtract(Vector3 end) {
@@ -380,6 +393,7 @@ public class Vector3 {
          * Multiplies the X, Y, and Z components by a value.
          *
          * @param m the value to multiply
+         *
          * @return this vector for chaining
          */
         public Mutable multiply(double m) {
@@ -395,6 +409,7 @@ public class Vector3 {
          * @param x the X component to add
          * @param y the Y component to add
          * @param z the Z component to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(double x, double y, double z) {
@@ -408,6 +423,7 @@ public class Vector3 {
          * Adds another vector to this vector.
          *
          * @param other the vector to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(Vector3 other) {
@@ -421,6 +437,7 @@ public class Vector3 {
          * Adds an integer vector to this vector.
          *
          * @param other the integer vector to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(Vector3Int other) {
@@ -434,6 +451,7 @@ public class Vector3 {
          * Adds a 2D vector to this vector.
          *
          * @param other the 2D vector to add
+         *
          * @return this vector for chaining
          */
         public Mutable add(Vector2 other) {
@@ -447,7 +465,9 @@ public class Vector3 {
          *
          * @param axis  the axis to rotate the vector around
          * @param angle the angle to rotate the vector around the axis
+         *
          * @return the same vector
+         *
          * @throws IllegalArgumentException if the provided axis vector instance is null
          */
         @NotNull
@@ -460,7 +480,9 @@ public class Vector3 {
          *
          * @param axis  the axis to rotate the vector around
          * @param angle the angle to rotate the vector around the axis
+         *
          * @return the same vector
+         *
          * @throws IllegalArgumentException if the provided axis vector instance is null
          */
         @NotNull
@@ -489,6 +511,7 @@ public class Vector3 {
          * Rotates the vector around the X axis.
          *
          * @param angle the angle to rotate the vector about (in radians)
+         *
          * @return the same vector
          */
         @NotNull
@@ -505,6 +528,7 @@ public class Vector3 {
          * Rotates the vector around the Y axis.
          *
          * @param angle the angle to rotate the vector about (in radians)
+         *
          * @return the same vector
          */
         @NotNull
@@ -521,6 +545,7 @@ public class Vector3 {
          * Rotates the vector around the Z axis.
          *
          * @param angle the angle to rotate the vector about (in radians)
+         *
          * @return the same vector
          */
         @NotNull

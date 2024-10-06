@@ -2,6 +2,7 @@ package com.polyhedraldevelopment.seismic.types.vector;
 
 import com.polyhedraldevelopment.seismic.types.Rotation;
 
+
 public class Vector2Int {
     private static final Vector2Int ZERO = new Vector2Int(0, 0);
     private static final Vector2Int UNIT = new Vector2Int(0, 1);
@@ -35,6 +36,7 @@ public class Vector2Int {
      *
      * @param x the X component
      * @param z the Z component
+     *
      * @return the new vector
      */
     public static Vector2Int of(int x, int z) {
@@ -63,6 +65,7 @@ public class Vector2Int {
      * Converts this vector to a 3D vector with the specified Y component.
      *
      * @param y the Y component
+     *
      * @return the new 3D vector
      */
     public Vector3Int toVector3(int y) {
@@ -82,6 +85,7 @@ public class Vector2Int {
      * Rotates this vector by the specified rotation.
      *
      * @param rotation the rotation to apply
+     *
      * @return the rotated vector
      */
     public Vector2Int rotate(Rotation rotation) {

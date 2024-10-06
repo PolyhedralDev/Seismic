@@ -35,6 +35,7 @@ public class Vector3Int {
      * @param x the x-coordinate
      * @param y the y-coordinate
      * @param z the z-coordinate
+     *
      * @return the new Vector3Int
      */
     public static Vector3Int of(int x, int y, int z) {
@@ -45,9 +46,10 @@ public class Vector3Int {
      * Creates a new Vector3Int by adding the specified coordinates to the origin vector.
      *
      * @param origin the origin vector
-     * @param x the x-coordinate to add
-     * @param y the y-coordinate to add
-     * @param z the z-coordinate to add
+     * @param x      the x-coordinate to add
+     * @param y      the y-coordinate to add
+     * @param z      the z-coordinate to add
+     *
      * @return the new Vector3Int
      */
     public static Vector3Int of(Vector3Int origin, int x, int y, int z) {
@@ -182,6 +184,7 @@ public class Vector3Int {
          * @param x the x-coordinate to add
          * @param y the y-coordinate to add
          * @param z the z-coordinate to add
+         *
          * @return this vector after addition
          */
         public Mutable add(int x, int y, int z) {
