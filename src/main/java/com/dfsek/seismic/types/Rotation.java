@@ -19,6 +19,13 @@ public enum Rotation {
         this.degrees = degrees;
     }
 
+    /**
+     * Converts degrees to a corresponding Rotation enum value.
+     *
+     * @param deg the degrees to convert
+     * @return the corresponding Rotation enum value
+     * @throws IllegalArgumentException if the degrees do not match any Rotation
+     */
     public static Rotation fromDegrees(int deg) {
         return switch(Math.floorMod(deg, 360)) {
             case 0 -> Rotation.NONE;
@@ -29,6 +36,11 @@ public enum Rotation {
         };
     }
 
+    /**
+     * Returns the inverse of the current Rotation.
+     *
+     * @return the inverse Rotation
+     */
     public Rotation inverse() {
         return switch(this) {
             case NONE -> NONE;
@@ -38,14 +50,28 @@ public enum Rotation {
         };
     }
 
+    /**
+     * Rotates the current Rotation by the specified Rotation.
+     *
+     * @param rotation the Rotation to apply
+     * @return the resulting Rotation
+     */
     public Rotation rotate(Rotation rotation) {
         return fromDegrees(this.getDegrees() + rotation.getDegrees());
     }
 
+    /**
+     * Returns the degrees of the current Rotation.
+     *
+     * @return the degrees of the current Rotation
+     */
     public int getDegrees() {
         return degrees;
     }
 
+    /**
+     * Enum representing the axes of rotation.
+     */
     public enum Axis {
         X,
         Y,

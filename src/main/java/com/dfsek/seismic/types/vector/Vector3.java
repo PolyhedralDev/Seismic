@@ -1,17 +1,9 @@
-/*
- * Copyright (c) 2020-2023 Polyhedral Development
- *
- * The Terra API is licensed under the terms of the MIT License. For more details,
- * reference the LICENSE file in the common/api directory.
- */
-
 package com.dfsek.seismic.types.vector;
 
 import com.dfsek.seismic.math.algebra.AlgebraFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import org.jetbrains.annotations.NotNull;
-
 
 public class Vector3 {
     private static final Vector3 ZERO = new Vector3(0, 0, 0);
@@ -24,39 +16,67 @@ public class Vector3 {
         this.z = z;
     }
 
+    /**
+     * Returns a vector with all components set to zero.
+     *
+     * @return the zero vector
+     */
     public static Vector3 zero() {
         return ZERO;
     }
 
+    /**
+     * Returns a unit vector.
+     *
+     * @return the unit vector
+     */
     public static Vector3 unit() {
         return UNIT;
     }
 
+    /**
+     * Creates a new vector with the specified X, Y, and Z components.
+     *
+     * @param x the X component
+     * @param y the Y component
+     * @param z the Z component
+     * @return the new vector
+     */
     public static Vector3 of(double x, double y, double z) {
         return new Vector3(x, y, z);
     }
 
+    /**
+     * Get the squared length of this vector.
+     *
+     * @return the squared length of the vector
+     */
     public double lengthSquared() {
         return x * x + y * y + z * z;
     }
 
+    /**
+     * Get the length of this vector.
+     *
+     * @return the length of the vector
+     */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
+    /**
+     * Get the inverse length of this vector.
+     *
+     * @return the inverse length of the vector
+     */
     public double inverseLength() {
         return AlgebraFunctions.invSqrt(lengthSquared());
     }
 
     /**
-     * Get the distance between this vector and another. The value of this
-     * method is not cached and uses a costly square-root function, so do not
-     * repeatedly call this method to get the vector's magnitude. NaN will be
-     * returned if the inner result of the sqrt() function overflows, which
-     * will be caused if the distance is too long.
+     * Get the distance between this vector and another.
      *
-     * @param o The other vector
-     *
+     * @param o the other vector
      * @return the distance
      */
     public double distance(@NotNull Vector3 o) {
@@ -66,71 +86,94 @@ public class Vector3 {
     /**
      * Get the squared distance between this vector and another.
      *
-     * @param o The other vector
-     *
-     * @return the distance
+     * @param o the other vector
+     * @return the squared distance
      */
     public double distanceSquared(@NotNull Vector3 o) {
         return Math.pow(x - o.getX(), 2) + Math.pow(y - o.getY(), 2) + Math.pow(z - o.getZ(), 2);
     }
 
     /**
-     * Calculates the dot product of this vector with another. The dot product
-     * is defined as x1*x2+y1*y2+z1*z2. The returned value is a scalar.
+     * Calculates the dot product of this vector with another.
      *
-     * @param other The other vector
-     *
-     * @return dot product
+     * @param other the other vector
+     * @return the dot product
      */
     public double dot(@NotNull Vector3 other) {
         return x * other.getX() + y * other.getY() + z * other.getZ();
     }
 
+    /**
+     * Get the Z component.
+     *
+     * @return the Z component
+     */
     public double getZ() {
         return z;
     }
 
-
+    /**
+     * Get the X component.
+     *
+     * @return the X component
+     */
     public double getX() {
         return x;
     }
 
-
+    /**
+     * Get the Y component.
+     *
+     * @return the Y component
+     */
     public double getY() {
         return y;
     }
 
-
+    /**
+     * Get the block X coordinate (floored value of X).
+     *
+     * @return the block X coordinate
+     */
     public int getBlockX() {
         return (int) Math.floor(x);
     }
 
+    /**
+     * Get the block Y coordinate (floored value of Y).
+     *
+     * @return the block Y coordinate
+     */
     public int getBlockY() {
         return (int) Math.floor(y);
     }
 
+    /**
+     * Get the block Z coordinate (floored value of Z).
+     *
+     * @return the block Z coordinate
+     */
     public int getBlockZ() {
         return (int) Math.floor(z);
     }
 
     /**
-     * Returns if a vector is normalized
+     * Returns if a vector is normalized.
      *
-     * @return whether the vector is normalised
+     * @return whether the vector is normalized
      */
     public boolean isNormalized() {
         return FloatingPointFunctions.equals(this.lengthSquared(), 1);
     }
 
     /**
-     * Returns a hash code for this vector
+     * Returns a hash code for this vector.
      *
      * @return hash code
      */
     @Override
     public int hashCode() {
         int hash = 7;
-
         hash = 79 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
         hash = 79 * hash + (int) (Double.doubleToLongBits(this.y) ^ (Double.doubleToLongBits(this.y) >>> 32));
         hash = 79 * hash + (int) (Double.doubleToLongBits(this.z) ^ (Double.doubleToLongBits(this.z) >>> 32));
@@ -139,22 +182,31 @@ public class Vector3 {
 
     /**
      * Checks to see if two objects are equal.
-     * <p>
-     * Only two Vectors can ever return true. This method uses a fuzzy match
-     * to account for floating point errors. The epsilon can be retrieved
-     * with epsilon.
+     *
+     * @param obj the object to compare to
+     * @return true if the objects are equal, false otherwise
      */
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Vector3 other)) return false;
+        if (!(obj instanceof Vector3 other)) return false;
         return FloatingPointFunctions.equals(x, other.getX()) && FloatingPointFunctions.equals(y, other.getY()) &&
                FloatingPointFunctions.equals(z, other.getZ());
     }
 
+    /**
+     * Converts this vector to an integer vector.
+     *
+     * @return the integer vector
+     */
     public Vector3Int toInt() {
         return Vector3Int.of(getBlockX(), getBlockY(), getBlockZ());
     }
 
+    /**
+     * Converts this vector to a mutable vector.
+     *
+     * @return the mutable vector
+     */
     public Mutable mutable() {
         return new Mutable(x, y, z);
     }
@@ -164,63 +216,136 @@ public class Vector3 {
         return "(" + getX() + ", " + getY() + ", " + getZ() + ")";
     }
 
-
     public static class Mutable extends Vector3 {
         private Mutable(double x, double y, double z) {
             super(x, y, z);
         }
 
+        /**
+         * Creates a new mutable vector with the specified X, Y, and Z components.
+         *
+         * @param x the X component
+         * @param y the Y component
+         * @param z the Z component
+         * @return the new mutable vector
+         */
         public static Mutable of(double x, double y, double z) {
             return new Mutable(x, y, z);
         }
 
+        /**
+         * Converts this mutable vector to an immutable vector.
+         *
+         * @return the immutable vector
+         */
         public Vector3 immutable() {
             return Vector3.of(x, y, z);
         }
 
+        /**
+         * Get the Z component.
+         *
+         * @return the Z component
+         */
         public double getZ() {
             return z;
         }
 
+        /**
+         * Set the Z component.
+         *
+         * @param z the new Z component
+         * @return this vector for chaining
+         */
         public Mutable setZ(double z) {
             this.z = z;
             return this;
         }
 
+        /**
+         * Get the X component.
+         *
+         * @return the X component
+         */
         public double getX() {
             return x;
         }
 
+        /**
+         * Set the X component.
+         *
+         * @param x the new X component
+         * @return this vector for chaining
+         */
         public Mutable setX(double x) {
             this.x = x;
             return this;
         }
 
+        /**
+         * Get the Y component.
+         *
+         * @return the Y component
+         */
         public double getY() {
             return y;
         }
 
+        /**
+         * Set the Y component.
+         *
+         * @param y the new Y component
+         * @return this vector for chaining
+         */
         public Mutable setY(double y) {
             this.y = y;
             return this;
         }
 
+        /**
+         * Get the squared length of this vector.
+         *
+         * @return the squared length of the vector
+         */
         public double lengthSquared() {
             return x * x + y * y + z * z;
         }
 
+        /**
+         * Get the length of this vector.
+         *
+         * @return the length of the vector
+         */
         public double length() {
             return Math.sqrt(lengthSquared());
         }
 
+        /**
+         * Get the inverse length of this vector.
+         *
+         * @return the inverse length of the vector
+         */
         public double inverseLength() {
             return AlgebraFunctions.invSqrt(lengthSquared());
         }
 
+        /**
+         * Normalizes this vector to length 1.
+         *
+         * @return this vector for chaining
+         */
         public Mutable normalize() {
             return this.multiply(this.inverseLength());
         }
 
+        /**
+         * Subtracts the specified X, Y, and Z components from this vector.
+         *
+         * @param x the X component to subtract
+         * @param y the Y component to subtract
+         * @param z the Z component to subtract
+         * @return this vector for chaining
+         */
         public Mutable subtract(int x, int y, int z) {
             this.x -= x;
             this.y -= y;
@@ -229,17 +354,21 @@ public class Vector3 {
         }
 
         /**
-         * Calculates the dot product of this vector with another. The dot product
-         * is defined as x1*x2+y1*y2+z1*z2. The returned value is a scalar.
+         * Calculates the dot product of this vector with another.
          *
-         * @param other The other vector
-         *
-         * @return dot product
+         * @param other the other vector
+         * @return the dot product
          */
         public double dot(@NotNull Vector3 other) {
             return x * other.getX() + y * other.getY() + z * other.getZ();
         }
 
+        /**
+         * Subtracts another vector from this vector.
+         *
+         * @param end the vector to subtract
+         * @return this vector for chaining
+         */
         public Mutable subtract(Vector3 end) {
             x -= end.getX();
             y -= end.getY();
@@ -247,6 +376,12 @@ public class Vector3 {
             return this;
         }
 
+        /**
+         * Multiplies the X, Y, and Z components by a value.
+         *
+         * @param m the value to multiply
+         * @return this vector for chaining
+         */
         public Mutable multiply(double m) {
             x *= m;
             y *= m;
@@ -254,6 +389,14 @@ public class Vector3 {
             return this;
         }
 
+        /**
+         * Adds the specified X, Y, and Z components to this vector.
+         *
+         * @param x the X component to add
+         * @param y the Y component to add
+         * @param z the Z component to add
+         * @return this vector for chaining
+         */
         public Mutable add(double x, double y, double z) {
             this.x += x;
             this.y += y;
@@ -261,6 +404,12 @@ public class Vector3 {
             return this;
         }
 
+        /**
+         * Adds another vector to this vector.
+         *
+         * @param other the vector to add
+         * @return this vector for chaining
+         */
         public Mutable add(Vector3 other) {
             this.x += other.getX();
             this.y += other.getY();
@@ -268,6 +417,12 @@ public class Vector3 {
             return this;
         }
 
+        /**
+         * Adds an integer vector to this vector.
+         *
+         * @param other the integer vector to add
+         * @return this vector for chaining
+         */
         public Mutable add(Vector3Int other) {
             this.x += other.getX();
             this.y += other.getY();
@@ -275,6 +430,12 @@ public class Vector3 {
             return this;
         }
 
+        /**
+         * Adds a 2D vector to this vector.
+         *
+         * @param other the 2D vector to add
+         * @return this vector for chaining
+         */
         public Mutable add(Vector2 other) {
             this.x += other.getX();
             this.z += other.getZ();
@@ -282,25 +443,12 @@ public class Vector3 {
         }
 
         /**
-         * Rotates the vector around a given arbitrary axis in 3 dimensional space.
+         * Rotates the vector around a given arbitrary axis in 3D space.
          *
-         * <p>
-         * Rotation will follow the general Right-Hand-Rule, which means rotation
-         * will be counterclockwise when the axis is pointing towards the observer.
-         * <p>
-         * This method will always make sure the provided axis is a unit vector, to
-         * not modify the length of the vector when rotating.
-         *
-         * @param axis  the axis to rotate the vector around. If the passed vector is
-         *              not of length 1, it gets copied and normalized before using it for the
-         *              rotation. Please use {@link Mutable#normalize()} on the instance before
-         *              passing it to this method
+         * @param axis  the axis to rotate the vector around
          * @param angle the angle to rotate the vector around the axis
-         *
          * @return the same vector
-         *
-         * @throws IllegalArgumentException if the provided axis vector instance is
-         *                                  null
+         * @throws IllegalArgumentException if the provided axis vector instance is null
          */
         @NotNull
         public Mutable rotateAroundAxis(@NotNull Vector3 axis, double angle) throws IllegalArgumentException {
@@ -308,24 +456,12 @@ public class Vector3 {
         }
 
         /**
-         * Rotates the vector around a given arbitrary axis in 3 dimensional space.
+         * Rotates the vector around a given arbitrary axis in 3D space.
          *
-         * <p>
-         * Rotation will follow the general Right-Hand-Rule, which means rotation
-         * will be counterclockwise when the axis is pointing towards the observer.
-         * <p>
-         * Note that the vector length will change accordingly to the axis vector
-         * length. If the provided axis is not a unit vector, the rotated vector
-         * will not have its previous length. The scaled length of the resulting
-         * vector will be related to the axis vector.
-         *
-         * @param axis  the axis to rotate the vector around.
+         * @param axis  the axis to rotate the vector around
          * @param angle the angle to rotate the vector around the axis
-         *
          * @return the same vector
-         *
-         * @throws IllegalArgumentException if the provided axis vector instance is
-         *                                  null
+         * @throws IllegalArgumentException if the provided axis vector instance is null
          */
         @NotNull
         public Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, double angle) throws IllegalArgumentException {
@@ -350,16 +486,9 @@ public class Vector3 {
         }
 
         /**
-         * Rotates the vector around the x axis.
-         * <p>
-         * This piece of math is based on the standard rotation matrix for vectors
-         * in three dimensional space. This matrix can be found here:
-         * <a href="https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">Rotation
-         * Matrix</a>.
+         * Rotates the vector around the X axis.
          *
-         * @param angle the angle to rotate the vector about. This angle is passed
-         *              in radians
-         *
+         * @param angle the angle to rotate the vector about (in radians)
          * @return the same vector
          */
         @NotNull
@@ -373,16 +502,9 @@ public class Vector3 {
         }
 
         /**
-         * Rotates the vector around the y axis.
-         * <p>
-         * This piece of math is based on the standard rotation matrix for vectors
-         * in three dimensional space. This matrix can be found here:
-         * <a href="https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">Rotation
-         * Matrix</a>.
+         * Rotates the vector around the Y axis.
          *
-         * @param angle the angle to rotate the vector about. This angle is passed
-         *              in radians
-         *
+         * @param angle the angle to rotate the vector about (in radians)
          * @return the same vector
          */
         @NotNull
@@ -396,16 +518,9 @@ public class Vector3 {
         }
 
         /**
-         * Rotates the vector around the z axis
-         * <p>
-         * This piece of math is based on the standard rotation matrix for vectors
-         * in three dimensional space. This matrix can be found here:
-         * <a href="https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">Rotation
-         * Matrix</a>.
+         * Rotates the vector around the Z axis.
          *
-         * @param angle the angle to rotate the vector about. This angle is passed
-         *              in radians
-         *
+         * @param angle the angle to rotate the vector about (in radians)
          * @return the same vector
          */
         @NotNull
@@ -421,21 +536,35 @@ public class Vector3 {
         @Override
         public int hashCode() {
             int hash = 13;
-
             hash = 79 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
             hash = 79 * hash + (int) (Double.doubleToLongBits(this.y) ^ (Double.doubleToLongBits(this.y) >>> 32));
             hash = 79 * hash + (int) (Double.doubleToLongBits(this.z) ^ (Double.doubleToLongBits(this.z) >>> 32));
             return hash;
         }
 
+        /**
+         * Get the block X coordinate (floored value of X).
+         *
+         * @return the block X coordinate
+         */
         public int getBlockX() {
             return (int) Math.floor(x);
         }
 
+        /**
+         * Get the block Y coordinate (floored value of Y).
+         *
+         * @return the block Y coordinate
+         */
         public int getBlockY() {
             return (int) Math.floor(y);
         }
 
+        /**
+         * Get the block Z coordinate (floored value of Z).
+         *
+         * @return the block Z coordinate
+         */
         public int getBlockZ() {
             return (int) Math.floor(z);
         }

@@ -13,6 +13,11 @@ public class CubicSpline {
     private final double[] toValues;
     private final double[] gradients;
 
+    /**
+     * Constructs a CubicSpline from a list of points.
+     *
+     * @param points the list of points to construct the spline from
+     */
     public CubicSpline(List<Point> points) {
         Collections.sort(points);
 
@@ -27,11 +32,20 @@ public class CubicSpline {
         }
     }
 
+    /**
+     * Calculates the interpolated value for the given input using the provided arrays.
+     *
+     * @param in the input value
+     * @param fromValues the array of from values
+     * @param toValues the array of to values
+     * @param gradients the array of gradients
+     * @return the interpolated value
+     */
     public static double calculate(double in, double[] fromValues, double[] toValues, double[] gradients) {
         int pointIdx = floorBinarySearch(in, fromValues) - 1;
 
         int pointIdxLast = fromValues.length - 1;
-
+        
         if(pointIdx < 0) { // If to left of first point return linear function intersecting said point using point's gradient
             return gradients[0] * (in - fromValues[0]) + toValues[0];
         } else if(pointIdx == pointIdxLast) { // Do same if to right of last point
@@ -74,6 +88,12 @@ public class CubicSpline {
         return left;
     }
 
+    /**
+     * Applies the cubic spline interpolation to the given input.
+     *
+     * @param in the input value
+     * @return the interpolated value
+     */
     public double apply(double in) {
         return calculate(in, fromValues, toValues, gradients);
     }
@@ -81,6 +101,13 @@ public class CubicSpline {
 
     public record Point(double from, double to, double gradient) implements Comparable<Point> {
 
+        /**
+         * Compares this Point to another Point based on the 'from' value.
+         *
+         * @param o the other Point to compare to
+         * @return a negative integer, zero, or a positive integer as this Point's 'from' value
+         *         is less than, equal to, or greater than the specified Point's 'from' value
+         */
         @Override
         public int compareTo(@NotNull CubicSpline.Point o) {
             return Double.compare(from, o.from);
