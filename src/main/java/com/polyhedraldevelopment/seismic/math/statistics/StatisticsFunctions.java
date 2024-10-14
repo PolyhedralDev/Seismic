@@ -32,17 +32,13 @@ public class StatisticsFunctions {
      * Returns the value in a normally distributed data set that has probability p.
      * With distribution is characterized by the mean (&mu) and standard deviation (&sigma).
      *
-     * @param p     Probability of value.
+     * @param p     Probability of value. Must be in the range [0, 1].
      * @param mu    Mean (&mu) of data.
-     * @param sigma Standard deviation (&sigma) of data.
+     * @param sigma Standard deviation (&sigma) of data. Must be positive.
      *
      * @return the value corresponding to input probability.
      */
     public static double normalInverse(double p, double mu, double sigma) {
-        if(p < 0 || p > 1)
-            throw new IllegalArgumentException("Probability must be in range [0, 1]");
-        if(sigma < 0)
-            throw new IllegalArgumentException("Standard deviation must be positive.");
         if(p == 0)
             return Double.NEGATIVE_INFINITY;
         if(p == 1)

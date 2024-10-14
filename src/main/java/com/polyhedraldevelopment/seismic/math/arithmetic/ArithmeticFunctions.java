@@ -20,7 +20,7 @@ public class ArithmeticFunctions {
      * @param b a value.
      * @param c a value.
      *
-     * @return (< i > a < / i > & nbsp ; & times ; & nbsp ; < i > b < / i > & nbsp ; + & nbsp ; < i > c < / i >).
+     * @return (<i> a </i> &nbsp; &times; &nbsp; <i> b </i> &nbsp; + &nbsp; <i> c </i>).
      */
     public static double fma(double a, double b, double c) {
         if(VMConstants.HAS_FAST_SCALAR_FMA) {
