@@ -1,10 +1,5 @@
 package com.polyhedraldevelopment.seismic.math.trigonometry;
 
-import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
-
-import java.util.random.RandomGenerator;
-
-
 class TrigonometryUtils {
     private static final int lookupBits = 14;
 
@@ -30,26 +25,28 @@ class TrigonometryUtils {
 
         // Debug Test code. Does not need to be run outside of testing.
         // Test that the lookup table is correct during runtime
-//        RandomGenerator random = RandomGenerator.getDefault();
-//        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
-//            double d = -1 + 2.0 * random.nextDouble(); // Generate a random value between -1 and 1
-//            double expected = TrigonometryFunctions.sin(d);
-//            double value = StrictMath.sin(d);
-//
-//            if (!FloatingPointFunctions.equals(expected, value, 0.001)) {
-//                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d, expected, value));
-//            }
-//        }
-//
-//        for(int i = 0; i < 360; i += 90) {
-//            double rad = Math.toRadians(i);
-//            double expected = TrigonometryFunctions.sin(rad);
-//            double value = StrictMath.sin(rad);
-//
-//            if (!FloatingPointFunctions.equals(expected, value)) {
-//                throw new IllegalArgumentException(String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i, expected, value));
-//            }
-//        }
+        //        RandomGenerator random = RandomGenerator.getDefault();
+        //        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+        //            double d = -1 + 2.0 * random.nextDouble(); // Generate a random value between -1 and 1
+        //            double expected = TrigonometryFunctions.sin(d);
+        //            double value = StrictMath.sin(d);
+        //
+        //            if (!FloatingPointFunctions.equals(expected, value, 0.001)) {
+        //                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
+        //                expected, value));
+        //            }
+        //        }
+        //
+        //        for(int i = 0; i < 360; i += 90) {
+        //            double rad = Math.toRadians(i);
+        //            double expected = TrigonometryFunctions.sin(rad);
+        //            double value = StrictMath.sin(rad);
+        //
+        //            if (!FloatingPointFunctions.equals(expected, value)) {
+        //                throw new IllegalArgumentException(String.format("LUT error at cardinal direction %s (expected: %s, found: %s)
+        //                ", i, expected, value));
+        //            }
+        //        }
     }
 
     // Seismic is a double precision library, however, the sin table is a lut, which needs to be compact

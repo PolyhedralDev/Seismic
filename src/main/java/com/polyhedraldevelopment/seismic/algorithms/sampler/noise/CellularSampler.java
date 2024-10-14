@@ -281,7 +281,7 @@ public class CellularSampler extends NoiseFunction {
         if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
             distance0 = Math.sqrt(distance0);
 
-            if (returnType != ReturnType.Distance) {
+            if(returnType != ReturnType.Distance) {
                 distance1 = Math.sqrt(distance1);
             }
         }
@@ -373,7 +373,7 @@ public class CellularSampler extends NoiseFunction {
         if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
             distance0 = Math.sqrt(distance0);
 
-            if (returnType != ReturnType.Distance) {
+            if(returnType != ReturnType.Distance) {
                 distance1 = Math.sqrt(distance1);
             }
         }

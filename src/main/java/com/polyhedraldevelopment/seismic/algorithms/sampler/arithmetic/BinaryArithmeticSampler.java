@@ -32,12 +32,14 @@ public abstract class BinaryArithmeticSampler implements DerivativeSampler {
 
     @Override
     public double[] getSampleDerivative(long seed, double x, double y) {
-        return operateDerivative(((DerivativeSampler)left).getSampleDerivative(seed, x, y), ((DerivativeSampler)right).getSampleDerivative(seed, x, y));
+        return operateDerivative(((DerivativeSampler) left).getSampleDerivative(seed, x, y),
+            ((DerivativeSampler) right).getSampleDerivative(seed, x, y));
     }
 
     @Override
     public double[] getSampleDerivative(long seed, double x, double y, double z) {
-        return operateDerivative(((DerivativeSampler)left).getSampleDerivative(seed, x, y, z), ((DerivativeSampler)right).getSampleDerivative(seed, x, y, z));
+        return operateDerivative(((DerivativeSampler) left).getSampleDerivative(seed, x, y, z),
+            ((DerivativeSampler) right).getSampleDerivative(seed, x, y, z));
     }
 
     public abstract double operate(double left, double right);

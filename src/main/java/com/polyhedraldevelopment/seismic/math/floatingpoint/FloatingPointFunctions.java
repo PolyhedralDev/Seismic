@@ -21,8 +21,8 @@ public class FloatingPointFunctions {
      * Returns whether two {@code double} values are equal within a certain <i>epsilon</i> (&epsilon;),
      * {@code epsilon}.
      *
-     * @param a a value.
-     * @param b a value.
+     * @param a       a value.
+     * @param b       a value.
      * @param epsilon the epsilon value.
      *
      * @return Whether these values are equal.

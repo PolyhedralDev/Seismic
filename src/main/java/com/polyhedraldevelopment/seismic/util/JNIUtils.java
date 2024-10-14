@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class JNIUtils {
-    private static ConcurrentHashMap<String, Path> loadedLibs = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Path> loadedLibs = new ConcurrentHashMap<>();
 
-    private static AtomicBoolean loadLock = new AtomicBoolean();
+    private static final AtomicBoolean loadLock = new AtomicBoolean();
 
     /**
      * Loads a native library from the specified root path.
