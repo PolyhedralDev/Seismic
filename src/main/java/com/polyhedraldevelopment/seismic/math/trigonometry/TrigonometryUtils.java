@@ -14,7 +14,7 @@ class TrigonometryUtils {
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / lookupTableSize);
     static final double radianToIndex = (~(-1 << lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
-
+    
     static {
         sinTable = new int[lookupTableSizeWithMargin];
         for(int i = 0; i < lookupTableSizeWithMargin; i++) {
@@ -22,7 +22,13 @@ class TrigonometryUtils {
             sinTable[i] = Float.floatToRawIntBits((float) StrictMath.sin(d));
         }
 
-        //Debug Test code. Does not need to be run outside of testing.
+        // Four cardinal directions (credits: Nate)
+        for(int i = 0; i < 360; i += 90) {
+            double rad = Math.toRadians(i);
+            sinTable[(int) (rad * radianToIndex) & 0xFFFF] = Float.floatToRawIntBits((float) StrictMath.sin(rad));
+        }
+
+        // Debug Test code. Does not need to be run outside of testing.
         // Test that the lookup table is correct during runtime
 //        RandomGenerator random = RandomGenerator.getDefault();
 //        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
@@ -32,6 +38,16 @@ class TrigonometryUtils {
 //
 //            if (!FloatingPointFunctions.equals(expected, value, 0.001)) {
 //                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d, expected, value));
+//            }
+//        }
+//
+//        for(int i = 0; i < 360; i += 90) {
+//            double rad = Math.toRadians(i);
+//            double expected = TrigonometryFunctions.sin(rad);
+//            double value = StrictMath.sin(rad);
+//
+//            if (!FloatingPointFunctions.equals(expected, value)) {
+//                throw new IllegalArgumentException(String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i, expected, value));
 //            }
 //        }
     }
