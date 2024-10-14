@@ -14,7 +14,7 @@ class TrigonometryUtils {
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / lookupTableSize);
     static final double radianToIndex = (~(-1 << lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
-    
+
     static {
         sinTable = new int[lookupTableSizeWithMargin];
         for(int i = 0; i < lookupTableSizeWithMargin; i++) {
