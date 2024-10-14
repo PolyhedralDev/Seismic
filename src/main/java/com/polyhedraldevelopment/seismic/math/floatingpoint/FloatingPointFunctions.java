@@ -14,7 +14,21 @@ public class FloatingPointFunctions {
      * @return Whether these values are equal.
      */
     public static boolean equals(double a, double b) {
-        return a == b || Math.abs(a - b) < FloatingPointConstants.EPSILON;
+        return equals(a, b, FloatingPointConstants.EPSILON);
+    }
+
+    /**
+     * Returns whether two {@code double} values are equal within a certain <i>epsilon</i> (&epsilon;),
+     * {@code epsilon}.
+     *
+     * @param a a value.
+     * @param b a value.
+     * @param epsilon the epsilon value.
+     *
+     * @return Whether these values are equal.
+     */
+    public static boolean equals(double a, double b, double epsilon) {
+        return a == b || Math.abs(a - b) < epsilon;
     }
 
     /**
