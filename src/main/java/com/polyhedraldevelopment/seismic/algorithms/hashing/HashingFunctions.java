@@ -8,7 +8,7 @@ public class HashingFunctions {
      *
      * @return the hashcode of the string.
      */
-    public static long hash(String s) {
+    public static long hashString(String s) {
         if(s == null) {
             return 0;
         }
