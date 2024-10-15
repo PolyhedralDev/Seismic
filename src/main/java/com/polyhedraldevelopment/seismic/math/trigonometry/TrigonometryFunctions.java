@@ -9,7 +9,7 @@ public class TrigonometryFunctions {
      * @return the sine of the argument.
      */
     public static double sin(double angle) {
-        return TrigonometryUtils.sinLookup((int) ((long) (angle * TrigonometryUtils.radianToIndex) & 0xFFFF));
+        return TrigonometryUtils.sinLookup((int) (angle * TrigonometryUtils.radianToIndex) & 0xFFFF);
     }
 
     /**
@@ -21,7 +21,7 @@ public class TrigonometryFunctions {
      */
     public static double cos(double angle) {
         return TrigonometryUtils.sinLookup(
-            (int) ((long) (angle * TrigonometryUtils.radianToIndex + TrigonometryUtils.lookupTableSize) & 0xFFFF));
+            (int) (angle * TrigonometryUtils.radianToIndex + TrigonometryUtils.lookupTableSize) & 0xFFFF);
     }
 
     /**
