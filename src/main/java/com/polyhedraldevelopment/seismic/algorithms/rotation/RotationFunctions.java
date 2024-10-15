@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.rotation;
 
-import com.polyhedraldevelopment.seismic.types.Rotation;
-import com.polyhedraldevelopment.seismic.types.vector.Vector2;
+import com.polyhedraldevelopment.seismic.api.type.Rotation;
+import com.polyhedraldevelopment.seismic.api.vector.Vector2;
 
 
 public class RotationFunctions {
@@ -13,12 +13,12 @@ public class RotationFunctions {
      *
      * @return Rotated vector
      */
-    public static Vector2 rotateVector(Vector2 orig, Rotation r) {
-        Vector2.Mutable copy = orig.mutable();
+    public static Vector2<?, ?, ?>  rotateVector(Vector2<?, ?, ?>  orig, Rotation r) {
+        Vector2.Mutable<?, ?, ?>  copy = (Vector2.Mutable<?, ?, ?>) orig.mutable();
         switch(r) {
             case CW_90 -> copy.setX(orig.getZ()).setZ(-orig.getX());
             case CCW_90 -> copy.setX(-orig.getZ()).setZ(orig.getX());
-            case CW_180 -> copy.multiply(-1);
+            case CW_180 -> copy.mulScalar(-1);
         }
         return copy.immutable();
     }

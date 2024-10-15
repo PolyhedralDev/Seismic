@@ -5,13 +5,13 @@
  * reference the LICENSE file in the common/api directory.
  */
 
-package com.polyhedraldevelopment.seismic.api;
+package com.polyhedraldevelopment.seismic.api.sampler;
 
 
-import com.polyhedraldevelopment.seismic.types.vector.Vector2;
-import com.polyhedraldevelopment.seismic.types.vector.Vector2Int;
-import com.polyhedraldevelopment.seismic.types.vector.Vector3;
-import com.polyhedraldevelopment.seismic.types.vector.Vector3Int;
+import com.polyhedraldevelopment.seismic.api.vector.Vector2;
+import com.polyhedraldevelopment.seismic.api.vector.Vector2Int;
+import com.polyhedraldevelopment.seismic.api.vector.Vector3;
+import com.polyhedraldevelopment.seismic.api.vector.Vector3Int;
 
 
 public interface Sampler {
@@ -37,7 +37,7 @@ public interface Sampler {
      *
      * @return 3D noise value at coordinates.
      */
-    default double getSample(long seed, Vector3 vector3) {
+    default double getSample(long seed, Vector3<?, ?> vector3) {
         return getSample(seed, vector3.getX(), vector3.getY(), vector3.getZ());
     }
 
@@ -49,7 +49,7 @@ public interface Sampler {
      *
      * @return 3D noise value at coordinates.
      */
-    default double getSample(long seed, Vector3Int vector3) {
+    default double getSample(long seed, Vector3Int<?, ?> vector3) {
         return getSample(seed, vector3.getX(), vector3.getY(), vector3.getZ());
     }
 
@@ -61,7 +61,7 @@ public interface Sampler {
      *
      * @return 2D noise value at coordinates.
      */
-    default double getSample(long seed, Vector2 vector2) {
+    default double getSample(long seed, Vector2<?, ?, ?> vector2) {
         return getSample(seed, vector2.getX(), vector2.getZ());
     }
 
@@ -73,7 +73,7 @@ public interface Sampler {
      *
      * @return 2D noise value at coordinates.
      */
-    default double getSample(long seed, Vector2Int vector2) {
+    default double getSample(long seed, Vector2Int<?, ?, ?>  vector2) {
         return getSample(seed, vector2.getX(), vector2.getZ());
     }
 

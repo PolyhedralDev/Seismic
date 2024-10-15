@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.normalizer;
 
 
-import com.polyhedraldevelopment.seismic.api.Sampler;
+import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
 
 
 public class ProbabilityNormalizer extends Normalizer {

@@ -1,4 +1,4 @@
-package com.polyhedraldevelopment.seismic.api;
+package com.polyhedraldevelopment.seismic.api.sampler;
 
 /**
  * A NoiseSampler which additionally may provide a 1st directional derivative

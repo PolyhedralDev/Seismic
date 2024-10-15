@@ -1,4 +1,4 @@
-package com.polyhedraldevelopment.seismic.types;
+package com.polyhedraldevelopment.seismic.type;
 
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import org.jetbrains.annotations.NotNull;

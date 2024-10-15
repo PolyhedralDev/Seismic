@@ -1,6 +1,6 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.arithmetic;
 
-import com.polyhedraldevelopment.seismic.api.Sampler;
+import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
 
 
 public class MultiplicationSampler extends BinaryArithmeticSampler {

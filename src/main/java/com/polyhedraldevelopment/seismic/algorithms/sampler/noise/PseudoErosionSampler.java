@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 import com.polyhedraldevelopment.seismic.algorithms.hashing.HashingFunctions;
-import com.polyhedraldevelopment.seismic.api.DerivativeSampler;
+import com.polyhedraldevelopment.seismic.api.sampler.DerivativeSampler;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.normalization.NormalizationFunctions;

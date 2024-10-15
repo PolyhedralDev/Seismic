@@ -7,7 +7,7 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
-import com.polyhedraldevelopment.seismic.api.Sampler;
+import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
 
 
 public abstract class NoiseFunction implements Sampler {
