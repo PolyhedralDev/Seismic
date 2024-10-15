@@ -5,7 +5,7 @@
  * reference the LICENSE file in the common/api directory.
  */
 
-package com.polyhedraldevelopment.seismic.algorithms.sampler;
+package com.polyhedraldevelopment.seismic.api;
 
 
 import com.polyhedraldevelopment.seismic.types.vector.Vector2;

@@ -8,7 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.normalizer;
 
 
-import com.polyhedraldevelopment.seismic.algorithms.sampler.Sampler;
+import com.polyhedraldevelopment.seismic.api.Sampler;
 
 
 public class PosterizationNormalizer extends Normalizer {

@@ -8,6 +8,8 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
 
+import com.polyhedraldevelopment.seismic.api.Sampler;
+
 public class DomainWarpedSampler implements Sampler {
     private final Sampler function;
     private final Sampler warp;

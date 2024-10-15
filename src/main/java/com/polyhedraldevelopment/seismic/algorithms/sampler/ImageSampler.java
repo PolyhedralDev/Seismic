@@ -7,6 +7,8 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
+import com.polyhedraldevelopment.seismic.api.Sampler;
+
 import java.awt.image.BufferedImage;
 
 

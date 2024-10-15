@@ -8,6 +8,8 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
 
+import com.polyhedraldevelopment.seismic.api.Sampler;
+
 public class KernelSampler implements Sampler {
     private final double[][] kernel;
     private final Sampler in;

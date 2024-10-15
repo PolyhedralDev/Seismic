@@ -1,6 +1,6 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.arithmetic;
 
-import com.polyhedraldevelopment.seismic.algorithms.sampler.Sampler;
+import com.polyhedraldevelopment.seismic.api.Sampler;
 
 
 public class MaxSampler extends BinaryArithmeticSampler {
