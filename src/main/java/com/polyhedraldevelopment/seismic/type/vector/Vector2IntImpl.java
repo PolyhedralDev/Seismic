@@ -116,7 +116,7 @@ public class Vector2IntImpl implements Vector2Int<Vector2IntImpl, Vector3IntImpl
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Vector2 other)) return false;
+        if(!(obj instanceof Vector2Int<?, ?, ?> other)) return false;
         return FloatingPointFunctions.equals(this.x, other.getX()) && FloatingPointFunctions.equals(this.z, other.getZ());
     }
 

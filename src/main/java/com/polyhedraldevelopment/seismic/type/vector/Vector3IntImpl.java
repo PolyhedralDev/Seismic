@@ -117,7 +117,7 @@ public class Vector3IntImpl implements Vector3Int<Vector3IntImpl, Vector3Impl> {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Vector3Int other)) return false;
+        if(!(obj instanceof Vector3Int<?, ?> other)) return false;
         return FloatingPointFunctions.equals(x, other.getX()) && FloatingPointFunctions.equals(y, other.getY()) &&
                FloatingPointFunctions.equals(z, other.getZ());
     }
