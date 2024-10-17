@@ -41,7 +41,7 @@ public class ValueSampler extends ValueStyleNoise {
         int y0 = FloatingPointFunctions.floor(y);
         int z0 = FloatingPointFunctions.floor(z);
 
-        double xs = SmoothstepFunctions.cubicPolynomialSmoothstep( - x0);
+        double xs = SmoothstepFunctions.cubicPolynomialSmoothstep(-x0);
         double ys = SmoothstepFunctions.cubicPolynomialSmoothstep(y - y0);
         double zs = SmoothstepFunctions.cubicPolynomialSmoothstep(z - z0);
 

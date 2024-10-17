@@ -345,9 +345,11 @@ public class CellularSampler extends NoiseFunction {
                     double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
 
                     double newDistance = switch(distanceFunction) {
-                        case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                        case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
+                            ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
                         case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
-                        case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX, ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                        case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX,
+                            ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
                     };
 
                     distance1 = Math.max(Math.min(distance1, newDistance), distance0);

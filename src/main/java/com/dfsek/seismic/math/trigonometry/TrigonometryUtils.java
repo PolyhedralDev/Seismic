@@ -58,24 +58,23 @@ class TrigonometryUtils {
 
     // Seismic is a double precision library, however, the sin table is a lut, which needs to be compact
     // for the best chance of fitting in the CPU cache. For this reason the sin table is stored as float.
+
     /**
      * A replacement for the sine angle lookup table used in Riven's sin/cos implementation, both reducing the size of LUT and improving
      * the access patterns for common paired sin/cos operations.
-     *
-     *  sin(-x) = -sin(x)
-     *    ... to eliminate negative angles from the LUT.
-     *
-     *  sin(x) = sin(pi/2 - x)
-     *    ... to eliminate supplementary angles from the LUT.
-     *
+     * <p>
+     * sin(-x) = -sin(x)
+     * ... to eliminate negative angles from the LUT.
+     * <p>
+     * sin(x) = sin(pi/2 - x)
+     * ... to eliminate supplementary angles from the LUT.
+     * <p>
      * Using these identities allows us to reduce the LUT from 64K entries (256 KB) to just 16K entries (64 KB), enabling
      * it to better fit into the CPU's caches at the expense of some cycles on the fast path. The implementation has been
      * tightly optimized to avoid branching where possible and to use very quick integer operations.
      *
-     *
-     *
      * @author coderbot16   Author of the original (and very clever) implementation in Rust:
-     *  https://gitlab.com/coderbot16/i73/-/tree/master/i73-trig/src
+     *     https://gitlab.com/coderbot16/i73/-/tree/master/i73-trig/src
      * @author jellysquid3  Additional optimizations, port to Java
      */
     static double sinLookup(int index) {

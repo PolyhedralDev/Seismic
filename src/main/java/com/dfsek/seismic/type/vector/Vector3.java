@@ -148,7 +148,7 @@ public class Vector3 {
      * Returns the distance between this vector and the specified vector.
      *
      * @param distanceFunction the distance function to use
-     * @param vector the vector to calculate the distance to
+     * @param vector           the vector to calculate the distance to
      *
      * @return the distance between the two vectors
      */
@@ -163,7 +163,7 @@ public class Vector3 {
      * Returns the inverse of the distance between this vector and the specified vector.
      *
      * @param distanceFunction the distance function to use
-     * @param vector the vector to calculate the distance to
+     * @param vector           the vector to calculate the distance to
      *
      * @return the inverse of the distance between the two vectors
      */

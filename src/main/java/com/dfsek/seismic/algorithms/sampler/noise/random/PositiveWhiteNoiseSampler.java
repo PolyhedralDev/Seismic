@@ -25,11 +25,11 @@ public class PositiveWhiteNoiseSampler extends WhiteNoiseSampler {
 
     @Override
     public double getNoiseRaw(long seed, double x, double y) {
-        return (getNoiseUnmapped(seed, x, y) - 1);
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 1);
     }
 
     @Override
     public double getNoiseRaw(long seed, double x, double y, double z) {
-        return (getNoiseUnmapped(seed, x, y, z) - 1);
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1);
     }
 }

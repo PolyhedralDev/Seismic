@@ -3,6 +3,7 @@ package com.dfsek.seismic.math.algebra;
 public class AlgebraFunctions {
     // https://en.wikipedia.org/wiki/Fast_inverse_square_root
     // https://web.archive.org/web/20211215200301/https://cs.uwaterloo.ca/~m32rober/rsqrt.pdf
+
     /**
      * Returns one over positive square root of a
      * {@code double} value.

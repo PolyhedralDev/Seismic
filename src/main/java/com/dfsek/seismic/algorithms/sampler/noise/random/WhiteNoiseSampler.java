@@ -35,6 +35,17 @@ public class WhiteNoiseSampler extends NoiseFunction {
         return HashingFunctions.murmur64(hash);
     }
 
+    public static double getNoiseUnmapped(long seed, double x, double y, double z) {
+        long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) |
+                    WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+        return Double.longBitsToDouble(base);
+    }
+
+    public static double getNoiseUnmapped(long seed, double x, double y) {
+        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+        return Double.longBitsToDouble(base);
+    }
+
     public double getNoiseRaw(long seed) {
         return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) *
                2;
@@ -48,15 +59,5 @@ public class WhiteNoiseSampler extends NoiseFunction {
     @Override
     public double getNoiseRaw(long seed, double x, double y, double z) {
         return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1.5) * 2;
-    }
-
-    public static double getNoiseUnmapped(long seed, double x, double y, double z) {
-        long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
-        return Double.longBitsToDouble(base);
-    }
-
-    public static double getNoiseUnmapped(long seed, double x, double y) {
-        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
-        return Double.longBitsToDouble(base);
     }
 }
