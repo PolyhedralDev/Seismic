@@ -128,7 +128,7 @@ public final class VMConstants {
 
     private static boolean hasFastVectorFMA() {
         if(VMConstants.HAS_FMA) {
-            String value = VMConstants.getSysProp("paralithic.useVectorFMA", "auto");
+            String value = VMConstants.getSysProp("seismic.useVectorFMA", "auto");
             if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
                 // the problem is just apple silicon (this is a practical heuristic)
