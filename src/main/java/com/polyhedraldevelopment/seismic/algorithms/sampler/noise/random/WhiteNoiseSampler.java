@@ -21,14 +21,14 @@ public class WhiteNoiseSampler extends NoiseFunction {
     public WhiteNoiseSampler() {
     }
 
-    public long randomBits(long seed, double x, double y, double z) {
+    public static long randomBits(long seed, double x, double y, double z) {
         long hashX = Double.doubleToRawLongBits(x) ^ seed;
         long hashZ = Double.doubleToRawLongBits(y) ^ seed;
         long hash = (((hashX ^ (hashX >>> 32)) + ((hashZ ^ (hashZ >>> 32)) << 32)) ^ seed) + Double.doubleToRawLongBits(z);
         return HashingFunctions.murmur64(hash);
     }
 
-    public long randomBits(long seed, double x, double y) {
+    public static long randomBits(long seed, double x, double y) {
         long hashX = Double.doubleToRawLongBits(x) ^ seed;
         long hashZ = Double.doubleToRawLongBits(y) ^ seed;
         long hash = ((hashX ^ (hashX >>> 32)) + ((hashZ ^ (hashZ >>> 32)) << 32)) ^ seed;
@@ -42,21 +42,21 @@ public class WhiteNoiseSampler extends NoiseFunction {
 
     @Override
     public double getNoiseRaw(long seed, double x, double y) {
-        return (getNoiseUnmapped(seed, x, y) - 1.5) * 2;
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 1.5) * 2;
     }
 
     @Override
     public double getNoiseRaw(long seed, double x, double y, double z) {
-        return (getNoiseUnmapped(seed, x, y, z) - 1.5) * 2;
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1.5) * 2;
     }
 
-    public double getNoiseUnmapped(long seed, double x, double y, double z) {
-        long base = ((randomBits(seed, x, y, z)) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+    public static double getNoiseUnmapped(long seed, double x, double y, double z) {
+        long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
-    public double getNoiseUnmapped(long seed, double x, double y) {
-        long base = (randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+    public static double getNoiseUnmapped(long seed, double x, double y) {
+        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 }

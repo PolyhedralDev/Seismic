@@ -4,60 +4,77 @@ A Java noise library, primarily for use in [Terra](https://github.com/Polyhedral
 
 # About
 
-Seismic is a Java noise library, with a wide selection of noise functions. It started out as simply a fork of
+Seismic is a Java sampler and math library, with a wide selection of functions. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
-each noise function, but has since grown to include a much wider selection of noise functions and features.
+each sampler, but has since grown to include a much wider selection of samplers and features, including math functions useful for worldgen and other game development tasks.
 
 # Features
 
-Seismic contains a wide selection of noise functions and utilities for working with noise functions:
+Seismic contains a wide selection of samplers and math utilities, including:
 
-### Gradient Noises
+<details>
+
+<summary>Noise Samplers</summary>
+
+### Gradient:
 
 * OpenSimplex2
 * OpenSimplex2S
-* Perlin Noise
-* Simplex Noise
-* Value Noise
+* Simplex
+* Perlin
+* Value
 * Cubically Interpolated Value Noise
 * Gabor Noise
 
-### Random Noises
-
-* White Noise
-* Gaussian Noise
-
-### Other Noises
-
-* Cellular (Voronoi/Worley) Noise
-
-### Fractal Types:
+### Fractal
 
 * Brownian Motion
-* Ridged Fractal
 * Ping-Pong
+* Ridged Fractal
 
-### Normalizers
+### Random
 
-* Linear Normalizer
-* Redistribution Normalizer
-* Clamp Normalizer
+* Gaussian Noise
+* White Noise
+* Positive White Noise
 
-### Other Mutators
+### Other Noise:
+
+* Cellular (Voronoi/Worley)
+
+### Mutator:
 
 * Domain Warp
+* Cubic Spline
+* Translate
+* Linear Heightmap
+* Fractal Gavoro Pseudoerosion
 
-### Exotic Noise Function Implementations
+### Arithmetic
 
-* Image Noise Function
-* Kernel Application Noise Function
-* [Paralithic](https://github.com/PolyhedralDev/Paralithic) Expression Noise Function
+* Addition 
+* Subtraction
+* Multiplication
+* Division
+* Max
+* Min
 
-# To-Do
+### Normalizer:
 
-* Add "combining" noise function implementations, e.g. "add, subtract, multiply, divide" classes that accept 2 samplers
-  and apply the corresponding operation.
-* Implement a builder pattern for instantiating noise samplers.
+* Linear
+* Linear Map
+* Clamp
+* Posterization
+* Probability
+* Scale
+* Normal
+
+### Exotic Sampler:
+
+* Image
+* Kernel
+
+</details>
 
 # Licensing
 
