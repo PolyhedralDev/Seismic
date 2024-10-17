@@ -1,5 +1,7 @@
 package com.polyhedraldevelopment.seismic.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -20,7 +22,8 @@ public class UnsafeUtils {
                         try {
                             return UnsafeUtils.getUnsafeWithoutAccessController();
                         } catch(IllegalAccessException e) {
-                            System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
+                            Logger log = LoggerFactory.getLogger(UnsafeUtils.class);
+                            log.warn("Unsafe Unavailable :" + System.lineSeparator() + "{}", e);
                             UnsafeUtils.canUseUnsafe = false;
                             return null;
                         }
@@ -31,7 +34,8 @@ public class UnsafeUtils {
                     }
                 }
             } catch(Exception e) {
-                System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
+                Logger log = LoggerFactory.getLogger(UnsafeUtils.class);
+                log.warn("Unsafe Unavailable :" + System.lineSeparator() + "{}", e);
                 UnsafeUtils.canUseUnsafe = false;
                 return null;
             }

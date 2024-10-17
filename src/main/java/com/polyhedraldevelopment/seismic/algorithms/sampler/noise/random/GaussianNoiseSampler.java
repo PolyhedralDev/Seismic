@@ -29,7 +29,7 @@ public class GaussianNoiseSampler extends NoiseFunction {
             v2 = whiteNoiseSampler.getSample(seed++, x, y);
             s = v1 * v1 + v2 * v2;
         } while(s >= 1 || s == 0);
-        double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s) / s);
+        double multiplier = Math.sqrt(-2 * Math.log(s) / s);
         return v1 * multiplier;
     }
 
@@ -41,7 +41,7 @@ public class GaussianNoiseSampler extends NoiseFunction {
             v2 = whiteNoiseSampler.getSample(seed++, x, y, z);
             s = v1 * v1 + v2 * v2;
         } while(s >= 1 || s == 0);
-        double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s) / s);
+        double multiplier = Math.sqrt(-2 * Math.log(s) / s);
         return v1 * multiplier;
     }
 }

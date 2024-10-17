@@ -18,11 +18,13 @@
 
 package com.polyhedraldevelopment.seismic.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Logger;
 
 
 /**
@@ -65,17 +67,17 @@ final class HotspotVMOptionsUtils {
                     };
             }
         } catch(@SuppressWarnings("unused") ReflectiveOperationException | RuntimeException e) {
-            final Logger log = Logger.getLogger(HotspotVMOptionsUtils.class.getName());
+            Logger log = LoggerFactory.getLogger(HotspotVMOptionsUtils.class);
             final Module module = HotspotVMOptionsUtils.class.getModule();
             final ModuleLayer layer = module.getLayer();
             // classpath / unnamed module has no layer, so we need to check:
             if(layer != null
                && !layer.findModule("jdk.management").map(module::canRead).orElse(Boolean.FALSE)) {
-                log.warning(
+                log.warn(
                     "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
                     + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
             } else {
-                log.warning(
+                log.warn(
                     "Seismic cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
             }
         }

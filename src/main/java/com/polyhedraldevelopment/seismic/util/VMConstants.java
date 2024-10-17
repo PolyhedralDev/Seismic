@@ -18,7 +18,9 @@
 
 package com.polyhedraldevelopment.seismic.util;
 
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -195,7 +197,7 @@ public final class VMConstants {
     }
 
     private static void logSecurityWarning(String property) {
-        var log = Logger.getLogger(VMConstants.class.getName());
-        log.warning("SecurityManager prevented access to system property: " + property);
+        Logger log = LoggerFactory.getLogger(VMConstants.class);
+        log.warn("SecurityManager prevented access to system property: {}", property);
     }
 }
