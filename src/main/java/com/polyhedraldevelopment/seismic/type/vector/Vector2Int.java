@@ -30,6 +30,24 @@ public class Vector2Int {
     }
 
     /**
+     * Returns a vector with all components set to zero.
+     *
+     * @return a zero vector
+     */
+    public static @NotNull Vector2Int zero() {
+        return Vector2Int.ZERO;
+    }
+
+    /**
+     * Returns a unit vector (a vector with a length of 1).
+     *
+     * @return a unit vector
+     */
+    public static @NotNull Vector2Int unit() {
+        return Vector2Int.UNIT;
+    }
+
+    /**
      * Returns the X coordinate of the vector.
      *
      * @return the X coordinate
@@ -65,24 +83,6 @@ public class Vector2Int {
      */
     public @NotNull Vector2 toFloat() {
         return new Vector2(this.x, this.z);
-    }
-
-    /**
-     * Returns a vector with all components set to zero.
-     *
-     * @return a zero vector
-     */
-    public static @NotNull Vector2Int zero() {
-        return Vector2Int.ZERO;
-    }
-
-    /**
-     * Returns a unit vector (a vector with a length of 1).
-     *
-     * @return a unit vector
-     */
-    public static @NotNull Vector2Int unit() {
-        return Vector2Int.UNIT;
     }
 
     /**

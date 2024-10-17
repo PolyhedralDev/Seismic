@@ -36,7 +36,8 @@ public class WhiteNoiseSampler extends NoiseFunction {
     }
 
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) * 2;
+        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) *
+               2;
     }
 
     @Override

@@ -19,7 +19,8 @@ public class PositiveWhiteNoiseSampler extends WhiteNoiseSampler {
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | PositiveWhiteNoiseSampler.POSITIVE_POW1) - 1.5) * 2;
+        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | PositiveWhiteNoiseSampler.POSITIVE_POW1) -
+                1.5) * 2;
     }
 
     @Override

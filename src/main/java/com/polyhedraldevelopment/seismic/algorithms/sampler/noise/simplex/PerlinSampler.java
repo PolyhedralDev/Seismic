@@ -34,8 +34,10 @@ public class PerlinSampler extends SimplexStyleSampler {
         int x1 = x0 + NoiseFunction.PRIME_X;
         int y1 = y0 + NoiseFunction.PRIME_Y;
 
-        double xf0 = InterpolationFunctions.lerp(xs, SimplexStyleSampler.gradCoord(seed, x0, y0, xd0, yd0), SimplexStyleSampler.gradCoord(seed, x1, y0, xd1, yd0));
-        double xf1 = InterpolationFunctions.lerp(xs, SimplexStyleSampler.gradCoord(seed, x0, y1, xd0, yd1), SimplexStyleSampler.gradCoord(seed, x1, y1, xd1, yd1));
+        double xf0 = InterpolationFunctions.lerp(xs, SimplexStyleSampler.gradCoord(seed, x0, y0, xd0, yd0),
+            SimplexStyleSampler.gradCoord(seed, x1, y0, xd1, yd0));
+        double xf1 = InterpolationFunctions.lerp(xs, SimplexStyleSampler.gradCoord(seed, x0, y1, xd0, yd1),
+            SimplexStyleSampler.gradCoord(seed, x1, y1, xd1, yd1));
 
         return InterpolationFunctions.lerp(ys, xf0, xf1) * 1.4247691104677813;
     }

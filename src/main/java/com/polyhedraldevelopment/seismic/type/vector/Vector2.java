@@ -32,6 +32,24 @@ public class Vector2 {
     }
 
     /**
+     * Returns a vector with all components set to zero.
+     *
+     * @return a zero vector
+     */
+    public static @NotNull Vector2 zero() {
+        return Vector2.ZERO;
+    }
+
+    /**
+     * Returns a unit vector (a vector with a length of 1).
+     *
+     * @return a unit vector
+     */
+    public static @NotNull Vector2 unit() {
+        return Vector2.UNIT;
+    }
+
+    /**
      * Returns the X coordinate of the vector.
      *
      * @return the X coordinate
@@ -85,24 +103,6 @@ public class Vector2 {
      */
     public @NotNull Vector2Int toInt() {
         return new Vector2Int(getFloorX(), getFloorZ());
-    }
-
-    /**
-     * Returns a vector with all components set to zero.
-     *
-     * @return a zero vector
-     */
-    public static @NotNull Vector2 zero() {
-        return Vector2.ZERO;
-    }
-
-    /**
-     * Returns a unit vector (a vector with a length of 1).
-     *
-     * @return a unit vector
-     */
-    public static @NotNull Vector2 unit() {
-        return Vector2.UNIT;
     }
 
     /**

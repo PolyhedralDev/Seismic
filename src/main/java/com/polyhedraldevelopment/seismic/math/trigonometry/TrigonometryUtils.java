@@ -25,7 +25,8 @@ class TrigonometryUtils {
         // Four cardinal directions (credits: Nate)
         for(int i = 0; i < 360; i += 90) {
             double rad = Math.toRadians(i);
-            TrigonometryUtils.sinTable[(int) (rad * TrigonometryUtils.radianToIndex) & 0xFFFF] = Float.floatToRawIntBits((float) StrictMath.sin(rad));
+            TrigonometryUtils.sinTable[(int) (rad * TrigonometryUtils.radianToIndex) & 0xFFFF] = Float.floatToRawIntBits(
+                (float) StrictMath.sin(rad));
         }
 
         // Test that the lookup table is correct during runtime
@@ -48,7 +49,8 @@ class TrigonometryUtils {
 
             if(!FloatingPointFunctions.equals(expected, value)) {
                 throw new IllegalArgumentException(
-                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", Integer.valueOf(i), Double.valueOf(expected), Double.valueOf(value)));
+                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", Integer.valueOf(i),
+                        Double.valueOf(expected), Double.valueOf(value)));
             }
         }
     }

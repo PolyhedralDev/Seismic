@@ -33,6 +33,24 @@ public class Vector3 {
     }
 
     /**
+     * Returns a vector with all components set to zero.
+     *
+     * @return a zero vector
+     */
+    public static @NotNull Vector3 zero() {
+        return Vector3.ZERO;
+    }
+
+    /**
+     * Returns a unit vector (a vector with a length of 1).
+     *
+     * @return a unit vector
+     */
+    public static @NotNull Vector3 unit() {
+        return Vector3.UNIT;
+    }
+
+    /**
      * Returns the X coordinate of the vector.
      *
      * @return the X coordinate
@@ -102,24 +120,6 @@ public class Vector3 {
      */
     public @NotNull Vector3Int toInt() {
         return new Vector3Int(getFloorX(), getFloorY(), getFloorZ());
-    }
-
-    /**
-     * Returns a vector with all components set to zero.
-     *
-     * @return a zero vector
-     */
-    public static @NotNull Vector3 zero() {
-        return Vector3.ZERO;
-    }
-
-    /**
-     * Returns a unit vector (a vector with a length of 1).
-     *
-     * @return a unit vector
-     */
-    public static @NotNull Vector3 unit() {
-        return Vector3.UNIT;
     }
 
     /**

@@ -18,7 +18,8 @@ public class DistanceSampler extends NoiseFunction {
         this.oz = oz;
         this.normalize = normalize;
         this.radius = radius;
-        this.distanceAtRadius = DistanceSampler.distance2d(distanceFunction, radius, 0); // distance2d and distance3d should return the same value
+        this.distanceAtRadius = DistanceSampler.distance2d(distanceFunction, radius,
+            0); // distance2d and distance3d should return the same value
     }
 
     private static double distance2d(DistanceFunction distanceFunction, double x, double z) {

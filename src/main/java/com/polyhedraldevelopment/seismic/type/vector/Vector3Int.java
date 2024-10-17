@@ -33,6 +33,24 @@ public class Vector3Int {
     }
 
     /**
+     * Returns a vector with all components set to zero.
+     *
+     * @return a zero vector
+     */
+    public static @NotNull Vector3Int zero() {
+        return Vector3Int.ZERO;
+    }
+
+    /**
+     * Returns a unit vector (a vector with a length of 1).
+     *
+     * @return a unit vector
+     */
+    public static @NotNull Vector3Int unit() {
+        return Vector3Int.UNIT;
+    }
+
+    /**
      * Returns the X coordinate of the vector.
      *
      * @return the X coordinate
@@ -75,24 +93,6 @@ public class Vector3Int {
      */
     public @NotNull Vector3 toFloat() {
         return new Vector3(this.x, this.y, this.z);
-    }
-
-    /**
-     * Returns a vector with all components set to zero.
-     *
-     * @return a zero vector
-     */
-    public static @NotNull Vector3Int zero() {
-        return Vector3Int.ZERO;
-    }
-
-    /**
-     * Returns a unit vector (a vector with a length of 1).
-     *
-     * @return a unit vector
-     */
-    public static @NotNull Vector3Int unit() {
-        return Vector3Int.UNIT;
     }
 
     /**
