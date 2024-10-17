@@ -1,8 +1,5 @@
 package com.polyhedraldevelopment.seismic.math.floatingpoint;
 
-import com.polyhedraldevelopment.seismic.util.VMConstants;
-
-
 public class FloatingPointFunctions {
     /**
      * Returns whether two {@code double} values are equal within a certain <i>epsilon</i> (&epsilon;),
@@ -32,47 +29,36 @@ public class FloatingPointFunctions {
     }
 
     /**
-     * Returns a rounded {@code double} value to the nearest {@code long} value.
+     * Returns a rounded {@code double} value to the nearest {@code int} value.
      *
      * @param x a value.
      *
      * @return the rounded value.
      */
-    public static long round(double x) {
-        if(VMConstants.HAS_FAST_SCALAR_ROUND) {
-            return Math.round(x);
-        }
-        return x >= 0 ? (long) (x + 0.5f) : (long) (x - 0.5);
+    public static int round(double x) {
+        return x >= 0 ? (int) (x + 0.5f) : (int) (x - 0.5);
     }
 
     /**
-     * Returns the largest (closest to negative infinity) {@code long} value that is less than or equal to the {@code double} argument.
+     * Returns the largest (closest to negative infinity) {@code int} value that is less than or equal to the {@code double} argument.
      *
      * @param x a value.
      *
      * @return floored value.
      */
-    public static long floor(double x) {
-        if(VMConstants.HAS_FAST_SCALAR_FLOOR) {
-            return (long) Math.floor(x);
-        }
-        return x >= 0 ? (long) x : (long) x - 1;
+    public static int floor(double x) {
+        return x >= 0 ? (int) x : (int) x - 1;
     }
 
     /**
-     * Returns the smallest (closest to positive infinity) {@code long} value that is less than or equal to the {@code double} argument.
+     * Returns the smallest (closest to positive infinity) {@code int} value that is less than or equal to the {@code double} argument.
      *
      * @param x a value.
      *
      * @return ceilinged value.
      */
-    public static long ceil(double x) {
-        if(VMConstants.HAS_FAST_SCALAR_CEIL) {
-            return (long) Math.ceil(x);
-        }
-        long i = (long) x;
-        if(i < x) i++;
-        return i;
+    public static int ceil(double x) {
+        return x >= 0 ? (int) x + 1 : (int) x;
     }
 
     /**

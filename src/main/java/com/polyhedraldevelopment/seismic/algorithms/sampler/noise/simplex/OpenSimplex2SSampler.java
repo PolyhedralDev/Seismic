@@ -8,6 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex;
 
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 
 
 /**
@@ -29,8 +30,8 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         y += s;
 
 
-        int i = (int) Math.floor(x);
-        int j = (int) Math.floor(y);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
         double xi = x - i;
         double yi = y - j;
 
@@ -136,9 +137,9 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         z = r - z;
 
 
-        int i = (int) Math.floor(x);
-        int j = (int) Math.floor(y);
-        int k = (int) Math.floor(z);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
+        int k = FloatingPointFunctions.floor(z);
         double xi = x - i;
         double yi = y - j;
         double zi = z - k;
@@ -325,8 +326,8 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         y += s;
 
 
-        int i = (int) Math.floor(x);
-        int j = (int) Math.floor(y);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
         double xi = x - i;
         double yi = y - j;
 
@@ -494,9 +495,9 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
         z = r - z;
 
 
-        int i = (int) Math.floor(x);
-        int j = (int) Math.floor(y);
-        int k = (int) Math.floor(z);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
+        int k = FloatingPointFunctions.floor(z);
         double xi = x - i;
         double yi = y - j;
         double zi = z - k;

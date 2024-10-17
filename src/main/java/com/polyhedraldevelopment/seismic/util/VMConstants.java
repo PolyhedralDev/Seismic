@@ -38,7 +38,7 @@ public final class VMConstants {
      * True if jvmci is enabled (e.g. graalvm)
      */
     public static final boolean IS_JVMCI_VM =
-        HotspotVMOptionsUtils.get("UseJVMCICompiler").map(Boolean::valueOf).orElse(Boolean.FALSE).booleanValue();
+        HotspotVMOptionsUtils.get("UseJVMCICompiler").map(Boolean::valueOf).orElse(Boolean.FALSE);
     private static final String UNKNOWN = "Unknown";
     /**
      * JVM vendor info.
@@ -92,17 +92,17 @@ public final class VMConstants {
      * true if FMA likely means a cpu instruction and not BigDecimal logic.
      */
     private static final boolean HAS_FMA =
-        (!VMConstants.IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(Boolean.FALSE).booleanValue();
+        (!VMConstants.IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(Boolean.FALSE);
     /**
      * maximum supported vectorsize.
      */
     private static final int MAX_VECTOR_SIZE =
-        HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(Integer.valueOf(0)).intValue();
+        HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(Integer.valueOf(0));
     /**
      * true for an AMD cpu with SSE4a instructions.
      */
     private static final boolean HAS_SSE4A =
-        HotspotVMOptionsUtils.get("UseXmmI2F").map(Boolean::valueOf).orElse(Boolean.FALSE).booleanValue();
+        HotspotVMOptionsUtils.get("UseXmmI2F").map(Boolean::valueOf).orElse(Boolean.FALSE);
     /**
      * true if we know VFMA has faster throughput than separate vmul/vadd.
      */
@@ -111,18 +111,6 @@ public final class VMConstants {
      * true if we know FMA has faster throughput than separate mul/add.
      */
     public static final boolean HAS_FAST_SCALAR_FMA = VMConstants.hasFastScalarFMA();
-    /**
-     * true if we know ROUND intrinsics are available.
-     */
-    public static final boolean HAS_FAST_SCALAR_ROUND = VMConstants.hasFastScalarRound();
-    /**
-     * true if we know FLOOR intrinsics are available.
-     */
-    public static final boolean HAS_FAST_SCALAR_FLOOR = VMConstants.hasFastScalarRound();
-    /**
-     * true if we know CEIL intrinsics are available.
-     */
-    public static final boolean HAS_FAST_SCALAR_CEIL = VMConstants.hasFastScalarRound();
 
     private VMConstants() {
     } // can't construct
@@ -162,7 +150,7 @@ public final class VMConstants {
 
     private static boolean hasFastScalarFMA() {
         if(VMConstants.HAS_FMA) {
-            String value = VMConstants.getSysProp("paralithic.useScalarFMA", "auto");
+            String value = VMConstants.getSysProp("seismic.useScalarFMA", "auto");
             if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
                 // the problem is just apple silicon (this is a practical heuristic)
@@ -182,11 +170,6 @@ public final class VMConstants {
         }
         // everyone else is slow, until proven otherwise by benchmarks
         return false;
-    }
-
-    private static boolean hasFastScalarRound() {
-        //TODO extend to other architectures
-        return VMConstants.HAS_SSE4A;
     }
 
     private static String getSysProp() {

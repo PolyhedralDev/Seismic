@@ -8,6 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex;
 
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 
@@ -18,8 +19,8 @@ public class PerlinSampler extends SimplexStyleSampler {
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
-        int x0 = (int) Math.floor(x);
-        int y0 = (int) Math.floor(y);
+        int x0 = FloatingPointFunctions.floor(x);
+        int y0 = FloatingPointFunctions.floor(y);
 
         double xd0 = x - x0;
         double yd0 = y - y0;
@@ -45,9 +46,9 @@ public class PerlinSampler extends SimplexStyleSampler {
     @Override
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
-        int x0 = (int) Math.floor(x);
-        int y0 = (int) Math.floor(y);
-        int z0 = (int) Math.floor(z);
+        int x0 = FloatingPointFunctions.floor(x);
+        int y0 = FloatingPointFunctions.floor(y);
+        int z0 = FloatingPointFunctions.floor(z);
 
         double xd0 = x - x0;
         double yd0 = y - y0;

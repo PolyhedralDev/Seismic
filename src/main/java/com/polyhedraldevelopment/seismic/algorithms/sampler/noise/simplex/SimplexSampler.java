@@ -7,6 +7,9 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex;
 
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+
+
 public class SimplexSampler extends SimplexStyleSampler {
     private static final Double2[] GRAD_2D = {
         new Double2(-1, -1), new Double2(1, -1), new Double2(-1, 1), new Double2(1, 1),
@@ -61,8 +64,8 @@ public class SimplexSampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
         double t = (x + y) * SimplexSampler.F2;
-        int i = (int) Math.floor(x + t);
-        int j = (int) Math.floor(y + t);
+        int i = FloatingPointFunctions.floor(x + t);
+        int j = FloatingPointFunctions.floor(y + t);
 
         t = (i + j) * SimplexSampler.G2;
         double X0 = i - t;
@@ -118,9 +121,9 @@ public class SimplexSampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         double t = (x + y + z) * SimplexSampler.F3;
-        int i = (int) Math.floor(x + t);
-        int j = (int) Math.floor(y + t);
-        int k = (int) Math.floor(z + t);
+        int i = FloatingPointFunctions.floor(x + t);
+        int j = FloatingPointFunctions.floor(y + t);
+        int k = FloatingPointFunctions.floor(z + t);
 
         t = (i + j + k) * SimplexSampler.G3;
         double x0 = x - (i - t);

@@ -10,6 +10,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 import com.polyhedraldevelopment.seismic.algorithms.hashing.HashingFunctions;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
 
 
@@ -41,8 +42,8 @@ public class GaborNoiseSampler extends NoiseFunction {
     private double gaborNoise(long seed, double x, double y) {
         x /= kernelRadius;
         y /= kernelRadius;
-        int xi = (int) Math.floor(x);
-        int yi = (int) Math.floor(y);
+        int xi = FloatingPointFunctions.floor(x);
+        int yi = FloatingPointFunctions.floor(y);
         double xf = x - xi;
         double yf = y - yi;
         double noise = 0;

@@ -31,8 +31,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         y += s;
 
 
-        int i = (int) FloatingPointFunctions.round(x);
-        int j = (int) FloatingPointFunctions.round(y);
+        int i = FloatingPointFunctions.round(x);
+        int j = FloatingPointFunctions.round(y);
         double xi = x - i;
         double yi = y - j;
 
@@ -87,9 +87,9 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         z = r - z;
 
 
-        int i = (int) FloatingPointFunctions.round(x);
-        int j = (int) FloatingPointFunctions.round(y);
-        int k = (int) FloatingPointFunctions.round(z);
+        int i = FloatingPointFunctions.round(x);
+        int j = FloatingPointFunctions.round(y);
+        int k = FloatingPointFunctions.round(z);
         double x0 = x - i;
         double y0 = y - j;
         double z0 = z - k;
@@ -180,8 +180,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         y += s;
 
 
-        int i = (int) Math.floor(x);
-        int j = (int) Math.floor(y);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
         double xi = x - i;
         double yi = y - j;
 
@@ -263,9 +263,9 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         z = r - z;
 
 
-        int i = (int) Math.round(x);
-        int j = (int) Math.round(y);
-        int k = (int) Math.round(z);
+        int i = FloatingPointFunctions.round(x);
+        int j = FloatingPointFunctions.round(y);
+        int k = FloatingPointFunctions.round(z);
         double x0 = x - i;
         double y0 = y - j;
         double z0 = z - k;

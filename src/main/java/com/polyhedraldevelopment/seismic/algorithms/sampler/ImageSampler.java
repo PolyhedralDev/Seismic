@@ -7,6 +7,7 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 import java.awt.image.BufferedImage;
@@ -26,8 +27,8 @@ public class ImageSampler implements Sampler {
 
     @Override
     public double getSample(long seed, double x, double y) {
-        return ((channel.getChannel(image.getRGB(Math.floorMod((int) Math.floor(x * frequency), image.getWidth()),
-            Math.floorMod((int) Math.floor(y * frequency), image.getHeight()))) / 255D) - 0.5) *
+        return ((channel.getChannel(image.getRGB(Math.floorMod(FloatingPointFunctions.floor(x * frequency), image.getWidth()),
+            Math.floorMod(FloatingPointFunctions.floor(y * frequency), image.getHeight()))) / 255D) - 0.5) *
                2;
     }
 

@@ -8,6 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.normalizer;
 
 
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
@@ -21,6 +22,6 @@ public class PosterizationNormalizer extends Normalizer {
 
     @Override
     public double normalize(double in) {
-        return (int) Math.round((in + 1) / stepSize) * stepSize - 1;
+        return FloatingPointFunctions.round((in + 1) / stepSize) * stepSize - 1;
     }
 }

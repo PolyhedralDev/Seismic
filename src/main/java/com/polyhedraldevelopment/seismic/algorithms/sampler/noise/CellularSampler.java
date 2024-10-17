@@ -9,6 +9,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 import com.polyhedraldevelopment.seismic.algorithms.hashing.HashingFunctions;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
@@ -228,8 +229,8 @@ public class CellularSampler extends NoiseFunction {
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
-        int xr = (int) Math.round(x);
-        int yr = (int) Math.round(y);
+        int xr = FloatingPointFunctions.round(x);
+        int yr = FloatingPointFunctions.round(y);
 
         double distance0 = Double.MAX_VALUE;
         double distance1 = Double.MAX_VALUE;
@@ -308,9 +309,9 @@ public class CellularSampler extends NoiseFunction {
     @Override
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
-        int xr = (int) Math.round(x);
-        int yr = (int) Math.round(y);
-        int zr = (int) Math.round(z);
+        int xr = FloatingPointFunctions.round(x);
+        int yr = FloatingPointFunctions.round(y);
+        int zr = FloatingPointFunctions.round(z);
 
         double distance0 = Double.MAX_VALUE;
         double distance1 = Double.MAX_VALUE;

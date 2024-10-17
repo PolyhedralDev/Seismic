@@ -1,5 +1,8 @@
 package com.polyhedraldevelopment.seismic.math.normalization;
 
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+
+
 public class NormalizationFunctions {
     /**
      * Returns the normalized index based on the size.
@@ -10,7 +13,7 @@ public class NormalizationFunctions {
      * @return the normalized index.
      */
     public static int normalizeIndex(double val, int size) {
-        return Math.max(Math.min((int) Math.floor(((val + 1D) / 2D) * size), size - 1), 0);
+        return Math.max(Math.min(FloatingPointFunctions.floor(((val + 1D) / 2D) * size), size - 1), 0);
     }
 
     /**

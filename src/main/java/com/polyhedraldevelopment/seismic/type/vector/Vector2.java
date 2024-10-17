@@ -73,7 +73,7 @@ public class Vector2 {
      * @return the floor value of the X coordinate
      */
     public int getFloorX() {
-        return (int) Math.floor(x);
+        return FloatingPointFunctions.floor(x);
     }
 
     /**
@@ -82,7 +82,7 @@ public class Vector2 {
      * @return the floor value of the Z coordinate
      */
     public int getFloorZ() {
-        return (int) Math.floor(z);
+        return FloatingPointFunctions.floor(z);
     }
 
     /**

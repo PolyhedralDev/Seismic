@@ -9,6 +9,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.value;
 
 
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 
@@ -16,8 +17,8 @@ public class ValueCubicSampler extends ValueStyleNoise {
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
-        int x1 = (int) Math.floor(x);
-        int y1 = (int) Math.floor(y);
+        int x1 = FloatingPointFunctions.floor(x);
+        int y1 = FloatingPointFunctions.floor(y);
 
         double xs = x - x1;
         double ys = y - y1;
@@ -54,9 +55,9 @@ public class ValueCubicSampler extends ValueStyleNoise {
     @Override
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
-        int x1 = (int) Math.floor(x);
-        int y1 = (int) Math.floor(y);
-        int z1 = (int) Math.floor(z);
+        int x1 = FloatingPointFunctions.floor(x);
+        int y1 = FloatingPointFunctions.floor(y);
+        int z1 = FloatingPointFunctions.floor(z);
 
         double xs = x - x1;
         double ys = y - y1;

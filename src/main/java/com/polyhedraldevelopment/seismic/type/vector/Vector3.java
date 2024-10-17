@@ -83,7 +83,7 @@ public class Vector3 {
      * @return the floor value of the X coordinate
      */
     public int getFloorX() {
-        return (int) Math.floor(this.x);
+        return FloatingPointFunctions.floor(this.x);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Vector3 {
      * @return the floor value of the Y coordinate
      */
     public int getFloorY() {
-        return (int) Math.floor(this.y);
+        return FloatingPointFunctions.floor(this.y);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Vector3 {
      * @return the floor value of the Z coordinate
      */
     public int getFloorZ() {
-        return (int) Math.floor(this.z);
+        return FloatingPointFunctions.floor(this.z);
     }
 
     /**
