@@ -26,11 +26,11 @@ public class DistanceSampler extends NoiseFunction {
     }
 
     private static double distance2d(DistanceFunction distanceFunction, double x, double z) {
-        distanceFunction.getDistance(x, z);
+        return distanceFunction.getDistance(x, z);
     }
 
     private static double distance3d(DistanceFunction distanceFunction, double x, double y, double z) {
-        distanceFunction.getDistance(x, y, z);
+        return distanceFunction.getDistance(x, y, z);
     }
 
     @Override
