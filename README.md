@@ -1,12 +1,17 @@
 # Seismic
+![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&label=version)
 
-A Java sampler, math, and type library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev) projects.
+---
+
+<big><b>A Java sampler, math, and type library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev) projects.</b></big>
 
 # About
 
 Seismic is a Java sampler, math, and type library, with a wide selection of functions and types. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
 each sampler, but has since grown to include a much wider selection of samplers and features, including math functions and types. Where there is overlap with Java's Math class it is assumed that Seismic's functions are faster, sometimes trading a reasonable amount of accuracy or handling of special floating point values.
+
+Seismic is lightweight and only depends on JetBrains' [Annotations](https://github.com/JetBrains/java-annotations) and [SLF4J](http://www.slf4j.org/). However, it is recommended to use Seismic with a HotSpot based JDK as Seismic hooks into HotSpot's internals for optimal performance.
 
 # Features
 
