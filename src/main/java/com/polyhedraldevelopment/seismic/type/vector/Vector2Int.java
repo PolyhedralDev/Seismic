@@ -170,7 +170,15 @@ public class Vector2Int {
         return new Vector2Int.Mutable(this.x, this.z);
     }
 
-    
+    /**
+     * Returns if the vector is normalized.
+     *
+     * @return whether the vector is normalized
+     */
+    public boolean isNormalized() {
+        return FloatingPointFunctions.equals(this.lengthSquared(), 1);
+    }
+
     public int hashCode() {
         return (31 * x) + z;
     }
@@ -424,6 +432,22 @@ public class Vector2Int {
                 }
             }
             return this;
+        }
+
+        /**
+         * Rotates the vector by the specified rotation.
+         *
+         * @param angle the angle to rotate the vector about (in radians)
+         * @return the rotated vector
+         */
+        public @NotNull Vector2Int.Mutable rotate(int angle) {
+            double angleCos = Math.cos(angle);
+            double angleSin = Math.sin(angle);
+
+            double newX = angleCos * this.x - angleSin * this.z;
+            double newZ = angleSin * this.x + angleCos * this.z;
+
+            return this.set((int) newX, (int) newZ);
         }
 
         /**

@@ -1,5 +1,6 @@
 package com.polyhedraldevelopment.seismic.type.vector;
 
+import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
 import com.polyhedraldevelopment.seismic.type.Rotation;
 import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
@@ -206,6 +207,15 @@ public class Vector3 {
      */
     public @NotNull Vector3.Mutable mutable() {
         return new Vector3.Mutable(this.x, this.y, this.z);
+    }
+
+    /**
+     * Returns if the vector is normalized.
+     *
+     * @return whether the vector is normalized
+     */
+    public boolean isNormalized() {
+        return FloatingPointFunctions.equals(this.lengthSquared(), 1);
     }
 
     
@@ -475,32 +485,159 @@ public class Vector3 {
             return this;
         }
 
-
-        //TODO PROPER ROTATION
         /**
-         * Rotates the vector by the specified rotation.
+         * Rotates the vector around a given arbitrary axis in 3D space.
+         *
+         * @param axis     the axis to rotate the vector around
+         * @param rotation the angle to rotate the vector around the axis
+         *
+         * @return the same vector
+         */
+        public @NotNull Mutable rotateAroundAxis(@NotNull Vector3 axis, Rotation rotation) {
+            return rotateAroundAxis(axis, Math.toRadians(rotation.getDegrees()));
+
+        }
+
+        /**
+         * Rotates the vector around a given arbitrary axis in 3D space.
+         *
+         * @param axis  the axis to rotate the vector around
+         * @param angle the angle to rotate the vector around the axis
+         *
+         * @return the same vector
+         *
+         */
+        @NotNull
+        public Mutable rotateAroundAxis(@NotNull Vector3 axis, double angle) {
+            return rotateAroundNonUnitAxis(axis.isNormalized() ? axis : axis.mutable().normalize().immutable(), angle);
+        }
+
+        /**
+         * Rotates the vector around a given arbitrary axis in 3D space.
+         *
+         * @param axis     the axis to rotate the vector around
+         * @param rotation the angle to rotate the vector around the axis
+         *
+         * @return the same vector
+         */
+        public @NotNull Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, Rotation rotation) {
+            return rotateAroundNonUnitAxis(axis, Math.toRadians(rotation.getDegrees()));
+        }
+
+        /**
+         * Rotates the vector around a given arbitrary axis in 3D space.
+         *
+         * @param axis  the axis to rotate the vector around
+         * @param angle the angle to rotate the vector around the axis
+         *
+         * @return the same vector
+         *
+         */
+        @NotNull
+        public Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, double angle) {
+            double x = getX(), y = getY(), z = getZ();
+            double x2 = axis.getX(), y2 = axis.getY(), z2 = axis.getZ();
+
+            double cosTheta = TrigonometryFunctions.cos(angle);
+            double sinTheta = TrigonometryFunctions.sin(angle);
+            double dotProduct = this.dot(axis);
+
+            double xPrime = x2 * dotProduct * (1d - cosTheta)
+                            + x * cosTheta
+                            + (-z2 * y + y2 * z) * sinTheta;
+            double yPrime = y2 * dotProduct * (1d - cosTheta)
+                            + y * cosTheta
+                            + (z2 * x - x2 * z) * sinTheta;
+            double zPrime = z2 * dotProduct * (1d - cosTheta)
+                            + z * cosTheta
+                            + (-y2 * x + x2 * y) * sinTheta;
+
+            return setX(xPrime).setY(yPrime).setZ(zPrime);
+        }
+
+        /**
+         * Rotates the vector around the X axis.
          *
          * @param rotation the rotation to apply
-         * @return the rotated vector
+         *
+         * @return the same vector
          */
-        public @NotNull Vector3.Mutable rotate(@NotNull Rotation rotation) {
-            switch(rotation) {
-                case CW_90 -> {
-                    double tempX = this.x;
-                    this.x = this.z;
-                    this.z = -tempX;
-                }
-                case CCW_90 -> {
-                    double tempX = this.x;
-                    this.x = -this.z;
-                    this.z = tempX;
-                }
-                case CW_180 -> {
-                    this.x *= -1;
-                    this.z *= -1;
-                }
-            }
-            return this;
+        public @NotNull Mutable rotateAroundX(Rotation rotation) {
+            return rotateAroundX(Math.toRadians(rotation.getDegrees()));
+        }
+
+        /**
+         * Rotates the vector around the X axis.
+         *
+         * @param angle the angle to rotate the vector about (in radians)
+         *
+         * @return the same vector
+         */
+        @NotNull
+        public Mutable rotateAroundX(double angle) {
+            double angleCos = TrigonometryFunctions.cos(angle);
+            double angleSin = TrigonometryFunctions.sin(angle);
+
+            double y = angleCos * getY() - angleSin * getZ();
+            double z = angleSin * getY() + angleCos * getZ();
+            return setY(y).setZ(z);
+        }
+
+        /**
+         * Rotates the vector around the Y axis.
+         *
+         * @param rotation the rotation to apply
+         *
+         * @return the same vector
+         */
+        public @NotNull Mutable rotateAroundY(Rotation rotation) {
+            return rotateAroundY(Math.toRadians(rotation.getDegrees()));
+        }
+
+        /**
+         * Rotates the vector around the Y axis.
+         *
+         * @param angle the angle to rotate the vector about (in radians)
+         *
+         * @return the same vector
+         */
+        @NotNull
+        public Mutable rotateAroundY(double angle) {
+            double angleCos = TrigonometryFunctions.cos(angle);
+            double angleSin = TrigonometryFunctions.sin(angle);
+
+            double x = angleCos * getX() + angleSin * getZ();
+            double z = -angleSin * getX() + angleCos * getZ();
+            return setX(x).setZ(z);
+        }
+
+        /**
+         * Rotates the vector around the Z axis.
+         *
+         * @param rotation the rotation to apply
+         *
+         * @return the same vector
+         */
+        public @NotNull Mutable rotateAroundZ(Rotation rotation) {
+            return rotateAroundZ(Math.toRadians(rotation.getDegrees()));
+
+        }
+
+        /**
+         * Rotates the vector around the Z axis.
+         *
+         * @param angle the angle to rotate the vector about (in radians)
+         *
+         * @return the same vector
+         */
+        @NotNull
+        public Mutable rotateAroundZ(double angle) {
+            double angleCos = TrigonometryFunctions.cos(angle);
+            double angleSin = TrigonometryFunctions.sin(angle);
+
+            double x = angleCos * getX() - angleSin * getY();
+            double y = angleSin * getX() + angleCos * getY();
+            return setX(x).setY(y);
         }
 
         /**
