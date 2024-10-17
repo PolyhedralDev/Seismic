@@ -1,10 +1,10 @@
 package com.polyhedraldevelopment.seismic.type.vector;
 
-import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
-import com.polyhedraldevelopment.seismic.type.Rotation;
 import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
+import com.polyhedraldevelopment.seismic.type.Rotation;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -25,6 +25,7 @@ public class Vector3 {
      * @param x the x-coordinate of the vector
      * @param y the y-coordinate of the vector
      * @param z the z-coordinate of the vector
+     *
      * @return a new `Vector3Impl` instance with the specified coordinates
      */
     public static Vector3 of(double x, double y, double z) {
@@ -162,6 +163,7 @@ public class Vector3 {
      * Returns the distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the distance to
+     *
      * @return the distance between the two vectors
      */
     public double distance(@NotNull Vector3 vector) {
@@ -172,6 +174,7 @@ public class Vector3 {
      * Returns the squared distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the squared distance to
+     *
      * @return the squared distance between the two vectors
      */
     public double distanceSquared(@NotNull Vector3 vector) {
@@ -185,6 +188,7 @@ public class Vector3 {
      * Calculates the dot product of this vector and the specified vector.
      *
      * @param vector the vector to dot with
+     *
      * @return the dot product of the two vectors
      */
     public double dot(@NotNull Vector3 vector) {
@@ -218,7 +222,7 @@ public class Vector3 {
         return FloatingPointFunctions.equals(this.lengthSquared(), 1);
     }
 
-    
+
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Long.hashCode(Double.doubleToLongBits(this.x));
@@ -227,14 +231,14 @@ public class Vector3 {
         return hash;
     }
 
-    
+
     public boolean equals(Object obj) {
         if(!(obj instanceof Vector3 other)) return false;
         return FloatingPointFunctions.equals(x, other.x) && FloatingPointFunctions.equals(y, other.y) &&
                FloatingPointFunctions.equals(z, other.z);
     }
 
-    
+
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
@@ -242,20 +246,21 @@ public class Vector3 {
 
     public static class Mutable extends Vector3 {
 
+        private Mutable(double x, double y, double z) {
+            super(x, y, z);
+        }
+
         /**
          * Creates a new instance of `Mutable` with the specified x, y, and z coordinates.
          *
          * @param x the x-coordinate of the vector
          * @param y the y-coordinate of the vector
          * @param z the z-coordinate of the vector
+         *
          * @return a new `Mutable` instance with the specified coordinates
          */
         public static Vector3.Mutable of(double x, double y, double z) {
             return new Vector3.Mutable(x, y, z);
-        }
-
-        private Mutable(double x, double y, double z) {
-            super(x, y, z);
         }
 
         /**
@@ -264,6 +269,7 @@ public class Vector3 {
          * @param x the X coordinate to set
          * @param y the Y coordinate to set
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable set(double x, double y, double z) {
@@ -277,6 +283,7 @@ public class Vector3 {
          * Sets the X coordinate of the vector.
          *
          * @param x the X coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable setX(double x) {
@@ -288,6 +295,7 @@ public class Vector3 {
          * Sets the Y coordinate of the vector.
          *
          * @param y the Y coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable setY(double y) {
@@ -299,6 +307,7 @@ public class Vector3 {
          * Sets the Z coordinate of the vector.
          *
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable setZ(double z) {
@@ -312,6 +321,7 @@ public class Vector3 {
          * @param x the X coordinate to add
          * @param y the Y coordinate to add
          * @param z the Z coordinate to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable add(double x, double y, double z) {
@@ -325,6 +335,7 @@ public class Vector3 {
          * Adds the specified vector to this vector.
          *
          * @param vector the vector to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable add(@NotNull Vector3 vector) {
@@ -338,6 +349,7 @@ public class Vector3 {
          * Adds the specified scalar to the X, Y, and Z coordinates of the vector.
          *
          * @param scalar the scalar to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable addScalar(double scalar) {
@@ -353,6 +365,7 @@ public class Vector3 {
          * @param x the X coordinate to subtract
          * @param y the Y coordinate to subtract
          * @param z the Z coordinate to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable sub(double x, double y, double z) {
@@ -366,6 +379,7 @@ public class Vector3 {
          * Subtracts the specified vector from this vector.
          *
          * @param vector the vector to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable sub(@NotNull Vector3 vector) {
@@ -379,6 +393,7 @@ public class Vector3 {
          * Subtracts the specified scalar from the X, Y, and Z coordinates of the vector.
          *
          * @param scalar the scalar to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable subScalar(double scalar) {
@@ -394,6 +409,7 @@ public class Vector3 {
          * @param x the X coordinate to multiply by
          * @param y the Y coordinate to multiply by
          * @param z the Z coordinate to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable mul(double x, double y, double z) {
@@ -407,6 +423,7 @@ public class Vector3 {
          * Multiplies the vector by the specified vector.
          *
          * @param vector the vector to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable mul(@NotNull Vector3 vector) {
@@ -420,6 +437,7 @@ public class Vector3 {
          * Multiplies the vector by the specified scalar.
          *
          * @param scalar the scalar to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable mulScalar(double scalar) {
@@ -435,6 +453,7 @@ public class Vector3 {
          * @param x the X coordinate to divide by
          * @param y the Y coordinate to divide by
          * @param z the Z coordinate to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable div(double x, double y, double z) {
@@ -448,6 +467,7 @@ public class Vector3 {
          * Divides the vector by the specified vector.
          *
          * @param vector the vector to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable div(@NotNull Vector3 vector) {
@@ -461,6 +481,7 @@ public class Vector3 {
          * Divides the vector by the specified scalar.
          *
          * @param scalar the scalar to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector3.Mutable divScalar(double scalar) {
@@ -477,7 +498,7 @@ public class Vector3 {
          */
         public @NotNull Vector3.Mutable normalize() {
             double length = length();
-            if (length != 0) {
+            if(length != 0) {
                 this.x /= length;
                 this.y /= length;
                 this.z /= length;
@@ -505,10 +526,8 @@ public class Vector3 {
          * @param angle the angle to rotate the vector around the axis
          *
          * @return the same vector
-         *
          */
-        @NotNull
-        public Mutable rotateAroundAxis(@NotNull Vector3 axis, double angle) {
+        public @NotNull Mutable rotateAroundAxis(@NotNull Vector3 axis, double angle) {
             return rotateAroundNonUnitAxis(axis.isNormalized() ? axis : axis.mutable().normalize().immutable(), angle);
         }
 
@@ -531,12 +550,10 @@ public class Vector3 {
          * @param angle the angle to rotate the vector around the axis
          *
          * @return the same vector
-         *
          */
-        @NotNull
-        public Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, double angle) {
+        public @NotNull Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, double angle) {
             double x = getX(), y = getY(), z = getZ();
-            double x2 = axis.getX(), y2 = axis.getY(), z2 = axis.getZ();
+            double x2 = axis.x, y2 = axis.y, z2 = axis.z;
 
             double cosTheta = TrigonometryFunctions.cos(angle);
             double sinTheta = TrigonometryFunctions.sin(angle);
@@ -573,8 +590,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        @NotNull
-        public Mutable rotateAroundX(double angle) {
+        public @NotNull Mutable rotateAroundX(double angle) {
             double angleCos = TrigonometryFunctions.cos(angle);
             double angleSin = TrigonometryFunctions.sin(angle);
 
@@ -601,8 +617,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        @NotNull
-        public Mutable rotateAroundY(double angle) {
+        public @NotNull Mutable rotateAroundY(double angle) {
             double angleCos = TrigonometryFunctions.cos(angle);
             double angleSin = TrigonometryFunctions.sin(angle);
 
@@ -630,8 +645,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        @NotNull
-        public Mutable rotateAroundZ(double angle) {
+        public @NotNull Mutable rotateAroundZ(double angle) {
             double angleCos = TrigonometryFunctions.cos(angle);
             double angleSin = TrigonometryFunctions.sin(angle);
 

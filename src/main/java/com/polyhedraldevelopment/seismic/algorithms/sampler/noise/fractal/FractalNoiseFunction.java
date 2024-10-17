@@ -7,8 +7,8 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.fractal;
 
-import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.DerivativeNoiseFunction;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {

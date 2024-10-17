@@ -1,9 +1,9 @@
 package com.polyhedraldevelopment.seismic.type.vector;
 
-import com.polyhedraldevelopment.seismic.type.Rotation;
 import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.polyhedraldevelopment.seismic.type.Rotation;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -24,6 +24,7 @@ public class Vector2 {
      *
      * @param x the x-coordinate of the vector
      * @param z the z-coordinate of the vector
+     *
      * @return a new `Vector2Impl` instance with the specified coordinates
      */
     public static Vector2 of(double x, double z) {
@@ -52,7 +53,7 @@ public class Vector2 {
      * Returns the floor value of the X coordinate.
      *
      * @return the floor value of the X coordinate
-     */ 
+     */
     public int getFloorX() {
         return (int) Math.floor(x);
     }
@@ -70,6 +71,7 @@ public class Vector2 {
      * Extrudes the vector to a 3D vector by adding the specified Y coordinate.
      *
      * @param y the Y coordinate to add
+     *
      * @return the extruded 3D vector
      */
     public @NotNull Vector3 extrude(double y) {
@@ -144,6 +146,7 @@ public class Vector2 {
      * Returns the distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the distance to
+     *
      * @return the distance between the two vectors
      */
     public double distance(@NotNull Vector2 vector) {
@@ -154,6 +157,7 @@ public class Vector2 {
      * Returns the squared distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the squared distance to
+     *
      * @return the squared distance between the two vectors
      */
     public double distanceSquared(@NotNull Vector2 vector) {
@@ -166,6 +170,7 @@ public class Vector2 {
      * Calculates the dot product of this vector and the specified vector.
      *
      * @param vector the vector to dot with
+     *
      * @return the dot product of the two vectors
      */
     public double dot(@NotNull Vector2 vector) {
@@ -207,32 +212,33 @@ public class Vector2 {
         return hash;
     }
 
-    
+
     public boolean equals(Object obj) {
         if(!(obj instanceof Vector2 other)) return false;
         return FloatingPointFunctions.equals(this.x, other.x) && FloatingPointFunctions.equals(this.z, other.z);
     }
 
-    
+
     public String toString() {
         return "(" + x + ", " + z + ")";
     }
 
     public static class Mutable extends Vector2 {
 
+        private Mutable(double x, double z) {
+            super(x, z);
+        }
+
         /**
          * Creates a new instance of `Mutable` with the specified x and z coordinates.
          *
          * @param x the x-coordinate of the vector
          * @param z the z-coordinate of the vector
+         *
          * @return a new `Mutable` instance with the specified coordinates
          */
         public static Vector2.Mutable of(double x, double z) {
             return new Vector2.Mutable(x, z);
-        }
-
-        private Mutable(double x, double z) {
-            super(x, z);
         }
 
         /**
@@ -240,6 +246,7 @@ public class Vector2 {
          *
          * @param x the X coordinate to set
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable set(double x, double z) {
@@ -252,6 +259,7 @@ public class Vector2 {
          * Sets the X coordinate of the vector.
          *
          * @param x the X coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable setX(double x) {
@@ -263,6 +271,7 @@ public class Vector2 {
          * Sets the Z coordinate of the vector.
          *
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable setZ(double z) {
@@ -275,6 +284,7 @@ public class Vector2 {
          *
          * @param x the X coordinate to add
          * @param z the Z coordinate to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable add(double x, double z) {
@@ -287,6 +297,7 @@ public class Vector2 {
          * Adds the specified vector to this vector.
          *
          * @param vector the vector to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable add(@NotNull Vector2 vector) {
@@ -299,6 +310,7 @@ public class Vector2 {
          * Adds the specified scalar to both the X and Z coordinates of the vector.
          *
          * @param scalar the scalar to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable addScalar(double scalar) {
@@ -312,6 +324,7 @@ public class Vector2 {
          *
          * @param x the X coordinate to subtract
          * @param z the Z coordinate to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable sub(double x, double z) {
@@ -324,6 +337,7 @@ public class Vector2 {
          * Subtracts the specified vector from this vector.
          *
          * @param vector the vector to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable sub(@NotNull Vector2 vector) {
@@ -336,6 +350,7 @@ public class Vector2 {
          * Subtracts the specified scalar from both the X and Z coordinates of the vector.
          *
          * @param scalar the scalar to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable subScalar(double scalar) {
@@ -349,6 +364,7 @@ public class Vector2 {
          *
          * @param x the X coordinate to multiply by
          * @param z the Z coordinate to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable mul(double x, double z) {
@@ -361,6 +377,7 @@ public class Vector2 {
          * Multiplies the vector by the specified vector.
          *
          * @param vector the vector to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable mul(@NotNull Vector2 vector) {
@@ -373,6 +390,7 @@ public class Vector2 {
          * Multiplies the vector by the specified scalar.
          *
          * @param scalar the scalar to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable mulScalar(double scalar) {
@@ -386,6 +404,7 @@ public class Vector2 {
          *
          * @param x the X coordinate to divide by
          * @param z the Z coordinate to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable div(double x, double z) {
@@ -398,6 +417,7 @@ public class Vector2 {
          * Divides the vector by the specified vector.
          *
          * @param vector the vector to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable div(@NotNull Vector2 vector) {
@@ -410,6 +430,7 @@ public class Vector2 {
          * Divides the vector by the specified scalar.
          *
          * @param scalar the scalar to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2.Mutable divScalar(double scalar) {
@@ -432,6 +453,7 @@ public class Vector2 {
          * Rotates the vector by the specified rotation.
          *
          * @param rotation the rotation to apply
+         *
          * @return the rotated vector
          */
         public @NotNull Vector2.Mutable rotate(@NotNull Rotation rotation) {
@@ -458,6 +480,7 @@ public class Vector2 {
          * Rotates the vector by the specified rotation.
          *
          * @param angle the angle to rotate the vector about (in radians)
+         *
          * @return the rotated vector
          */
         public @NotNull Vector2.Mutable rotate(double angle) {

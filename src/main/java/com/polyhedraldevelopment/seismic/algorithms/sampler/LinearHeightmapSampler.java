@@ -3,6 +3,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
+
 public class LinearHeightmapSampler implements Sampler {
     private final Sampler sampler;
     private final double scale;

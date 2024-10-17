@@ -1,13 +1,13 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 import com.polyhedraldevelopment.seismic.algorithms.hashing.HashingFunctions;
-import com.polyhedraldevelopment.seismic.type.sampler.DerivativeSampler;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.normalization.NormalizationFunctions;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
 import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryConstants;
 import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
+import com.polyhedraldevelopment.seismic.type.sampler.DerivativeSampler;
 
 
 public class PseudoErosionSampler extends NoiseFunction {

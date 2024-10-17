@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
-import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 import com.polyhedraldevelopment.seismic.type.CubicSpline;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 public class CubicSplineSampler implements Sampler {

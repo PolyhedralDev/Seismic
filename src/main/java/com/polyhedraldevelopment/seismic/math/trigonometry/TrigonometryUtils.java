@@ -30,12 +30,12 @@ class TrigonometryUtils {
 
         // Test that the lookup table is correct during runtime
         RandomGenerator random = RandomGenerator.getDefault();
-        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+        for(int i = 0; i < lookupTableSizeWithMargin; i++) {
             double d = -1 + 2.0 * random.nextDouble(); // Generate a random value between -1 and 1
             double expected = TrigonometryFunctions.sin(d);
             double value = StrictMath.sin(d);
 
-            if (!FloatingPointFunctions.equals(expected, value, 0.001)) {
+            if(!FloatingPointFunctions.equals(expected, value, 0.001)) {
                 throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
                     expected, value));
             }
@@ -46,8 +46,9 @@ class TrigonometryUtils {
             double expected = TrigonometryFunctions.sin(rad);
             double value = StrictMath.sin(rad);
 
-            if (!FloatingPointFunctions.equals(expected, value)) {
-                throw new IllegalArgumentException(String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i, expected, value));
+            if(!FloatingPointFunctions.equals(expected, value)) {
+                throw new IllegalArgumentException(
+                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i, expected, value));
             }
         }
     }

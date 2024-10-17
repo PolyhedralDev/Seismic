@@ -1,9 +1,9 @@
 package com.polyhedraldevelopment.seismic.type.vector;
 
-import com.polyhedraldevelopment.seismic.type.Rotation;
 import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.polyhedraldevelopment.seismic.type.Rotation;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -22,6 +22,7 @@ public class Vector2Int {
      *
      * @param x the x-coordinate of the vector
      * @param z the z-coordinate of the vector
+     *
      * @return a new `Vector2IntImpl` instance with the specified coordinates
      */
     public static Vector2Int of(int x, int z) {
@@ -50,6 +51,7 @@ public class Vector2Int {
      * Extrudes the vector to a 3D vector by adding the specified Y coordinate.
      *
      * @param y the Y coordinate to add
+     *
      * @return the extruded 3D vector
      */
     public @NotNull Vector3Int extrude(int y) {
@@ -124,6 +126,7 @@ public class Vector2Int {
      * Returns the distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the distance to
+     *
      * @return the distance between the two vectors
      */
     public double distance(@NotNull Vector2Int vector) {
@@ -134,6 +137,7 @@ public class Vector2Int {
      * Returns the squared distance between this vector and the specified vector.
      *
      * @param vector the vector to calculate the squared distance to
+     *
      * @return the squared distance between the two vectors
      */
     public double distanceSquared(@NotNull Vector2Int vector) {
@@ -146,6 +150,7 @@ public class Vector2Int {
      * Calculates the dot product of this vector and the specified vector.
      *
      * @param vector the vector to dot with
+     *
      * @return the dot product of the two vectors
      */
     public double dot(@NotNull Vector2Int vector) {
@@ -183,32 +188,33 @@ public class Vector2Int {
         return (31 * x) + z;
     }
 
-    
+
     public boolean equals(Object obj) {
         if(!(obj instanceof Vector2Int other)) return false;
         return FloatingPointFunctions.equals(this.x, other.x) && FloatingPointFunctions.equals(this.z, other.z);
     }
 
-    
+
     public String toString() {
         return "(" + x + ", " + z + ")";
     }
 
     public static class Mutable extends Vector2Int {
 
+        private Mutable(int x, int z) {
+            super(x, z);
+        }
+
         /**
          * Creates a new instance of `Mutable` with the specified x and z coordinates.
          *
          * @param x the x-coordinate of the vector
          * @param z the z-coordinate of the vector
+         *
          * @return a new `Mutable` instance with the specified coordinates
          */
         public static Vector2Int.Mutable of(int x, int z) {
             return new Vector2Int.Mutable(x, z);
-        }
-
-        private Mutable(int x, int z) {
-            super(x, z);
         }
 
         /**
@@ -216,6 +222,7 @@ public class Vector2Int {
          *
          * @param x the X coordinate to set
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable set(int x, int z) {
@@ -228,6 +235,7 @@ public class Vector2Int {
          * Sets the X coordinate of the vector.
          *
          * @param x the X coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable setX(int x) {
@@ -239,6 +247,7 @@ public class Vector2Int {
          * Sets the Z coordinate of the vector.
          *
          * @param z the Z coordinate to set
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable setZ(int z) {
@@ -251,6 +260,7 @@ public class Vector2Int {
          *
          * @param x the X coordinate to add
          * @param z the Z coordinate to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable add(int x, int z) {
@@ -263,6 +273,7 @@ public class Vector2Int {
          * Adds the specified vector to this vector.
          *
          * @param vector the vector to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable add(@NotNull Vector2Int vector) {
@@ -275,6 +286,7 @@ public class Vector2Int {
          * Adds the specified scalar to both the X and Z coordinates of the vector.
          *
          * @param scalar the scalar to add
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable addScalar(int scalar) {
@@ -288,6 +300,7 @@ public class Vector2Int {
          *
          * @param x the X coordinate to subtract
          * @param z the Z coordinate to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable sub(int x, int z) {
@@ -300,6 +313,7 @@ public class Vector2Int {
          * Subtracts the specified vector from this vector.
          *
          * @param vector the vector to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable sub(@NotNull Vector2Int vector) {
@@ -312,6 +326,7 @@ public class Vector2Int {
          * Subtracts the specified scalar from both the X and Z coordinates of the vector.
          *
          * @param scalar the scalar to subtract
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable subScalar(int scalar) {
@@ -325,6 +340,7 @@ public class Vector2Int {
          *
          * @param x the X coordinate to multiply by
          * @param z the Z coordinate to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable mul(int x, int z) {
@@ -337,6 +353,7 @@ public class Vector2Int {
          * Multiplies the vector by the specified vector.
          *
          * @param vector the vector to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable mul(@NotNull Vector2Int vector) {
@@ -349,6 +366,7 @@ public class Vector2Int {
          * Multiplies the vector by the specified scalar.
          *
          * @param scalar the scalar to multiply by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable mulScalar(int scalar) {
@@ -362,6 +380,7 @@ public class Vector2Int {
          *
          * @param x the X coordinate to divide by
          * @param z the Z coordinate to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable div(int x, int z) {
@@ -374,6 +393,7 @@ public class Vector2Int {
          * Divides the vector by the specified vector.
          *
          * @param vector the vector to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable div(@NotNull Vector2Int vector) {
@@ -386,6 +406,7 @@ public class Vector2Int {
          * Divides the vector by the specified scalar.
          *
          * @param scalar the scalar to divide by
+         *
          * @return the updated vector
          */
         public @NotNull Vector2Int.Mutable divScalar(int scalar) {
@@ -401,7 +422,7 @@ public class Vector2Int {
          */
         public @NotNull Vector2Int.Mutable normalize() {
             double length = length();
-            if (length != 0) {
+            if(length != 0) {
                 this.x /= length;
                 this.z /= length;
             }
@@ -412,6 +433,7 @@ public class Vector2Int {
          * Rotates the vector by the specified rotation.
          *
          * @param rotation the rotation to apply
+         *
          * @return the rotated vector
          */
         public @NotNull Vector2Int.Mutable rotate(@NotNull Rotation rotation) {
@@ -438,6 +460,7 @@ public class Vector2Int {
          * Rotates the vector by the specified rotation.
          *
          * @param angle the angle to rotate the vector about (in radians)
+         *
          * @return the rotated vector
          */
         public @NotNull Vector2Int.Mutable rotate(int angle) {

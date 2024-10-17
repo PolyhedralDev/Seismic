@@ -8,8 +8,8 @@
 package com.polyhedraldevelopment.seismic.algorithms.normalizer;
 
 
-import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 import com.polyhedraldevelopment.seismic.math.statistics.StatisticsFunctions;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 /**

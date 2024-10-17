@@ -3,6 +3,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler;
 
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
+
 public class TranslateSampler implements Sampler {
 
     private final Sampler sampler;

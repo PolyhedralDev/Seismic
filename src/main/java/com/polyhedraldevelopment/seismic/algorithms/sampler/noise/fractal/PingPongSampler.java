@@ -7,8 +7,8 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.fractal;
 
-import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 public class PingPongSampler extends FractalNoiseFunction {
