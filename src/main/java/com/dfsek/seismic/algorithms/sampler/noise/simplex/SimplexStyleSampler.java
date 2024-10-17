@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.DerivativeNoiseFunction;
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 
 
 /**
@@ -95,7 +96,7 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         double xg = SimplexStyleSampler.GRADIENTS_2D[index];
         double yg = SimplexStyleSampler.GRADIENTS_2D[index | 1];
 
-        return xd * xg + yd * yg;
+        return ArithmeticFunctions.fma(xd, xg, yd * yg);
     }
 
     protected static int gradCoordIndex(int seed, int xPrimed, int yPrimed, int zPrimed) {
@@ -113,7 +114,7 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         double yg = SimplexStyleSampler.GRADIENTS_3D[index | 1];
         double zg = SimplexStyleSampler.GRADIENTS_3D[index | 2];
 
-        return xd * xg + yd * yg + zd * zg;
+        return ArithmeticFunctions.fma(xd, xg, ArithmeticFunctions.fma(yd, yg, zd * zg));
     }
 
     @Override

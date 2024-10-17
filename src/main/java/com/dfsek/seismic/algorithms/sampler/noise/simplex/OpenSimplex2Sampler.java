@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 
 
@@ -18,15 +19,13 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     private static final double SQRT3 = 1.7320508075688772935274463415059;
     private static final double F2 = 0.5f * (OpenSimplex2Sampler.SQRT3 - 1.0f);
     private static final double G2 = (3 - OpenSimplex2Sampler.SQRT3) / 6;
+    private static final double R3 = (2.0 / 3.0);
 
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
-        final double G2 = (3 - OpenSimplex2Sampler.SQRT3) / 6;
-
-        final double F2 = 0.5f * (OpenSimplex2Sampler.SQRT3 - 1);
-        double s = (x + y) * F2;
+        double s = (x + y) * OpenSimplex2Sampler.F2;
         x += s;
         y += s;
 
@@ -36,7 +35,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        double t = (xi + yi) * G2;
+        double t = (xi + yi) * OpenSimplex2Sampler.G2;
         double x0 = xi - t;
         double y0 = yi - t;
 
@@ -50,26 +49,28 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             value = (a * a) * (a * a) * SimplexStyleSampler.gradCoord(seed, i, j, x0, y0);
         }
 
-        double c = 2 * (1 - 2 * G2) * (1 / G2 - 2) * t + ((-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
+
+        double c = ArithmeticFunctions.fma((2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 / OpenSimplex2Sampler.G2 - 2)), t, ((-2 * (1 - 2 *
+                                                                                                                                     OpenSimplex2Sampler.G2) * (1 - 2 *OpenSimplex2Sampler.G2)) + a));
         if(c > 0) {
-            double x2 = x0 + (2 * G2 - 1);
-            double y2 = y0 + (2 * G2 - 1);
-            value += (c * c) * (c * c) * SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y, x2, y2);
+            double x2 = x0 + (2 * OpenSimplex2Sampler.G2 - 1);
+            double y2 = y0 + (2 * OpenSimplex2Sampler.G2 - 1);
+            value = ArithmeticFunctions.fma((c * c) * (c * c), SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y, x2, y2), value);
         }
 
         if(y0 > x0) {
-            double x1 = x0 + G2;
-            double y1 = y0 + (G2 - 1);
+            double x1 = x0 + OpenSimplex2Sampler.G2;
+            double y1 = y0 + (OpenSimplex2Sampler.G2 - 1);
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
-                value += (b * b) * (b * b) * SimplexStyleSampler.gradCoord(seed, i, j + NoiseFunction.PRIME_Y, x1, y1);
+                value = ArithmeticFunctions.fma((b * b) * (b * b), SimplexStyleSampler.gradCoord(seed, i, j + NoiseFunction.PRIME_Y, x1, y1), value);
             }
         } else {
-            double x1 = x0 + (G2 - 1);
-            double y1 = y0 + G2;
+            double x1 = x0 + (OpenSimplex2Sampler.G2 - 1);
+            double y1 = y0 + OpenSimplex2Sampler.G2;
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
-                value += (b * b) * (b * b) * SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j, x1, y1);
+                value = ArithmeticFunctions.fma((b * b) * (b * b), SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j, x1, y1), value);
             }
         }
 
@@ -80,8 +81,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2Sampler case uses two offset rotated cube grids.
-        final double R3 = (2.0 / 3.0);
-        double r = (x + y + z) * R3; // Rotation, not skew
+        double r = (x + y + z) * OpenSimplex2Sampler.R3; // Rotation, not skew
         x = r - x;
         y = r - y;
         z = r - z;
@@ -107,7 +107,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         k *= NoiseFunction.PRIME_Z;
 
         double value = 0;
-        double a = (0.6f - x0 * x0) - (y0 * y0 + z0 * z0);
+        double a = (0.6f - x0 * x0) - ArithmeticFunctions.fma(y0, y0, z0 * z0);
 
         for(int l = 0; ; l++) {
             if(a > 0) {
@@ -118,22 +118,22 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                 double b = a + ax0 + ax0;
                 if(b > 1) {
                     b -= 1;
-                    value += (b * b) * (b * b) * SimplexStyleSampler.gradCoord(seed, i - xNSign * NoiseFunction.PRIME_X, j, k, x0 + xNSign,
-                        y0, z0);
+                    value = ArithmeticFunctions.fma((b * b) * (b * b), SimplexStyleSampler.gradCoord(seed, i - xNSign * NoiseFunction.PRIME_X, j, k, x0 + xNSign,
+                        y0, z0), value);
                 }
             } else if(ay0 > ax0 && ay0 >= az0) {
                 double b = a + ay0 + ay0;
                 if(b > 1) {
                     b -= 1;
-                    value += (b * b) * (b * b) * SimplexStyleSampler.gradCoord(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k, x0,
-                        y0 + yNSign, z0);
+                    value = ArithmeticFunctions.fma((b * b) * (b * b), SimplexStyleSampler.gradCoord(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k, x0,
+                        y0 + yNSign, z0), value);
                 }
             } else {
                 double b = a + az0 + az0;
                 if(b > 1) {
                     b -= 1;
-                    value += (b * b) * (b * b) * SimplexStyleSampler.gradCoord(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z, x0, y0,
-                        z0 + zNSign);
+                    value = ArithmeticFunctions.fma((b * b) * (b * b), SimplexStyleSampler.gradCoord(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z, x0, y0,
+                        z0 + zNSign), value);
                 }
             }
 
@@ -172,10 +172,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
-        final double G2 = (3 - OpenSimplex2Sampler.SQRT3) / 6;
-
-        final double F2 = 0.5f * (OpenSimplex2Sampler.SQRT3 - 1);
-        double s = (x + y) * F2;
+        double s = (x + y) * OpenSimplex2Sampler.F2;
         x += s;
         y += s;
 
@@ -185,7 +182,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        double t = (xi + yi) * G2;
+        double t = (xi + yi) * OpenSimplex2Sampler.G2;
         double x0 = xi - t;
         double y0 = yi - t;
 
@@ -199,50 +196,52 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
             int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
             double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-            double rampValue = gx * x0 + gy * y0;
-            out[0] += aaaa * rampValue;
-            out[1] += gx * aaaa - 8 * rampValue * aaa * x0;
-            out[2] += gy * aaaa - 8 * rampValue * aaa * y0;
+            double rampValue = ArithmeticFunctions.fma(gx, x0, gy * y0);
+            out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
+            out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, aaaa, -8 * rampValue * aaa), x0, out[1]);
+            out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, aaaa, -8 * rampValue * aaa), y0, out[2]);
         }
 
-        double c = 2 * (1 - 2 * G2) * (1 / G2 - 2) * t + ((-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
+        double c = ArithmeticFunctions.fma((2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 / OpenSimplex2Sampler.G2 - 2)),  t,  ((-2 * (1 - 2 *
+                                                                                                                                       OpenSimplex2Sampler.G2) * (1 - 2 *
+                                                                                                                                                                      OpenSimplex2Sampler.G2)) + a));
         if(c > 0) {
-            double x2 = x0 + (2 * G2 - 1);
-            double y2 = y0 + (2 * G2 - 1);
+            double x2 = x0 + (2 * OpenSimplex2Sampler.G2 - 1);
+            double y2 = y0 + (2 * OpenSimplex2Sampler.G2 - 1);
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
             int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
             double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-            double rampValue = gx * x2 + gy * y2;
-            out[0] += cccc * rampValue;
-            out[1] += gx * cccc - 8 * rampValue * ccc * x2;
-            out[2] += gy * cccc - 8 * rampValue * ccc * y2;
+            double rampValue = ArithmeticFunctions.fma(gx, x2,  gy * y2);
+            out[0] = ArithmeticFunctions.fma(cccc, rampValue, out[0]);
+            out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, cccc, -8 * rampValue * ccc), x2, out[1]);
+            out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, cccc, -8 * rampValue * ccc), y2, out[2]);
         }
 
         if(y0 > x0) {
-            double x1 = x0 + G2;
-            double y1 = y0 + (G2 - 1);
+            double x1 = x0 + OpenSimplex2Sampler.G2;
+            double y1 = y0 + (OpenSimplex2Sampler.G2 - 1);
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
                 double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-                double rampValue = gx * x1 + gy * y1;
-                out[0] += bbbb * rampValue;
-                out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
-                out[2] += gy * bbbb - 8 * rampValue * bbb * y1;
+                double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
+                out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
+                out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, bbbb, -8 * rampValue * bbb), x1, out[1]);
+                out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, bbbb, -8 * rampValue * bbb), y1, out[2]);
             }
         } else {
-            double x1 = x0 + (G2 - 1);
-            double y1 = y0 + G2;
+            double x1 = x0 + (OpenSimplex2Sampler.G2 - 1);
+            double y1 = y0 + OpenSimplex2Sampler.G2;
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
                 double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-                double rampValue = gx * x1 + gy * y1;
-                out[0] += bbbb * rampValue;
-                out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
-                out[2] += gy * bbbb - 8 * rampValue * bbb * y1;
+                double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
+                out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
+                out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, bbbb, -8 * rampValue * bbb), x1, out[1]);
+                out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, bbbb, -8 * rampValue * bbb), y1, out[2]);
             }
         }
 
@@ -256,8 +255,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2Sampler case uses two offset rotated cube grids.
-        final double R3 = (2.0 / 3.0);
-        double r = (x + y + z) * R3; // Rotation, not skew
+        double r = (x + y + z) * OpenSimplex2Sampler.R3; // Rotation, not skew
         x = r - x;
         y = r - y;
         z = r - z;
@@ -283,7 +281,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         k *= NoiseFunction.PRIME_Z;
 
         double[] out = { 0.0f, 0.0f, 0.0f, 0.0f };
-        double a = (0.6f - x0 * x0) - (y0 * y0 + z0 * z0);
+        double a = (0.6f - x0 * x0) - (ArithmeticFunctions.fma(y0, y0, z0 * z0));
 
         for(int l = 0; ; l++) {
             if(a > 0) {
@@ -291,11 +289,11 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                 int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k);
                 double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
                     SimplexStyleSampler.GRADIENTS_3D[gi | 2];
-                double rampValue = gx * x0 + gy * y0 + gz * z0;
-                out[0] += aaaa * rampValue;
-                out[1] += gx * aaaa - 8 * rampValue * aaa * x0;
-                out[1] += gy * aaaa - 8 * rampValue * aaa * y0;
-                out[2] += gz * aaaa - 8 * rampValue * aaa * z0;
+                double rampValue = ArithmeticFunctions.fma(gx, x0,  ArithmeticFunctions.fma(gy, y0,  gz * z0));
+                out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
+                out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, aaaa, -8 * rampValue * aaa), x0, out[1]);
+                out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, aaaa, -8 * rampValue * aaa), y0, out[2]);
+                out[3] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gz, aaaa, -8 * rampValue * aaa), z0, out[3]);
             }
 
             if(ax0 >= ay0 && ax0 >= az0) {
@@ -304,43 +302,41 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                     b -= 1;
                     double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                     int gi = SimplexStyleSampler.gradCoordIndex(seed, i - xNSign * NoiseFunction.PRIME_X, j, k);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
-                    double rampValue = gx * (x0 + xNSign) + gy * y0 + gz * z0;
-                    out[0] += bbbb * rampValue;
-                    out[1] += gx * bbbb - 8 * rampValue * bbb * (x0 + xNSign);
-                    out[1] += gy * bbbb - 8 * rampValue * bbb * y0;
-                    out[2] += gz * bbbb - 8 * rampValue * bbb * z0;
+                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz = SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                    double rampValue = ArithmeticFunctions.fma(gx, (x0 + xNSign), ArithmeticFunctions.fma(gy, y0, gz * z0));
+                    out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
+                    out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, bbbb, -8 * rampValue * bbb), (x0 + xNSign), out[1]);
+                    out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, bbbb, -8 * rampValue * bbb), y0, out[2]);
+                    out[3] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gz, bbbb, -8 * rampValue * bbb), z0, out[3]);
                 }
-            } else if(ay0 > ax0 && ay0 >= az0) {
-                double b = a + ay0 + ay0;
-                if(b > 1) {
-                    b -= 1;
-                    double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                    int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
-                    double rampValue = gx * x0 + gy * (y0 + yNSign) + gz * z0;
-                    out[0] += bbbb * rampValue;
-                    out[1] += gx * bbbb - 8 * rampValue * bbb * x0;
-                    out[1] += gy * bbbb - 8 * rampValue * bbb * (y0 + yNSign);
-                    out[2] += gz * bbbb - 8 * rampValue * bbb * z0;
+
+                if(ay0 > ax0 && ay0 >= az0) {
+                    double b = a + ay0 + ay0;
+                    if(b > 1) {
+                        b -= 1;
+                        double bb = b * b, bbb = bb * b, bbbb = bb * bb;
+                        int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k);
+                        double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz = SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                        double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, (y0 + yNSign), gz * z0));
+                        out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
+                        out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, bbbb, -8 * rampValue * bbb), x0, out[1]);
+                        out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, bbbb, -8 * rampValue * bbb), (y0 + yNSign), out[2]);
+                        out[3] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gz, bbbb, -8 * rampValue * bbb), z0, out[3]);
+                    }
+                } else {
+                    double b = a + az0 + az0;
+                    if(b > 1) {
+                        b -= 1;
+                        double bb = b * b, bbb = bb * b, bbbb = bb * bb;
+                        int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z);
+                        double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz = SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                        double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, y0, gz * (z0 + zNSign)));
+                        out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
+                        out[1] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gx, bbbb, -8 * rampValue * bbb), x0, out[1]);
+                        out[2] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gy, bbbb, -8 * rampValue * bbb), y0, out[2]);
+                        out[3] = ArithmeticFunctions.fma(ArithmeticFunctions.fma(gz, bbbb, -8 * rampValue * bbb), (z0 + zNSign), out[3]);
+                    }
                 }
-            } else {
-                double b = a + az0 + az0;
-                if(b > 1) {
-                    b -= 1;
-                    double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                    int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
-                    double rampValue = gx * x0 + gy * y0 + gz * (z0 + zNSign);
-                    out[0] += bbbb * rampValue;
-                    out[1] += gx * bbbb - 8 * rampValue * bbb * x0;
-                    out[1] += gy * bbbb - 8 * rampValue * bbb * y0;
-                    out[2] += gz * bbbb - 8 * rampValue * bbb * (z0 + zNSign);
-                }
-            }
 
             if(l == 1) break;
 
