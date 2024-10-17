@@ -1,16 +1,16 @@
 # Seismic
 
-A Java noise library, primarily for use in [Terra](https://github.com/PolyhedralDev/Terra).
+A Java sampler, math, and type library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev) projects.
 
 # About
 
-Seismic is a Java sampler and math library, with a wide selection of functions and types. It started out as simply a fork of
+Seismic is a Java sampler, math, and type library, with a wide selection of functions and types. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
 each sampler, but has since grown to include a much wider selection of samplers and features, including math functions and types. Where there is overlap with Java's Math class it is assumed that Seismic's functions are faster, sometimes trading a reasonable amount of accuracy or handling of special floating point values.
 
 # Features
 
-Seismic contains a wide selection of samplers and math utilities, including:
+Seismic contains a wide selection of samplers, math utilities, and types including:
 
 <details>
 
