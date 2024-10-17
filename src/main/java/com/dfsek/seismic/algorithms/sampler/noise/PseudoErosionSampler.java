@@ -2,6 +2,7 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.math.algebra.LinearAlgebraFunctions;
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.normalization.NormalizationFunctions;
 import com.dfsek.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
@@ -55,17 +56,17 @@ public class PseudoErosionSampler extends NoiseFunction {
     public static double hashX(double seed, double n) {
         // Swapped the components here
         double nx = PseudoErosionSampler.HASH_X * n * seed;
-        return -1.0f + 2.0f * FloatingPointFunctions.getFraction(nx);
+        return ArithmeticFunctions.fma(2.0f, FloatingPointFunctions.getFraction(nx), -1.0f);
     }
 
     public static double hashY(double seed, double n) {
         double ny = PseudoErosionSampler.HASH_Y * n * seed;
-        return -1.0f + 2.0f * FloatingPointFunctions.getFraction(ny);
+        return ArithmeticFunctions.fma(2.0f, FloatingPointFunctions.getFraction(ny), -1.0f);
     }
 
     public double[] erosion(int seed, double x, double y, double dirX, double dirY) {
-        int gridX = (int) FloatingPointFunctions.floor(x);
-        int gridY = (int) FloatingPointFunctions.floor(y);
+        int gridX = FloatingPointFunctions.floor(x);
+        int gridY = FloatingPointFunctions.floor(y);
         double noise = 0.0f;
         double dirOutX = 0.0f;
         double dirOutY = 0.0f;
@@ -78,7 +79,7 @@ public class PseudoErosionSampler extends NoiseFunction {
                 double cellOffsetY = PseudoErosionSampler.hashY(seed, cellHash) * jitter;
                 double cellOriginDeltaX = (x - cellX) + cellOffsetX;
                 double cellOriginDeltaY = (y - cellY) + cellOffsetY;
-                double cellOriginDistSq = cellOriginDeltaX * cellOriginDeltaX + cellOriginDeltaY * cellOriginDeltaY;
+                double cellOriginDistSq = ArithmeticFunctions.fma(cellOriginDeltaX, cellOriginDeltaX, cellOriginDeltaY * cellOriginDeltaY);
                 if(cellOriginDistSq > maxCellDistSq) continue; // Skip calculating cells too far away
                 double ampTmp = (cellOriginDistSq * maxCellDistSqRecip) - 1;
                 double amp = ampTmp * ampTmp; // Decrease cell amplitude further away
@@ -121,11 +122,11 @@ public class PseudoErosionSampler extends NoiseFunction {
             double[] erosionResult = erosion((int) seed,
                 x * freq * erosionFrequency,
                 y * freq * erosionFrequency,
-                baseDirX + dirY * branchStrength,
+                ArithmeticFunctions.fma(dirY, branchStrength, baseDirX),
                 baseDirY - dirX * branchStrength);
-            erosion += erosionResult[0] * amp;
-            dirX += erosionResult[1] * amp * freq;
-            dirY += erosionResult[2] * amp * freq;
+            erosion = ArithmeticFunctions.fma(erosionResult[0], amp, erosion);
+            dirX = ArithmeticFunctions.fma(erosionResult[1], amp * freq, dirX);
+            dirY = ArithmeticFunctions.fma(erosionResult[2], amp * freq, dirY);
             cumAmp += amp;
             amp *= gain;
             freq *= lacunarity;

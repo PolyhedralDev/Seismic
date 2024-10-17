@@ -1,5 +1,8 @@
 package com.dfsek.seismic.math.numericanalysis.interpolation;
 
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+
+
 public class SmoothstepFunctions {
     /**
      * Returns the result of a cubic polynomial smoothstep function.
@@ -9,7 +12,7 @@ public class SmoothstepFunctions {
      * @return the interpolated value.
      */
     public static double cubicPolynomialSmoothstep(double x) {
-        return x * x * (3 - 2 * x);
+        return x * x * ArithmeticFunctions.fma(-2, x, 3);
     }
 
     /**
@@ -31,7 +34,7 @@ public class SmoothstepFunctions {
      * @return the interpolated value.
      */
     public static double quinticPolynomialSmoothstep(double x) {
-        return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
+        return x * x * x * (x * (ArithmeticFunctions.fma(x, 6.0, 15.0)) + 10.0);
     }
 
     /**
