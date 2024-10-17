@@ -373,7 +373,7 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
                     int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (NoiseFunction.PRIME_X << 1), j + NoiseFunction.PRIME_Y);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 0], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;

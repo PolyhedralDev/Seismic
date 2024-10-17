@@ -37,8 +37,8 @@ class TrigonometryUtils {
             double value = StrictMath.sin(d);
 
             if(!FloatingPointFunctions.equals(expected, value, 0.001)) {
-                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", Double.valueOf(d),
-                    Double.valueOf(expected), Double.valueOf(value)));
+                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
+                    expected, value));
             }
         }
 
@@ -49,8 +49,8 @@ class TrigonometryUtils {
 
             if(!FloatingPointFunctions.equals(expected, value)) {
                 throw new IllegalArgumentException(
-                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", Integer.valueOf(i),
-                        Double.valueOf(expected), Double.valueOf(value)));
+                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i,
+                        expected, value));
             }
         }
     }

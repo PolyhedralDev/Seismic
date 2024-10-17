@@ -406,6 +406,6 @@ public class UnsafeUtils {
      */
     public static void putFieldBoolean(Object targetObject, Field field, Boolean in) {
         assert UnsafeUtils.UNSAFE != null;
-        UnsafeUtils.UNSAFE.putBoolean(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), in.booleanValue());
+        UnsafeUtils.UNSAFE.putBoolean(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), in);
     }
 }

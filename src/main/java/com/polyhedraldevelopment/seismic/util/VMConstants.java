@@ -97,7 +97,7 @@ public final class VMConstants {
      * maximum supported vectorsize.
      */
     private static final int MAX_VECTOR_SIZE =
-        HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(Integer.valueOf(0));
+        HotspotVMOptionsUtils.get("MaxVectorSize").map(Integer::valueOf).orElse(0);
     /**
      * true for an AMD cpu with SSE4a instructions.
      */

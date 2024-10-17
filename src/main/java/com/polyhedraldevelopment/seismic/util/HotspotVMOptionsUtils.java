@@ -70,7 +70,7 @@ final class HotspotVMOptionsUtils {
             final ModuleLayer layer = module.getLayer();
             // classpath / unnamed module has no layer, so we need to check:
             if(layer != null
-               && !layer.findModule("jdk.management").map(module::canRead).orElse(Boolean.FALSE).booleanValue()) {
+               && !layer.findModule("jdk.management").map(module::canRead).orElse(Boolean.FALSE)) {
                 log.warning(
                     "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
                     + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
