@@ -45,10 +45,10 @@ public enum Rotation {
      */
     public Rotation inverse() {
         return switch(this) {
-            case NONE -> NONE;
-            case CCW_90 -> CW_90;
-            case CW_90 -> CCW_90;
-            case CW_180 -> CW_180;
+            case NONE -> Rotation.NONE;
+            case CCW_90 -> Rotation.CW_90;
+            case CW_90 -> Rotation.CCW_90;
+            case CW_180 -> Rotation.CW_180;
         };
     }
 
@@ -60,7 +60,7 @@ public enum Rotation {
      * @return the resulting Rotation
      */
     public Rotation rotate(Rotation rotation) {
-        return fromDegrees(this.getDegrees() + rotation.getDegrees());
+        return Rotation.fromDegrees(this.degrees + rotation.degrees);
     }
 
     /**

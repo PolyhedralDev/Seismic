@@ -32,7 +32,7 @@ public class TrigonometryFunctions {
      * @return the tangent of the argument.
      */
     public static double tan(double angle) {
-        return sin(angle) / cos(angle);
+        return TrigonometryFunctions.sin(angle) / TrigonometryFunctions.cos(angle);
     }
 
     /**
@@ -43,7 +43,7 @@ public class TrigonometryFunctions {
      * @return the secant of the argument.
      */
     public static double sec(double angle) {
-        return 1.0 / cos(angle);
+        return 1.0 / TrigonometryFunctions.cos(angle);
     }
 
     /**
@@ -54,7 +54,7 @@ public class TrigonometryFunctions {
      * @return the cosecant of the argument.
      */
     public static double csc(double angle) {
-        return 1.0 / sin(angle);
+        return 1.0 / TrigonometryFunctions.sin(angle);
     }
 
     /**
@@ -65,6 +65,6 @@ public class TrigonometryFunctions {
      * @return the cotangent of the argument.
      */
     public static double cot(double angle) {
-        return cos(angle) / sin(angle);
+        return TrigonometryFunctions.cos(angle) / TrigonometryFunctions.sin(angle);
     }
 }

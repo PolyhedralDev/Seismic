@@ -72,8 +72,8 @@ public class Vector2Int {
      *
      * @return a zero vector
      */
-    public @NotNull Vector2Int zero() {
-        return ZERO;
+    public static @NotNull Vector2Int zero() {
+        return Vector2Int.ZERO;
     }
 
     /**
@@ -81,8 +81,8 @@ public class Vector2Int {
      *
      * @return a unit vector
      */
-    public @NotNull Vector2Int unit() {
-        return UNIT;
+    public static @NotNull Vector2Int unit() {
+        return Vector2Int.UNIT;
     }
 
     /**
@@ -423,8 +423,8 @@ public class Vector2Int {
         public @NotNull Vector2Int.Mutable normalize() {
             double length = length();
             if(length != 0) {
-                this.x /= length;
-                this.z /= length;
+                this.x /= (int) length;
+                this.z /= (int) length;
             }
             return this;
         }

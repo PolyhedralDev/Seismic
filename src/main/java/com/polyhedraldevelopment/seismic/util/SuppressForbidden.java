@@ -32,6 +32,7 @@ import java.lang.annotation.Target;
 public @interface SuppressForbidden {
     /**
      * A reason for suppressing should always be given.
+     * @return
      */
     String reason();
 }

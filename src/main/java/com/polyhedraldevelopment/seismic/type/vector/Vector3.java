@@ -109,8 +109,8 @@ public class Vector3 {
      *
      * @return a zero vector
      */
-    public @NotNull Vector3 zero() {
-        return ZERO;
+    public static @NotNull Vector3 zero() {
+        return Vector3.ZERO;
     }
 
     /**
@@ -118,8 +118,8 @@ public class Vector3 {
      *
      * @return a unit vector
      */
-    public @NotNull Vector3 unit() {
-        return UNIT;
+    public static @NotNull Vector3 unit() {
+        return Vector3.UNIT;
     }
 
     /**

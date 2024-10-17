@@ -18,7 +18,7 @@ public class DistanceSampler extends NoiseFunction {
         this.oz = oz;
         this.normalize = normalize;
         this.radius = radius;
-        this.distanceAtRadius = distance2d(distanceFunction, radius, 0); // distance2d and distance3d should return the same value
+        this.distanceAtRadius = DistanceSampler.distance2d(distanceFunction, radius, 0); // distance2d and distance3d should return the same value
     }
 
     private static double distance2d(DistanceFunction distanceFunction, double x, double z) {
@@ -42,7 +42,7 @@ public class DistanceSampler extends NoiseFunction {
         double dx = x - ox;
         double dy = y - oz;
         if(normalize && (Math.abs(dx) > radius || Math.abs(dy) > radius)) return 1;
-        double dist = distance2d(distanceFunction, dx, dy);
+        double dist = DistanceSampler.distance2d(distanceFunction, dx, dy);
         if(normalize) return Math.min(((2 * dist) / distanceAtRadius) - 1, 1);
         return dist;
     }
@@ -53,7 +53,7 @@ public class DistanceSampler extends NoiseFunction {
         double dy = y - oy;
         double dz = z - oz;
         if(normalize && (Math.abs(dx) > radius || Math.abs(dy) > radius || Math.abs(dz) > radius)) return 1;
-        double dist = distance3d(distanceFunction, dx, dy, dz);
+        double dist = DistanceSampler.distance3d(distanceFunction, dx, dy, dz);
         if(normalize) return Math.min(((2 * dist) / distanceAtRadius) - 1, 1);
         return dist;
     }

@@ -54,12 +54,12 @@ public class PseudoErosionSampler extends NoiseFunction {
 
     public static double hashX(double seed, double n) {
         // Swapped the components here
-        double nx = HASH_X * n * seed;
+        double nx = PseudoErosionSampler.HASH_X * n * seed;
         return -1.0f + 2.0f * FloatingPointFunctions.getFraction(nx);
     }
 
     public static double hashY(double seed, double n) {
-        double ny = HASH_Y * n * seed;
+        double ny = PseudoErosionSampler.HASH_Y * n * seed;
         return -1.0f + 2.0f * FloatingPointFunctions.getFraction(ny);
     }
 
@@ -74,8 +74,8 @@ public class PseudoErosionSampler extends NoiseFunction {
         for(int cellX = gridX - 1; cellX <= gridX + 1; cellX++) {
             for(int cellY = gridY - 1; cellY <= gridY + 1; cellY++) {
                 double cellHash = HashingFunctions.hashPrimeCoords(seed, cellX, cellY);
-                double cellOffsetX = hashX(seed, cellHash) * jitter;
-                double cellOffsetY = hashY(seed, cellHash) * jitter;
+                double cellOffsetX = PseudoErosionSampler.hashX(seed, cellHash) * jitter;
+                double cellOffsetY = PseudoErosionSampler.hashY(seed, cellHash) * jitter;
                 double cellOriginDeltaX = (x - cellX) + cellOffsetX;
                 double cellOriginDeltaY = (y - cellY) + cellOffsetY;
                 double cellOriginDistSq = cellOriginDeltaX * cellOriginDeltaX + cellOriginDeltaY * cellOriginDeltaY;

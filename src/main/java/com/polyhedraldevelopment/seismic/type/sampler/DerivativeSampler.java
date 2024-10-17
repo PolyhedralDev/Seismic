@@ -20,21 +20,12 @@ public interface DerivativeSampler extends Sampler {
     /**
      * Derivative return version of standard 2D noise evaluation
      *
-     * @param seed
-     * @param x
-     * @param y
-     *
      * @return 3 element array, in index order: noise value, partial x derivative, partial y derivative
      */
     double[] getSampleDerivative(long seed, double x, double y);
 
     /**
      * Derivative return version of standard 3D noise evaluation
-     *
-     * @param seed
-     * @param x
-     * @param y
-     * @param z
      *
      * @return 4 element array, in index order: noise value, partial x derivative, partial y derivative, partial z derivative
      */

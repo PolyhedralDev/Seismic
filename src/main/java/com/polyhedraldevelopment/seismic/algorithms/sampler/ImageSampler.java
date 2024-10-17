@@ -58,7 +58,7 @@ public class ImageSampler implements Sampler {
         GRAYSCALE {
             @Override
             public int getChannel(int mashed) {
-                return (RED.getChannel(mashed) + GREEN.getChannel(mashed) + BLUE.getChannel(mashed)) / 3;
+                return (Channel.RED.getChannel(mashed) + Channel.GREEN.getChannel(mashed) + Channel.BLUE.getChannel(mashed)) / 3;
             }
         },
         ALPHA {

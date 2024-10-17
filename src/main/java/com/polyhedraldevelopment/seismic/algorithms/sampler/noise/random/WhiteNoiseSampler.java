@@ -36,7 +36,7 @@ public class WhiteNoiseSampler extends NoiseFunction {
     }
 
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | POSITIVE_POW1) - 1.5) * 2;
+        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) * 2;
     }
 
     @Override
@@ -50,12 +50,12 @@ public class WhiteNoiseSampler extends NoiseFunction {
     }
 
     public double getNoiseUnmapped(long seed, double x, double y, double z) {
-        long base = ((randomBits(seed, x, y, z)) & 0x000fffffffffffffL) | POSITIVE_POW1; // Sign and exponent
+        long base = ((randomBits(seed, x, y, z)) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
     public double getNoiseUnmapped(long seed, double x, double y) {
-        long base = (randomBits(seed, x, y) & 0x000fffffffffffffL) | POSITIVE_POW1; // Sign and exponent
+        long base = (randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 }

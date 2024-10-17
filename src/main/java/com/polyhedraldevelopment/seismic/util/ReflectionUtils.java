@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 
 
 public class ReflectionUtils {
-    public static ConcurrentHashMap<String, Class> reflectedClasses = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<ClassField, Field> reflectedFields = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Class> reflectedClasses = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<ClassField, Field> reflectedFields = new ConcurrentHashMap<>();
 
     /**
      * Retrieves the class object associated with the given class name.
@@ -29,7 +29,7 @@ public class ReflectionUtils {
      * @return the class object for the given class name
      */
     public static Class getClass(String className) {
-        return reflectedClasses.computeIfAbsent(className, ReflectionUtils::getReflectedClass);
+        return ReflectionUtils.reflectedClasses.computeIfAbsent(className, ReflectionUtils::getReflectedClass);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ReflectionUtils {
      * @return the field object for the given class and field name
      */
     public static Field getField(Class clss, String fild) {
-        return reflectedFields.computeIfAbsent(new ClassField(clss, fild), ReflectionUtils::getReflectedField);
+        return ReflectionUtils.reflectedFields.computeIfAbsent(new ClassField(clss, fild), ReflectionUtils::getReflectedField);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ReflectionUtils {
      * @param fild the field to set to public
      */
     public static void setFieldToPublic(Field fild) {
-        setAccessibleObjectToPublic(fild);
+        ReflectionUtils.setAccessibleObjectToPublic(fild);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ReflectionUtils {
      * @param mthod the method to set to public
      */
     public static void setMethodToPublic(Method mthod) {
-        setAccessibleObjectToPublic(mthod);
+        ReflectionUtils.setAccessibleObjectToPublic(mthod);
     }
 
     private static void setAccessibleObjectToPublic(AccessibleObject obj) {
@@ -74,7 +74,7 @@ public class ReflectionUtils {
                 });
             } catch(ClassNotFoundException e) {
                 if(UnsafeUtils.canUseUnsafe) {
-                    UnsafeUtils.putFieldBoolean(obj, getField(obj.getClass(), "override"), true);
+                    UnsafeUtils.putFieldBoolean(obj, ReflectionUtils.getField(obj.getClass(), "override"), Boolean.TRUE);
                 }
             }
         }
@@ -92,9 +92,9 @@ public class ReflectionUtils {
     private static Class getReflectedClass(String className) {
         try {
             Class classObj;
-            int $loc = className.indexOf("$");
+            int $loc = className.indexOf('$');
             if($loc > -1) {
-                classObj = getNestedClass(Class.forName(className.substring(0, $loc)), className.substring($loc + 1));
+                classObj = ReflectionUtils.getNestedClass(Class.forName(className.substring(0, $loc)), className.substring($loc + 1));
             } else {
                 classObj = Class.forName(className);
             }
@@ -138,22 +138,29 @@ public class ReflectionUtils {
      * @return the raw type of the given type
      */
     public static Class<?> getRawType(Type type) {
-        if(type instanceof Class<?>) {
-            return (Class<?>) type;
-        } else if(type instanceof ParameterizedType parameterizedType) {
-            Type rawType = parameterizedType.getRawType();
-            return (Class<?>) rawType;
-        } else if(type instanceof GenericArrayType) {
-            Type componentType = ((GenericArrayType) type).getGenericComponentType();
-            return Array.newInstance(getRawType(componentType), 0).getClass();
-        } else if(type instanceof TypeVariable) {
-            return Object.class;
-        } else if(type instanceof WildcardType) {
-            return getRawType(((WildcardType) type).getUpperBounds()[0]);
-        } else {
-            String className = type == null ? "null" : type.getClass().getName();
-            throw new IllegalArgumentException("Expected a Class, ParameterizedType, or "
-                                               + "GenericArrayType, but <" + type + "> is of type " + className);
+        switch(type) {
+            case Class<?> aClass -> {
+                return aClass;
+            }
+            case ParameterizedType parameterizedType -> {
+                Type rawType = parameterizedType.getRawType();
+                return (Class<?>) rawType;
+            }
+            case GenericArrayType genericArrayType -> {
+                Type componentType = genericArrayType.getGenericComponentType();
+                return Array.newInstance(ReflectionUtils.getRawType(componentType), 0).getClass();
+            }
+            case TypeVariable typeVariable -> {
+                return Object.class;
+            }
+            case WildcardType wildcardType -> {
+                return ReflectionUtils.getRawType(wildcardType.getUpperBounds()[0]);
+            }
+            case null, default -> {
+                String className = type == null ? "null" : type.getClass().getName();
+                throw new IllegalArgumentException("Expected a Class, ParameterizedType, or "
+                                                   + "GenericArrayType, but <" + type + "> is of type " + className);
+            }
         }
     }
 
@@ -194,7 +201,7 @@ public class ReflectionUtils {
                 return false;
             }
 
-            return equals(ga.getGenericComponentType(), gb.getGenericComponentType());
+            return ReflectionUtils.equals(ga.getGenericComponentType(), gb.getGenericComponentType());
         } else if(a instanceof WildcardType wa) {
             if(!(b instanceof WildcardType wb)) {
                 return false;

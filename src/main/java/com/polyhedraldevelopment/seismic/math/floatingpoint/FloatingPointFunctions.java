@@ -14,7 +14,7 @@ public class FloatingPointFunctions {
      * @return Whether these values are equal.
      */
     public static boolean equals(double a, double b) {
-        return equals(a, b, FloatingPointConstants.EPSILON);
+        return FloatingPointFunctions.equals(a, b, FloatingPointConstants.EPSILON);
     }
 
     /**
@@ -83,6 +83,6 @@ public class FloatingPointFunctions {
      * @return the fractional part of the input value.
      */
     public static double getFraction(double x) {
-        return x - floor(x);
+        return x - FloatingPointFunctions.floor(x);
     }
 }

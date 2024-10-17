@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 
 public class UnsafeUtils {
     public static boolean canUseUnsafe = true;
-    public static final Unsafe UNSAFE = findUnsafe();
+    public static final Unsafe UNSAFE = UnsafeUtils.findUnsafe();
 
     private static Unsafe findUnsafe() {
         try {
@@ -21,18 +21,18 @@ public class UnsafeUtils {
                             return UnsafeUtils.getUnsafeWithoutAccessController();
                         } catch(IllegalAccessException e) {
                             System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
-                            canUseUnsafe = false;
+                            UnsafeUtils.canUseUnsafe = false;
                             return null;
                         }
                     });
                 } catch(ClassNotFoundException e) {
-                    if(canUseUnsafe) {
-                        return getUnsafeWithoutAccessController();
+                    if(UnsafeUtils.canUseUnsafe) {
+                        return UnsafeUtils.getUnsafeWithoutAccessController();
                     }
                 }
             } catch(Exception e) {
                 System.out.println("Unsafe Unavailable" + System.lineSeparator() + e);
-                canUseUnsafe = false;
+                UnsafeUtils.canUseUnsafe = false;
                 return null;
             }
         }
@@ -67,8 +67,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static <T> Object getStaticFieldObject(Class<T> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getObject(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getObject(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -80,8 +80,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static char getStaticFieldChar(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getChar(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getChar(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -93,8 +93,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static int getStaticFieldInt(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getInt(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getInt(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -106,8 +106,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static long getStaticFieldLong(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getLong(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getLong(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -119,8 +119,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static float getStaticFieldFloat(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getFloat(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getFloat(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -132,8 +132,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static double getStaticFieldDouble(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getDouble(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getDouble(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -145,8 +145,8 @@ public class UnsafeUtils {
      * @return the value of the static field
      */
     public static boolean getStaticFieldBoolean(Class<?> targetClass, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getBoolean(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getBoolean(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field));
     }
 
     /**
@@ -158,8 +158,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static <T> void putStaticFieldObject(Class<T> targetClass, Field field, Object value) {
-        assert UNSAFE != null;
-        UNSAFE.putObject(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putObject(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -170,8 +170,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldChar(Class<?> targetClass, Field field, char value) {
-        assert UNSAFE != null;
-        UNSAFE.putChar(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putChar(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -182,8 +182,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldInt(Class<?> targetClass, Field field, int value) {
-        assert UNSAFE != null;
-        UNSAFE.putInt(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putInt(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -194,8 +194,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldLong(Class<?> targetClass, Field field, long value) {
-        assert UNSAFE != null;
-        UNSAFE.putLong(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putLong(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -206,8 +206,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldFloat(Class<?> targetClass, Field field, float value) {
-        assert UNSAFE != null;
-        UNSAFE.putFloat(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putFloat(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -218,8 +218,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldDouble(Class<?> targetClass, Field field, double value) {
-        assert UNSAFE != null;
-        UNSAFE.putDouble(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putDouble(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -230,8 +230,8 @@ public class UnsafeUtils {
      * @param value       the value to set
      */
     public static void putStaticFieldBoolean(Class<?> targetClass, Field field, boolean value) {
-        assert UNSAFE != null;
-        UNSAFE.putBoolean(UNSAFE.staticFieldBase(field), UNSAFE.staticFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putBoolean(UnsafeUtils.UNSAFE.staticFieldBase(field), UnsafeUtils.UNSAFE.staticFieldOffset(field), value);
     }
 
     /**
@@ -243,8 +243,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static Object getFieldObject(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getObject(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getObject(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -256,8 +256,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static char getFieldChar(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getChar(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getChar(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -269,8 +269,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static int getFieldInt(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getInt(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getInt(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -282,8 +282,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static long getFieldLong(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getLong(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getLong(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -295,8 +295,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static float getFieldFloat(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getFloat(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getFloat(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -308,8 +308,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static double getFieldDouble(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getDouble(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getDouble(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -321,8 +321,8 @@ public class UnsafeUtils {
      * @return the value of the field
      */
     public static boolean getFieldBoolean(Object targetObject, Field field) {
-        assert UNSAFE != null;
-        return UNSAFE.getBoolean(targetObject, UNSAFE.objectFieldOffset(field));
+        assert UnsafeUtils.UNSAFE != null;
+        return UnsafeUtils.UNSAFE.getBoolean(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field));
     }
 
     /**
@@ -333,8 +333,8 @@ public class UnsafeUtils {
      * @param in           the value to set
      */
     public static void putFieldObject(Object targetObject, Field field, Object in) {
-        assert UNSAFE != null;
-        UNSAFE.putObject(targetObject, UNSAFE.objectFieldOffset(field), in);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putObject(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), in);
     }
 
     /**
@@ -345,8 +345,8 @@ public class UnsafeUtils {
      * @param value        the value to set
      */
     public static void putFieldChar(Object targetObject, Field field, char value) {
-        assert UNSAFE != null;
-        UNSAFE.putChar(targetObject, UNSAFE.objectFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putChar(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), value);
     }
 
     /**
@@ -357,8 +357,8 @@ public class UnsafeUtils {
      * @param value        the value to set
      */
     public static void putFieldInt(Object targetObject, Field field, int value) {
-        assert UNSAFE != null;
-        UNSAFE.putInt(targetObject, UNSAFE.objectFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putInt(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), value);
     }
 
     /**
@@ -369,8 +369,8 @@ public class UnsafeUtils {
      * @param value        the value to set
      */
     public static void putFieldLong(Object targetObject, Field field, long value) {
-        assert UNSAFE != null;
-        UNSAFE.putLong(targetObject, UNSAFE.objectFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putLong(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), value);
     }
 
     /**
@@ -381,8 +381,8 @@ public class UnsafeUtils {
      * @param value        the value to set
      */
     public static void putFieldFloat(Object targetObject, Field field, float value) {
-        assert UNSAFE != null;
-        UNSAFE.putFloat(targetObject, UNSAFE.objectFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putFloat(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), value);
     }
 
     /**
@@ -393,8 +393,8 @@ public class UnsafeUtils {
      * @param value        the value to set
      */
     public static void putFieldDouble(Object targetObject, Field field, double value) {
-        assert UNSAFE != null;
-        UNSAFE.putDouble(targetObject, UNSAFE.objectFieldOffset(field), value);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putDouble(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), value);
     }
 
     /**
@@ -405,7 +405,7 @@ public class UnsafeUtils {
      * @param in           the value to set
      */
     public static void putFieldBoolean(Object targetObject, Field field, Boolean in) {
-        assert UNSAFE != null;
-        UNSAFE.putBoolean(targetObject, UNSAFE.objectFieldOffset(field), in);
+        assert UnsafeUtils.UNSAFE != null;
+        UnsafeUtils.UNSAFE.putBoolean(targetObject, UnsafeUtils.UNSAFE.objectFieldOffset(field), in.booleanValue());
     }
 }

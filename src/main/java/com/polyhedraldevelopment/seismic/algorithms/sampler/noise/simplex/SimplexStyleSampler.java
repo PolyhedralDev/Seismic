@@ -90,10 +90,10 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     }
 
     protected static double gradCoord(int seed, int xPrimed, int yPrimed, double xd, double yd) {
-        int index = gradCoordIndex(seed, xPrimed, yPrimed);
+        int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed);
 
-        double xg = GRADIENTS_2D[index];
-        double yg = GRADIENTS_2D[index | 1];
+        double xg = SimplexStyleSampler.GRADIENTS_2D[index];
+        double yg = SimplexStyleSampler.GRADIENTS_2D[index | 1];
 
         return xd * xg + yd * yg;
     }
@@ -107,11 +107,11 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     }
 
     protected static double gradCoord(int seed, int xPrimed, int yPrimed, int zPrimed, double xd, double yd, double zd) {
-        int index = gradCoordIndex(seed, xPrimed, yPrimed, zPrimed);
+        int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed, zPrimed);
 
-        double xg = GRADIENTS_3D[index];
-        double yg = GRADIENTS_3D[index | 1];
-        double zg = GRADIENTS_3D[index | 2];
+        double xg = SimplexStyleSampler.GRADIENTS_3D[index];
+        double yg = SimplexStyleSampler.GRADIENTS_3D[index | 1];
+        double zg = SimplexStyleSampler.GRADIENTS_3D[index | 2];
 
         return xd * xg + yd * yg + zd * zg;
     }

@@ -30,9 +30,9 @@ public class InterpolationFunctions {
      * @return the interpolated value.
      */
     public static double biLerp(double v00, double v10, double v01, double v11, double tx, double ty) {
-        double lerpX1 = lerp(v00, v10, tx);
-        double lerpX2 = lerp(v01, v11, tx);
-        return lerp(lerpX1, lerpX2, ty);
+        double lerpX1 = InterpolationFunctions.lerp(v00, v10, tx);
+        double lerpX2 = InterpolationFunctions.lerp(v01, v11, tx);
+        return InterpolationFunctions.lerp(lerpX1, lerpX2, ty);
     }
 
     /**
@@ -54,9 +54,9 @@ public class InterpolationFunctions {
      */
     public static double triLerp(double v000, double v100, double v010, double v110, double v001, double v101, double v011, double v111,
                                  double tx, double ty, double tz) {
-        double x00 = biLerp(v000, v100, v010, v110, tx, ty);
-        double x11 = biLerp(v001, v101, v011, v111, tx, ty);
-        return lerp(x00, x11, tz);
+        double x00 = InterpolationFunctions.biLerp(v000, v100, v010, v110, tx, ty);
+        double x11 = InterpolationFunctions.biLerp(v001, v101, v011, v111, tx, ty);
+        return InterpolationFunctions.lerp(x00, x11, tz);
     }
 
     /**
@@ -107,11 +107,11 @@ public class InterpolationFunctions {
                                      double v02, double v12, double v22, double v32,
                                      double v03, double v13, double v23, double v33,
                                      double tx, double ty) {
-        double arr0 = cubicLerp(v00, v10, v20, v30, tx);
-        double arr1 = cubicLerp(v01, v11, v21, v31, tx);
-        double arr2 = cubicLerp(v02, v12, v22, v32, tx);
-        double arr3 = cubicLerp(v03, v13, v23, v33, tx);
-        return cubicLerp(arr0, arr1, arr2, arr3, ty);
+        double arr0 = InterpolationFunctions.cubicLerp(v00, v10, v20, v30, tx);
+        double arr1 = InterpolationFunctions.cubicLerp(v01, v11, v21, v31, tx);
+        double arr2 = InterpolationFunctions.cubicLerp(v02, v12, v22, v32, tx);
+        double arr3 = InterpolationFunctions.cubicLerp(v03, v13, v23, v33, tx);
+        return InterpolationFunctions.cubicLerp(arr0, arr1, arr2, arr3, ty);
     }
 
     /**
@@ -204,11 +204,11 @@ public class InterpolationFunctions {
                                       double v023, double v123, double v223, double v323,
                                       double v033, double v133, double v233, double v333,
                                       double tx, double ty, double tz) {
-        double arr0 = biCubicLerp(v000, v100, v200, v300, v010, v110, v210, v310, v020, v120, v220, v320, v030, v130, v230, v330, tx, ty);
-        double arr1 = biCubicLerp(v001, v101, v201, v301, v011, v111, v211, v311, v021, v121, v221, v321, v031, v131, v231, v331, tx, ty);
-        double arr2 = biCubicLerp(v002, v102, v202, v302, v012, v112, v212, v312, v022, v122, v222, v322, v032, v132, v232, v332, tx, ty);
-        double arr3 = biCubicLerp(v003, v103, v203, v303, v013, v113, v213, v313, v023, v123, v223, v323, v033, v133, v233, v333, tx, ty);
-        return cubicLerp(arr0, arr1, arr2, arr3, tz);
+        double arr0 = InterpolationFunctions.biCubicLerp(v000, v100, v200, v300, v010, v110, v210, v310, v020, v120, v220, v320, v030, v130, v230, v330, tx, ty);
+        double arr1 = InterpolationFunctions.biCubicLerp(v001, v101, v201, v301, v011, v111, v211, v311, v021, v121, v221, v321, v031, v131, v231, v331, tx, ty);
+        double arr2 = InterpolationFunctions.biCubicLerp(v002, v102, v202, v302, v012, v112, v212, v312, v022, v122, v222, v322, v032, v132, v232, v332, tx, ty);
+        double arr3 = InterpolationFunctions.biCubicLerp(v003, v103, v203, v303, v013, v113, v213, v313, v023, v123, v223, v323, v033, v133, v233, v333, tx, ty);
+        return InterpolationFunctions.cubicLerp(arr0, arr1, arr2, arr3, tz);
     }
 
     /**

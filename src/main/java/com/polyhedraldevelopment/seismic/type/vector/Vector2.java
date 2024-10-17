@@ -92,8 +92,8 @@ public class Vector2 {
      *
      * @return a zero vector
      */
-    public @NotNull Vector2 zero() {
-        return ZERO;
+    public static @NotNull Vector2 zero() {
+        return Vector2.ZERO;
     }
 
     /**
@@ -101,8 +101,8 @@ public class Vector2 {
      *
      * @return a unit vector
      */
-    public @NotNull Vector2 unit() {
-        return UNIT;
+    public static @NotNull Vector2 unit() {
+        return Vector2.UNIT;
     }
 
     /**

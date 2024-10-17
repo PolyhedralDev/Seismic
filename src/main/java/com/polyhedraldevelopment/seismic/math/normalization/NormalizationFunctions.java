@@ -61,6 +61,6 @@ public class NormalizationFunctions {
      */
     public static double normalizeToRange(double edge0, double edge1, double x) {
         // Scale, bias and saturate x to 0..1 range
-        return clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+        return NormalizationFunctions.clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
     }
 }

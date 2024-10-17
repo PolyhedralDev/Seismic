@@ -41,11 +41,11 @@ final class HotspotVMOptionsUtils {
         boolean isHotspot = false;
         Function<String, Optional<String>> accessor = name -> Optional.empty();
         try {
-            final Class<?> beanClazz = Class.forName(HOTSPOT_BEAN_CLASS);
+            final Class<?> beanClazz = Class.forName(HotspotVMOptionsUtils.HOTSPOT_BEAN_CLASS);
             // we use reflection for this, because the management factory is not part
             // of java.base module:
             final Object hotSpotBean =
-                Class.forName(MANAGEMENT_FACTORY_CLASS)
+                Class.forName(HotspotVMOptionsUtils.MANAGEMENT_FACTORY_CLASS)
                     .getMethod("getPlatformMXBean", Class.class)
                     .invoke(null, beanClazz);
             if(hotSpotBean != null) {
@@ -70,7 +70,7 @@ final class HotspotVMOptionsUtils {
             final ModuleLayer layer = module.getLayer();
             // classpath / unnamed module has no layer, so we need to check:
             if(layer != null
-               && !layer.findModule("jdk.management").map(module::canRead).orElse(false)) {
+               && !layer.findModule("jdk.management").map(module::canRead).orElse(Boolean.FALSE).booleanValue()) {
                 log.warning(
                     "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
                     + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
@@ -91,6 +91,6 @@ final class HotspotVMOptionsUtils {
      * is not readable, returns an empty optional.
      */
     public static Optional<String> get(String name) {
-        return ACCESSOR.apply(Objects.requireNonNull(name, "name"));
+        return HotspotVMOptionsUtils.ACCESSOR.apply(Objects.requireNonNull(name, "name"));
     }
 }

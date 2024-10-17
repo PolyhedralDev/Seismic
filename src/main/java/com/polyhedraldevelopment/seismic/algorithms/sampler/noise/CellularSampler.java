@@ -239,8 +239,8 @@ public class CellularSampler extends NoiseFunction {
 
         double cellularJitter = 0.43701595 * jitterModifier;
 
-        int xPrimed = (xr - 1) * PRIME_X;
-        int yPrimedBase = (yr - 1) * PRIME_Y;
+        int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
+        int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
 
         double centerX = x;
         double centerY = y;
@@ -252,8 +252,8 @@ public class CellularSampler extends NoiseFunction {
                 int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
                 int idx = hash & (255 << 1);
 
-                double vecX = (xi - x) + RAND_VECS_2D[idx] * cellularJitter;
-                double vecY = (yi - y) + RAND_VECS_2D[idx | 1] * cellularJitter;
+                double vecX = (xi - x) + CellularSampler.RAND_VECS_2D[idx] * cellularJitter;
+                double vecY = (yi - y) + CellularSampler.RAND_VECS_2D[idx | 1] * cellularJitter;
 
                 double newDistance = switch(distanceFunction) {
                     case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
@@ -265,17 +265,17 @@ public class CellularSampler extends NoiseFunction {
                 if(newDistance < distance0) {
                     distance0 = newDistance;
                     closestHash = hash;
-                    centerX = ((xi + RAND_VECS_2D[idx] * cellularJitter) / frequency);
-                    centerY = ((yi + RAND_VECS_2D[idx | 1] * cellularJitter) / frequency);
+                    centerX = ((xi + CellularSampler.RAND_VECS_2D[idx] * cellularJitter) / frequency);
+                    centerY = ((yi + CellularSampler.RAND_VECS_2D[idx | 1] * cellularJitter) / frequency);
                 } else if(newDistance < distance1) {
                     distance2 = distance1;
                     distance1 = newDistance;
                 } else if(newDistance < distance2) {
                     distance2 = newDistance;
                 }
-                yPrimed += PRIME_Y;
+                yPrimed += NoiseFunction.PRIME_Y;
             }
-            xPrimed += PRIME_X;
+            xPrimed += NoiseFunction.PRIME_X;
         }
 
         if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
@@ -319,9 +319,9 @@ public class CellularSampler extends NoiseFunction {
 
         double cellularJitter = 0.39614353 * jitterModifier;
 
-        int xPrimed = (xr - 1) * PRIME_X;
-        int yPrimedBase = (yr - 1) * PRIME_Y;
-        int zPrimedBase = (zr - 1) * PRIME_Z;
+        int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
+        int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
+        int zPrimedBase = (zr - 1) * NoiseFunction.PRIME_Z;
 
         double centerX = x;
         double centerY = y;
@@ -337,9 +337,9 @@ public class CellularSampler extends NoiseFunction {
                     int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
                     int idx = hash & (255 << 2);
 
-                    double vecX = (xi - x) + RAND_VECS_3D[idx] * cellularJitter;
-                    double vecY = (yi - y) + RAND_VECS_3D[idx | 1] * cellularJitter;
-                    double vecZ = (zi - z) + RAND_VECS_3D[idx | 2] * cellularJitter;
+                    double vecX = (xi - x) + CellularSampler.RAND_VECS_3D[idx] * cellularJitter;
+                    double vecY = (yi - y) + CellularSampler.RAND_VECS_3D[idx | 1] * cellularJitter;
+                    double vecZ = (zi - z) + CellularSampler.RAND_VECS_3D[idx | 2] * cellularJitter;
 
                     double newDistance = 0;
                     switch(distanceFunction) {
@@ -354,20 +354,20 @@ public class CellularSampler extends NoiseFunction {
                     if(newDistance < distance0) {
                         distance0 = newDistance;
                         closestHash = hash;
-                        centerX = ((xi + RAND_VECS_3D[idx] * cellularJitter) / frequency);
-                        centerY = ((yi + RAND_VECS_3D[idx | 1] * cellularJitter) / frequency);
-                        centerZ = ((zi + RAND_VECS_3D[idx | 2] * cellularJitter) / frequency);
+                        centerX = ((xi + CellularSampler.RAND_VECS_3D[idx] * cellularJitter) / frequency);
+                        centerY = ((yi + CellularSampler.RAND_VECS_3D[idx | 1] * cellularJitter) / frequency);
+                        centerZ = ((zi + CellularSampler.RAND_VECS_3D[idx | 2] * cellularJitter) / frequency);
                     } else if(newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;
                     } else if(newDistance < distance2) {
                         distance2 = newDistance;
                     }
-                    zPrimed += PRIME_Z;
+                    zPrimed += NoiseFunction.PRIME_Z;
                 }
-                yPrimed += PRIME_Y;
+                yPrimed += NoiseFunction.PRIME_Y;
             }
-            xPrimed += PRIME_X;
+            xPrimed += NoiseFunction.PRIME_X;
         }
 
         if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {

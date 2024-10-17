@@ -8,36 +8,36 @@ import java.util.random.RandomGenerator;
 class TrigonometryUtils {
     private static final int lookupBits = 14;
 
-    static final int lookupTableSize = 1 << lookupBits;
+    static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
 
-    private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
-    private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / lookupTableSize);
-    static final double radianToIndex = (~(-1 << lookupBits) + 1) / TrigonometryConstants.TAU;
+    private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
+    private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
+    static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
 
     static {
-        sinTable = new int[lookupTableSizeWithMargin];
-        for(int i = 0; i < lookupTableSizeWithMargin; i++) {
-            double d = i * tauOverLookupSize;
-            sinTable[i] = Float.floatToRawIntBits((float) StrictMath.sin(d));
+        sinTable = new int[TrigonometryUtils.lookupTableSizeWithMargin];
+        for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
+            double d = i * TrigonometryUtils.tauOverLookupSize;
+            TrigonometryUtils.sinTable[i] = Float.floatToRawIntBits((float) StrictMath.sin(d));
         }
 
         // Four cardinal directions (credits: Nate)
         for(int i = 0; i < 360; i += 90) {
             double rad = Math.toRadians(i);
-            sinTable[(int) (rad * radianToIndex) & 0xFFFF] = Float.floatToRawIntBits((float) StrictMath.sin(rad));
+            TrigonometryUtils.sinTable[(int) (rad * TrigonometryUtils.radianToIndex) & 0xFFFF] = Float.floatToRawIntBits((float) StrictMath.sin(rad));
         }
 
         // Test that the lookup table is correct during runtime
         RandomGenerator random = RandomGenerator.getDefault();
-        for(int i = 0; i < lookupTableSizeWithMargin; i++) {
+        for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
             double d = -1 + 2.0 * random.nextDouble(); // Generate a random value between -1 and 1
             double expected = TrigonometryFunctions.sin(d);
             double value = StrictMath.sin(d);
 
             if(!FloatingPointFunctions.equals(expected, value, 0.001)) {
-                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
-                    expected, value));
+                throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", Double.valueOf(d),
+                    Double.valueOf(expected), Double.valueOf(value)));
             }
         }
 
@@ -48,7 +48,7 @@ class TrigonometryUtils {
 
             if(!FloatingPointFunctions.equals(expected, value)) {
                 throw new IllegalArgumentException(
-                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", i, expected, value));
+                    String.format("LUT error at cardinal direction %s (expected: %s, found: %s)", Integer.valueOf(i), Double.valueOf(expected), Double.valueOf(value)));
             }
         }
     }
@@ -74,6 +74,6 @@ class TrigonometryUtils {
 
         // Fetch the corresponding value from the LUT and invert the sign bit as needed
         // This directly manipulate the sign bit on the float bits to simplify logic
-        return Float.intBitsToFloat(sinTable[pos] ^ neg);
+        return Float.intBitsToFloat(TrigonometryUtils.sinTable[pos] ^ neg);
     }
 }

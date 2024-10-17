@@ -82,8 +82,8 @@ public class Vector3Int {
      *
      * @return a zero vector
      */
-    public @NotNull Vector3Int zero() {
-        return ZERO;
+    public static @NotNull Vector3Int zero() {
+        return Vector3Int.ZERO;
     }
 
     /**
@@ -91,8 +91,8 @@ public class Vector3Int {
      *
      * @return a unit vector
      */
-    public @NotNull Vector3Int unit() {
-        return UNIT;
+    public static @NotNull Vector3Int unit() {
+        return Vector3Int.UNIT;
     }
 
     /**
@@ -466,9 +466,9 @@ public class Vector3Int {
         public @NotNull Vector3Int.Mutable normalize() {
             double length = length();
             if(length != 0) {
-                this.x /= length;
-                this.y /= length;
-                this.z /= length;
+                this.x /= (int) length;
+                this.y /= (int) length;
+                this.z /= (int) length;
             }
             return this;
         }
