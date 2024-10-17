@@ -3,6 +3,7 @@ package com.polyhedraldevelopment.seismic.type.vector;
 import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.polyhedraldevelopment.seismic.type.DistanceFunction;
 import com.polyhedraldevelopment.seismic.type.Rotation;
 import org.jetbrains.annotations.NotNull;
 
@@ -108,62 +109,51 @@ public class Vector2 {
     /**
      * Returns the length (magnitude) of the vector.
      *
+     * @param distanceFunction the distance function to use
+     *
      * @return the length of the vector
      */
-    public double length() {
-        return Math.sqrt(lengthSquared());
-    }
-
-    /**
-     * Returns the squared length of the vector.
-     * This is more efficient than calculating the length directly.
-     *
-     * @return the squared length of the vector
-     */
-    public double lengthSquared() {
-        return x * x + z * z;
+    public double length(@NotNull DistanceFunction distanceFunction) {
+        return distanceFunction.getDistance(x, z);
     }
 
     /**
      * Returns the inverse of the length of the vector.
      *
+     * @param distanceFunction the distance function to use
+     *
      * @return the inverse length of the vector
      */
-    public double inverseLength() {
-        return AlgebraFunctions.invSqrt(lengthSquared());
-    }
-
-    /**
-     * Returns the squared inverse length of the vector.
-     *
-     * @return the squared inverse length of the vector
-     */
-    public double inverseLengthSquared() {
-        return 1 / lengthSquared();
+    public double inverseLength(@NotNull DistanceFunction distanceFunction) {
+        return distanceFunction.getInverseDistance(x, z);
     }
 
     /**
      * Returns the distance between this vector and the specified vector.
      *
+     * @param distanceFunction the distance function to use
      * @param vector the vector to calculate the distance to
      *
      * @return the distance between the two vectors
      */
-    public double distance(@NotNull Vector2 vector) {
-        return Math.sqrt(distanceSquared(vector));
+    public double distance(@NotNull DistanceFunction distanceFunction, @NotNull Vector2 vector) {
+        double dx = vector.x - x;
+        double dz = vector.z - z;
+        return distanceFunction.getDistance(dx, dz);
     }
 
     /**
-     * Returns the squared distance between this vector and the specified vector.
+     * Returns the inverse of the distance between this vector and the specified vector.
      *
-     * @param vector the vector to calculate the squared distance to
+     * @param distanceFunction the distance function to use
+     * @param vector the vector to calculate the distance to
      *
-     * @return the squared distance between the two vectors
+     * @return the inverse of the distance between the two vectors
      */
-    public double distanceSquared(@NotNull Vector2 vector) {
+    public double inverseDistance(@NotNull DistanceFunction distanceFunction, @NotNull Vector2 vector) {
         double dx = vector.x - x;
         double dz = vector.z - z;
-        return dx * dx + dz * dz;
+        return distanceFunction.getInverseDistance(dx, dz);
     }
 
     /**
@@ -202,7 +192,7 @@ public class Vector2 {
      * @return whether the vector is normalized
      */
     public boolean isNormalized() {
-        return FloatingPointFunctions.equals(this.lengthSquared(), 1);
+        return FloatingPointFunctions.equals(this.length(DistanceFunction.EuclideanSq), 1);
     }
 
     public int hashCode() {
@@ -445,7 +435,11 @@ public class Vector2 {
          * @return the normalized vector
          */
         public @NotNull Vector2.Mutable normalize() {
-            divScalar(length());
+            double length = this.length(DistanceFunction.Euclidean);
+            if(length != 0) {
+                this.x /= length;
+                this.z /= length;
+            }
             return this;
         }
 

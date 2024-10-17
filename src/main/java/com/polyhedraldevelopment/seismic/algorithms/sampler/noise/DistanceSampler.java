@@ -1,6 +1,9 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 
+import com.polyhedraldevelopment.seismic.type.DistanceFunction;
+
+
 public class DistanceSampler extends NoiseFunction {
 
     private final DistanceFunction distanceFunction;
@@ -23,19 +26,11 @@ public class DistanceSampler extends NoiseFunction {
     }
 
     private static double distance2d(DistanceFunction distanceFunction, double x, double z) {
-        return switch(distanceFunction) {
-            case Euclidean -> Math.sqrt(x * x + z * z);
-            case EuclideanSq -> x * x + z * z;
-            case Manhattan -> Math.abs(x) + Math.abs(z);
-        };
+        distanceFunction.getDistance(x, z);
     }
 
     private static double distance3d(DistanceFunction distanceFunction, double x, double y, double z) {
-        return switch(distanceFunction) {
-            case Euclidean -> Math.sqrt(x * x + y * y + z * z);
-            case EuclideanSq -> x * x + y * y + z * z;
-            case Manhattan -> Math.abs(x) + Math.abs(y) + Math.abs(z);
-        };
+        distanceFunction.getDistance(x, y, z);
     }
 
     @Override
@@ -57,11 +52,5 @@ public class DistanceSampler extends NoiseFunction {
         double dist = DistanceSampler.distance3d(distanceFunction, dx, dy, dz);
         if(normalize) return Math.min(((2 * dist) / distanceAtRadius) - 1, 1);
         return dist;
-    }
-
-    public enum DistanceFunction {
-        Euclidean,
-        EuclideanSq,
-        Manhattan
     }
 }

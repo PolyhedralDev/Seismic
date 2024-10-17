@@ -75,6 +75,7 @@ public class IntegerFunctions {
      * @return floored log10 of the value.
      */
     public static long log10Floor(long x) {
-        return IntegerFunctions.log10Ceil(x) - 1;
+        long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONGSIZE)) * -1233 >> 12);
+        return minDigits + (IntegerFunctions.pow10(minDigits) <= x ? 0 : -1);
     }
 }

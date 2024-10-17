@@ -10,6 +10,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 import com.polyhedraldevelopment.seismic.algorithms.hashing.HashingFunctions;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.polyhedraldevelopment.seismic.type.DistanceFunction;
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
@@ -398,14 +399,6 @@ public class CellularSampler extends NoiseFunction {
             case Angle -> Math.atan2(y / frequency - centerY, x / frequency - centerX);
         };
     }
-
-    public enum DistanceFunction {
-        Euclidean,
-        EuclideanSq,
-        Manhattan,
-        Hybrid
-    }
-
 
     public enum ReturnType {
         CellValue,

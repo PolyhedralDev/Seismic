@@ -4,9 +4,9 @@ A Java noise library, primarily for use in [Terra](https://github.com/Polyhedral
 
 # About
 
-Seismic is a Java sampler and math library, with a wide selection of functions. It started out as simply a fork of
+Seismic is a Java sampler and math library, with a wide selection of functions and types. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
-each sampler, but has since grown to include a much wider selection of samplers and features, including math functions useful for worldgen and other game development tasks.
+each sampler, but has since grown to include a much wider selection of samplers and features, including math functions and types. Where there is overlap with Java's Math class it is assumed that Seismic's functions are faster, sometimes trading a reasonable amount of accuracy or handling of special floating point values.
 
 # Features
 
@@ -14,7 +14,7 @@ Seismic contains a wide selection of samplers and math utilities, including:
 
 <details>
 
-<summary>Noise Samplers</summary>
+<summary>Samplers</summary>
 
 ### Gradient:
 
@@ -26,13 +26,13 @@ Seismic contains a wide selection of samplers and math utilities, including:
 * Cubically Interpolated Value Noise
 * Gabor Noise
 
-### Fractal
+### Fractal:
 
 * Brownian Motion
 * Ping-Pong
 * Ridged Fractal
 
-### Random
+### Random:
 
 * Gaussian Noise
 * White Noise
@@ -50,9 +50,9 @@ Seismic contains a wide selection of samplers and math utilities, including:
 * Linear Heightmap
 * Fractal Gavoro Pseudoerosion
 
-### Arithmetic
+### Arithmetic:
 
-* Addition 
+* Addition
 * Subtraction
 * Multiplication
 * Division
@@ -76,9 +76,115 @@ Seismic contains a wide selection of samplers and math utilities, including:
 
 </details>
 
+<details>
+
+<summary>Math Functions</summary>
+
+### Algebra:
+
+* Inverse Square Root
+
+### Arithmetic:
+
+* Fused Multiply Add
+
+### Exponential:
+
+* Exponential
+
+### Floating Point:
+
+* Epsilon Equals
+* Round
+* Floor
+* Ceiling
+* Fraction
+
+### Geometry:
+
+* Sphere
+* Cube
+
+### Integer:
+
+* Squash
+* Integer Power of Ten
+* Integer Logarithm Base Two Ceiling
+* Integer Logarithm Base Two Floor
+* Integer Logarithm Base Ten Ceiling
+* Integer Logarithm Base Ten Floor
+
+### Numerical Analysis:
+
+#### Interpolation:
+
+* Linear
+* Bilinear
+* Trilinear
+* Cubic
+* Bicubic
+* Tricubic
+
+#### Smoothstep:
+
+* Cubic Polynomial
+* Quadratic Polynomial
+* Quintic Polynomial
+* Cubic Rational
+* Quartic Rational
+
+### Statistic:
+
+* Standard Deviation
+* Normal Inverse
+
+### Trigonometry:
+
+* Sine
+* Cosine
+* Tangent
+* Secant
+* Cosecant
+* Cotangent
+
+</details>
+
+<details>
+
+<summary>Types</summary>
+
+### Sampler:
+
+* Sampler
+* Derivative Sampler
+
+### Vector:
+
+* Vector2
+* Vector2Int
+* Vector3
+* Vector3Int
+
+
+### Enum:
+
+* Rotation
+* Distance Function
+
+### Other:
+
+* Cubic Spline
+
+</details>
+
 # Licensing
 
 Seismic is licensed under the
 [GNU Lesser General Public License (LGPL), version 3.0](https://www.gnu.org/licenses/lgpl-3.0.txt). It contains code
 from [FastNoiseLite](https://github.com/Auburn/FastNoiseLite), licensed under the
-[MIT License](https://github.com/Auburn/FastNoiseLite/blob/master/LICENSE).
+[MIT License](https://github.com/Auburn/FastNoiseLite/blob/master/LICENSE), code
+from [Lithium](https://github.com/CaffeineMC/lithium-fabric)
+under [GNU Lesser General Public License (LGPL), version 3.0](https://github.com/CaffeineMC/lithium-fabric/blob/develop/LICENSE.txt), and
+code from [Apache Lucene](https://github.com/apache/lucene) under
+the [Apache License 2.0](https://github.com/apache/lucene/blob/main/LICENSE.txt); along with trivial and or CC0 code from various other
+sources.

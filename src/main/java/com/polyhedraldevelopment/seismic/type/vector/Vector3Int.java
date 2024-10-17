@@ -4,6 +4,7 @@ import com.polyhedraldevelopment.seismic.math.algebra.AlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.algebra.LinearAlgebraFunctions;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.trigonometry.TrigonometryFunctions;
+import com.polyhedraldevelopment.seismic.type.DistanceFunction;
 import com.polyhedraldevelopment.seismic.type.Rotation;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,63 +99,53 @@ public class Vector3Int {
     /**
      * Returns the length (magnitude) of the vector.
      *
+     * @param distanceFunction the distance function to use
+     *
      * @return the length of the vector
      */
-    public double length() {
-        return Math.sqrt(lengthSquared());
-    }
-
-    /**
-     * Returns the squared length of the vector.
-     * This is more efficient than calculating the length directly.
-     *
-     * @return the squared length of the vector
-     */
-    public double lengthSquared() {
-        return x * x + y * y + z * z;
+    public double length(@NotNull DistanceFunction distanceFunction) {
+        return distanceFunction.getDistance(x, y, z);
     }
 
     /**
      * Returns the inverse of the length of the vector.
      *
+     * @param distanceFunction the distance function to use
+     *
      * @return the inverse length of the vector
      */
-    public double inverseLength() {
-        return 1.0 / length();
-    }
-
-    /**
-     * Returns the squared inverse length of the vector.
-     *
-     * @return the squared inverse length of the vector
-     */
-    public double inverseLengthSquared() {
-        return AlgebraFunctions.invSqrt(lengthSquared());
+    public double inverseLength(@NotNull DistanceFunction distanceFunction) {
+        return distanceFunction.getInverseDistance(x, y, z);
     }
 
     /**
      * Returns the distance between this vector and the specified vector.
      *
+     * @param distanceFunction the distance function to use
      * @param vector the vector to calculate the distance to
      *
      * @return the distance between the two vectors
      */
-    public double distance(@NotNull Vector3Int vector) {
-        return Math.sqrt(distanceSquared(vector));
+    public double distance(@NotNull DistanceFunction distanceFunction, @NotNull Vector3Int vector) {
+        double dx = vector.x - x;
+        double dy = vector.y - y;
+        double dz = vector.z - z;
+        return distanceFunction.getDistance(dx, dy, dz);
     }
 
     /**
-     * Returns the squared distance between this vector and the specified vector.
+     * Returns the inverse of the distance between this vector and the specified vector.
      *
-     * @param vector the vector to calculate the squared distance to
+     * @param distanceFunction the distance function to use
+     * @param vector the vector to calculate the distance to
      *
-     * @return the squared distance between the two vectors
+     * @return the inverse of the distance between the two vectors
      */
-    public double distanceSquared(@NotNull Vector3Int vector) {
-        int dx = this.x - vector.x;
-        int dy = this.y - vector.y;
-        int dz = this.z - vector.z;
-        return dx * dx + dy * dy + dz * dz;
+    public double inverseDistance(@NotNull DistanceFunction distanceFunction, @NotNull Vector3Int vector) {
+        double dx = vector.x - x;
+        double dy = vector.y - y;
+        double dz = vector.z - z;
+        return distanceFunction.getInverseDistance(dx, y, dz);
     }
 
     /**
@@ -192,7 +183,7 @@ public class Vector3Int {
      * @return whether the vector is normalized
      */
     public boolean isNormalized() {
-        return FloatingPointFunctions.equals(this.lengthSquared(), 1);
+        return FloatingPointFunctions.equals(this.length(DistanceFunction.EuclideanSq), 1);
     }
 
 
@@ -464,7 +455,7 @@ public class Vector3Int {
          * @return the normalized vector
          */
         public @NotNull Vector3Int.Mutable normalize() {
-            double length = length();
+            double length = length(DistanceFunction.Euclidean);
             if(length != 0) {
                 this.x /= (int) length;
                 this.y /= (int) length;
