@@ -1,9 +1,9 @@
-package com.polyhedraldevelopment.seismic.math.statistics;
+package com.polyhedraldevelopment.seismic.math.statistic;
 
 import java.util.List;
 
 
-public class StatisticsFunctions {
+public class StatisticFunctions {
     /**
      * Returns the standard deviation of an array of {@code double} values.
      *

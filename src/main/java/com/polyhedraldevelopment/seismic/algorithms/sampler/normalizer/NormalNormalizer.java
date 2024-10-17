@@ -8,7 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.normalizer;
 
 
-import com.polyhedraldevelopment.seismic.math.statistics.StatisticsFunctions;
+import com.polyhedraldevelopment.seismic.math.statistic.StatisticFunctions;
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
@@ -24,7 +24,7 @@ public class NormalNormalizer extends Normalizer {
         this.lookup = new double[buckets];
 
         for(int i = 0; i < buckets; i++) {
-            lookup[i] = StatisticsFunctions.normalInverse((double) i / buckets, mean, standardDeviation);
+            lookup[i] = StatisticFunctions.normalInverse((double) i / buckets, mean, standardDeviation);
         }
     }
 
