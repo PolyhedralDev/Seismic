@@ -214,26 +214,4 @@ public class InterpolationFunctions {
             v233, v333, tx, ty);
         return InterpolationFunctions.cubicLerp(arr0, arr1, arr2, arr3, tz);
     }
-
-    /**
-     * Returns the result of a quintic easing function.
-     *
-     * @param t the interpolation parameter.
-     *
-     * @return the interpolated value.
-     */
-    public static double easingQuinticInterpolation(double t) {
-        return t * t * t * (t * (t * 6 - 15) + 10);
-    }
-
-    /**
-     * Returns the result of a Hermite easing function.
-     *
-     * @param t the interpolation parameter.
-     *
-     * @return the interpolated value.
-     */
-    public static double easingHermiteInterpolation(double t) {
-        return t * t * (3 - 2 * t);
-    }
 }

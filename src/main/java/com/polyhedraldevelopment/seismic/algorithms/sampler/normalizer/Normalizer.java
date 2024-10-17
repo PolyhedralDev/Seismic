@@ -5,7 +5,7 @@
  * reference the LICENSE file in this module's root directory.
  */
 
-package com.polyhedraldevelopment.seismic.algorithms.normalizer;
+package com.polyhedraldevelopment.seismic.algorithms.sampler.normalizer;
 
 
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;

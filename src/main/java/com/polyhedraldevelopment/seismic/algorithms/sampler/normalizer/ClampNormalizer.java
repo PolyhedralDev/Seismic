@@ -5,20 +5,17 @@
  * reference the LICENSE file in this module's root directory.
  */
 
-package com.polyhedraldevelopment.seismic.algorithms.normalizer;
+package com.polyhedraldevelopment.seismic.algorithms.sampler.normalizer;
 
 
 import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
-/**
- * Normalizer to linearly scale data's range.
- */
-public class LinearNormalizer extends Normalizer {
+public class ClampNormalizer extends Normalizer {
     private final double min;
     private final double max;
 
-    public LinearNormalizer(Sampler sampler, double min, double max) {
+    public ClampNormalizer(Sampler sampler, double min, double max) {
         super(sampler);
         this.min = min;
         this.max = max;
@@ -26,6 +23,6 @@ public class LinearNormalizer extends Normalizer {
 
     @Override
     public double normalize(double in) {
-        return (in - min) * (2 / (max - min)) - 1;
+        return Math.max(Math.min(in, max), min);
     }
 }

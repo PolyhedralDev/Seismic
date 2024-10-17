@@ -10,6 +10,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.value;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
+import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
 
 
 public class ValueSampler extends ValueStyleNoise {
@@ -19,8 +20,8 @@ public class ValueSampler extends ValueStyleNoise {
         int x0 = FloatingPointFunctions.floor(x);
         int y0 = FloatingPointFunctions.floor(y);
 
-        double xs = InterpolationFunctions.easingHermiteInterpolation(x - x0);
-        double ys = InterpolationFunctions.easingHermiteInterpolation(y - y0);
+        double xs = SmoothstepFunctions.cubicPolynomialSmoothstep(x - x0);
+        double ys = SmoothstepFunctions.cubicPolynomialSmoothstep(y - y0);
 
         x0 *= NoiseFunction.PRIME_X;
         y0 *= NoiseFunction.PRIME_Y;
@@ -40,9 +41,9 @@ public class ValueSampler extends ValueStyleNoise {
         int y0 = FloatingPointFunctions.floor(y);
         int z0 = FloatingPointFunctions.floor(z);
 
-        double xs = InterpolationFunctions.easingHermiteInterpolation(x - x0);
-        double ys = InterpolationFunctions.easingHermiteInterpolation(y - y0);
-        double zs = InterpolationFunctions.easingHermiteInterpolation(z - z0);
+        double xs = SmoothstepFunctions.cubicPolynomialSmoothstep( - x0);
+        double ys = SmoothstepFunctions.cubicPolynomialSmoothstep(y - y0);
+        double zs = SmoothstepFunctions.cubicPolynomialSmoothstep(z - z0);
 
         x0 *= NoiseFunction.PRIME_X;
         y0 *= NoiseFunction.PRIME_Y;

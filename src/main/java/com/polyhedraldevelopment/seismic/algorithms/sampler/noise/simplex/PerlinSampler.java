@@ -10,6 +10,7 @@ package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.simplex;
 import com.polyhedraldevelopment.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.polyhedraldevelopment.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
+import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
 
 
 /**
@@ -27,8 +28,8 @@ public class PerlinSampler extends SimplexStyleSampler {
         double xd1 = xd0 - 1;
         double yd1 = yd0 - 1;
 
-        double xs = InterpolationFunctions.easingQuinticInterpolation(xd0);
-        double ys = InterpolationFunctions.easingQuinticInterpolation(yd0);
+        double xs = SmoothstepFunctions.quinticPolynomialSmoothstep(xd0);
+        double ys = SmoothstepFunctions.quinticPolynomialSmoothstep(yd0);
 
         x0 *= NoiseFunction.PRIME_X;
         y0 *= NoiseFunction.PRIME_Y;
@@ -57,9 +58,9 @@ public class PerlinSampler extends SimplexStyleSampler {
         double yd1 = yd0 - 1;
         double zd1 = zd0 - 1;
 
-        double xs = InterpolationFunctions.easingQuinticInterpolation(xd0);
-        double ys = InterpolationFunctions.easingQuinticInterpolation(yd0);
-        double zs = InterpolationFunctions.easingQuinticInterpolation(zd0);
+        double xs = SmoothstepFunctions.quinticPolynomialSmoothstep(xd0);
+        double ys = SmoothstepFunctions.quinticPolynomialSmoothstep(yd0);
+        double zs = SmoothstepFunctions.quinticPolynomialSmoothstep(zd0);
 
         x0 *= NoiseFunction.PRIME_X;
         y0 *= NoiseFunction.PRIME_Y;
