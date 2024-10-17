@@ -8,7 +8,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.normalizer;
 
 
-import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 public class ClampNormalizer extends Normalizer {

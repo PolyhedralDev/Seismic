@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.arithmetic;
 
-import com.polyhedraldevelopment.seismic.api.sampler.DerivativeSampler;
-import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
+import com.polyhedraldevelopment.seismic.type.sampler.DerivativeSampler;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 
 
 public abstract class BinaryArithmeticSampler implements DerivativeSampler {

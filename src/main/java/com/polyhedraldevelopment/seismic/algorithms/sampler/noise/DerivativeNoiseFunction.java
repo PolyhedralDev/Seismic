@@ -1,7 +1,7 @@
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise;
 
 
-import com.polyhedraldevelopment.seismic.api.sampler.DerivativeSampler;
+import com.polyhedraldevelopment.seismic.type.sampler.DerivativeSampler;
 
 
 public abstract class DerivativeNoiseFunction extends NoiseFunction implements DerivativeSampler {

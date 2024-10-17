@@ -7,7 +7,7 @@
 
 package com.polyhedraldevelopment.seismic.algorithms.sampler.noise.fractal;
 
-import com.polyhedraldevelopment.seismic.api.sampler.Sampler;
+import com.polyhedraldevelopment.seismic.type.sampler.Sampler;
 import com.polyhedraldevelopment.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 
 

@@ -5,7 +5,7 @@
  * reference the LICENSE file in the common/api directory.
  */
 
-package com.polyhedraldevelopment.seismic.api.type;
+package com.polyhedraldevelopment.seismic.type;
 
 public enum Rotation {
 
