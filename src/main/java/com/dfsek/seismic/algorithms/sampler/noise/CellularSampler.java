@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
@@ -254,21 +255,21 @@ public class CellularSampler extends NoiseFunction {
                 int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
                 int idx = hash & (255 << 1);
 
-                double vecX = (xi - x) + CellularSampler.RAND_VECS_2D[idx] * cellularJitter;
-                double vecY = (yi - y) + CellularSampler.RAND_VECS_2D[idx | 1] * cellularJitter;
+                double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi - x);
+                double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi - y);
 
                 double newDistance = switch(distanceFunction) {
+                    case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
                     case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
-                    case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + (vecX * vecX + vecY * vecY);
-                    default -> vecX * vecX + vecY * vecY;
+                    case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
                 };
 
                 distance1 = Math.max(Math.min(distance1, newDistance), distance0);
                 if(newDistance < distance0) {
                     distance0 = newDistance;
                     closestHash = hash;
-                    centerX = ((xi + CellularSampler.RAND_VECS_2D[idx] * cellularJitter) / frequency);
-                    centerY = ((yi + CellularSampler.RAND_VECS_2D[idx | 1] * cellularJitter) / frequency);
+                    centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi) / frequency;
+                    centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi) / frequency;
                 } else if(newDistance < distance1) {
                     distance2 = distance1;
                     distance1 = newDistance;
@@ -339,26 +340,23 @@ public class CellularSampler extends NoiseFunction {
                     int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
                     int idx = hash & (255 << 2);
 
-                    double vecX = (xi - x) + CellularSampler.RAND_VECS_3D[idx] * cellularJitter;
-                    double vecY = (yi - y) + CellularSampler.RAND_VECS_3D[idx | 1] * cellularJitter;
-                    double vecZ = (zi - z) + CellularSampler.RAND_VECS_3D[idx | 2] * cellularJitter;
+                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi - x);
+                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi - y);
+                    double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
 
-                    double newDistance = 0;
-                    switch(distanceFunction) {
-                        case Euclidean, EuclideanSq -> newDistance = vecX * vecX + vecY * vecY + vecZ * vecZ;
-                        case Manhattan -> newDistance = Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
-                        case Hybrid -> {
-                            newDistance = (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
-                            distance1 = Math.max(Math.min(distance1, newDistance), distance0);
-                        }
-                    }
+                    double newDistance = switch(distanceFunction) {
+                        case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                        case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
+                        case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX, ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                    };
 
+                    distance1 = Math.max(Math.min(distance1, newDistance), distance0);
                     if(newDistance < distance0) {
                         distance0 = newDistance;
                         closestHash = hash;
-                        centerX = ((xi + CellularSampler.RAND_VECS_3D[idx] * cellularJitter) / frequency);
-                        centerY = ((yi + CellularSampler.RAND_VECS_3D[idx | 1] * cellularJitter) / frequency);
-                        centerZ = ((zi + CellularSampler.RAND_VECS_3D[idx | 2] * cellularJitter) / frequency);
+                        centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi) / frequency;
+                        centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi) / frequency;
+                        centerZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi) / frequency;
                     } else if(newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;
