@@ -99,10 +99,6 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 * Fused Multiply Add
 
-### Exponential:
-
-* Exponential
-
 ### Floating Point:
 
 * Epsilon Equals

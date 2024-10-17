@@ -10,7 +10,6 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
-import com.dfsek.seismic.math.exponential.ExponentialFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 
@@ -25,7 +24,7 @@ public class GaborNoiseSampler extends NoiseFunction {
     private double kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / a);
     private double impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
     private double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
-    private double g = ExponentialFunctions.exp(-impulsesPerCell);
+    private double g = Math.exp(-impulsesPerCell);
     private double omega0 = Math.PI * 0.25;
     private boolean isotropic = true;
 
@@ -38,7 +37,7 @@ public class GaborNoiseSampler extends NoiseFunction {
         kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / this.a);
         impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
         impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
-        g = ExponentialFunctions.exp(-impulsesPerCell);
+        g = Math.exp(-impulsesPerCell);
     }
 
     private double gaborNoise(long seed, double x, double y) {
@@ -76,7 +75,7 @@ public class GaborNoiseSampler extends NoiseFunction {
     }
 
     private double gabor(double omega_0, double x, double y) {
-        return k * (ExponentialFunctions.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
+        return k * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
             2 * Math.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
                                 y * TrigonometryFunctions.sin(
                                     omega_0))));
