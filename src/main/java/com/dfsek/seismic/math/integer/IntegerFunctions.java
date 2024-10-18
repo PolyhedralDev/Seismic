@@ -15,7 +15,8 @@ public class IntegerFunctions {
 
     /**
      * Returns the power of 10 for the given long value.
-     * Undefined behavior for x <= 0.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
      *
@@ -28,7 +29,7 @@ public class IntegerFunctions {
     /**
      * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 2 of the argument
      * and is equal to a mathematical integer.
-     * Undefined behavior for x <= 0.
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value
      *
@@ -41,7 +42,8 @@ public class IntegerFunctions {
     /**
      * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 2 of the argument and
      * is equal to a mathematical integer.
-     * Undefined behavior for x <= 0.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value
      *
@@ -54,7 +56,8 @@ public class IntegerFunctions {
     /**
      * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 10 of the argument
      * and is equal to a mathematical integer.
-     * Undefined behavior for x <= 0.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value
      *
@@ -68,7 +71,8 @@ public class IntegerFunctions {
     /**
      * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 10 of the argument and
      * is equal to a mathematical integer.
-     * Undefined behavior for x <= 0.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value
      *

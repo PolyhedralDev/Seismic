@@ -30,11 +30,11 @@ public class StatisticFunctions {
 
     /**
      * Returns the value in a normally distributed data set that has probability p.
-     * With distribution is characterized by the mean (&mu) and standard deviation (&sigma).
+     * With distribution is characterized by the mean (&mu;) and standard deviation (&sigma;).
      *
      * @param p     Probability of value. Must be in the range [0, 1].
-     * @param mu    Mean (&mu) of data.
-     * @param sigma Standard deviation (&sigma) of data. Must be positive.
+     * @param mu    Mean (&mu;) of data.
+     * @param sigma Standard deviation (&sigma;) of data. Must be positive.
      *
      * @return the value corresponding to input probability.
      */
