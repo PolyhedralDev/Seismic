@@ -135,7 +135,7 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 #### Smoothstep:
 
 * Cubic Polynomial
-* Quadratic Polynomial
+* Quartic Polynomial
 * Quintic Polynomial
 * Cubic Rational
 * Quartic Rational
