@@ -10,17 +10,17 @@ nyx {
         withSignedPublishing()
 
         repositories {
-            maven {
-                name = "Sonatype"
-
-                val repositoryId: String? by project
-                url = when {
-                    repositoryId != null -> uri("https://s01.oss.sonatype.org/service/local/staging/deployByRepositoryId/$repositoryId/")
-                    else -> uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                }
-
-                credentials(PasswordCredentials::class)
-            }
+//            maven {
+//                name = "Sonatype"
+//
+//                val repositoryId: String? by project
+//                url = when {
+//                    repositoryId != null -> uri("https://s01.oss.sonatype.org/service/local/staging/deployByRepositoryId/$repositoryId/")
+//                    else -> uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+//                }
+//
+//                credentials(PasswordCredentials::class)
+//            }
             maven("https://repo.codemc.io/repository/maven-releases/") {
                 name = "CodeMC"
                 credentials(PasswordCredentials::class)
