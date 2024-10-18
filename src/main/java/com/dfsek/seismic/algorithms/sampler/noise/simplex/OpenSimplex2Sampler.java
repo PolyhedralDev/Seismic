@@ -50,11 +50,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         }
 
 
-        double c = ArithmeticFunctions.fma((2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 / OpenSimplex2Sampler.G2 - 2)), t, ((-2 * (1 - 2 *
-                                                                                                                                     OpenSimplex2Sampler.G2) *
-                                                                                                                           (1 - 2 *
-                                                                                                                                OpenSimplex2Sampler.G2)) +
-                                                                                                                          a));
+        double c = ArithmeticFunctions.fma((2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 / OpenSimplex2Sampler.G2 - 2)), t,
+            ((-2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 - 2 * OpenSimplex2Sampler.G2)) + a));
         if(c > 0) {
             double x2 = x0 + (2 * OpenSimplex2Sampler.G2 - 1);
             double y2 = y0 + (2 * OpenSimplex2Sampler.G2 - 1);

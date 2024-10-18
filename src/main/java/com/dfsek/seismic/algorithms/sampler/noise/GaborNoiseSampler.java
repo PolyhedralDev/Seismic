@@ -20,7 +20,7 @@ public class GaborNoiseSampler extends NoiseFunction {
     private double a = 0.1;
     private double f0 = 0.625;
     private double impulsesPerKernel = 64d;
-    
+
     private double kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / a);
     private double impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
     private double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
