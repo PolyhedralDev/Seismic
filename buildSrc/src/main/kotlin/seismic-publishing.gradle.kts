@@ -25,12 +25,12 @@ nyx {
                 name = "CodeMC"
                 credentials(PasswordCredentials::class)
             }
-            maven("https://maven.solo-studios.ca/releases/") {
-                credentials(PasswordCredentials::class)
-                authentication { // publishing doesn't work without this for some reason
-                    create<BasicAuthentication>("basic")
-                }
-            }
+//            maven("https://maven.solo-studios.ca/releases/") {
+//                credentials(PasswordCredentials::class)
+//                authentication { // publishing doesn't work without this for some reason
+//                    create<BasicAuthentication>("basic")
+//                }
+//            }
         }
     }
 }
