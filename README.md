@@ -25,7 +25,7 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 <details>
 
-<summary>Samplers</summary>
+<summary><big><b>Samplers</b></big></summary>
 
 ### Gradient:
 
@@ -89,7 +89,7 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 <details>
 
-<summary>Math Functions</summary>
+<summary><big><b>Math Functions</b></big></summary>
 
 ### Algebra:
 
@@ -158,7 +158,7 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 <details>
 
-<summary>Types</summary>
+<summary><big><b>Types</b></big></summary>
 
 ### Sampler:
 
@@ -183,14 +183,13 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 </details>
 
-# Licensing
+## Licensing
 
-Seismic is licensed under the
-[GNU Lesser General Public License (LGPL), version 3.0](https://www.gnu.org/licenses/lgpl-3.0.txt). It contains code
-from [FastNoiseLite](https://github.com/Auburn/FastNoiseLite), licensed under the
-[MIT License](https://github.com/Auburn/FastNoiseLite/blob/master/LICENSE), code
-from [Lithium](https://github.com/CaffeineMC/lithium-fabric)
-under [GNU Lesser General Public License (LGPL), version 3.0](https://github.com/CaffeineMC/lithium-fabric/blob/develop/LICENSE.txt), and
-code from [Apache Lucene](https://github.com/apache/lucene) under
-the [Apache License 2.0](https://github.com/apache/lucene/blob/main/LICENSE.txt); along with trivial and or CC0 code from various other
-sources.
+Seismic is licensed under the [GNU Lesser General Public License (LGPL), version 3.0](https://www.gnu.org/licenses/lgpl-3.0.txt). It
+includes code from:
+
+- [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) (MIT License)
+- [Lithium](https://github.com/CaffeineMC/lithium-fabric) (LGPL 3.0)
+- [Apache Lucene](https://github.com/apache/lucene) (Apache License 2.0)
+
+Additionally, it contains trivial and/or CC0 code from various other sources.
