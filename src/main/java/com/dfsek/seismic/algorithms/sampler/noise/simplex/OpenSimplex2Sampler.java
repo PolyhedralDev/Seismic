@@ -30,8 +30,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         y += s;
 
 
-        int i = FloatingPointFunctions.round(x);
-        int j = FloatingPointFunctions.round(y);
+        int i = FloatingPointFunctions.floor(x);
+        int j = FloatingPointFunctions.floor(y);
         double xi = x - i;
         double yi = y - j;
 
