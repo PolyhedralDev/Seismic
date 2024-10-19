@@ -36,13 +36,13 @@ pipeline {
             }
         }
 
-       // stage('Tests') {
-       //     steps {
-       //         withGradle {
-       //             sh './gradlew test'
-       //         }
-       //     }
-       // }
+        stage('Tests') {
+            steps {
+                withGradle {
+                    sh './gradlew test'
+                }
+            }
+        }
 
         stage('Deploy to snapshots repositories') {
             when {
@@ -113,7 +113,7 @@ pipeline {
         always {
             discoverReferenceBuild()
 
-            junit testResults: '**/build/test-results/*/TEST-*.xml'
+            // junit testResults: '**/build/test-results/*/TEST-*.xml'
 
             recordIssues(
                 aggregatingResults: true,
@@ -126,7 +126,7 @@ pipeline {
             )
 
             discordSend(
-                title: env.JOB_NAME + ' ' + env.BUILD_DISPLAY_NAME + (env.BRANCH_IS_PRIMARY ? '' : "${env.BRANCH_NAME}"),
+                title: env.JOB_NAME + ' ' + env.BUILD_DISPLAY_NAME + (env.BRANCH_IS_PRIMARY ? '' : " ${env.BRANCH_NAME}"),
                 showChangeset: true,
                 enableArtifactsList: true,
                 link: env.BUILD_URL,
