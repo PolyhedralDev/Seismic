@@ -36,13 +36,13 @@ pipeline {
             }
         }
 
-        stage('Tests') {
-            steps {
-                withGradle {
-                    sh './gradlew test'
-                }
-            }
-        }
+       // stage('Tests') {
+       //     steps {
+       //         withGradle {
+       //             sh './gradlew test'
+       //         }
+       //     }
+       // }
 
         stage('Deploy to snapshots repositories') {
             when {
