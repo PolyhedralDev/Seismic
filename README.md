@@ -4,8 +4,6 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&style=for-the-badge)](https://github.com/PolyhedralDev/Seismic/tags)
 [![Chat](https://img.shields.io/discord/715448651786485780?style=for-the-badge&color=7389D8)](https://terra.polydev.org/contact.html)
 
----
-
 <big><b>A Java sampler, math, and type library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev)
 projects.</b></big>
 
