@@ -24,7 +24,7 @@ nyx {
 
         repository.fromGithub("PolyhedralDev", "Seismic")
 
-        license.useMIT()
+        license.useLGPLv3()
 
         developer {
             id = "duplexsys"
@@ -75,7 +75,7 @@ nyx {
                 name = "SoloStudiosReleases"
                 credentials(PasswordCredentials::class)
             }
-            reposiliteMaven("https://maven.solo-studios.ca/releases/") {
+            reposiliteMaven("https://maven.solo-studios.ca/snapshots/") {
                 name = "SoloStudiosSnapshots"
                 credentials(PasswordCredentials::class)
             }
