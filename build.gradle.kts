@@ -9,14 +9,12 @@ plugins {
     alias(libs.plugins.axion.release)
 }
 
-version = scmVersion.version
-
 nyx {
     info {
         name = "Seismic"
         group = "com.dfsek"
-        module = rootProject.name
-        version = rootProject.version.toString()
+        module = "seismic"
+        version = scmVersion.version
         description = """
             Seismic is A Java sampler, math, and type library.
         """.trimIndent()
