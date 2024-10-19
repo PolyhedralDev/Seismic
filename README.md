@@ -1,6 +1,8 @@
 # Seismic
 
-![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&label=version) [![Build Status](https://ci.codemc.io/buildStatus/icon?job=PolyhedralDev%2FSeismic)](https://ci.codemc.io/job/PolyhedralDev/job/Seismic/)
+[![Build Status](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.solo-studios.ca%2Fjob%2FPolyhedralDev%2Fjob%2FSeismic%2Fjob%2Fmaster%2F&style=for-the-badge&link=https%3A%2F%2Fci.solo-studios.ca%2Fjob%2FPolyhedralDev%2Fjob%2FSeismic%2Fjob%2Fmaster%2F)](https://ci.solo-studios.ca/job/PolyhedralDev/job/Seismic/job/master/)
+[![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&style=for-the-badge)](https://github.com/PolyhedralDev/Seismic/tags)
+[![Chat](https://img.shields.io/discord/715448651786485780?style=for-the-badge&color=7389D8)](https://terra.polydev.org/contact.html)
 
 ---
 
@@ -106,11 +108,6 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 * Floor
 * Ceiling
 * Fraction
-
-### Geometry:
-
-* Sphere
-* Cube
 
 ### Integer:
 
