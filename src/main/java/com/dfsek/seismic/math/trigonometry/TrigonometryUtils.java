@@ -74,7 +74,7 @@ class TrigonometryUtils {
      * tightly optimized to avoid branching where possible and to use very quick integer operations.
      *
      * @author coderbot16   Author of the original (and very clever) implementation in Rust:
-     *     https://gitlab.com/coderbot16/i73/-/tree/master/i73-trig/src
+     *     <a href="https://gitlab.com/coderbot16/i73/-/tree/master/i73-trig/src">i73</a>
      * @author jellysquid3  Additional optimizations, port to Java
      */
     static double sinLookup(int index) {

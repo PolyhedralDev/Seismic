@@ -28,11 +28,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class VMConstants {
     /**
-     * True if the Java runtime is a client runtime and C2 compiler is not enabled.
-     */
-    public static final boolean IS_CLIENT_VM =
-        VMConstants.getSysProp("java.vm.info", "").contains("emulated-client");
-    /**
      * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic.
      */
     public static final boolean IS_HOTSPOT_VM = HotspotVMOptionsUtils.IS_HOTSPOT_VM;
@@ -41,6 +36,17 @@ public final class VMConstants {
      */
     public static final boolean IS_JVMCI_VM =
         HotspotVMOptionsUtils.get("UseJVMCICompiler").map(Boolean::valueOf).orElse(Boolean.FALSE);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VMConstants.class);
+    /**
+     * True if the Java runtime is a client runtime and C2 compiler is not enabled.
+     */
+    public static final boolean IS_CLIENT_VM =
+        VMConstants.getSysProp("java.vm.info", "").contains("emulated-client");
+    /**
+     * true if FMA likely means a cpu instruction and not BigDecimal logic.
+     */
+    private static final boolean HAS_FMA =
+        (!VMConstants.IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(Boolean.FALSE);
     private static final String UNKNOWN = "Unknown";
     /**
      * JVM vendor info.
@@ -91,11 +97,6 @@ public final class VMConstants {
      */
     public static final String JAVA_VENDOR = VMConstants.getSysProp("java.vendor", VMConstants.UNKNOWN);
     /**
-     * true if FMA likely means a cpu instruction and not BigDecimal logic.
-     */
-    private static final boolean HAS_FMA =
-        (!VMConstants.IS_CLIENT_VM) && HotspotVMOptionsUtils.get("UseFMA").map(Boolean::valueOf).orElse(Boolean.FALSE);
-    /**
      * maximum supported vectorsize.
      */
     private static final int MAX_VECTOR_SIZE =
@@ -131,11 +132,11 @@ public final class VMConstants {
             String value = VMConstants.getSysProp("seismic.useVectorFMA", "auto");
             if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
-                // the problem is just apple silicon (this is a practical heuristic)
+                // the problem is just Apple Silicon (this is a practical heuristic)
                 if(VMConstants.OS_ARCH.equals("aarch64") && !VMConstants.MAC_OS_X) {
                     return true;
                 }
-                // zen cores or newer, its a wash, turn it on as it doesn't hurt
+                // zen cores or newer, it's a wash, turn it on as it doesn't hurt
                 // starts to yield gains for vectors only at zen4+
                 if(VMConstants.HAS_SSE4A && VMConstants.MAX_VECTOR_SIZE >= 32) {
                     return true;
@@ -155,7 +156,7 @@ public final class VMConstants {
             String value = VMConstants.getSysProp("seismic.useScalarFMA", "auto");
             if("auto".equals(value)) {
                 // newer Neoverse cores have their act together
-                // the problem is just apple silicon (this is a practical heuristic)
+                // the problem is just Apple Silicon (this is a practical heuristic)
                 if(VMConstants.OS_ARCH.equals("aarch64") && !VMConstants.MAC_OS_X) {
                     return true;
                 }
@@ -197,7 +198,6 @@ public final class VMConstants {
     }
 
     private static void logSecurityWarning(String property) {
-        Logger log = LoggerFactory.getLogger(VMConstants.class);
-        log.warn("SecurityManager prevented access to system property: {}", property);
+        VMConstants.LOGGER.warn("SecurityManager prevented access to system property: {}", property);
     }
 }

@@ -35,6 +35,7 @@ final class HotspotVMOptionsUtils {
      * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic
      */
     public static final boolean IS_HOTSPOT_VM;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HotspotVMOptionsUtils.class);
     private static final String MANAGEMENT_FACTORY_CLASS = "java.lang.management.ManagementFactory";
     private static final String HOTSPOT_BEAN_CLASS = "com.sun.management.HotSpotDiagnosticMXBean";
     private static final Function<String, Optional<String>> ACCESSOR;
@@ -67,17 +68,16 @@ final class HotspotVMOptionsUtils {
                     };
             }
         } catch(@SuppressWarnings("unused") ReflectiveOperationException | RuntimeException e) {
-            Logger log = LoggerFactory.getLogger(HotspotVMOptionsUtils.class);
             final Module module = HotspotVMOptionsUtils.class.getModule();
             final ModuleLayer layer = module.getLayer();
             // classpath / unnamed module has no layer, so we need to check:
             if(layer != null
                && !layer.findModule("jdk.management").map(module::canRead).orElse(Boolean.FALSE)) {
-                log.warn(
+                HotspotVMOptionsUtils.LOGGER.warn(
                     "Seismic cannot access JVM internals to optimize performance, unless the 'jdk.management' Java module "
                     + "is readable [please add 'jdk.management' to modular application either by command line or its module descriptor].");
             } else {
-                log.warn(
+                HotspotVMOptionsUtils.LOGGER.warn(
                     "Seismic cannot optimize performance for JVMs that are not based on Hotspot or a compatible implementation.");
             }
         }

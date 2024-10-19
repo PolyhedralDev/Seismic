@@ -4,14 +4,14 @@
 [![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&style=for-the-badge)](https://github.com/PolyhedralDev/Seismic/tags)
 [![Chat](https://img.shields.io/discord/715448651786485780?style=for-the-badge&color=7389D8)](https://terra.polydev.org/contact.html)
 
-<big><b>A Java sampler, math, and type library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev)
+<big><b>A Java sampler, math, type, and utility library, primarily for use in [Polyhedral Development](https://github.com/PolyhedralDev)
 projects.</b></big>
 
 # About
 
-Seismic is a Java sampler, math, and type library, with a wide selection of functions and types. It started out as simply a fork of
+Seismic is a Java sampler, math, type and utility library, with a wide selection of functions and types. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
-each sampler, but has since grown to include a much wider selection of samplers and features, including math functions and types. Where
+each sampler, but has since grown to include a much wider selection of samplers and features, including math functions, types, and utilities. Where
 there is overlap with Java's Math class it is assumed that Seismic's functions are faster, sometimes trading a reasonable amount of accuracy
 or handling of special floating point values.
 
@@ -175,6 +175,76 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 ### Other:
 
 * Cubic Spline
+
+</details>
+
+<details>
+
+<summary><big><b>Utilities</b></big></summary>
+
+### Access Controller:
+
+* Do Privileged
+
+### HotSpot VM Options:
+
+* Get Property
+
+### VM Constants:
+
+* Is Client VM
+* Is HotSpot VM
+* Is JVMCI VM
+* Get JVM Vendor
+* Get OS Name
+* Is Linux
+* Is Windows
+* Is SunOS
+* Is MacOS
+* Is FreeBSD
+* Get OS Arch
+* Get Java Vendor
+* Get Has Fast Vector FMA
+* Get Has Fast Scalar FMA
+
+### Reflection:
+
+* Get Class
+* Get Method
+* Get Field
+* Set Field To Public
+* Set Method To Public
+
+### Unsafe:
+
+* Get Static Field Object
+* Get Static Field Char
+* Get Static Field Int
+* Get Static Field Long
+* Get Static Field Float
+* Get Static Field Double
+* Get Static Field Boolean
+* Put Static Field Object
+* Put Static Field Char
+* Put Static Field Int
+* Put Static Field Long
+* Put Static Field Float
+* Put Static Field Double
+* Put Static Field Boolean
+* Get Field Object
+* Get Field Char
+* Get Field Int
+* Get Field Long
+* Get Field Float
+* Get Field Double
+* Get Field Boolean
+* Put Field Object
+* Put Field Char
+* Put Field Int
+* Put Field Long
+* Put Field Float
+* Put Field Double
+* Put Field Boolean
 
 </details>
 

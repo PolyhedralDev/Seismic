@@ -1,5 +1,8 @@
 package com.dfsek.seismic.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.AnnotatedElement;
@@ -18,8 +21,11 @@ import java.util.function.Consumer;
 
 
 public class ReflectionUtils {
-    public static final ConcurrentHashMap<String, Class> reflectedClasses = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<ClassField, Field> reflectedFields = new ConcurrentHashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionUtils.class);
+
+    private static final ConcurrentHashMap<String, Class<?>> reflectedClasses = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<ClassMethod, Method> reflectedMethods = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<ClassField, Field> reflectedFields = new ConcurrentHashMap<>();
 
     /**
      * Retrieves the class object associated with the given class name.
@@ -28,8 +34,20 @@ public class ReflectionUtils {
      *
      * @return the class object for the given class name
      */
-    public static Class getClass(String className) {
+    public static Class<?> getClass(String className) {
         return ReflectionUtils.reflectedClasses.computeIfAbsent(className, ReflectionUtils::getReflectedClass);
+    }
+
+    /**
+     * Retrieves the method object for the given class and method name.
+     *
+     * @param clss  the class containing the method
+     * @param mthod the name of the method
+     *
+     * @return the method object for the given class and method name
+     */
+    public static Method getMethod(Class<?> clss, String mthod) {
+        return ReflectionUtils.reflectedMethods.computeIfAbsent(new ClassMethod(clss, mthod), ReflectionUtils::getReflectedMethod);
     }
 
     /**
@@ -40,8 +58,18 @@ public class ReflectionUtils {
      *
      * @return the field object for the given class and field name
      */
-    public static Field getField(Class clss, String fild) {
+    public static Field getField(Class<?> clss, String fild) {
         return ReflectionUtils.reflectedFields.computeIfAbsent(new ClassField(clss, fild), ReflectionUtils::getReflectedField);
+    }
+
+
+    /**
+     * Sets the specified method to be accessible, bypassing Java access control checks.
+     *
+     * @param mthod the method to set to public
+     */
+    public static void setMethodToPublic(Method mthod) {
+        ReflectionUtils.setAccessibleObjectToPublic(mthod);
     }
 
     /**
@@ -51,15 +79,6 @@ public class ReflectionUtils {
      */
     public static void setFieldToPublic(Field fild) {
         ReflectionUtils.setAccessibleObjectToPublic(fild);
-    }
-
-    /**
-     * Sets the specified method to be accessible, bypassing Java access control checks.
-     *
-     * @param mthod the method to set to public
-     */
-    public static void setMethodToPublic(Method mthod) {
-        ReflectionUtils.setAccessibleObjectToPublic(mthod);
     }
 
     private static void setAccessibleObjectToPublic(AccessibleObject obj) {
@@ -72,9 +91,11 @@ public class ReflectionUtils {
                     obj.setAccessible(true);
                     return null;
                 });
-            } catch(ClassNotFoundException e) {
+            } catch(Exception e) {
                 if(UnsafeUtils.canUseUnsafe) {
                     UnsafeUtils.putFieldBoolean(obj, ReflectionUtils.getField(obj.getClass(), "override"), Boolean.TRUE);
+                } else {
+                    ReflectionUtils.LOGGER.error("Failed to set field to public: {}", obj);
                 }
             }
         }
@@ -84,14 +105,23 @@ public class ReflectionUtils {
         try {
             return clssfild.clss.getField(clssfild.fild());
         } catch(NoSuchFieldException e) {
-            e.printStackTrace();
+            ReflectionUtils.LOGGER.error("Field {} not found in class {}", clssfild.fild(), clssfild.clss.getName());
         }
         return null;
     }
 
-    private static Class getReflectedClass(String className) {
+    private static Method getReflectedMethod(ClassMethod clssmthod) {
         try {
-            Class classObj;
+            return clssmthod.clss.getMethod(clssmthod.mthod);
+        } catch(NoSuchMethodException e) {
+            ReflectionUtils.LOGGER.error("Method {} not found in class {}", clssmthod.mthod, clssmthod.clss.getName());
+        }
+        return null;
+    }
+
+    private static Class<?> getReflectedClass(String className) {
+        try {
+            Class<?> classObj;
             int $loc = className.indexOf('$');
             if($loc > -1) {
                 classObj = ReflectionUtils.getNestedClass(Class.forName(className.substring(0, $loc)), className.substring($loc + 1));
@@ -101,14 +131,14 @@ public class ReflectionUtils {
             assert classObj != null;
             return classObj;
         } catch(ClassNotFoundException e) {
-            e.printStackTrace();
+            ReflectionUtils.LOGGER.error("Class {} not found", className);
         }
         return null;
     }
 
-    private static Class getNestedClass(Class upperClass, String nestedClassName) {
-        Class[] classObjArr = upperClass.getDeclaredClasses();
-        for(Class classArrObj : classObjArr) {
+    private static Class<?> getNestedClass(Class<?> upperClass, String nestedClassName) {
+        Class<?>[] classObjArr = upperClass.getDeclaredClasses();
+        for(Class<?> classArrObj : classObjArr) {
             if(classArrObj.getName().equals(upperClass.getName() + "$" + nestedClassName)) {
                 return classArrObj;
             }
@@ -150,7 +180,7 @@ public class ReflectionUtils {
                 Type componentType = genericArrayType.getGenericComponentType();
                 return Array.newInstance(ReflectionUtils.getRawType(componentType), 0).getClass();
             }
-            case TypeVariable typeVariable -> {
+            case TypeVariable<?> ignored -> {
                 return Object.class;
             }
             case WildcardType wildcardType -> {
@@ -172,7 +202,7 @@ public class ReflectionUtils {
      * @return the string representation of the type
      */
     public static String typeToString(Type type) {
-        return type instanceof Class ? ((Class<?>) type).getName() : type.toString();
+        return type instanceof Class<?> ? ((Class<?>) type).getName() : type.toString();
     }
 
     /**
@@ -220,6 +250,10 @@ public class ReflectionUtils {
         }
     }
 
-    private record ClassField(Class clss, String fild) {
+    private record ClassField(Class<?> clss, String fild) {
+    }
+
+
+    private record ClassMethod(Class<?> clss, String mthod) {
     }
 }
