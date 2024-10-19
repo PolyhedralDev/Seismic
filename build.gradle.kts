@@ -16,7 +16,7 @@ nyx {
         module = "seismic"
         version = scmVersion.version
         description = """
-            Seismic is A Java sampler, math, and type library.
+            Seismic is a Java sampler, math, type, and utility library.
         """.trimIndent()
 
         organizationName = "Polyhedral Development"
