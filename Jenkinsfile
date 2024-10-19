@@ -67,7 +67,6 @@ pipeline {
                     }
                 }
             }
-
         }
 
         stage('Deploy to releases repositories') {
