@@ -1,6 +1,6 @@
 # Seismic
 
-![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&label=version) [![Build Status](https://ci.codemc.io/buildStatus/icon?job=PolyhedralDev%2FSeismic)](https://ci.codemc.io/job/PolyhedralDev/job/Seismic/)
+![GitHub Tag](https://img.shields.io/github/v/tag/PolyhedralDev/Seismic?sort=semver&label=version) [[![Build Status](https://ci.codemc.io/buildStatus/icon?job=PolyhedralDev%2FSeismic)](https://ci.codemc.io/job/PolyhedralDev/job/Seismic/)](https://ci.solo-studios.ca/buildStatus/icon?job=PolyhedralDev%2FSeismic%2Fmaster&build=1)
 
 ---
 
