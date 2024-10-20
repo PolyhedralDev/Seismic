@@ -11,7 +11,7 @@ public class FloatingPointFunctions {
      * @return Whether these values are equal.
      */
     public static boolean equals(double a, double b) {
-        return FloatingPointFunctions.equals(a, b, FloatingPointConstants.EPSILON);
+        return FloatingPointFunctions.equalsWithinEpsilon(a, b, FloatingPointConstants.EPSILON);
     }
 
     /**
@@ -24,7 +24,7 @@ public class FloatingPointFunctions {
      *
      * @return Whether these values are equal.
      */
-    public static boolean equals(double a, double b, double epsilon) {
+    public static boolean equalsWithinEpsilon(double a, double b, double epsilon) {
         return a == b || Math.abs(a - b) < epsilon;
     }
 

@@ -10,7 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
-import com.dfsek.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
+import com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid.SmoothstepFunctions;
 
 
 /**

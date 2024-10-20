@@ -1,4 +1,6 @@
 import ca.solostudios.nyx.util.codeMC
+import ca.solostudios.nyx.util.soloStudios
+import ca.solostudios.nyx.util.soloStudiosSnapshots
 import ca.solostudios.nyx.util.reposiliteMaven
 
 plugins {
@@ -53,7 +55,7 @@ nyx {
     }
 
     publishing {
-        withSignedPublishing()
+        // withSignedPublishing()
 
         repositories {
             maven {
@@ -84,7 +86,10 @@ nyx {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    soloStudios()
+    soloStudiosSnapshots()
     codeMC()
 }
 

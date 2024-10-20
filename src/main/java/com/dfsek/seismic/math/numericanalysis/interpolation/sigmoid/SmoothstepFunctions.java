@@ -1,4 +1,4 @@
-package com.dfsek.seismic.math.numericanalysis.interpolation;
+package com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid;
 
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 

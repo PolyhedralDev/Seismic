@@ -36,7 +36,7 @@ class TrigonometryUtils {
             double expected = TrigonometryFunctions.sin(d);
             double value = StrictMath.sin(d);
 
-            if(!FloatingPointFunctions.equals(expected, value, 0.001)) {
+            if(!FloatingPointFunctions.equalsWithinEpsilon(expected, value, 0.001)) {
                 throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
                     expected, value));
             }
@@ -58,7 +58,6 @@ class TrigonometryUtils {
 
     // Seismic is a double precision library, however, the sin table is a lut, which needs to be compact
     // for the best chance of fitting in the CPU cache. For this reason the sin table is stored as float.
-
     /**
      * A replacement for the sine angle lookup table used in Riven's sin/cos implementation, both reducing the size of LUT and improving
      * the access patterns for common paired sin/cos operations.

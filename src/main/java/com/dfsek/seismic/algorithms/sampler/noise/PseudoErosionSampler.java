@@ -5,7 +5,7 @@ import com.dfsek.seismic.math.algebra.LinearAlgebraFunctions;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.normalization.NormalizationFunctions;
-import com.dfsek.seismic.math.numericanalysis.interpolation.SmoothstepFunctions;
+import com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid.SmoothstepFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryConstants;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;

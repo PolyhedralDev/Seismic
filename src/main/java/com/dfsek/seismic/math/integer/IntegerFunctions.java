@@ -19,37 +19,58 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
-     *
      * @return the power of 10 for the given long value.
      */
-    public static long pow10(long x) {
+    public static long iPow10(long x) {
         return IntegerConstants.POW10TABLE[(int) x];
+    }
+
+    /**
+     * Returns the result of raising the base to the power of the exponent.
+     * <p>
+     * Undefined behavior for <i>yd</i> &lt; <i>0</i>.
+     *
+     * @param x the base value.
+     * @param y the exponent value.
+     * @return the result of raising the base to the power of the exponent.
+     */
+    public static int iPow(long x, long y) {
+        long result = 1;
+        while (y > 0) {
+            if ((y & 1) == 0) {
+                x *= x;
+                y >>>= 1;
+            } else {
+                result *= x;
+                y--;
+            }
+        }
+        return (int) result;
     }
 
     /**
      * Returns the smallest (closest to negative infinity) long value that is greater than or equal to the logarithm base 2 of the argument
      * and is equal to a mathematical integer.
+     * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
-     * @param x a value
-     *
-     * @return log2 of the value ceilinged.
+     * @param x a value.
+     * @return ceilinged log2 of the value.
      */
-    public static long log2Ceil(long x) {
+    public static long iLog2Ceil(long x) {
         return IntegerConstants.LONGSIZE - Long.numberOfLeadingZeros(x);
     }
 
     /**
-     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 2 of the argument and
-     * is equal to a mathematical integer.
+     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 2 of the argument
+     * and is equal to a mathematical integer.
      * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
-     * @param x a value
-     *
-     * @return log2 of the value floored.
+     * @param x a value.
+     * @return log2 of the value.
      */
-    public static long log2Floor(long x) {
+    public static long iLog2(long x) {
         return (IntegerConstants.LONGSIZE - 1) - Long.numberOfLeadingZeros(x);
     }
 
@@ -59,27 +80,102 @@ public class IntegerFunctions {
      * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
-     * @param x a value
-     *
+     * @param x a value.
      * @return ceilinged log10 of the value.
      */
-    public static long log10Ceil(long x) {
+    public static long iLog10Ceil(long x) {
         long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONGSIZE)) * -1233 >> 12);
-        return minDigits + (IntegerFunctions.pow10(minDigits) <= x ? 1 : 0);
+        return minDigits + (IntegerFunctions.iPow10(minDigits) <= x ? 1 : 0);
     }
 
     /**
-     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 10 of the argument and
-     * is equal to a mathematical integer.
+     * Returns the largest (closest to positive infinity) long value that is less than or equal to the logarithm base 10 of the argument
+     * and is equal to a mathematical integer.
      * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
-     * @param x a value
-     *
-     * @return floored log10 of the value.
+     * @param x a value.
+     * @return log10 of the value.
      */
-    public static long log10Floor(long x) {
+    public static long iLog10(long x) {
         long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONGSIZE)) * -1233 >> 12);
-        return minDigits + (IntegerFunctions.pow10(minDigits) <= x ? 0 : -1);
+        return minDigits + (IntegerFunctions.iPow10(minDigits) <= x ? 0 : -1);
+    }
+
+    /**
+     * Returns the power of 10 for the given double value.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
+     *
+     * @param x a value.
+     * @return the power of 10 for the given double value.
+     */
+    public static double iPow10(double x) {
+        return (double) IntegerFunctions.iPow10((long) x);
+    }
+
+    /**
+     * Returns the result of raising the base to the power of the exponent.
+     * <p>
+     * Undefined behavior for <i>yd</i> &lt; <i>0</i>.
+     *
+     * @param x the base value.
+     * @param y the exponent value.
+     * @return the result of raising the base to the power of the exponent.
+     */
+    public static double iPow(double x, double y) {
+        return (double) IntegerFunctions.iPow((long) x, (long) y);
+    }
+
+    /**
+     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 2 of the argument
+     * and is equal to a mathematical integer.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
+     *
+     * @param x a value.
+     * @return ceilinged log2 of the value.
+     */
+    public static double iLog2Ceil(double x) {
+        return (double) IntegerFunctions.iLog2Ceil((long) x);
+    }
+
+    /**
+     * Returns the largest (closest to positive infinity) double value that is less than or equal to the logarithm base 2 of the argument
+     * and is equal to a mathematical integer.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
+     *
+     * @param x a value.
+     * @return log2 of the value.
+     */
+    public static double iLog2(double x) {
+        return (double) IntegerFunctions.iLog2((long) x);
+    }
+
+    /**
+     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 10 of the argument
+     * and is equal to a mathematical integer.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
+     *
+     * @param x a value.
+     * @return ceilinged log10 of the value.
+     */
+    public static double iLog10Ceil(double x) {
+        return (double) IntegerFunctions.iLog10Ceil((long) x);
+    }
+
+    /**
+     * Returns the largest (closest to positive infinity) double value that is less than or equal to the logarithm base 10 of the argument
+     * and is equal to a mathematical integer.
+     * <p>
+     * Undefined behavior for <i>x</i> &le; <i>0</i>.
+     *
+     * @param x a value.
+     * @return log10 of the value.
+     */
+    public static double iLog10(double x) {
+        return (double) IntegerFunctions.iLog10((long) x);
     }
 }
