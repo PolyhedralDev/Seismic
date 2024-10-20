@@ -55,7 +55,7 @@ nyx {
     }
 
     publishing {
-        // withSignedPublishing()
+        withSignedPublishing()
 
         repositories {
             maven {
