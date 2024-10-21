@@ -11,7 +11,8 @@ projects.</b></big>
 
 Seismic is a Java sampler, math, type and utility library, with a wide selection of functions and types. It started out as simply a fork of
 [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) that broke up the monolithic class into separate classes for
-each sampler, but has since grown to include a much wider selection of samplers and features, including math functions, types, and utilities. Where
+each sampler, but has since grown to include a much wider selection of samplers and features, including math functions, types, and
+utilities. Where
 there is overlap with Java's Math class it is assumed that Seismic's functions are faster, sometimes trading a reasonable amount of accuracy
 or handling of special floating point values.
 

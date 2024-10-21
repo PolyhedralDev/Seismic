@@ -6,10 +6,9 @@ import java.util.random.RandomGenerator;
 
 
 class TrigonometryUtils {
-    private static final int lookupBits = 14;
-
-    static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
     public static final double PI_OVER_2 = TrigonometryConstants.PI * 0.5;
+    private static final int lookupBits = 14;
+    static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
     private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
@@ -58,6 +57,7 @@ class TrigonometryUtils {
 
     // Seismic is a double precision library, however, the sin table is a lut, which needs to be compact
     // for the best chance of fitting in the CPU cache. For this reason the sin table is stored as float.
+
     /**
      * A replacement for the sine angle lookup table used in Riven's sin/cos implementation, both reducing the size of LUT and improving
      * the access patterns for common paired sin/cos operations.

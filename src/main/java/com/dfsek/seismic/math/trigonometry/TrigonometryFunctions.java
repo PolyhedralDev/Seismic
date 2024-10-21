@@ -1,8 +1,5 @@
 package com.dfsek.seismic.math.trigonometry;
 
-import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
-
-
 public class TrigonometryFunctions {
     /**
      * Returns the trigonometric sine of an angle.
@@ -24,7 +21,7 @@ public class TrigonometryFunctions {
      */
     public static double cos(double angle) {
         return TrigonometryUtils.sinLookup(
-            (int) ((angle + TrigonometryUtils.PI_OVER_2) * TrigonometryUtils.radianToIndex ) & 0xFFFF);
+            (int) ((angle + TrigonometryUtils.PI_OVER_2) * TrigonometryUtils.radianToIndex) & 0xFFFF);
     }
 
     /**

@@ -19,6 +19,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return the power of 10 for the given long value.
      */
     public static long iPow10(long x) {
@@ -32,12 +33,13 @@ public class IntegerFunctions {
      *
      * @param x the base value.
      * @param y the exponent value.
+     *
      * @return the result of raising the base to the power of the exponent.
      */
     public static int iPow(long x, long y) {
         long result = 1;
-        while (y > 0) {
-            if ((y & 1) == 0) {
+        while(y > 0) {
+            if((y & 1) == 0) {
                 x *= x;
                 y >>>= 1;
             } else {
@@ -55,6 +57,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return ceilinged log2 of the value.
      */
     public static long iLog2Ceil(long x) {
@@ -68,6 +71,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return log2 of the value.
      */
     public static long iLog2(long x) {
@@ -81,6 +85,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return ceilinged log10 of the value.
      */
     public static long iLog10Ceil(long x) {
@@ -95,6 +100,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return log10 of the value.
      */
     public static long iLog10(long x) {
@@ -108,6 +114,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return the power of 10 for the given double value.
      */
     public static double iPow10(double x) {
@@ -121,19 +128,22 @@ public class IntegerFunctions {
      *
      * @param x the base value.
      * @param y the exponent value.
+     *
      * @return the result of raising the base to the power of the exponent.
      */
     public static double iPow(double x, double y) {
-        return (double) IntegerFunctions.iPow((long) x, (long) y);
+        return IntegerFunctions.iPow((long) x, (long) y);
     }
 
     /**
-     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 2 of the argument
+     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 2 of the
+     * argument
      * and is equal to a mathematical integer.
      * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return ceilinged log2 of the value.
      */
     public static double iLog2Ceil(double x) {
@@ -147,6 +157,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return log2 of the value.
      */
     public static double iLog2(double x) {
@@ -154,12 +165,14 @@ public class IntegerFunctions {
     }
 
     /**
-     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 10 of the argument
+     * Returns the smallest (closest to negative infinity) double value that is greater than or equal to the logarithm base 10 of the
+     * argument
      * and is equal to a mathematical integer.
      * <p>
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return ceilinged log10 of the value.
      */
     public static double iLog10Ceil(double x) {
@@ -173,6 +186,7 @@ public class IntegerFunctions {
      * Undefined behavior for <i>x</i> &le; <i>0</i>.
      *
      * @param x a value.
+     *
      * @return log10 of the value.
      */
     public static double iLog10(double x) {
