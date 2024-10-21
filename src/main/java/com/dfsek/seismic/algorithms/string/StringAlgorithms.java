@@ -34,7 +34,7 @@ public class StringAlgorithms {
             char aChar = chars[i];
             if(Character.isUpperCase(aChar)) {
                 char prevChar = chars[i - 1];
-                if (!Character.isLetter(prevChar)) {
+                if (Character.isLetter(prevChar)) {
                     if(Character.isLowerCase(prevChar)) {
                         if(i == 1 && chars[0] == 'i') {
                             snakeStr.append(Character.toLowerCase(aChar));
