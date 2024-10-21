@@ -24,7 +24,7 @@ public class TrigonometryFunctions {
      */
     public static double cos(double angle) {
         return TrigonometryUtils.sinLookup(
-            (int) (ArithmeticFunctions.fma(angle, TrigonometryUtils.radianToIndex, TrigonometryUtils.lookupTableSize)) & 0xFFFF);
+            (int) ((angle + TrigonometryUtils.PI_OVER_2) * TrigonometryUtils.radianToIndex ) & 0xFFFF);
     }
 
     /**

@@ -9,7 +9,7 @@ class TrigonometryUtils {
     private static final int lookupBits = 14;
 
     static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
-
+    public static final double PI_OVER_2 = TrigonometryConstants.PI * 0.5;
     private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
