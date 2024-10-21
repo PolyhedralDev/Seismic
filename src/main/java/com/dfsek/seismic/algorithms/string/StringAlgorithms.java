@@ -34,16 +34,20 @@ public class StringAlgorithms {
             char aChar = chars[i];
             if(Character.isUpperCase(aChar)) {
                 char prevChar = chars[i - 1];
-                if(Character.isLetter(prevChar) && Character.isLowerCase(prevChar)) {
-                    if(i == 1 && chars[0] == 'i') {
+                if (!Character.isLetter(prevChar)) {
+                    if(Character.isLowerCase(prevChar)) {
+                        if(i == 1 && chars[0] == 'i') {
+                            snakeStr.append(Character.toLowerCase(aChar));
+                        } else {
+                            snakeStr.append('_');
+                            snakeStr.append(Character.toLowerCase(aChar));
+                        }
+                    } else if(charLen > i + 1 && Character.isLowerCase(chars[i + 1])) {
                         snakeStr.append(Character.toLowerCase(aChar));
-                    } else {
                         snakeStr.append('_');
+                    } else {
                         snakeStr.append(Character.toLowerCase(aChar));
                     }
-                } else if(charLen > i + 1 && Character.isLowerCase(chars[i + 1])) {
-                    snakeStr.append(Character.toLowerCase(aChar));
-                    snakeStr.append('_');
                 } else {
                     snakeStr.append(Character.toLowerCase(aChar));
                 }
