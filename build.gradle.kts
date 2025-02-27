@@ -29,7 +29,7 @@ nyx {
         license.useLGPLv3()
 
         developer {
-            id = "duplexsys"
+            id = "duplexsystem"
             name = "Zoë Gidiere"
             email = "duplexsys@protonmail.com"
             url = "https://github.com/duplexsystem"
