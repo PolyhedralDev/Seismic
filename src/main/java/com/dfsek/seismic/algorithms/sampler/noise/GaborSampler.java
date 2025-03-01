@@ -14,7 +14,7 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 
 
-public class GaborNoiseSampler extends NoiseFunction {
+public class GaborSampler extends NoiseFunction {
     private final WhiteNoiseSampler rand;
     private double k = 1.0;
     private double a = 0.1;
@@ -29,7 +29,7 @@ public class GaborNoiseSampler extends NoiseFunction {
     private boolean isotropic = true;
 
 
-    public GaborNoiseSampler() {
+    public GaborSampler() {
         rand = new WhiteNoiseSampler();
     }
 
