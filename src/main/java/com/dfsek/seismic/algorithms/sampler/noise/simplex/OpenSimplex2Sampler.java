@@ -300,8 +300,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                 double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, y0, gz * z0));
                 out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
                 out[1] = ArithmeticFunctions.fma(-8 * rampValue * aaa, x0, ArithmeticFunctions.fma(gx, aaaa, out[1]));
-                out[1] = ArithmeticFunctions.fma(-8 * rampValue * aaa, y0, ArithmeticFunctions.fma(gy, aaaa, out[1]));
-                out[2] = ArithmeticFunctions.fma(-8 * rampValue * aaa, z0, ArithmeticFunctions.fma(gz, aaaa, out[2]));
+                out[2] = ArithmeticFunctions.fma(-8 * rampValue * aaa, y0, ArithmeticFunctions.fma(gy, aaaa, out[2]));
+                out[3] = ArithmeticFunctions.fma(-8 * rampValue * aaa, z0, ArithmeticFunctions.fma(gz, aaaa, out[3]));
             }
 
             if(ax0 >= ay0 && ax0 >= az0) {
@@ -315,8 +315,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                     double rampValue = ArithmeticFunctions.fma(gx, (x0 + xNSign), ArithmeticFunctions.fma(gy, y0, gz * z0));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (x0 + xNSign), ArithmeticFunctions.fma(gx, bbbb, out[1]));
-                    out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y0, ArithmeticFunctions.fma(gy, bbbb, out[1]));
-                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, z0, ArithmeticFunctions.fma(gz, bbbb, out[2]));
+                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y0, ArithmeticFunctions.fma(gy, bbbb, out[2]));
+                    out[3] = ArithmeticFunctions.fma(-8 * rampValue * bbb, z0, ArithmeticFunctions.fma(gz, bbbb, out[3]));
 
                 }
             } else if(ay0 > ax0 && ay0 >= az0) {
@@ -330,8 +330,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                     double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, (y0 + yNSign), gz * z0));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x0, ArithmeticFunctions.fma(gx, bbbb, out[1]));
-                    out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (y0 + yNSign), ArithmeticFunctions.fma(gy, bbbb, out[1]));
-                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, z0, ArithmeticFunctions.fma(gz, bbbb, out[2]));
+                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (y0 + yNSign), ArithmeticFunctions.fma(gy, bbbb, out[2]));
+                    out[3] = ArithmeticFunctions.fma(-8 * rampValue * bbb, z0, ArithmeticFunctions.fma(gz, bbbb, out[3]));
                 }
             } else {
                 double b = a + az0 + az0;
@@ -344,8 +344,8 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                     double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, y0, gz * (z0 + zNSign)));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x0, ArithmeticFunctions.fma(gx, bbbb, out[1]));
-                    out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y0, ArithmeticFunctions.fma(gy, bbbb, out[1]));
-                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (z0 + zNSign), ArithmeticFunctions.fma(gz, bbbb, out[2]));
+                    out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y0, ArithmeticFunctions.fma(gy, bbbb, out[2]));
+                    out[3] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (z0 + zNSign), ArithmeticFunctions.fma(gz, bbbb, out[3]));
 
                 }
             }
