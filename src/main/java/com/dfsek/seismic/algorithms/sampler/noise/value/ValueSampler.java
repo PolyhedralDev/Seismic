@@ -28,10 +28,10 @@ public class ValueSampler extends ValueStyleNoise {
         int x1 = x0 + NoiseFunction.PRIME_X;
         int y1 = y0 + NoiseFunction.PRIME_Y;
 
-        double xf0 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y0), ValueStyleNoise.valCoord(seed, x1, y0));
-        double xf1 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y1), ValueStyleNoise.valCoord(seed, x1, y1));
+        double xf0 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y0), ValueStyleNoise.valCoord(seed, x1, y0), xs);
+        double xf1 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y1), ValueStyleNoise.valCoord(seed, x1, y1), xs);
 
-        return InterpolationFunctions.lerp(ys, xf0, xf1);
+        return InterpolationFunctions.lerp(xf0, xf1, ys);
     }
 
     @Override
@@ -52,19 +52,19 @@ public class ValueSampler extends ValueStyleNoise {
         int y1 = y0 + NoiseFunction.PRIME_Y;
         int z1 = z0 + NoiseFunction.PRIME_Z;
 
-        double xf00 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y0, z0),
-            ValueStyleNoise.valCoord(seed, x1, y0, z0));
-        double xf10 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y1, z0),
-            ValueStyleNoise.valCoord(seed, x1, y1, z0));
-        double xf01 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y0, z1),
-            ValueStyleNoise.valCoord(seed, x1, y0, z1));
-        double xf11 = InterpolationFunctions.lerp(xs, ValueStyleNoise.valCoord(seed, x0, y1, z1),
-            ValueStyleNoise.valCoord(seed, x1, y1, z1));
+        double xf00 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y0, z0),
+            ValueStyleNoise.valCoord(seed, x1, y0, z0), xs);
+        double xf10 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y1, z0),
+            ValueStyleNoise.valCoord(seed, x1, y1, z0), xs);
+        double xf01 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y0, z1),
+            ValueStyleNoise.valCoord(seed, x1, y0, z1), xs);
+        double xf11 = InterpolationFunctions.lerp(ValueStyleNoise.valCoord(seed, x0, y1, z1),
+            ValueStyleNoise.valCoord(seed, x1, y1, z1), xs);
 
-        double yf0 = InterpolationFunctions.lerp(ys, xf00, xf10);
-        double yf1 = InterpolationFunctions.lerp(ys, xf01, xf11);
+        double yf0 = InterpolationFunctions.lerp(xf00, xf10, ys);
+        double yf1 = InterpolationFunctions.lerp(xf01, xf11, ys);
 
-        return InterpolationFunctions.lerp(zs, yf0, yf1);
+        return InterpolationFunctions.lerp(yf0, yf1, ys);
     }
 
 }

@@ -36,7 +36,7 @@ public class PingPongSampler extends FractalNoiseFunction {
         for(int i = 0; i < octaves; i++) {
             double noise = PingPongSampler.pingPong((input.getSample(seed++, x, y) + 1) * pingPongStrength);
             sum += (noise - 0.5) * 2 * amp;
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, noise);
+            amp *= InterpolationFunctions.lerp(1.0, noise, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;
@@ -54,7 +54,7 @@ public class PingPongSampler extends FractalNoiseFunction {
         for(int i = 0; i < octaves; i++) {
             double noise = PingPongSampler.pingPong((input.getSample(seed++, x, y, z) + 1) * pingPongStrength);
             sum += (noise - 0.5) * 2 * amp;
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, noise);
+            amp *= InterpolationFunctions.lerp(1.0, noise, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;

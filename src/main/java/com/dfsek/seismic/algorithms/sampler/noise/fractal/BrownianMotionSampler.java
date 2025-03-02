@@ -25,7 +25,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         for(int i = 0; i < octaves; i++) {
             double noise = input.getSample(seed++, x, y);
             sum += noise * amp;
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, Math.min(noise + 1, 2) * 0.5);
+            amp *= InterpolationFunctions.lerp(1.0, Math.min(noise + 1, 2) * 0.5, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;
@@ -43,7 +43,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         for(int i = 0; i < octaves; i++) {
             double noise = input.getSample(seed++, x, y, z);
             sum += noise * amp;
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, (noise + 1) * 0.5);
+            amp *= InterpolationFunctions.lerp(1.0, (noise + 1) * 0.5, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;
@@ -75,7 +75,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
             sum[1] += noise[1] * amp;
             sum[2] += noise[2] * amp;
 
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, Math.min(noise[0] + 1, 2) * 0.5);
+            amp *= InterpolationFunctions.lerp(1.0, Math.min(noise[0] + 1, 2) * 0.5, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;
@@ -99,7 +99,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
             sum[2] += noise[2] * amp;
             sum[3] += noise[3] * amp;
 
-            amp *= InterpolationFunctions.lerp(weightedStrength, 1.0, (noise[0] + 1) * 0.5);
+            amp *= InterpolationFunctions.lerp(1.0, (noise[0] + 1) * 0.5, weightedStrength);
 
             x *= lacunarity;
             y *= lacunarity;

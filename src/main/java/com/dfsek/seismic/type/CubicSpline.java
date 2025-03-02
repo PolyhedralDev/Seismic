@@ -66,9 +66,9 @@ public class CubicSpline {
 
             double t = (in - fromLeft) / fromDelta;
 
-            return InterpolationFunctions.lerp(t, toLeft, toRight) + t * (1.0F - t) * InterpolationFunctions.lerp(t,
+            return InterpolationFunctions.lerp(toLeft, toRight, t) + t * (1.0F - t) * InterpolationFunctions.lerp(
                 gradientLeft * fromDelta - toDelta,
-                -gradientRight * fromDelta + toDelta);
+                -gradientRight * fromDelta + toDelta, t);
         }
     }
 
