@@ -58,7 +58,7 @@ public class SmoothstepFunctions {
      * @return the interpolated value.
      */
     public static double quinticPolynomialSmoothstep(double x) {
-        return x * x * x * (x * (ArithmeticFunctions.fma(x, 6.0, 15.0)) + 10.0);
+        return x * x * x * (x * (ArithmeticFunctions.fma(x, 6.0, -15.0)) + 10.0);
     }
 
     /**
