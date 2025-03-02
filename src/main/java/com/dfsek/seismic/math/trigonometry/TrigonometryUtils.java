@@ -2,6 +2,7 @@ package com.dfsek.seismic.math.trigonometry;
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 
+import java.util.Random;
 import java.util.random.RandomGenerator;
 
 
@@ -31,7 +32,7 @@ class TrigonometryUtils {
         // Test that the lookup table is correct during runtime
         RandomGenerator random = RandomGenerator.getDefault();
         for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
-            double d = -1 + 2.0 * random.nextDouble(); // Generate a random value between -1 and 1
+            double d = (random.nextDouble() * 2 * Math.PI) - Math.PI;
             double expected = TrigonometryFunctions.sin(d);
             double value = StrictMath.sin(d);
 
