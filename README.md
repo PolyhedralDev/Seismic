@@ -83,7 +83,6 @@ Seismic contains a wide selection of samplers, math utilities, and types includi
 
 ### Exotic Sampler:
 
-* Image
 * Kernel
 
 </details>
