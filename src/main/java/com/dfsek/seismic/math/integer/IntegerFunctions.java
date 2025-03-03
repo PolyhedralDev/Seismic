@@ -127,12 +127,23 @@ public class IntegerFunctions {
      * Undefined behavior for <i>yd</i> &lt; <i>0</i>.
      *
      * @param x the base value.
-     * @param y the exponent value.
+     * @param yd the exponent value.
      *
      * @return the result of raising the base to the power of the exponent.
      */
-    public static double iPow(double x, double y) {
-        return IntegerFunctions.iPow((long) x, (long) y);
+    public static double iPow(double x, double yd) {
+        long y = (long) yd;
+        double result = 1;
+        while (y > 0) {
+            if ((y & 1) == 0) {
+                x *= x;
+                y >>>= 1;
+            } else {
+                result *= x;
+                y--;
+            }
+        }
+        return result;
     }
 
     /**
