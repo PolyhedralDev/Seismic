@@ -178,78 +178,77 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
-        double s = (x + y) * OpenSimplex2Sampler.F2;
+        final double G2 = (3 - SQRT3) / 6;
+
+        final double F2 = 0.5f * (SQRT3 - 1);
+        double s = (x + y) * F2;
         x += s;
         y += s;
 
 
-        int i = FloatingPointFunctions.floor(x);
-        int j = FloatingPointFunctions.floor(y);
+        int i = (int) Math.floor(x);
+        int j = (int) Math.floor(y);
         double xi = x - i;
         double yi = y - j;
 
-        double t = (xi + yi) * OpenSimplex2Sampler.G2;
+        double t = (xi + yi) * G2;
         double x0 = xi - t;
         double y0 = yi - t;
 
-        i *= NoiseFunction.PRIME_X;
-        j *= NoiseFunction.PRIME_Y;
+        i *= PRIME_X;
+        j *= PRIME_Y;
 
         double[] out = { 0.0f, 0.0f, 0.0f };
 
         double a = 0.5 - x0 * x0 - y0 * y0;
         if(a > 0) {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
-            int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
-            double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-            double rampValue = ArithmeticFunctions.fma(gx, x0, gy * y0);
-            out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
-            out[1] = ArithmeticFunctions.fma(-8 * rampValue * aaa, x0, ArithmeticFunctions.fma(gx, aaaa, out[1]));
-            out[2] = ArithmeticFunctions.fma(-8 * rampValue * aaa, y0, ArithmeticFunctions.fma(gy, aaaa, out[2]));
+            int gi = gradCoordIndex(seed, i, j);
+            double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
+            double rampValue = gx * x0 + gy * y0;
+            out[0] += aaaa * rampValue;
+            out[1] += gx * aaaa - 8 * rampValue * aaa * x0;
+            out[2] += gy * aaaa - 8 * rampValue * aaa * y0;
         }
 
-        double c = ArithmeticFunctions.fma((2 * (1 - 2 * OpenSimplex2Sampler.G2) * (1 / OpenSimplex2Sampler.G2 - 2)), t, ((-2 * (1 - 2 *
-                                                                                                                                     OpenSimplex2Sampler.G2) *
-                                                                                                                           (1 - 2 *
-                                                                                                                                OpenSimplex2Sampler.G2)) +
-                                                                                                                          a));
+        double c = 2 * (1 - 2 * G2) * (1 / G2 - 2) * t + ((-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
         if(c > 0) {
-            double x2 = x0 + (2 * OpenSimplex2Sampler.G2 - 1);
-            double y2 = y0 + (2 * OpenSimplex2Sampler.G2 - 1);
+            double x2 = x0 + (2 * G2 - 1);
+            double y2 = y0 + (2 * G2 - 1);
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
-            int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
-            double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-            double rampValue = ArithmeticFunctions.fma(gx, x2, gy * y2);
-            out[0] = ArithmeticFunctions.fma(cccc, rampValue, out[0]);
-            out[1] = ArithmeticFunctions.fma(-8 * rampValue * ccc, x2, ArithmeticFunctions.fma(gx, cccc, out[1]));
-            out[2] = ArithmeticFunctions.fma(-8 * rampValue * ccc, y2, ArithmeticFunctions.fma(gy, cccc, out[2]));
+            int gi = gradCoordIndex(seed, i + PRIME_X, j + PRIME_Y);
+            double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
+            double rampValue = gx * x2 + gy * y2;
+            out[0] += cccc * rampValue;
+            out[1] += gx * cccc - 8 * rampValue * ccc * x2;
+            out[2] += gy * cccc - 8 * rampValue * ccc * y2;
         }
 
         if(y0 > x0) {
-            double x1 = x0 + OpenSimplex2Sampler.G2;
-            double y1 = y0 + (OpenSimplex2Sampler.G2 - 1);
+            double x1 = x0 + G2;
+            double y1 = y0 + (G2 - 1);
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
-                double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-                double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
-                out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
-                out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x1, ArithmeticFunctions.fma(gx, bbbb, out[1]));
-                out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y1, ArithmeticFunctions.fma(gy, bbbb, out[2]));
+                int gi = gradCoordIndex(seed, i, j + PRIME_Y);
+                double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
+                double rampValue = gx * x1 + gy * y1;
+                out[0] += bbbb * rampValue;
+                out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
+                out[2] += gy * bbbb - 8 * rampValue * bbb * y1;
             }
         } else {
-            double x1 = x0 + (OpenSimplex2Sampler.G2 - 1);
-            double y1 = y0 + OpenSimplex2Sampler.G2;
+            double x1 = x0 + (G2 - 1);
+            double y1 = y0 + G2;
             double b = 0.5 - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
-                double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
-                double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
-                out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
-                out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x1, ArithmeticFunctions.fma(gx, bbbb, out[1]));
-                out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y1, ArithmeticFunctions.fma(gy, bbbb, out[2]));
+                int gi = gradCoordIndex(seed, i + PRIME_X, j);
+                double gx = GRADIENTS_2D[gi], gy = GRADIENTS_2D[gi | 1];
+                double rampValue = gx * x1 + gy * y1;
+                out[0] += bbbb * rampValue;
+                out[1] += gx * bbbb - 8 * rampValue * bbb * x1;
+                out[2] += gy * bbbb - 8 * rampValue * bbb * y1;
             }
         }
 
