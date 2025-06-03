@@ -30,35 +30,35 @@ public class NormalizationFunctions {
     /**
      * Returns the clamped value to range of [{@code min}, {@code max}].
      *
+     * @param i   the input value.
      * @param min the minimum value.
      * @param max the maximum value.
-     * @param i   the input value.
      *
      * @return the clamped value.
      */
-    public static double clamp(double min, double max, double i) {
+    public static double clamp(double i, double min, double max) {
         return Math.max(Math.min(i, max), min);
     }
 
     /**
      * Returns the clamped value to range of [{@code min}, {@code max}].
      *
+     * @param i   the input value.
      * @param min the minimum value.
      * @param max the maximum value.
-     * @param i   the input value.
      *
      * @return the clamped value.
      */
-    public static int clamp(int min, int max, int i) {
+    public static int clamp(int i, int min, int max) {
         return Math.max(Math.min(i, max), min);
     }
 
     /**
      * Returns the normalized value to the range of [0, 1].
      *
+     * @param x     the value to be normalized.
      * @param edge0 the lower bound of the range.
      * @param edge1 the upper bound of the range.
-     * @param x     the value to be normalized.
      *
      * @return the normalized value.
      */
