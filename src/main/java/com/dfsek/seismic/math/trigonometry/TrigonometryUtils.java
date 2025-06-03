@@ -8,7 +8,7 @@ import java.util.random.RandomGenerator;
 
 class TrigonometryUtils {
     public static final double PI_OVER_2 = TrigonometryConstants.PI * 0.5;
-    private static final int lookupBits = 14;
+    private static final int lookupBits = 16;
     static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
     private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
@@ -36,7 +36,7 @@ class TrigonometryUtils {
             double expected = TrigonometryFunctions.sin(d);
             double value = StrictMath.sin(d);
 
-            if(!FloatingPointFunctions.equalsWithinEpsilon(expected, value, 0.001)) {
+            if(!FloatingPointFunctions.equalsWithinEpsilon(expected, value, 0.0001)) {
                 throw new IllegalArgumentException(String.format("LUT error at value %f (expected: %s, found: %s)", d,
                     expected, value));
             }
