@@ -86,8 +86,8 @@ public class PseudoErosionSampler extends NoiseFunction {
                 cumAmp += amp;
                 double directionalStrength = LinearAlgebraFunctions.dotProduct(cellOriginDeltaX, cellOriginDeltaY, dirX, dirY) *
                                              TrigonometryConstants.TAU;
-                noise += Math.cos(directionalStrength) * amp;
-                double sinAngle = Math.sin(directionalStrength) * amp;
+                noise += TrigonometryFunctions.cos(directionalStrength) * amp;
+                double sinAngle = TrigonometryFunctions.sin(directionalStrength) * amp;
                 dirOutX -= sinAngle * (cellOriginDeltaX + dirX);
                 dirOutY -= sinAngle * (cellOriginDeltaY + dirY);
             }
