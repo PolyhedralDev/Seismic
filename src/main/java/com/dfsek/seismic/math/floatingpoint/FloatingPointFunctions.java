@@ -69,6 +69,6 @@ public class FloatingPointFunctions {
      * @return the fractional part of the input value.
      */
     public static double getFraction(double x) {
-        return x - FloatingPointFunctions.floor(x);
+        return x - Math.floor(x);
     }
 }
