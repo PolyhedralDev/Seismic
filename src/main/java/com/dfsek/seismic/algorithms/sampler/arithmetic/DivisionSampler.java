@@ -18,8 +18,9 @@ public class DivisionSampler extends BinaryArithmeticSampler {
         int dimensions = left.length;
         double[] out = new double[dimensions];
         out[0] = left[0] / right[0];
+        double r2 = right[0] * right[0];
         for(int i = 1; i < dimensions; i++) {
-            out[i] = (left[i] * right[0] - left[0] * right[i]) / (right[0] * right[0]);
+            out[i] = (left[i] * right[0] - left[0] * right[i]) / (r2);
         }
         return out;
     }
