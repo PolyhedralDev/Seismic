@@ -14,15 +14,12 @@ import com.dfsek.seismic.type.sampler.Sampler;
 public class KernelSampler implements Sampler {
     private final double[][] kernel;
     private final Sampler in;
-    private double frequency = 1;
+    private final double frequency;
 
-    public KernelSampler(double[][] kernel, Sampler in) {
+    public KernelSampler(double frequency, double[][] kernel, Sampler in) {
+        this.frequency = frequency;
         this.kernel = kernel;
         this.in = in;
-    }
-
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
     }
 
     @Override
