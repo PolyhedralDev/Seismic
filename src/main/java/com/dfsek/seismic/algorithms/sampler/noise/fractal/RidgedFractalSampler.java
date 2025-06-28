@@ -63,7 +63,7 @@ public class RidgedFractalSampler extends FractalNoiseFunction {
 
     @Override
     public double[] getNoiseDerivativeRaw(long seed, double x, double y) {
-        double[] sum = {0, 0, 0};
+        double[] sum = { 0, 0, 0 };
         double amp = fractalBounding;
         double negative2Amp = amp * -2;
 
@@ -95,7 +95,7 @@ public class RidgedFractalSampler extends FractalNoiseFunction {
 
     @Override
     public double[] getNoiseDerivativeRaw(long seed, double x, double y, double z) {
-        double[] sum = {0, 0, 0, 0};
+        double[] sum = { 0, 0, 0, 0 };
         double amp = fractalBounding;
         double negative2Amp = amp * -2;
 

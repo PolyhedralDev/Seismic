@@ -13,7 +13,8 @@ public class DistanceSampler extends NoiseFunction {
 
     private final double distanceAtRadius;
 
-    public DistanceSampler(long salt, DistanceFunction distanceFunction, double ox, double oy, double oz, boolean normalize, double radius) {
+    public DistanceSampler(long salt, DistanceFunction distanceFunction, double ox, double oy, double oz, boolean normalize,
+                           double radius) {
         super(1, salt);
         this.distanceFunction = distanceFunction;
         this.ox = ox;

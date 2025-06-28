@@ -36,7 +36,7 @@ public class FloatingPointFunctions {
      * @return the rounded value.
      */
     public static int round(double x) {
-        return x < 0 ? (int)(x - 0.5) : (int)(x + 0.5);
+        return x < 0 ? (int) (x - 0.5) : (int) (x + 0.5);
     }
 
     /**
@@ -47,7 +47,7 @@ public class FloatingPointFunctions {
      * @return floored value.
      */
     public static int floor(double x) {
-        int xi = (int)x;
+        int xi = (int) x;
         return x < xi ? xi - 1 : xi;
     }
 
@@ -59,7 +59,7 @@ public class FloatingPointFunctions {
      * @return ceilinged value.
      */
     public static int ceil(double x) {
-        int xi = (int)x;
+        int xi = (int) x;
         return x > xi ? xi + 1 : xi;
     }
 

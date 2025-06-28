@@ -12,7 +12,6 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
-import com.dfsek.seismic.type.sampler.Sampler;
 
 
 public class GaborSampler extends NoiseFunction {
@@ -27,7 +26,8 @@ public class GaborSampler extends NoiseFunction {
     private final boolean isotropic;
 
 
-    public GaborSampler(double frequency, long salt, double frequency0, double deviation, double rotation, double impulsesPerKernel, double a, boolean isotropic) {
+    public GaborSampler(double frequency, long salt, double frequency0, double deviation, double rotation, double impulsesPerKernel,
+                        double a, boolean isotropic) {
         super(frequency, salt);
         this.deviation = deviation;
         this.rotation = rotation;

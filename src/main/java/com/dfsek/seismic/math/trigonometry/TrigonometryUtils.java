@@ -2,7 +2,6 @@ package com.dfsek.seismic.math.trigonometry;
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 
-import java.util.Random;
 import java.util.random.RandomGenerator;
 
 

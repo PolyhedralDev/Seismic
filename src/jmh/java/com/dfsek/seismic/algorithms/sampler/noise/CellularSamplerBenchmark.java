@@ -10,9 +10,11 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
+
 @State(Scope.Benchmark)
 public class CellularSamplerBenchmark {
-    private final NoiseFunction cellular = new CellularSampler(0.02d, 123123, new OpenSimplex2Sampler(0.2d, 12372834), DistanceFunction.EuclideanSq, CellularSampler.ReturnType.Distance, 1.0d, true);
+    private final NoiseFunction cellular = new CellularSampler(0.02d, 123123, new OpenSimplex2Sampler(0.2d, 12372834),
+        DistanceFunction.EuclideanSq, CellularSampler.ReturnType.Distance, 1.0d, true);
 
 
     @Benchmark

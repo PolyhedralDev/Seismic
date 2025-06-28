@@ -1,7 +1,6 @@
 package com.dfsek.seismic.math.trigonometry;
 
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
-import com.dfsek.seismic.util.VMConstants;
 
 import static com.dfsek.seismic.math.trigonometry.TrigonometryConstants.HALF_PI;
 import static com.dfsek.seismic.math.trigonometry.TrigonometryConstants.PI;
@@ -84,6 +83,7 @@ public class TrigonometryFunctions {
      *
      * @param y the y-coordinate of the point
      * @param x the x-coordinate of the point
+     *
      * @return the angle in radians, in the range [-π, π]
      */
     public static double atan2(double y, double x) {
@@ -92,7 +92,9 @@ public class TrigonometryFunctions {
 
         // Approximate atan
         double zSq = atanInput * atanInput;
-        double res = atanInput * ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, TrigonometryConstants.a11, TrigonometryConstants.a9), TrigonometryConstants.a7), TrigonometryConstants.a5), TrigonometryConstants.a3), TrigonometryConstants.a1);
+        double res = atanInput * ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq,
+            ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, TrigonometryConstants.a11, TrigonometryConstants.a9),
+                TrigonometryConstants.a7), TrigonometryConstants.a5), TrigonometryConstants.a3), TrigonometryConstants.a1);
 
         res = swap ? (HALF_PI - res) : res;
         res = x < 0.0 ? (PI - res) : res;

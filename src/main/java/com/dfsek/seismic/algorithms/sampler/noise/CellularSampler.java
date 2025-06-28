@@ -8,7 +8,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
@@ -203,7 +202,8 @@ public class CellularSampler extends NoiseFunction {
     private final Sampler noiseLookup;
     private final boolean saltLookup;
 
-    public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, ReturnType returnType, double jitterModifier, boolean saltLookup) {
+    public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, ReturnType returnType,
+                           double jitterModifier, boolean saltLookup) {
         super(frequency, salt);
         this.noiseLookup = noiseLookup;
         this.distanceFunction = distanceFunction;
@@ -249,17 +249,17 @@ public class CellularSampler extends NoiseFunction {
                     case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
                 };
 
-                if (newDistance < distance0) {
+                if(newDistance < distance0) {
                     distance2 = distance1;
                     distance1 = distance0;
                     distance0 = newDistance;
                     closestHash = hash;
                     centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi) / frequency;
                     centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi) / frequency;
-                } else if (newDistance < distance1) {
+                } else if(newDistance < distance1) {
                     distance2 = distance1;
                     distance1 = newDistance;
-                } else if (newDistance < distance2) {
+                } else if(newDistance < distance2) {
                     distance2 = newDistance;
                 }
                 yPrimed += NoiseFunction.PRIME_Y;
@@ -339,7 +339,7 @@ public class CellularSampler extends NoiseFunction {
                             ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
                     };
 
-                    if (newDistance < distance0) {
+                    if(newDistance < distance0) {
                         distance2 = distance1;
                         distance1 = distance0;
                         distance0 = newDistance;
@@ -347,10 +347,10 @@ public class CellularSampler extends NoiseFunction {
                         closestHash = hash;
                         centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi) / frequency;
                         centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi) / frequency;
-                    } else if (newDistance < distance1) {
+                    } else if(newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;
-                    } else if (newDistance < distance2) {
+                    } else if(newDistance < distance2) {
                         distance2 = newDistance;
                     }
                     zPrimed += NoiseFunction.PRIME_Z;
