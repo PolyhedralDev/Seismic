@@ -11,6 +11,7 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
 
@@ -330,7 +331,7 @@ public class CellularSampler extends NoiseFunction {
                 case Distance3Sub -> distance2 - distance0 - 1;
                 case Distance3Mul -> distance2 * distance0 - 1;
                 case Distance3Div -> distance0 / distance2 - 1;
-                case Angle -> Math.atan2(y / frequency - centerY, x / frequency - centerX);
+                case Angle -> TrigonometryFunctions.fastAtan2(y / frequency - centerY, x / frequency - centerX);
             };
         }
 
@@ -423,7 +424,7 @@ public class CellularSampler extends NoiseFunction {
                 case Distance3Sub -> distance2 - distance0 - 1;
                 case Distance3Mul -> distance2 * distance0 - 1;
                 case Distance3Div -> distance0 / distance2 - 1;
-                case Angle -> Math.atan2(y / frequency - centerY, x / frequency - centerX);
+                case Angle -> TrigonometryFunctions.fastAtan2(y / frequency - centerY, x / frequency - centerX);
             };
         }
     }

@@ -1,5 +1,12 @@
 package com.dfsek.seismic.math.trigonometry;
 
+import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.util.VMConstants;
+
+import static com.dfsek.seismic.math.trigonometry.TrigonometryConstants.HALF_PI;
+import static com.dfsek.seismic.math.trigonometry.TrigonometryConstants.PI;
+
+
 public class TrigonometryFunctions {
     /**
      * Returns the trigonometric sine of an angle.
@@ -66,5 +73,24 @@ public class TrigonometryFunctions {
      */
     public static double cot(double angle) {
         return TrigonometryFunctions.cos(angle) / TrigonometryFunctions.sin(angle);
+    }
+
+    /**
+     * A fast but less precise way to implement Math.atan2
+     * Taken and adapted from <a href="https://mazzo.li/posts/vectorized-atan2.html">https://mazzo.li/</a>
+     */
+    public static double fastAtan2(double y, double x) {
+        boolean swap = Math.abs(x) < Math.abs(y);
+        double atanInput = (swap ? x : y) / (swap ? y : x);
+
+        // Approximate atan
+        double zSq = atanInput * atanInput;
+        double res = atanInput * ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, TrigonometryConstants.a11, TrigonometryConstants.a9), TrigonometryConstants.a7), TrigonometryConstants.a5), TrigonometryConstants.a3), TrigonometryConstants.a1);
+
+        res = swap ? (HALF_PI - res) : res;
+        res = x < 0.0 ? (PI - res) : res;
+
+        res = Math.abs(res) * Math.signum(y);
+        return res;
     }
 }
