@@ -17,6 +17,10 @@ import com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid.SmoothstepFu
  * NoiseSampler implementation to provide Perlin Noise.
  */
 public class PerlinSampler extends SimplexStyleSampler {
+    public PerlinSampler(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;

@@ -17,8 +17,9 @@ import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 public class GaussianNoiseSampler extends NoiseFunction {
     private final WhiteNoiseSampler whiteNoiseSampler; // Back with a white noise sampler.
 
-    public GaussianNoiseSampler() {
-        whiteNoiseSampler = new WhiteNoiseSampler();
+    public GaussianNoiseSampler(double frequency, long salt) {
+        super(frequency, salt);
+        whiteNoiseSampler = new WhiteNoiseSampler(frequency, salt);
     }
 
     @Override

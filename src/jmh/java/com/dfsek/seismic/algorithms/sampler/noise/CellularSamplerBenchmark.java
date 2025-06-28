@@ -1,5 +1,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
+import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
+import com.dfsek.seismic.type.DistanceFunction;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Group;
@@ -10,7 +12,8 @@ import org.openjdk.jmh.annotations.Warmup;
 
 @State(Scope.Benchmark)
 public class CellularSamplerBenchmark {
-    private final NoiseFunction cellular = new CellularSampler();
+    private final NoiseFunction cellular = new CellularSampler(0.02d, 123123, new OpenSimplex2Sampler(0.2d, 12372834), DistanceFunction.EuclideanSq, CellularSampler.ReturnType.Distance, 1.0d, true);
+
 
     @Benchmark
     @Group("cellular")

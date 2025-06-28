@@ -32,6 +32,10 @@ public class SimplexSampler extends SimplexStyleSampler {
     private static final int Y_PRIME = 31337;
     private static final int Z_PRIME = 6971;
 
+    public SimplexSampler(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
 
     private static double gradCoord3D(int seed, int x, int y, int z, double xd, double yd, double zd) {
         int hash = seed;

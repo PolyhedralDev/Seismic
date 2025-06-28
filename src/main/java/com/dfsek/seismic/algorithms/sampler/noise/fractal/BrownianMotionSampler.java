@@ -13,8 +13,8 @@ import com.dfsek.seismic.type.sampler.Sampler;
 
 
 public class BrownianMotionSampler extends FractalNoiseFunction {
-    public BrownianMotionSampler(Sampler input) {
-        super(input);
+    public BrownianMotionSampler(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
+        super(salt, input, gain, lacunarity, weightedStrength, octaves);
     }
 
     @Override

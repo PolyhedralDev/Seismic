@@ -14,8 +14,8 @@ import com.dfsek.seismic.type.sampler.Sampler;
 
 public class RidgedFractalSampler extends FractalNoiseFunction {
 
-    public RidgedFractalSampler(Sampler input) {
-        super(input);
+    public RidgedFractalSampler(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
+        super(salt, input, gain, lacunarity, weightedStrength, octaves);
     }
 
     @Override

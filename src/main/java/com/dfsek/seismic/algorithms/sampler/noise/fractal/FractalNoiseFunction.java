@@ -13,19 +13,21 @@ import com.dfsek.seismic.type.sampler.Sampler;
 
 public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
     protected final Sampler input;
-    protected double fractalBounding = 1 / 1.75;
-    protected int octaves = 3;
-    protected double gain = 0.5;
-    protected double lacunarity = 2.0d;
-    protected double weightedStrength = 0.0d;
+    protected final double fractalBounding;
+    protected final int octaves;
+    protected final double gain;
+    protected final double lacunarity;
+    protected final double weightedStrength;
 
-    public FractalNoiseFunction(Sampler input) {
+    public FractalNoiseFunction(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
+        super(1, salt);
         this.input = input;
-        frequency = 1;
-    }
+        this.gain = gain;
+        this.lacunarity = lacunarity;
+        this.weightedStrength = weightedStrength;
+        this.octaves = octaves;
 
-    protected void calculateFractalBounding() {
-        double gain = Math.abs(this.gain);
+        gain = Math.abs(this.gain);
         double amp = gain;
         double ampFractal = 1.0;
         for(int i = 1; i < octaves; i++) {
@@ -33,24 +35,6 @@ public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
             amp *= gain;
         }
         fractalBounding = 1 / ampFractal;
-    }
-
-    public void setGain(double gain) {
-        this.gain = gain;
-        calculateFractalBounding();
-    }
-
-    public void setLacunarity(double lacunarity) {
-        this.lacunarity = lacunarity;
-    }
-
-    public void setOctaves(int octaves) {
-        this.octaves = octaves;
-        calculateFractalBounding();
-    }
-
-    public void setWeightedStrength(double weightedStrength) {
-        this.weightedStrength = weightedStrength;
     }
 
     @Override

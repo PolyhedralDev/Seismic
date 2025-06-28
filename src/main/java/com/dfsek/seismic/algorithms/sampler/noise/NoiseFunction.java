@@ -26,23 +26,12 @@ public abstract class NoiseFunction implements Sampler {
      */
     public static final int PRIME_Z = 1720413743;
 
-    protected double frequency = 0.02d;
-    protected long salt;
+    protected final double frequency;
+    protected final long salt;
 
-    public NoiseFunction() {
-        this.salt = 0;
-    }
-
-    public void setSalt(long salt) {
-        this.salt = salt;
-    }
-
-    public double getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(double frequency) {
+    public NoiseFunction(double frequency, long salt) {
         this.frequency = frequency;
+        this.salt = salt;
     }
 
     @Override

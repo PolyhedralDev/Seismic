@@ -82,6 +82,10 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         1, 1, 0, 0, 0, -1, 1, 0, -1, 1, 0, 0, 0, -1, -1, 0
     };
 
+    public SimplexStyleSampler(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     protected static int gradCoordIndex(int seed, int xPrimed, int yPrimed) {
         int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
         hash ^= hash >> 15;

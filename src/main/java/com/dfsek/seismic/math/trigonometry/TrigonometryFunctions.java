@@ -75,11 +75,18 @@ public class TrigonometryFunctions {
         return TrigonometryFunctions.cos(angle) / TrigonometryFunctions.sin(angle);
     }
 
+
+    // A fast but less precise way to implement Math.atan2
+    // Taken and adapted from https://mazzo.li/posts/vectorized-atan2.html
+
     /**
-     * A fast but less precise way to implement Math.atan2
-     * Taken and adapted from <a href="https://mazzo.li/posts/vectorized-atan2.html">https://mazzo.li/</a>
+     * Returns the angle in radians between the positive x-axis and the point (x, y).
+     *
+     * @param y the y-coordinate of the point
+     * @param x the x-coordinate of the point
+     * @return the angle in radians, in the range [-π, π]
      */
-    public static double fastAtan2(double y, double x) {
+    public static double atan2(double y, double x) {
         boolean swap = Math.abs(x) < Math.abs(y);
         double atanInput = (swap ? x : y) / (swap ? y : x);
 

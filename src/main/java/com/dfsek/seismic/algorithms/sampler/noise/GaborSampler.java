@@ -12,32 +12,35 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
+import com.dfsek.seismic.type.sampler.Sampler;
 
 
 public class GaborSampler extends NoiseFunction {
     private final WhiteNoiseSampler rand;
-    private double k = 1.0;
-    private double a = 0.1;
-    private double f0 = 0.625;
-    private double impulsesPerKernel = 64d;
+    private final double deviation;
+    private final double a;
+    private final double f0;
 
-    private double kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / a);
-    private double impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
-    private double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
-    private double g = Math.exp(-impulsesPerCell);
-    private double omega0 = Math.PI * 0.25;
-    private boolean isotropic = true;
+    private final double kernelRadius;
+    private final double g;
+    private final double rotation;
+    private final boolean isotropic;
 
 
-    public GaborSampler() {
-        rand = new WhiteNoiseSampler();
-    }
+    public GaborSampler(double frequency, long salt, double frequency0, double deviation, double rotation, double impulsesPerKernel, double a, boolean isotropic) {
+        super(frequency, salt);
+        this.deviation = deviation;
+        this.rotation = rotation;
+        this.f0 = frequency0;
+        this.a = a;
+        this.isotropic = isotropic;
 
-    private void recalculateRadiusAndDensity() {
         kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / this.a);
-        impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
-        impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
+        double impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
+        double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
         g = Math.exp(-impulsesPerCell);
+
+        rand = new WhiteNoiseSampler(frequency, salt);
     }
 
     private double gaborNoise(long seed, double x, double y) {
@@ -68,43 +71,17 @@ public class GaborSampler extends NoiseFunction {
 
         double noise = 0;
         for(int i = 0; i < impulses; i++) {
-            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * Math.PI : omega0,
+            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * Math.PI : rotation,
                 x * kernelRadius, y * kernelRadius);
         }
         return noise;
     }
 
     private double gabor(double omega_0, double x, double y) {
-        return k * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
+        return deviation * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
             2 * Math.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
                                 y * TrigonometryFunctions.sin(
                                     omega_0))));
-    }
-
-    public void setA(double a) {
-        this.a = a;
-        recalculateRadiusAndDensity();
-    }
-
-    public void setDeviation(double k) {
-        this.k = k;
-    }
-
-    public void setFrequency0(double f0) {
-        this.f0 = f0;
-    }
-
-    public void setImpulsesPerKernel(double impulsesPerKernel) {
-        this.impulsesPerKernel = impulsesPerKernel;
-        recalculateRadiusAndDensity();
-    }
-
-    public void setIsotropic(boolean isotropic) {
-        this.isotropic = isotropic;
-    }
-
-    public void setRotation(double omega0) {
-        this.omega0 = Math.PI * omega0;
     }
 
     @Override

@@ -30,10 +30,11 @@ public class PseudoErosionSampler extends NoiseFunction {
     private final double maxCellDistSqRecip;
     private final boolean averageErosionImpulses;
 
-    public PseudoErosionSampler(int octaves, double gain, double lacunarity, double slopeStrength, double branchStrength,
+    public PseudoErosionSampler(double frequency, long salt, int octaves, double gain, double lacunarity, double slopeStrength, double branchStrength,
                                 double erosionStrength, double erosionFrequency, DerivativeSampler sampler,
                                 boolean slopeMask, double slopeMaskFull, double slopeMaskNone, double jitterModifier,
                                 boolean averageErosionImpulses) {
+        super(frequency, salt);
         this.octaves = octaves;
         this.gain = gain;
         this.lacunarity = lacunarity;

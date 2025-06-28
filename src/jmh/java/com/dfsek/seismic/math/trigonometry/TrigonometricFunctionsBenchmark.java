@@ -23,6 +23,6 @@ public class TrigonometricFunctionsBenchmark {
     @Warmup(iterations = 1, time = 1)
     @Measurement(iterations = 2, time = 5)
     public void benchmarkAtan2Fast() {
-        double _x = TrigonometryFunctions.fastAtan2(1, 1);
+        double _x = TrigonometryFunctions.atan2(1, 1);
     }
 }

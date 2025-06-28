@@ -14,6 +14,10 @@ import com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid.SmoothstepFu
 
 
 public class ValueSampler extends ValueStyleNoise {
+    public ValueSampler(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;

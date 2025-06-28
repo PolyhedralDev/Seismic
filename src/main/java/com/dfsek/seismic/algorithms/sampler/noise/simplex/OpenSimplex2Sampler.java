@@ -21,6 +21,10 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     private static final double G2 = (3 - OpenSimplex2Sampler.SQRT3) / 6;
     private static final double R3 = (2.0 / 3.0);
 
+    public OpenSimplex2Sampler(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;

@@ -14,6 +14,10 @@ import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 
 public abstract class ValueStyleNoise extends NoiseFunction {
 
+    public ValueStyleNoise(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     protected static double valCoord(int seed, int xPrimed, int yPrimed) {
         int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
 

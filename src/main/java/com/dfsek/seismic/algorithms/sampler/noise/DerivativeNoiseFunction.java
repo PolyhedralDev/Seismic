@@ -5,6 +5,10 @@ import com.dfsek.seismic.type.sampler.DerivativeSampler;
 
 
 public abstract class DerivativeNoiseFunction extends NoiseFunction implements DerivativeSampler {
+    public DerivativeNoiseFunction(double frequency, long salt) {
+        super(frequency, salt);
+    }
+
     @Override
     public boolean isDifferentiable() {
         return true;
