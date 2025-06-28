@@ -13,8 +13,8 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 public class ConstantSampler extends NoiseFunction {
     private final double constant;
 
-    public ConstantSampler(double frequency, long salt, double constant) {
-        super(frequency, salt);
+    public ConstantSampler(double constant) {
+        super(0, 0);
         this.constant = constant;
     }
 
