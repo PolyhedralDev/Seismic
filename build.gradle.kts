@@ -8,6 +8,7 @@ plugins {
     `maven-publish`
 
     alias(libs.plugins.nyx)
+    alias(libs.plugins.jmh)
     alias(libs.plugins.axion.release)
 }
 
@@ -96,7 +97,7 @@ repositories {
 dependencies {
     api(libs.jetbrains.annotations)
     implementation(libs.slf4j.api)
-
+    jmh(libs.slf4j.simple)
     testImplementation(libs.bundles.junit)
 }
 

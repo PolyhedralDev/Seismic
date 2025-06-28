@@ -7,6 +7,7 @@ public class TrigonometryConstants {
      * its diameter.
      */
     public static final double PI = Math.PI;
+    public static final double HALF_PI = PI / 2;
 
     /**
      * The {@code double} value that is closer than any other superior value to
@@ -35,4 +36,15 @@ public class TrigonometryConstants {
      * words, <i>tau</i> is double <i>pi</i> .
      */
     public static final double TAU_SUP = Double.longBitsToDouble(Double.doubleToRawLongBits(TrigonometryConstants.TAU) + 1);
+
+    /**
+     * Polynomial defs for atan2 taken from <a href="https://mazzo.li/posts/vectorized-atan2.html">https://mazzo.li/</a>
+     */
+    public static final double a1 = 0.99997726;
+    public static final double a3 = -0.33262347;
+    public static final double a5 = 0.19354346;
+    public static final double a7 = -0.11643287;
+    public static final double a9 = 0.05265332;
+    public static final double a11 = -0.01172120;
+
 }

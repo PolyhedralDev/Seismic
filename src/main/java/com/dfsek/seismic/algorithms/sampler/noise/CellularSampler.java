@@ -11,6 +11,7 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
 
@@ -199,206 +200,235 @@ public class CellularSampler extends NoiseFunction {
     private DistanceFunction distanceFunction = DistanceFunction.EuclideanSq;
     private ReturnType returnType = ReturnType.Distance;
     private double jitterModifier = 1.0;
-
     private Sampler noiseLookup;
-
     private boolean saltLookup;
+
+    private FinalSampler inner;
 
     public CellularSampler() {
         noiseLookup = new OpenSimplex2Sampler();
     }
 
+    private FinalSampler getInner() {
+        if(inner == null) {
+            inner = new FinalSampler(distanceFunction, returnType, jitterModifier, noiseLookup, saltLookup, frequency, salt);
+        }
+
+        return inner;
+    }
+
+    @Override
+    public double getNoiseRaw(long seed, double x, double y) {
+        return getInner().getNoiseRaw(seed, x, y);
+    }
+
+    @Override
+    public double getNoiseRaw(long seed, double x, double y, double z) {
+        return getInner().getNoiseRaw(seed, x, y, z);
+    }
+
     public void setDistanceFunction(DistanceFunction distanceFunction) {
         this.distanceFunction = distanceFunction;
+        this.inner = null;
     }
 
     public void setJitterModifier(double jitterModifier) {
         this.jitterModifier = jitterModifier;
+        this.inner = null;
     }
 
     public void setNoiseLookup(Sampler noiseLookup) {
         this.noiseLookup = noiseLookup;
+        this.inner = null;
     }
 
     public void setReturnType(ReturnType returnType) {
         this.returnType = returnType;
+        this.inner = null;
     }
 
     public void setSaltLookup(boolean saltLookup) {
         this.saltLookup = saltLookup;
+        this.inner = null;
     }
 
-    @Override
-    public double getNoiseRaw(long sl, double x, double y) {
-        int seed = (int) sl;
-        int xr = FloatingPointFunctions.round(x);
-        int yr = FloatingPointFunctions.round(y);
+    record FinalSampler(DistanceFunction distanceFunction, ReturnType returnType, double jitterModifier, Sampler noiseLookup,
+                        boolean saltLookup, double frequency, long salt) {
+        public double getNoiseRaw(long sl, double x, double y) {
+            int seed = (int) sl;
+            int xr = FloatingPointFunctions.round(x);
+            int yr = FloatingPointFunctions.round(y);
 
-        double distance0 = Double.MAX_VALUE;
-        double distance1 = Double.MAX_VALUE;
-        double distance2 = Double.MAX_VALUE;
+            double distance0 = Double.MAX_VALUE;
+            double distance1 = Double.MAX_VALUE;
+            double distance2 = Double.MAX_VALUE;
 
-        int closestHash = 0;
+            int closestHash = 0;
 
-        double cellularJitter = 0.43701595 * jitterModifier;
+            double cellularJitter = 0.43701595 * jitterModifier;
 
-        int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
-        int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
+            int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
+            int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
 
-        double centerX = x;
-        double centerY = y;
+            double centerX = x;
+            double centerY = y;
 
-        for(int xi = xr - 1; xi <= xr + 1; xi++) {
-            int yPrimed = yPrimedBase;
+            for(int xi = xr - 1; xi <= xr + 1; xi++) {
+                int yPrimed = yPrimedBase;
 
-            for(int yi = yr - 1; yi <= yr + 1; yi++) {
-                int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
-                int idx = hash & (255 << 1);
+                for(int yi = yr - 1; yi <= yr + 1; yi++) {
+                    int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
+                    int idx = hash & (255 << 1);
 
-                double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi - x);
-                double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi - y);
-
-                double newDistance = switch(distanceFunction) {
-                    case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
-                    case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
-                    case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
-                };
-
-                distance1 = Math.max(Math.min(distance1, newDistance), distance0);
-                if(newDistance < distance0) {
-                    distance0 = newDistance;
-                    closestHash = hash;
-                    centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi) / frequency;
-                    centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi) / frequency;
-                } else if(newDistance < distance1) {
-                    distance2 = distance1;
-                    distance1 = newDistance;
-                } else if(newDistance < distance2) {
-                    distance2 = newDistance;
-                }
-                yPrimed += NoiseFunction.PRIME_Y;
-            }
-            xPrimed += NoiseFunction.PRIME_X;
-        }
-
-        if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
-            distance0 = Math.sqrt(distance0);
-
-            if(returnType != ReturnType.Distance) {
-                distance1 = Math.sqrt(distance1);
-            }
-        }
-
-        return switch(returnType) {
-            case CellValue -> closestHash * (1 / 2147483648.0);
-            case Distance -> distance0 - 1;
-            case Distance2 -> distance1 - 1;
-            case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
-            case Distance2Sub -> distance1 - distance0 - 1;
-            case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
-            case Distance2Div -> distance0 / distance1 - 1;
-            case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY);
-            case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX, y / frequency - centerY);
-            case Distance3 -> distance2 - 1;
-            case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
-            case Distance3Sub -> distance2 - distance0 - 1;
-            case Distance3Mul -> distance2 * distance0 - 1;
-            case Distance3Div -> distance0 / distance2 - 1;
-            case Angle -> Math.atan2(y / frequency - centerY, x / frequency - centerX);
-        };
-    }
-
-    @Override
-    public double getNoiseRaw(long sl, double x, double y, double z) {
-        int seed = (int) sl;
-        int xr = FloatingPointFunctions.round(x);
-        int yr = FloatingPointFunctions.round(y);
-        int zr = FloatingPointFunctions.round(z);
-
-        double distance0 = Double.MAX_VALUE;
-        double distance1 = Double.MAX_VALUE;
-        double distance2 = Double.MAX_VALUE;
-        int closestHash = 0;
-
-        double cellularJitter = 0.39614353 * jitterModifier;
-
-        int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
-        int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
-        int zPrimedBase = (zr - 1) * NoiseFunction.PRIME_Z;
-
-        double centerX = x;
-        double centerY = y;
-        double centerZ = z;
-
-        for(int xi = xr - 1; xi <= xr + 1; xi++) {
-            int yPrimed = yPrimedBase;
-
-            for(int yi = yr - 1; yi <= yr + 1; yi++) {
-                int zPrimed = zPrimedBase;
-
-                for(int zi = zr - 1; zi <= zr + 1; zi++) {
-                    int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
-                    int idx = hash & (255 << 2);
-
-                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi - x);
-                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi - y);
-                    double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
+                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi - x);
+                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi - y);
 
                     double newDistance = switch(distanceFunction) {
-                        case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
-                            ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
-                        case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
-                        case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX,
-                            ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                        case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+                        case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+                        case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
                     };
 
-                    distance1 = Math.max(Math.min(distance1, newDistance), distance0);
-                    if(newDistance < distance0) {
+                    if (newDistance < distance0) {
+                        distance2 = distance1;
+                        distance1 = distance0;
                         distance0 = newDistance;
                         closestHash = hash;
-                        centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi) / frequency;
-                        centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi) / frequency;
-                        centerZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi) / frequency;
-                    } else if(newDistance < distance1) {
+                        centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xi) / frequency;
+                        centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi) / frequency;
+                    } else if (newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;
-                    } else if(newDistance < distance2) {
+                    } else if (newDistance < distance2) {
                         distance2 = newDistance;
                     }
-                    zPrimed += NoiseFunction.PRIME_Z;
+                    yPrimed += NoiseFunction.PRIME_Y;
                 }
-                yPrimed += NoiseFunction.PRIME_Y;
+                xPrimed += NoiseFunction.PRIME_X;
             }
-            xPrimed += NoiseFunction.PRIME_X;
+
+            if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
+                distance0 = Math.sqrt(distance0);
+
+                if(returnType != ReturnType.Distance) {
+                    distance1 = Math.sqrt(distance1);
+                }
+            }
+
+            return switch(returnType) {
+                case CellValue -> closestHash * (1 / 2147483648.0);
+                case Distance -> distance0 - 1;
+                case Distance2 -> distance1 - 1;
+                case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
+                case Distance2Sub -> distance1 - distance0 - 1;
+                case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
+                case Distance2Div -> distance0 / distance1 - 1;
+                case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY);
+                case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX,
+                    y / frequency - centerY);
+                case Distance3 -> distance2 - 1;
+                case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
+                case Distance3Sub -> distance2 - distance0 - 1;
+                case Distance3Mul -> distance2 * distance0 - 1;
+                case Distance3Div -> distance0 / distance2 - 1;
+                case Angle -> TrigonometryFunctions.fastAtan2(y / frequency - centerY, x / frequency - centerX);
+            };
         }
 
-        if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
-            distance0 = Math.sqrt(distance0);
+        public double getNoiseRaw(long sl, double x, double y, double z) {
+            int seed = (int) sl;
+            int xr = FloatingPointFunctions.round(x);
+            int yr = FloatingPointFunctions.round(y);
+            int zr = FloatingPointFunctions.round(z);
 
-            if(returnType != ReturnType.Distance) {
-                distance1 = Math.sqrt(distance1);
+            double distance0 = Double.MAX_VALUE;
+            double distance1 = Double.MAX_VALUE;
+            double distance2 = Double.MAX_VALUE;
+            int closestHash = 0;
+
+            double cellularJitter = 0.39614353 * jitterModifier;
+
+            int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
+            int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
+            int zPrimedBase = (zr - 1) * NoiseFunction.PRIME_Z;
+
+            double centerX = x;
+            double centerY = y;
+            double centerZ = z;
+
+            for(int xi = xr - 1; xi <= xr + 1; xi++) {
+                int yPrimed = yPrimedBase;
+
+                for(int yi = yr - 1; yi <= yr + 1; yi++) {
+                    int zPrimed = zPrimedBase;
+
+                    for(int zi = zr - 1; zi <= zr + 1; zi++) {
+                        int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
+                        int idx = hash & (255 << 2);
+
+                        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi - x);
+                        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi - y);
+                        double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
+
+                        double newDistance = switch(distanceFunction) {
+                            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
+                                ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                            case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
+                            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX,
+                                ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+                        };
+
+                        if (newDistance < distance0) {
+                            distance2 = distance1;
+                            distance1 = distance0;
+                            distance0 = newDistance;
+
+                            closestHash = hash;
+                            centerX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi) / frequency;
+                            centerY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi) / frequency;
+                        } else if (newDistance < distance1) {
+                            distance2 = distance1;
+                            distance1 = newDistance;
+                        } else if (newDistance < distance2) {
+                            distance2 = newDistance;
+                        }
+                        zPrimed += NoiseFunction.PRIME_Z;
+                    }
+                    yPrimed += NoiseFunction.PRIME_Y;
+                }
+                xPrimed += NoiseFunction.PRIME_X;
             }
-        }
 
-        return switch(returnType) {
-            case CellValue -> closestHash * (1 / 2147483648.0);
-            case Distance -> distance0 - 1;
-            case Distance2 -> distance1 - 1;
-            case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
-            case Distance2Sub -> distance1 - distance0 - 1;
-            case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
-            case Distance2Div -> distance0 / distance1 - 1;
-            case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY, centerZ);
-            case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX, y / frequency - centerY,
-                z / frequency - centerZ);
-            case Distance3 -> distance2 - 1;
-            case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
-            case Distance3Sub -> distance2 - distance0 - 1;
-            case Distance3Mul -> distance2 * distance0 - 1;
-            case Distance3Div -> distance0 / distance2 - 1;
-            case Angle -> Math.atan2(y / frequency - centerY, x / frequency - centerX);
-        };
+            if(distanceFunction == DistanceFunction.Euclidean && returnType != ReturnType.CellValue) {
+                distance0 = Math.sqrt(distance0);
+
+                if(returnType != ReturnType.Distance) {
+                    distance1 = Math.sqrt(distance1);
+                }
+            }
+
+            return switch(returnType) {
+                case CellValue -> closestHash * (1 / 2147483648.0);
+                case Distance -> distance0 - 1;
+                case Distance2 -> distance1 - 1;
+                case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
+                case Distance2Sub -> distance1 - distance0 - 1;
+                case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
+                case Distance2Div -> distance0 / distance1 - 1;
+                case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY, centerZ);
+                case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX,
+                    y / frequency - centerY,
+                    z / frequency - centerZ);
+                case Distance3 -> distance2 - 1;
+                case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
+                case Distance3Sub -> distance2 - distance0 - 1;
+                case Distance3Mul -> distance2 * distance0 - 1;
+                case Distance3Div -> distance0 / distance2 - 1;
+                case Angle -> TrigonometryFunctions.fastAtan2(y / frequency - centerY, x / frequency - centerX);
+            };
+        }
     }
+
 
     public enum ReturnType {
         CellValue,
