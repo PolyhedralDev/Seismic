@@ -279,17 +279,17 @@ public class CellularSampler extends NoiseFunction {
             case CellValue -> closestHash * (1 / 2147483648.0);
             case Distance -> distance0 - 1;
             case Distance2 -> distance1 - 1;
-            case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
+            case Distance2Add -> ArithmeticFunctions.fma((distance1 + distance0), 0.5, -1);
             case Distance2Sub -> distance1 - distance0 - 1;
-            case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
+            case Distance2Mul -> ArithmeticFunctions.fma((distance1 * distance0), 0.5, -1);
             case Distance2Div -> distance0 / distance1 - 1;
             case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY);
             case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX,
                 y / frequency - centerY);
             case Distance3 -> distance2 - 1;
-            case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
+            case Distance3Add -> ArithmeticFunctions.fma((distance2 + distance0), 0.5, -1);
             case Distance3Sub -> distance2 - distance0 - 1;
-            case Distance3Mul -> distance2 * distance0 - 1;
+            case Distance3Mul -> ArithmeticFunctions.fma(distance2, distance0, -1);
             case Distance3Div -> distance0 / distance2 - 1;
             case Angle -> TrigonometryFunctions.atan2(y / frequency - centerY, x / frequency - centerX);
         };
@@ -372,18 +372,18 @@ public class CellularSampler extends NoiseFunction {
             case CellValue -> closestHash * (1 / 2147483648.0);
             case Distance -> distance0 - 1;
             case Distance2 -> distance1 - 1;
-            case Distance2Add -> (distance1 + distance0) * 0.5 - 1;
+            case Distance2Add -> ArithmeticFunctions.fma((distance1 + distance0), 0.5, -1);
             case Distance2Sub -> distance1 - distance0 - 1;
-            case Distance2Mul -> distance1 * distance0 * 0.5 - 1;
+            case Distance2Mul -> ArithmeticFunctions.fma((distance1 * distance0), 0.5, -1);
             case Distance2Div -> distance0 / distance1 - 1;
             case NoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), centerX, centerY, centerZ);
             case LocalNoiseLookup -> noiseLookup.getSample(sl - (saltLookup ? 0 : salt), x / frequency - centerX,
                 y / frequency - centerY,
                 z / frequency - centerZ);
             case Distance3 -> distance2 - 1;
-            case Distance3Add -> (distance2 + distance0) * 0.5 - 1;
+            case Distance3Add -> ArithmeticFunctions.fma((distance2 + distance0), 0.5, -1);
             case Distance3Sub -> distance2 - distance0 - 1;
-            case Distance3Mul -> distance2 * distance0 - 1;
+            case Distance3Mul -> ArithmeticFunctions.fma(distance2, distance0, -1);
             case Distance3Div -> distance0 / distance2 - 1;
             case Angle -> TrigonometryFunctions.atan2(y / frequency - centerY, x / frequency - centerX);
         };
