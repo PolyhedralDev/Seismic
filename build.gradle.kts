@@ -99,6 +99,8 @@ dependencies {
     implementation(libs.slf4j.api)
     jmh(libs.slf4j.simple)
     testImplementation(libs.bundles.junit)
+    jmh(libs.bundles.jmh)
+    testAnnotationProcessor(libs.jmh.generator.annprocess)
 }
 
 tasks {
