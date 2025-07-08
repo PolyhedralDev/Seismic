@@ -77,6 +77,7 @@ public class TrigonometryFunctions {
 
     // A fast but less precise way to implement Math.atan2
     // Taken and adapted from https://mazzo.li/posts/vectorized-atan2.html
+    // https://math.stackexchange.com/a/1105038
 
     /**
      * Returns the angle in radians between the positive x-axis and the point (x, y).
