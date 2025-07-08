@@ -5,9 +5,9 @@ public class IntegerConstants {
      * The {@code long} value that represents the number of bits
      * used to represent a {@code long} value in two's complement binary form.
      */
-    public static final long LONGSIZE = Long.SIZE;
+    public static final long LONG_SIZE = Long.SIZE;
 
-    public static final long[] POW10TABLE = {
+    protected static final long[] POW10TABLE = {
         1,
         10L,
         100L,

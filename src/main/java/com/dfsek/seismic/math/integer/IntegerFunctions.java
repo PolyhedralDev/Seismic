@@ -61,7 +61,7 @@ public class IntegerFunctions {
      * @return ceilinged log2 of the value.
      */
     public static long iLog2Ceil(long x) {
-        return IntegerConstants.LONGSIZE - Long.numberOfLeadingZeros(x);
+        return IntegerConstants.LONG_SIZE - Long.numberOfLeadingZeros(x);
     }
 
     /**
@@ -75,7 +75,7 @@ public class IntegerFunctions {
      * @return log2 of the value.
      */
     public static long iLog2(long x) {
-        return (IntegerConstants.LONGSIZE - 1) - Long.numberOfLeadingZeros(x);
+        return (IntegerConstants.LONG_SIZE - 1) - Long.numberOfLeadingZeros(x);
     }
 
     /**
@@ -89,7 +89,7 @@ public class IntegerFunctions {
      * @return ceilinged log10 of the value.
      */
     public static long iLog10Ceil(long x) {
-        long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONGSIZE)) * -1233 >> 12);
+        long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONG_SIZE)) * -1233 >> 12);
         return minDigits + (IntegerFunctions.iPow10(minDigits) <= x ? 1 : 0);
     }
 
@@ -104,7 +104,7 @@ public class IntegerFunctions {
      * @return log10 of the value.
      */
     public static long iLog10(long x) {
-        long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONGSIZE)) * -1233 >> 12);
+        long minDigits = ((Long.numberOfLeadingZeros(x) | (-IntegerConstants.LONG_SIZE)) * -1233 >> 12);
         return minDigits + (IntegerFunctions.iPow10(minDigits) <= x ? 0 : -1);
     }
 

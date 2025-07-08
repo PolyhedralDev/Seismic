@@ -49,7 +49,7 @@ public class TrigonometryConstants {
      * <i>pi</i> (&pi;), the ratio of the circumference of a circle to
      * its diameter.
      *
-     * @see TrigonometryConstants#HALF_PI
+     * @see TrigonometryConstants#PI
      */
     @SuppressWarnings("BigDecimalMethodWithoutRoundingCalled")
     public static final double HALF_PI = BigDecimal.valueOf(PI).divide(BigDecimal.valueOf(2)).doubleValue();
@@ -63,9 +63,7 @@ public class TrigonometryConstants {
      */
     public static final double HALF_PI_SUP = Double.longBitsToDouble(Double.doubleToRawLongBits(TrigonometryConstants.HALF_PI) + 1);
 
-    /**
-     * Polynomial defs for atan2 taken from <a href="https://mazzo.li/posts/vectorized-atan2.html">https://mazzo.li/</a>
-     */
+    //Polynomial defs for atan2 taken from https://mazzo.li/posts/vectorized-atan2.html
     protected static final double a1 = 0.99997726;
     protected static final double a3 = -0.33262347;
     protected static final double a5 = 0.19354346;
