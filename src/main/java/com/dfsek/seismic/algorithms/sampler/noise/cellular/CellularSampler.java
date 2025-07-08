@@ -20,9 +20,29 @@ import com.dfsek.seismic.type.sampler.Sampler;
  * NoiseSampler implementation for Cellular (Voronoi/Worley) Noise.
  */
 public class CellularSampler extends CellularStyleSampler {
+    private final boolean needsDistance0Sq;
+    private final boolean needsDistance1Sq;
+    private final boolean needsDistance2Sq;
+
     public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, CellularReturnType returnType,
                            double jitterModifier, boolean saltLookup) {
         super(frequency, salt, noiseLookup, distanceFunction, returnType, jitterModifier, saltLookup);
+        if (distanceFunction == DistanceFunction.Euclidean) {
+            boolean usesDistance2Operators =
+                returnType == CellularReturnType.Distance2Add || returnType == CellularReturnType.Distance2Sub ||
+                returnType == CellularReturnType.Distance2Mul || returnType == CellularReturnType.Distance2Div;
+            boolean usesDistance3Operators =
+                returnType == CellularReturnType.Distance3Add || returnType == CellularReturnType.Distance3Sub ||
+                returnType == CellularReturnType.Distance3Mul || returnType == CellularReturnType.Distance3Div;
+            this.needsDistance0Sq =
+                returnType == CellularReturnType.Distance || usesDistance2Operators || usesDistance3Operators;
+            this.needsDistance1Sq = returnType == CellularReturnType.Distance2 || usesDistance2Operators;
+            this.needsDistance2Sq = returnType == CellularReturnType.Distance3 || usesDistance3Operators;
+        } else {
+            this.needsDistance0Sq = false;
+            this.needsDistance1Sq = false;
+            this.needsDistance2Sq = false;
+        }
     }
 
     @Override
@@ -81,12 +101,14 @@ public class CellularSampler extends CellularStyleSampler {
             xPrimed += NoiseFunction.PRIME_X;
         }
 
-        if(distanceFunction == DistanceFunction.Euclidean && returnType != CellularReturnType.CellValue) {
+        if (needsDistance0Sq) {
             distance0 = Math.sqrt(distance0);
-
-            if(returnType != CellularReturnType.Distance) {
-                distance1 = Math.sqrt(distance1);
-            }
+        }
+        if (needsDistance1Sq) {
+            distance1 = Math.sqrt(distance1);
+        }
+        if (needsDistance2Sq) {
+            distance2 = Math.sqrt(distance2);
         }
 
         return returnType.getReturn(this, sl, distance0, distance1, distance2, x, y, centerX, centerY, closestHash);
@@ -160,12 +182,14 @@ public class CellularSampler extends CellularStyleSampler {
             xPrimed += NoiseFunction.PRIME_X;
         }
 
-        if(distanceFunction == DistanceFunction.Euclidean && returnType != CellularReturnType.CellValue) {
+        if (needsDistance0Sq) {
             distance0 = Math.sqrt(distance0);
-
-            if(returnType != CellularReturnType.Distance) {
-                distance1 = Math.sqrt(distance1);
-            }
+        }
+        if (needsDistance1Sq) {
+            distance1 = Math.sqrt(distance1);
+        }
+        if (needsDistance2Sq) {
+            distance2 = Math.sqrt(distance2);
         }
 
         return returnType.getReturn(this, sl, distance0, distance1, distance2, x, y, z, centerX, centerY, centerZ, closestHash);
