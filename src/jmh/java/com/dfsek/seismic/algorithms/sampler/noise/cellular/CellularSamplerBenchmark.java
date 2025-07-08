@@ -27,7 +27,8 @@ public class CellularSamplerBenchmark {
         int startX = (int) (Math.random() * 10000);
         int startY = (int) (Math.random() * 10000);
         int startZ = (int) (Math.random() * 10000);
-        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(Math.random());
+        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(
+            Math.random());
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 384; y++) {
                 for(int z = 0; z < 16; z++) {
@@ -45,7 +46,8 @@ public class CellularSamplerBenchmark {
     public void benchmarkCellular2D() {
         int startX = (int) (Math.random() * 10000);
         int startY = (int) (Math.random() * 10000);
-        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(Math.random()) ;
+        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(
+            Math.random());
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 16; y++) {
                 cellular.getNoiseRaw(seed, startX + x, startY + y);

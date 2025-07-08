@@ -11,7 +11,6 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
-import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
 
@@ -24,10 +23,11 @@ public class CellularSampler extends CellularStyleSampler {
     private final boolean needsDistance1Sq;
     private final boolean needsDistance2Sq;
 
-    public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, CellularReturnType returnType,
+    public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
+                           CellularReturnType returnType,
                            double jitterModifier, boolean saltLookup) {
         super(frequency, salt, noiseLookup, distanceFunction, returnType, jitterModifier, saltLookup);
-        if (distanceFunction == DistanceFunction.Euclidean) {
+        if(distanceFunction == DistanceFunction.Euclidean) {
             boolean usesDistance2Operators =
                 returnType == CellularReturnType.Distance2Add || returnType == CellularReturnType.Distance2Sub ||
                 returnType == CellularReturnType.Distance2Mul || returnType == CellularReturnType.Distance2Div;
@@ -82,7 +82,7 @@ public class CellularSampler extends CellularStyleSampler {
                     case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
                 };
 
-                if (newDistance < distance0) {
+                if(newDistance < distance0) {
                     distance2 = distance1;
                     distance1 = distance0;
                     distance0 = newDistance;
@@ -90,10 +90,10 @@ public class CellularSampler extends CellularStyleSampler {
                     closestHash = hash;
                     centerX = (vecX + x) * invFrequency;
                     centerY = (vecY + y) * invFrequency;
-                } else if (newDistance < distance1) {
+                } else if(newDistance < distance1) {
                     distance2 = distance1;
                     distance1 = newDistance;
-                } else if (newDistance < distance2) {
+                } else if(newDistance < distance2) {
                     distance2 = newDistance;
                 }
                 yPrimed += NoiseFunction.PRIME_Y;
@@ -101,13 +101,13 @@ public class CellularSampler extends CellularStyleSampler {
             xPrimed += NoiseFunction.PRIME_X;
         }
 
-        if (needsDistance0Sq) {
+        if(needsDistance0Sq) {
             distance0 = Math.sqrt(distance0);
         }
-        if (needsDistance1Sq) {
+        if(needsDistance1Sq) {
             distance1 = Math.sqrt(distance1);
         }
-        if (needsDistance2Sq) {
+        if(needsDistance2Sq) {
             distance2 = Math.sqrt(distance2);
         }
 
@@ -160,7 +160,7 @@ public class CellularSampler extends CellularStyleSampler {
                             ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
                     };
 
-                    if (newDistance < distance0) {
+                    if(newDistance < distance0) {
                         distance2 = distance1;
                         distance1 = distance0;
                         distance0 = newDistance;
@@ -169,10 +169,10 @@ public class CellularSampler extends CellularStyleSampler {
                         centerX = (vecX + x) * invFrequency;
                         centerY = (vecY + y) * invFrequency;
                         centerZ = (vecZ + z) * invFrequency;
-                    } else if (newDistance < distance1) {
+                    } else if(newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;
-                    } else if (newDistance < distance2) {
+                    } else if(newDistance < distance2) {
                         distance2 = newDistance;
                     }
                     zPrimed += NoiseFunction.PRIME_Z;
@@ -182,13 +182,13 @@ public class CellularSampler extends CellularStyleSampler {
             xPrimed += NoiseFunction.PRIME_X;
         }
 
-        if (needsDistance0Sq) {
+        if(needsDistance0Sq) {
             distance0 = Math.sqrt(distance0);
         }
-        if (needsDistance1Sq) {
+        if(needsDistance1Sq) {
             distance1 = Math.sqrt(distance1);
         }
-        if (needsDistance2Sq) {
+        if(needsDistance2Sq) {
             distance2 = Math.sqrt(distance2);
         }
 

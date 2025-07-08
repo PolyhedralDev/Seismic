@@ -1,9 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
-import com.dfsek.seismic.algorithms.sampler.noise.cellular.CellularSampler;
-import com.dfsek.seismic.algorithms.sampler.noise.cellular.CellularStyleSampler;
-import com.dfsek.seismic.type.DistanceFunction;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Group;
@@ -27,7 +24,8 @@ public class OpenSimplex2SamplerBenchmark {
         int startX = (int) (Math.random() * 10000);
         int startY = (int) (Math.random() * 10000);
         int startZ = (int) (Math.random() * 10000);
-        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(Math.random());
+        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(
+            Math.random());
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 384; y++) {
                 for(int z = 0; z < 16; z++) {
@@ -45,7 +43,8 @@ public class OpenSimplex2SamplerBenchmark {
     public void benchmarkOS22D() {
         int startX = (int) (Math.random() * 10000);
         int startY = (int) (Math.random() * 10000);
-        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(Math.random()) ;
+        long seed = (Double.doubleToLongBits(Math.random()) << Double.doubleToLongBits(Math.random())) ^ Double.doubleToLongBits(
+            Math.random());
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 16; y++) {
                 sampler.getNoiseRaw(seed, startX + x, startY + y);

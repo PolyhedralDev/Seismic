@@ -19,13 +19,13 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     private static final double SQRT3 = 1.7320508075688772935274463415059;
     private static final double SKEW_2D = 0.5 * (OpenSimplex2Sampler.SQRT3 - 1.0);
     private static final double UNSKEW_2D = (3 - OpenSimplex2Sampler.SQRT3) / 6;
-    private static final double ROTATE_3D = (2.0 / 3.0);
     private static final double UNSKEW_2D_MINUS_1 = OpenSimplex2Sampler.UNSKEW_2D - 1;
     private static final double UNSKEW_2D_SQ = 2 * OpenSimplex2Sampler.UNSKEW_2D;
     private static final double INV_UNSKEW_2D_SQ = 1 - UNSKEW_2D_SQ;
-    private static final double UNSKEW_2D_SQ_MINUS_1 = OpenSimplex2Sampler.UNSKEW_2D_SQ - 1;
     private static final double N1 = (2 * INV_UNSKEW_2D_SQ * (1 / OpenSimplex2Sampler.UNSKEW_2D - 2));
     private static final double N2 = (-2 * INV_UNSKEW_2D_SQ * INV_UNSKEW_2D_SQ);
+    private static final double UNSKEW_2D_SQ_MINUS_1 = OpenSimplex2Sampler.UNSKEW_2D_SQ - 1;
+    private static final double ROTATE_3D = (2.0 / 3.0);
     private static final double RSQUARED_2D = 0.5;
     private static final double RSQUARED_3D = 0.6;
 

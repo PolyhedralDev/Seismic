@@ -191,70 +191,79 @@ public abstract class CellularStyleSampler extends NoiseFunction {
     protected final boolean saltLookup;
     protected final double invFrequency;
 
-    public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, CellularReturnType returnType,
-                           double jitterModifier, boolean saltLookup) {
+    public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
+                                CellularReturnType returnType,
+                                double jitterModifier, boolean saltLookup) {
         super(frequency, salt);
         this.noiseLookup = noiseLookup;
         this.distanceFunction = distanceFunction;
         this.returnType = returnType;
         this.jitterModifier = jitterModifier;
         this.saltLookup = saltLookup;
-        this.invFrequency = 1/frequency;
+        this.invFrequency = 1 / frequency;
     }
 
     public enum CellularReturnType {
         CellValue {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return closestHash * (1 / 2147483648.0);
             }
         },
         Distance {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance0 - 1;
             }
         },
         Distance2 {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance1 - 1;
             }
         },
         Distance2Add {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return ArithmeticFunctions.fma((distance1 + distance0), 0.5, -1);
             }
         },
         Distance2Sub {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance1 - distance0 - 1;
             }
         },
         Distance2Mul {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return ArithmeticFunctions.fma((distance1 * distance0), 0.5, -1);
             }
         },
         Distance2Div {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance0 / distance1 - 1;
             }
         },
         NoiseLookup {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), centerX, centerY);
             }
@@ -267,9 +276,10 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         },
         LocalNoiseLookup {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
-                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x * sampler.invFrequency  - centerX,
+                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x * sampler.invFrequency - centerX,
                     y * sampler.invFrequency - centerY);
             }
 
@@ -283,42 +293,48 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         },
         Distance3 {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance2 - 1;
             }
         },
         Distance3Add {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return ArithmeticFunctions.fma((distance2 + distance0), 0.5, -1);
             }
         },
         Distance3Sub {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance2 - distance0 - 1;
             }
         },
         Distance3Mul {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return ArithmeticFunctions.fma(distance2, distance0, -1);
             }
         },
         Distance3Div {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return distance0 / distance2 - 1;
             }
         },
         Angle {
             @Override
-            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
+            public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
+                                    double y,
                                     double centerX, double centerY, int closestHash) {
                 return TrigonometryFunctions.atan2(y * sampler.invFrequency - centerY, x * sampler.invFrequency - centerX);
             }
@@ -330,6 +346,8 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
                                 double y, double z, double centerX, double centerY, double centerZ, int closestHash) {
             return getReturn(sampler, sl, distance0, distance1, distance2, x, y, centerX, centerY, closestHash);
-        };
+        }
+
+        ;
     }
 }
