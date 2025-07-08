@@ -47,16 +47,14 @@ public class CellularSampler extends CellularStyleSampler {
 
         for(int xi = xr - 1; xi <= xr + 1; xi++) {
             int yPrimed = yPrimedBase;
+            double xiMinusX = xi - x;
 
             for(int yi = yr - 1; yi <= yr + 1; yi++) {
                 int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
                 int idx = hash & (255 << 1);
 
-                double lookupX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi);
-                double lookupY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi);
-
-                double vecX = lookupX - x;
-                double vecY = lookupY - y;
+                double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xiMinusX);
+                double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi - y);
 
                 double newDistance = switch(distanceFunction) {
                     case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -70,8 +68,8 @@ public class CellularSampler extends CellularStyleSampler {
                     distance0 = newDistance;
 
                     closestHash = hash;
-                    centerX = lookupX / frequency;
-                    centerY = lookupY / frequency;
+                    centerX = (vecX + x) * invFrequency;
+                    centerY = (vecY + y) * invFrequency;
                 } else if (newDistance < distance1) {
                     distance2 = distance1;
                     distance1 = newDistance;
@@ -118,21 +116,19 @@ public class CellularSampler extends CellularStyleSampler {
 
         for(int xi = xr - 1; xi <= xr + 1; xi++) {
             int yPrimed = yPrimedBase;
+            double xiMinusX = xi - x;
 
             for(int yi = yr - 1; yi <= yr + 1; yi++) {
                 int zPrimed = zPrimedBase;
+                double yiMinusY = yi - y;
 
                 for(int zi = zr - 1; zi <= zr + 1; zi++) {
                     int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
                     int idx = hash & (255 << 2);
 
-                    double lookupX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xi);
-                    double lookupY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yi);
-                    double lookupZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi);
-
-                    double vecX = lookupX - x;
-                    double vecY = lookupY - y;
-                    double vecZ = lookupZ - z;
+                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xiMinusX);
+                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yiMinusY);
+                    double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
 
                     double newDistance = switch(distanceFunction) {
                         case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
@@ -148,9 +144,9 @@ public class CellularSampler extends CellularStyleSampler {
                         distance0 = newDistance;
 
                         closestHash = hash;
-                        centerX = lookupX / frequency;
-                        centerY = lookupY / frequency;
-                        centerZ = lookupZ / frequency;
+                        centerX = (vecX + x) * invFrequency;
+                        centerY = (vecY + y) * invFrequency;
+                        centerZ = (vecZ + z) * invFrequency;
                     } else if (newDistance < distance1) {
                         distance2 = distance1;
                         distance1 = newDistance;

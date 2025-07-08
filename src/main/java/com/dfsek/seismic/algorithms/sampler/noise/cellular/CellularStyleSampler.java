@@ -189,6 +189,7 @@ public abstract class CellularStyleSampler extends NoiseFunction {
     protected final double jitterModifier;
     protected final Sampler noiseLookup;
     protected final boolean saltLookup;
+    protected final double invFrequency;
 
     public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction, CellularReturnType returnType,
                            double jitterModifier, boolean saltLookup) {
@@ -198,7 +199,7 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         this.returnType = returnType;
         this.jitterModifier = jitterModifier;
         this.saltLookup = saltLookup;
-
+        this.invFrequency = 1/frequency;
     }
 
     public enum CellularReturnType {
@@ -268,16 +269,16 @@ public abstract class CellularStyleSampler extends NoiseFunction {
             @Override
             public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
                                     double centerX, double centerY, int closestHash) {
-                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x / sampler.frequency - centerX,
-                    y / sampler.frequency - centerY);
+                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x * sampler.invFrequency  - centerX,
+                    y * sampler.invFrequency - centerY);
             }
 
             @Override
             public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x,
                                     double y, double z, double centerX, double centerY, double centerZ, int closestHash) {
-                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x / sampler.frequency - centerX,
-                    y / sampler.frequency - centerY,
-                    z / sampler.frequency - centerZ);
+                return sampler.noiseLookup.getSample(sl - (sampler.saltLookup ? 0 : sampler.salt), x * sampler.invFrequency - centerX,
+                    y * sampler.invFrequency - centerY,
+                    z * sampler.invFrequency - centerZ);
             }
         },
         Distance3 {
@@ -319,7 +320,7 @@ public abstract class CellularStyleSampler extends NoiseFunction {
             @Override
             public double getReturn(CellularStyleSampler sampler, long sl, double distance0, double distance1, double distance2, double x, double y,
                                     double centerX, double centerY, int closestHash) {
-                return TrigonometryFunctions.atan2(y / sampler.frequency - centerY, x / sampler.frequency - centerX);
+                return TrigonometryFunctions.atan2(y * sampler.invFrequency - centerY, x * sampler.invFrequency - centerX);
             }
         };
 
