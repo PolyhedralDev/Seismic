@@ -72,7 +72,9 @@ public class GaborSampler extends NoiseFunction {
 
         double noise = 0;
         for(int i = 0; i < impulses; i++) {
-            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * TrigonometryConstants.PI : rotation,
+            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic
+                                                            ? (rand.getNoiseRaw(mashedSeed++) + 1) * TrigonometryConstants.PI
+                                                            : rotation,
                 x * kernelRadius, y * kernelRadius);
         }
         return noise;
@@ -81,8 +83,8 @@ public class GaborSampler extends NoiseFunction {
     private double gabor(double omega_0, double x, double y) {
         return deviation * (Math.exp(-TrigonometryConstants.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
             2 * TrigonometryConstants.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
-                                y * TrigonometryFunctions.sin(
-                                    omega_0))));
+                                                 y * TrigonometryFunctions.sin(
+                                                     omega_0))));
     }
 
     @Override

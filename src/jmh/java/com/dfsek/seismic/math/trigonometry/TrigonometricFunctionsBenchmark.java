@@ -1,12 +1,13 @@
 package com.dfsek.seismic.math.trigonometry;
 
-import java.util.Random;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
+
+import java.util.Random;
 
 
 @State(Scope.Benchmark)
