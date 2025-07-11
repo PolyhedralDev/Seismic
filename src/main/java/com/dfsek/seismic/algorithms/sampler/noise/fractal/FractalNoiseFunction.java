@@ -27,12 +27,12 @@ public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
         this.weightedStrength = weightedStrength;
         this.octaves = octaves;
 
-        gain = Math.abs(this.gain);
-        double amp = gain;
+        double gainAbs = Math.abs(this.gain);
+        double amp = gainAbs;
         double ampFractal = 1.0;
         for(int i = 1; i < octaves; i++) {
             ampFractal += amp;
-            amp *= gain;
+            amp *= gainAbs;
         }
         fractalBounding = 1 / ampFractal;
     }
