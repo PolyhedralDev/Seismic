@@ -40,12 +40,13 @@ public class PerlinSampler extends SimplexStyleSampler {
         int x1 = x0 + NoiseFunction.PRIME_X;
         int y1 = y0 + NoiseFunction.PRIME_Y;
 
-        double xf0 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y0, xd0, yd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, xd1, yd0), xs);
-        double xf1 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y1, xd0, yd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, xd1, yd1), xs);
-
-        return InterpolationFunctions.lerp(xf0, xf1, ys) * 1.4247691104677813;
+        return InterpolationFunctions.biLerp(
+            SimplexStyleSampler.gradCoord(seed, x0, y0, xd0, yd0),
+            SimplexStyleSampler.gradCoord(seed, x1, y0, xd1, yd0),
+            SimplexStyleSampler.gradCoord(seed, x0, y1, xd0, yd1),
+            SimplexStyleSampler.gradCoord(seed, x1, y1, xd1, yd1),
+            xs, ys
+        ) * 1.4247691104677813;
     }
 
     @Override
@@ -73,18 +74,16 @@ public class PerlinSampler extends SimplexStyleSampler {
         int y1 = y0 + NoiseFunction.PRIME_Y;
         int z1 = z0 + NoiseFunction.PRIME_Z;
 
-        double xf00 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y0, z0, xd0, yd0, zd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, z0, xd1, yd0, zd0), xs);
-        double xf10 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y1, z0, xd0, yd1, zd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, z0, xd1, yd1, zd0), xs);
-        double xf01 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y0, z1, xd0, yd0, zd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, z1, xd1, yd0, zd1), xs);
-        double xf11 = InterpolationFunctions.lerp(SimplexStyleSampler.gradCoord(seed, x0, y1, z1, xd0, yd1, zd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, z1, xd1, yd1, zd1), xs);
-
-        double yf0 = InterpolationFunctions.lerp(xf00, xf10, ys);
-        double yf1 = InterpolationFunctions.lerp(xf01, xf11, ys);
-
-        return InterpolationFunctions.lerp(yf0, yf1, zs) * 0.964921414852142333984375;
+        return InterpolationFunctions.triLerp(
+            SimplexStyleSampler.gradCoord(seed, x0, y0, z0, xd0, yd0, zd0),
+            SimplexStyleSampler.gradCoord(seed, x1, y0, z0, xd1, yd0, zd0),
+            SimplexStyleSampler.gradCoord(seed, x0, y1, z0, xd0, yd1, zd0),
+            SimplexStyleSampler.gradCoord(seed, x1, y1, z0, xd1, yd1, zd0),
+            SimplexStyleSampler.gradCoord(seed, x0, y0, z1, xd0, yd0, zd1),
+            SimplexStyleSampler.gradCoord(seed, x1, y0, z1, xd1, yd0, zd1),
+            SimplexStyleSampler.gradCoord(seed, x0, y1, z1, xd0, yd1, zd1),
+            SimplexStyleSampler.gradCoord(seed, x1, y1, z1, xd1, yd1, zd1),
+            xs, ys, zs
+        ) * 0.964921414852142333984375;
     }
 }
