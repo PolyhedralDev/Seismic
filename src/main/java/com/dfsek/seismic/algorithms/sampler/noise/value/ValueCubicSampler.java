@@ -37,10 +37,14 @@ public class ValueCubicSampler extends ValueStyleNoise {
         int y3 = y1 + (NoiseFunction.PRIME_Y << 1);
 
         return InterpolationFunctions.biCubicLerp(
-            ValueStyleNoise.valCoord(seed, x0, y0), ValueStyleNoise.valCoord(seed, x1, y0), ValueStyleNoise.valCoord(seed, x2, y0), ValueStyleNoise.valCoord(seed, x3, y0),
-            ValueStyleNoise.valCoord(seed, x0, y1), ValueStyleNoise.valCoord(seed, x1, y1), ValueStyleNoise.valCoord(seed, x2, y1), ValueStyleNoise.valCoord(seed, x3, y1),
-            ValueStyleNoise.valCoord(seed, x0, y2), ValueStyleNoise.valCoord(seed, x1, y2), ValueStyleNoise.valCoord(seed, x2, y2), ValueStyleNoise.valCoord(seed, x3, y2),
-            ValueStyleNoise.valCoord(seed, x0, y3), ValueStyleNoise.valCoord(seed, x1, y3), ValueStyleNoise.valCoord(seed, x2, y3), ValueStyleNoise.valCoord(seed, x3, y3),
+            ValueStyleNoise.valCoord(seed, x0, y0), ValueStyleNoise.valCoord(seed, x1, y0), ValueStyleNoise.valCoord(seed, x2, y0),
+            ValueStyleNoise.valCoord(seed, x3, y0),
+            ValueStyleNoise.valCoord(seed, x0, y1), ValueStyleNoise.valCoord(seed, x1, y1), ValueStyleNoise.valCoord(seed, x2, y1),
+            ValueStyleNoise.valCoord(seed, x3, y1),
+            ValueStyleNoise.valCoord(seed, x0, y2), ValueStyleNoise.valCoord(seed, x1, y2), ValueStyleNoise.valCoord(seed, x2, y2),
+            ValueStyleNoise.valCoord(seed, x3, y2),
+            ValueStyleNoise.valCoord(seed, x0, y3), ValueStyleNoise.valCoord(seed, x1, y3), ValueStyleNoise.valCoord(seed, x2, y3),
+            ValueStyleNoise.valCoord(seed, x3, y3),
             xs, ys
         ) * (1 / (1.5 * 1.5));
     }
@@ -72,25 +76,41 @@ public class ValueCubicSampler extends ValueStyleNoise {
 
         return InterpolationFunctions.triCubicLerp(
             // z0
-            ValueStyleNoise.valCoord(seed, x0, y0, z0), ValueStyleNoise.valCoord(seed, x1, y0, z0), ValueStyleNoise.valCoord(seed, x2, y0, z0), ValueStyleNoise.valCoord(seed, x3, y0, z0),
-            ValueStyleNoise.valCoord(seed, x0, y1, z0), ValueStyleNoise.valCoord(seed, x1, y1, z0), ValueStyleNoise.valCoord(seed, x2, y1, z0), ValueStyleNoise.valCoord(seed, x3, y1, z0),
-            ValueStyleNoise.valCoord(seed, x0, y2, z0), ValueStyleNoise.valCoord(seed, x1, y2, z0), ValueStyleNoise.valCoord(seed, x2, y2, z0), ValueStyleNoise.valCoord(seed, x3, y2, z0),
-            ValueStyleNoise.valCoord(seed, x0, y3, z0), ValueStyleNoise.valCoord(seed, x1, y3, z0), ValueStyleNoise.valCoord(seed, x2, y3, z0), ValueStyleNoise.valCoord(seed, x3, y3, z0),
+            ValueStyleNoise.valCoord(seed, x0, y0, z0), ValueStyleNoise.valCoord(seed, x1, y0, z0),
+            ValueStyleNoise.valCoord(seed, x2, y0, z0), ValueStyleNoise.valCoord(seed, x3, y0, z0),
+            ValueStyleNoise.valCoord(seed, x0, y1, z0), ValueStyleNoise.valCoord(seed, x1, y1, z0),
+            ValueStyleNoise.valCoord(seed, x2, y1, z0), ValueStyleNoise.valCoord(seed, x3, y1, z0),
+            ValueStyleNoise.valCoord(seed, x0, y2, z0), ValueStyleNoise.valCoord(seed, x1, y2, z0),
+            ValueStyleNoise.valCoord(seed, x2, y2, z0), ValueStyleNoise.valCoord(seed, x3, y2, z0),
+            ValueStyleNoise.valCoord(seed, x0, y3, z0), ValueStyleNoise.valCoord(seed, x1, y3, z0),
+            ValueStyleNoise.valCoord(seed, x2, y3, z0), ValueStyleNoise.valCoord(seed, x3, y3, z0),
             // z1
-            ValueStyleNoise.valCoord(seed, x0, y0, z1), ValueStyleNoise.valCoord(seed, x1, y0, z1), ValueStyleNoise.valCoord(seed, x2, y0, z1), ValueStyleNoise.valCoord(seed, x3, y0, z1),
-            ValueStyleNoise.valCoord(seed, x0, y1, z1), ValueStyleNoise.valCoord(seed, x1, y1, z1), ValueStyleNoise.valCoord(seed, x2, y1, z1), ValueStyleNoise.valCoord(seed, x3, y1, z1),
-            ValueStyleNoise.valCoord(seed, x0, y2, z1), ValueStyleNoise.valCoord(seed, x1, y2, z1), ValueStyleNoise.valCoord(seed, x2, y2, z1), ValueStyleNoise.valCoord(seed, x3, y2, z1),
-            ValueStyleNoise.valCoord(seed, x0, y3, z1), ValueStyleNoise.valCoord(seed, x1, y3, z1), ValueStyleNoise.valCoord(seed, x2, y3, z1), ValueStyleNoise.valCoord(seed, x3, y3, z1),
+            ValueStyleNoise.valCoord(seed, x0, y0, z1), ValueStyleNoise.valCoord(seed, x1, y0, z1),
+            ValueStyleNoise.valCoord(seed, x2, y0, z1), ValueStyleNoise.valCoord(seed, x3, y0, z1),
+            ValueStyleNoise.valCoord(seed, x0, y1, z1), ValueStyleNoise.valCoord(seed, x1, y1, z1),
+            ValueStyleNoise.valCoord(seed, x2, y1, z1), ValueStyleNoise.valCoord(seed, x3, y1, z1),
+            ValueStyleNoise.valCoord(seed, x0, y2, z1), ValueStyleNoise.valCoord(seed, x1, y2, z1),
+            ValueStyleNoise.valCoord(seed, x2, y2, z1), ValueStyleNoise.valCoord(seed, x3, y2, z1),
+            ValueStyleNoise.valCoord(seed, x0, y3, z1), ValueStyleNoise.valCoord(seed, x1, y3, z1),
+            ValueStyleNoise.valCoord(seed, x2, y3, z1), ValueStyleNoise.valCoord(seed, x3, y3, z1),
             // z2
-            ValueStyleNoise.valCoord(seed, x0, y0, z2), ValueStyleNoise.valCoord(seed, x1, y0, z2), ValueStyleNoise.valCoord(seed, x2, y0, z2), ValueStyleNoise.valCoord(seed, x3, y0, z2),
-            ValueStyleNoise.valCoord(seed, x0, y1, z2), ValueStyleNoise.valCoord(seed, x1, y1, z2), ValueStyleNoise.valCoord(seed, x2, y1, z2), ValueStyleNoise.valCoord(seed, x3, y1, z2),
-            ValueStyleNoise.valCoord(seed, x0, y2, z2), ValueStyleNoise.valCoord(seed, x1, y2, z2), ValueStyleNoise.valCoord(seed, x2, y2, z2), ValueStyleNoise.valCoord(seed, x3, y2, z2),
-            ValueStyleNoise.valCoord(seed, x0, y3, z2), ValueStyleNoise.valCoord(seed, x1, y3, z2), ValueStyleNoise.valCoord(seed, x2, y3, z2), ValueStyleNoise.valCoord(seed, x3, y3, z2),
+            ValueStyleNoise.valCoord(seed, x0, y0, z2), ValueStyleNoise.valCoord(seed, x1, y0, z2),
+            ValueStyleNoise.valCoord(seed, x2, y0, z2), ValueStyleNoise.valCoord(seed, x3, y0, z2),
+            ValueStyleNoise.valCoord(seed, x0, y1, z2), ValueStyleNoise.valCoord(seed, x1, y1, z2),
+            ValueStyleNoise.valCoord(seed, x2, y1, z2), ValueStyleNoise.valCoord(seed, x3, y1, z2),
+            ValueStyleNoise.valCoord(seed, x0, y2, z2), ValueStyleNoise.valCoord(seed, x1, y2, z2),
+            ValueStyleNoise.valCoord(seed, x2, y2, z2), ValueStyleNoise.valCoord(seed, x3, y2, z2),
+            ValueStyleNoise.valCoord(seed, x0, y3, z2), ValueStyleNoise.valCoord(seed, x1, y3, z2),
+            ValueStyleNoise.valCoord(seed, x2, y3, z2), ValueStyleNoise.valCoord(seed, x3, y3, z2),
             // z3
-            ValueStyleNoise.valCoord(seed, x0, y0, z3), ValueStyleNoise.valCoord(seed, x1, y0, z3), ValueStyleNoise.valCoord(seed, x2, y0, z3), ValueStyleNoise.valCoord(seed, x3, y0, z3),
-            ValueStyleNoise.valCoord(seed, x0, y1, z3), ValueStyleNoise.valCoord(seed, x1, y1, z3), ValueStyleNoise.valCoord(seed, x2, y1, z3), ValueStyleNoise.valCoord(seed, x3, y1, z3),
-            ValueStyleNoise.valCoord(seed, x0, y2, z3), ValueStyleNoise.valCoord(seed, x1, y2, z3), ValueStyleNoise.valCoord(seed, x2, y2, z3), ValueStyleNoise.valCoord(seed, x3, y2, z3),
-            ValueStyleNoise.valCoord(seed, x0, y3, z3), ValueStyleNoise.valCoord(seed, x1, y3, z3), ValueStyleNoise.valCoord(seed, x2, y3, z3), ValueStyleNoise.valCoord(seed, x3, y3, z3),
+            ValueStyleNoise.valCoord(seed, x0, y0, z3), ValueStyleNoise.valCoord(seed, x1, y0, z3),
+            ValueStyleNoise.valCoord(seed, x2, y0, z3), ValueStyleNoise.valCoord(seed, x3, y0, z3),
+            ValueStyleNoise.valCoord(seed, x0, y1, z3), ValueStyleNoise.valCoord(seed, x1, y1, z3),
+            ValueStyleNoise.valCoord(seed, x2, y1, z3), ValueStyleNoise.valCoord(seed, x3, y1, z3),
+            ValueStyleNoise.valCoord(seed, x0, y2, z3), ValueStyleNoise.valCoord(seed, x1, y2, z3),
+            ValueStyleNoise.valCoord(seed, x2, y2, z3), ValueStyleNoise.valCoord(seed, x3, y2, z3),
+            ValueStyleNoise.valCoord(seed, x0, y3, z3), ValueStyleNoise.valCoord(seed, x1, y3, z3),
+            ValueStyleNoise.valCoord(seed, x2, y3, z3), ValueStyleNoise.valCoord(seed, x3, y3, z3),
             xs, ys, zs
         ) * (1 / (1.5 * 1.5 * 1.5));
     }

@@ -13,7 +13,7 @@ public abstract class OpenSimplex2StyleSampler extends SimplexStyleSampler {
     protected static final double ROTATE_3D = (2.0 / 3.0);
     protected static final double RSQUARED_2D = 0.5;
     protected static final double RSQUARED_3D = 0.6;
-    
+
     public OpenSimplex2StyleSampler(double frequency, long salt) {
         super(frequency, salt);
     }
