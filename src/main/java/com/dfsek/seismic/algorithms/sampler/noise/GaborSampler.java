@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.trigonometry.TrigonometryConstants;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 
 
