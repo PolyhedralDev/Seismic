@@ -15,6 +15,14 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
  * NoiseSampler implementation to provide OpenSimplex2 (Smooth Variant) noise.
  */
 public class OpenSimplex2SSampler extends SimplexStyleSampler {
+
+    private final double SQRT3 = 1.7320508075688772935274463415059;
+    private final double G2 = (3 - SQRT3) / 6;
+
+    private final double F2 = 0.5f * (SQRT3 - 1);
+
+    private final double R3 = (2.0 / 3.0);
+
     public OpenSimplex2SSampler(double frequency, long salt) {
         super(frequency, salt);
     }
@@ -24,11 +32,6 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2S case is a modified 2D simplex noise.
-
-        final double SQRT3 = 1.7320508075688772935274463415059;
-        final double G2 = (3 - SQRT3) / 6;
-
-        final double F2 = 0.5f * (SQRT3 - 1);
         double s = (x + y) * F2;
         x += s;
         y += s;
@@ -134,7 +137,6 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2S case uses two offset rotated cube grids.
-        final double R3 = (2.0 / 3.0);
         double r = (x + y + z) * R3; // Rotation, not skew
         x = r - x;
         y = r - y;
@@ -320,11 +322,6 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2S case is a modified 2D simplex noise.
-
-        final double SQRT3 = 1.7320508075688772935274463415059;
-        final double G2 = (3 - SQRT3) / 6;
-
-        final double F2 = 0.5f * (SQRT3 - 1);
         double s = (x + y) * F2;
         x += s;
         y += s;
@@ -492,7 +489,6 @@ public class OpenSimplex2SSampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2S case uses two offset rotated cube grids.
-        final double R3 = (2.0 / 3.0);
         double r = (x + y + z) * R3; // Rotation, not skew
         x = r - x;
         y = r - y;

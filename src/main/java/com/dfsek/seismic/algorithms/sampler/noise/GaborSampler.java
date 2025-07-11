@@ -30,13 +30,13 @@ public class GaborSampler extends NoiseFunction {
                         double a, boolean isotropic) {
         super(frequency, salt);
         this.deviation = deviation;
-        this.rotation = rotation;
+        this.rotation = TrigonometryConstants.PI * rotation;
         this.f0 = frequency0;
         this.a = a;
         this.isotropic = isotropic;
 
-        kernelRadius = (Math.sqrt(-Math.log(0.05) / Math.PI) / this.a);
-        double impulseDensity = (impulsesPerKernel / (Math.PI * kernelRadius * kernelRadius));
+        kernelRadius = (Math.sqrt(-Math.log(0.05) / TrigonometryConstants.PI) / this.a);
+        double impulseDensity = (impulsesPerKernel / (TrigonometryConstants.PI * kernelRadius * kernelRadius));
         double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
         g = Math.exp(-impulsesPerCell);
 
@@ -71,15 +71,15 @@ public class GaborSampler extends NoiseFunction {
 
         double noise = 0;
         for(int i = 0; i < impulses; i++) {
-            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * Math.PI : rotation,
+            noise += rand.getNoiseRaw(mashedSeed++) * gabor(isotropic ? (rand.getNoiseRaw(mashedSeed++) + 1) * TrigonometryConstants.PI : rotation,
                 x * kernelRadius, y * kernelRadius);
         }
         return noise;
     }
 
     private double gabor(double omega_0, double x, double y) {
-        return deviation * (Math.exp(-Math.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
-            2 * Math.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
+        return deviation * (Math.exp(-TrigonometryConstants.PI * (a * a) * (x * x + y * y)) * TrigonometryFunctions.cos(
+            2 * TrigonometryConstants.PI * f0 * (x * TrigonometryFunctions.cos(omega_0) +
                                 y * TrigonometryFunctions.sin(
                                     omega_0))));
     }
