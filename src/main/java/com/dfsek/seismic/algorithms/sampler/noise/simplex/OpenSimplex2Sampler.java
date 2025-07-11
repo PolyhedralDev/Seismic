@@ -15,20 +15,7 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 /**
  * NoiseSampler implementation to provide OpenSimplex2 noise.
  */
-public class OpenSimplex2Sampler extends SimplexStyleSampler {
-    private static final double SQRT3 = 1.7320508075688772935274463415059;
-    private static final double SKEW_2D = 0.5 * (OpenSimplex2Sampler.SQRT3 - 1.0);
-    private static final double UNSKEW_2D = (3 - OpenSimplex2Sampler.SQRT3) / 6;
-    private static final double UNSKEW_2D_MINUS_1 = OpenSimplex2Sampler.UNSKEW_2D - 1;
-    private static final double UNSKEW_2D_SQ = 2 * OpenSimplex2Sampler.UNSKEW_2D;
-    private static final double INV_UNSKEW_2D_SQ = 1 - UNSKEW_2D_SQ;
-    private static final double N1 = (2 * INV_UNSKEW_2D_SQ * (1 / OpenSimplex2Sampler.UNSKEW_2D - 2));
-    private static final double N2 = (-2 * INV_UNSKEW_2D_SQ * INV_UNSKEW_2D_SQ);
-    private static final double UNSKEW_2D_SQ_MINUS_1 = OpenSimplex2Sampler.UNSKEW_2D_SQ - 1;
-    private static final double ROTATE_3D = (2.0 / 3.0);
-    private static final double RSQUARED_2D = 0.5;
-    private static final double RSQUARED_3D = 0.6;
-
+public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
     public OpenSimplex2Sampler(double frequency, long salt) {
         super(frequency, salt);
     }
@@ -37,7 +24,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
-        double s = (x + y) * OpenSimplex2Sampler.SKEW_2D;
+        double s = (x + y) * OpenSimplex2StyleSampler.SKEW_2D;
         x += s;
         y += s;
 
@@ -47,7 +34,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        double t = (xi + yi) * OpenSimplex2Sampler.UNSKEW_2D;
+        double t = (xi + yi) * OpenSimplex2StyleSampler.UNSKEW_2D;
         double x0 = xi - t;
         double y0 = yi - t;
 
@@ -56,35 +43,35 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
 
         double value = 0;
 
-        double a = OpenSimplex2Sampler.RSQUARED_2D - x0 * x0 - y0 * y0;
+        double a = OpenSimplex2StyleSampler.RSQUARED_2D - x0 * x0 - y0 * y0;
         if(a > 0) {
             double aa = a * a;
             value = aa * aa * SimplexStyleSampler.gradCoord(seed, i, j, x0, y0);
         }
 
 
-        double c = ArithmeticFunctions.fma(OpenSimplex2Sampler.N1, t, (N2 + a));
+        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (GRADIENT_SCALE_SECONDARY + a));
         if(c > 0) {
-            double x2 = x0 + OpenSimplex2Sampler.UNSKEW_2D_SQ_MINUS_1;
-            double y2 = y0 + OpenSimplex2Sampler.UNSKEW_2D_SQ_MINUS_1;
+            double x2 = x0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
+            double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double cc = c * c;
             value = ArithmeticFunctions.fma(cc * cc,
                 SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y, x2, y2), value);
         }
 
         if(y0 > x0) {
-            double x1 = x0 + OpenSimplex2Sampler.UNSKEW_2D;
-            double y1 = y0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
-            double b = OpenSimplex2Sampler.RSQUARED_2D - x1 * x1 - y1 * y1;
+            double x1 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D;
+            double y1 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
+            double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b;
                 value = ArithmeticFunctions.fma(bb * bb,
                     SimplexStyleSampler.gradCoord(seed, i, j + NoiseFunction.PRIME_Y, x1, y1), value);
             }
         } else {
-            double x1 = x0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
-            double y1 = y0 + OpenSimplex2Sampler.UNSKEW_2D;
-            double b = OpenSimplex2Sampler.RSQUARED_2D - x1 * x1 - y1 * y1;
+            double x1 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
+            double y1 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
+            double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b;
                 value = ArithmeticFunctions.fma(bb * bb,
@@ -99,7 +86,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double getNoiseRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2Sampler case uses two offset rotated cube grids.
-        double r = (x + y + z) * OpenSimplex2Sampler.ROTATE_3D; // Rotation, not skew
+        double r = (x + y + z) * OpenSimplex2StyleSampler.ROTATE_3D; // Rotation, not skew
         x = r - x;
         y = r - y;
         z = r - z;
@@ -125,7 +112,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         k *= NoiseFunction.PRIME_Z;
 
         double value = 0;
-        double a = (OpenSimplex2Sampler.RSQUARED_3D - x0 * x0) - ArithmeticFunctions.fma(y0, y0, z0 * z0);
+        double a = (OpenSimplex2StyleSampler.RSQUARED_3D - x0 * x0) - ArithmeticFunctions.fma(y0, y0, z0 * z0);
 
         for(int l = 0; ; l++) {
             if(a > 0) {
@@ -197,7 +184,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
-        double s = (x + y) * OpenSimplex2Sampler.SKEW_2D;
+        double s = (x + y) * OpenSimplex2StyleSampler.SKEW_2D;
         x += s;
         y += s;
 
@@ -207,7 +194,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        double t = (xi + yi) * OpenSimplex2Sampler.UNSKEW_2D;
+        double t = (xi + yi) * OpenSimplex2StyleSampler.UNSKEW_2D;
         double x0 = xi - t;
         double y0 = yi - t;
 
@@ -216,7 +203,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
 
         double[] out = { 0.0f, 0.0f, 0.0f };
 
-        double a = OpenSimplex2Sampler.RSQUARED_2D - x0 * x0 - y0 * y0;
+        double a = OpenSimplex2StyleSampler.RSQUARED_2D - x0 * x0 - y0 * y0;
         if(a > 0) {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
             int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
@@ -227,10 +214,10 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
             out[2] = ArithmeticFunctions.fma(-8 * rampValue * aaa, y0, ArithmeticFunctions.fma(gy, aaaa, out[2]));
         }
 
-        double c = ArithmeticFunctions.fma(OpenSimplex2Sampler.N1, t, (N2 + a));
+        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (GRADIENT_SCALE_SECONDARY + a));
         if(c > 0) {
-            double x2 = x0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
-            double y2 = y0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
+            double x2 = x0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
+            double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
             int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
             double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
@@ -241,9 +228,9 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         }
 
         if(y0 > x0) {
-            double x1 = x0 + OpenSimplex2Sampler.UNSKEW_2D;
-            double y1 = y0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
-            double b = OpenSimplex2Sampler.RSQUARED_2D - x1 * x1 - y1 * y1;
+            double x1 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D;
+            double y1 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
+            double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
@@ -254,9 +241,9 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
                 out[2] = ArithmeticFunctions.fma(-8 * rampValue * bbb, y1, ArithmeticFunctions.fma(gy, bbbb, out[2]));
             }
         } else {
-            double x1 = x0 + OpenSimplex2Sampler.UNSKEW_2D_MINUS_1;
-            double y1 = y0 + OpenSimplex2Sampler.UNSKEW_2D;
-            double b = OpenSimplex2Sampler.RSQUARED_2D - x1 * x1 - y1 * y1;
+            double x1 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
+            double y1 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
+            double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
                 int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
@@ -278,7 +265,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
     public double[] getNoiseDerivativeRaw(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2Sampler case uses two offset rotated cube grids.
-        double r = (x + y + z) * OpenSimplex2Sampler.ROTATE_3D; // Rotation, not skew
+        double r = (x + y + z) * OpenSimplex2StyleSampler.ROTATE_3D; // Rotation, not skew
         x = r - x;
         y = r - y;
         z = r - z;
@@ -304,7 +291,7 @@ public class OpenSimplex2Sampler extends SimplexStyleSampler {
         k *= NoiseFunction.PRIME_Z;
 
         double[] out = { 0.0f, 0.0f, 0.0f, 0.0f };
-        double a = (OpenSimplex2Sampler.RSQUARED_3D - x0 * x0) - (ArithmeticFunctions.fma(y0, y0, z0 * z0));
+        double a = (OpenSimplex2StyleSampler.RSQUARED_3D - x0 * x0) - (ArithmeticFunctions.fma(y0, y0, z0 * z0));
 
         for(int l = 0; ; l++) {
             if(a > 0) {
