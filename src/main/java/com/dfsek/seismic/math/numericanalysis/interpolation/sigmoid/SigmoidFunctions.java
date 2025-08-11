@@ -10,6 +10,6 @@ public class SigmoidFunctions {
      * @return the value of the logistic curve at the given input.
      */
     public static double logisticCurve(double a, double b) {
-        return 1 / (Math.exp(-1 * a * b));
+        return 1 / (1 + Math.exp(-x));
     }
 }
