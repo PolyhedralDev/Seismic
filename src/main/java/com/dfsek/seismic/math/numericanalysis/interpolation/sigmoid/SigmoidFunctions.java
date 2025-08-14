@@ -4,12 +4,11 @@ public class SigmoidFunctions {
     /**
      * Returns the result of a logistic curve function.
      *
-     * @param a the growth rate parameter.
-     * @param b the input value.
+     * @param x the input value.
      *
      * @return the value of the logistic curve at the given input.
      */
-    public static double logisticCurve(double a, double b) {
+    public static double logisticCurve(double x) {
         return 1 / (1 + Math.exp(-x));
     }
 }
