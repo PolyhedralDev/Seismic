@@ -71,7 +71,7 @@ public class CoordFunctions {
      * @return the chunk-relative coordinate.
      */
     public static int absoluteToChunkRelative(int absolute) {
-        return absolute % 16;
+        return absolute & 15;
     }
 
     /**
@@ -81,7 +81,7 @@ public class CoordFunctions {
      * @return the chunk-relative coordinate.
      */
     public static long absoluteToChunkRelative(long absolute) {
-        return absolute % 16;
+        return absolute & 15;
     }
 
     /**
@@ -91,7 +91,7 @@ public class CoordFunctions {
      * @return the chunk-relative coordinate.
      */
     public static double absoluteToChunkRelative(double absolute) {
-        return absolute % 16;
+        return FloatingPointFunctions.modulus(absolute, 16);
     }
 
     /**

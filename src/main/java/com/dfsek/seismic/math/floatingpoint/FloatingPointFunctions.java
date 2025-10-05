@@ -73,4 +73,18 @@ public class FloatingPointFunctions {
     public static double getFraction(double x) {
         return x - Math.floor(x);
     }
+
+
+    /**
+     * Returns the modulus of two {@code double} values.
+     *
+     *
+     * @param a the dividend.
+     * @param b the divisor.
+     *
+     * @return the modulus
+     */
+    public static double modulus(double a, double b) {
+        return (a %= b) + (a < 0.0D ? b : 0.0D); //adding 0.0 will convert -0.0 to +0.0.
+    }
 }
