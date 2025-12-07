@@ -158,7 +158,7 @@ public class PseudoErosionSampler extends NoiseFunction {
             erosion *= flatness;
         }
 
-        return height + erosion * erosionStrength;
+        return height + (erosion - height) * erosionStrength;
     }
 
     @Override
