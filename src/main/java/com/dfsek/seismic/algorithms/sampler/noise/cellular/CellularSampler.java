@@ -54,10 +54,7 @@ public class CellularSampler extends CellularStyleSampler {
         double distance0 = Double.MAX_VALUE;
         double distance1 = Double.MAX_VALUE;
         double distance2 = Double.MAX_VALUE;
-
         int closestHash = 0;
-
-        double cellularJitter = 0.43701595 * jitterModifier;
 
         int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
         int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
@@ -73,8 +70,8 @@ public class CellularSampler extends CellularStyleSampler {
                 int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
                 int idx = hash & (255 << 1);
 
-                double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], cellularJitter, xiMinusX);
-                double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], cellularJitter, yi - y);
+                double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xiMinusX);
+                double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yi - y);
 
                 double newDistance = switch(distanceFunction) {
                     case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -126,8 +123,6 @@ public class CellularSampler extends CellularStyleSampler {
         double distance2 = Double.MAX_VALUE;
         int closestHash = 0;
 
-        double cellularJitter = 0.39614353 * jitterModifier;
-
         int xPrimed = (xr - 1) * NoiseFunction.PRIME_X;
         int yPrimedBase = (yr - 1) * NoiseFunction.PRIME_Y;
         int zPrimedBase = (zr - 1) * NoiseFunction.PRIME_Z;
@@ -148,9 +143,9 @@ public class CellularSampler extends CellularStyleSampler {
                     int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
                     int idx = hash & (255 << 2);
 
-                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], cellularJitter, xiMinusX);
-                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], cellularJitter, yiMinusY);
-                    double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], cellularJitter, zi - z);
+                    double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], threeDCellularJitter, xiMinusX);
+                    double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], threeDCellularJitter, yiMinusY);
+                    double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], threeDCellularJitter, zi - z);
 
                     double newDistance = switch(distanceFunction) {
                         case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,

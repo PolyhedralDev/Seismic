@@ -190,6 +190,8 @@ public abstract class CellularStyleSampler extends NoiseFunction {
     protected final Sampler noiseLookup;
     protected final boolean saltLookup;
     protected final double invFrequency;
+    protected final double twoDCellularJitter;
+    protected final double threeDCellularJitter;
 
     public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
                                 CellularReturnType returnType,
@@ -201,6 +203,8 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         this.jitterModifier = jitterModifier;
         this.saltLookup = saltLookup;
         this.invFrequency = 1 / frequency;
+        twoDCellularJitter = 0.43701595 * jitterModifier;
+        threeDCellularJitter = 0.39614353 * jitterModifier;
     }
 
     public enum CellularReturnType {
