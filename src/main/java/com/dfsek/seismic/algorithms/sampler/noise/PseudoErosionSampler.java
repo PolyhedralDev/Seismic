@@ -14,13 +14,14 @@ import com.dfsek.seismic.type.sampler.DerivativeSampler;
 public class PseudoErosionSampler extends NoiseFunction {
     private static final double HASH_X = 0.3183099f;
     private static final double HASH_Y = 0.3678794f;
+    public final double invSlopeStrength;
     public final double gain;
     public final double lacunarity;
-    public final double slopeStrength;
     public final double branchStrength;
     public final double erosionStrength;
     private final int octaves;
     private final double erosionFrequency;
+    private final double erosionSlopeSensitivity;
     private final DerivativeSampler sampler;
     private final boolean slopeMask;
     private final double slopeMaskFullSq;
@@ -32,17 +33,18 @@ public class PseudoErosionSampler extends NoiseFunction {
 
     public PseudoErosionSampler(double frequency, long salt, int octaves, double gain, double lacunarity, double slopeStrength,
                                 double branchStrength,
-                                double erosionStrength, double erosionFrequency, DerivativeSampler sampler,
+                                double erosionStrength, double erosionFrequency, double erosionSlopeSensitivity, DerivativeSampler sampler,
                                 boolean slopeMask, double slopeMaskFull, double slopeMaskNone, double jitterModifier,
                                 boolean averageErosionImpulses) {
         super(frequency, salt);
         this.octaves = octaves;
         this.gain = gain;
         this.lacunarity = lacunarity;
-        this.slopeStrength = slopeStrength;
+        this.invSlopeStrength = 1 / slopeStrength;
         this.branchStrength = branchStrength;
         this.erosionStrength = erosionStrength;
         this.erosionFrequency = erosionFrequency;
+        this.erosionSlopeSensitivity = erosionSlopeSensitivity;
         this.sampler = sampler;
         this.slopeMask = slopeMask;
         // Square these values and maintain sign since they're compared to a
@@ -76,6 +78,7 @@ public class PseudoErosionSampler extends NoiseFunction {
 
         for(int cellX = gridX - 1; cellX <= gridX + 1; cellX++) {
             for(int cellY = gridY - 1; cellY <= gridY + 1; cellY++) {
+
                 double cellHash = HashingFunctions.hashPrimeCoords(seed, cellX, cellY);
                 double cellOffsetX = PseudoErosionSampler.hashX(seed, cellHash) * jitter;
                 double cellOffsetY = PseudoErosionSampler.hashY(seed, cellHash) * jitter;
@@ -102,15 +105,19 @@ public class PseudoErosionSampler extends NoiseFunction {
         return new double[]{ noise, dirOutX, dirOutY };
     }
 
-    public double heightMap(long seed, double x, double y) {
+    public double heightMap(long sl, double x, double y) {
+        int seed = (int) sl;
         double[] sample = sampler.getSampleDerivative(seed, x, y);
         double height = sample[0];
         double heightDirX = sample[1];
         double heightDirY = sample[2];
 
-        // Take the curl of the normal to get the gradient facing down the slope
-        double baseDirX = heightDirY * slopeStrength;
-        double baseDirY = -heightDirX * slopeStrength;
+
+        // Adjust slope sensitivity by mixing in a normalized version of the slope.
+        double slopeMag = LinearAlgebraFunctions.hypot(heightDirX, heightDirY);
+        double slopeDenominator = slopeMag * (1.0f - erosionSlopeSensitivity) + invSlopeStrength * erosionSlopeSensitivity;
+        heightDirX /= slopeDenominator;
+        heightDirY /= slopeDenominator;
 
         double erosion = 0.0f;
         double dirX = 0.0f;
@@ -118,17 +125,20 @@ public class PseudoErosionSampler extends NoiseFunction {
         double amp = 1.0f;
         double cumAmp = 0.0f;
         double freq = 1.0f;
+        double scale;
+        double[] erosionResult;
 
         // Stack erosion octaves
         for(int i = 0; i < octaves; i++) {
-            double[] erosionResult = erosion((int) seed,
+            erosionResult = erosion(seed,
                 x * freq * erosionFrequency,
                 y * freq * erosionFrequency,
-                ArithmeticFunctions.fma(dirY, branchStrength, baseDirX),
-                baseDirY - dirX * branchStrength);
+                heightDirX,
+                -heightDirY);
+            scale = amp * freq * branchStrength;
             erosion = ArithmeticFunctions.fma(erosionResult[0], amp, erosion);
-            dirX = ArithmeticFunctions.fma(erosionResult[1], amp * freq, dirX);
-            dirY = ArithmeticFunctions.fma(erosionResult[2], amp * freq, dirY);
+            dirX = ArithmeticFunctions.fma(erosionResult[1], scale, dirX);
+            dirY = ArithmeticFunctions.fma(erosionResult[2], scale, dirY);
             cumAmp += amp;
             amp *= gain;
             freq *= lacunarity;
@@ -142,7 +152,7 @@ public class PseudoErosionSampler extends NoiseFunction {
         // Without masking, erosion noise in areas with small gradients tend to produce mounds,
         // this reduces erosion amplitude towards smaller gradients to avoid this
         if(slopeMask) {
-            double dirMagSq = LinearAlgebraFunctions.dotProduct(baseDirX, baseDirY, baseDirX, baseDirY);
+            double dirMagSq = LinearAlgebraFunctions.dotProduct(heightDirX, heightDirY, heightDirX, heightDirY);
             double flatness = SmoothstepFunctions.cubicPolynomialSmoothstep(
                 NormalizationFunctions.normalizeToRange(slopeMaskNoneSq, slopeMaskFullSq, dirMagSq));
             erosion *= flatness;
