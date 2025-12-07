@@ -194,6 +194,4 @@ public class CellularSampler extends CellularStyleSampler {
 
         return returnType.getReturn(this, sl, distance0, distance1, distance2, x, y, z, centerX, centerY, centerZ, closestHash);
     }
-
-
 }

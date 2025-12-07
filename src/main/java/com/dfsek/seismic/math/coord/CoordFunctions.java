@@ -8,6 +8,7 @@ public class CoordFunctions {
      * Converts an absolute {@code int} coordinate to a region coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the region coordinate.
      */
     public static int absoluteToRegion(int absolute) {
@@ -18,6 +19,7 @@ public class CoordFunctions {
      * Converts an absolute {@code long} coordinate to a region coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the region coordinate.
      */
     public static long absoluteToRegion(long absolute) {
@@ -28,6 +30,7 @@ public class CoordFunctions {
      * Converts an absolute {@code double} coordinate to a region coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the region coordinate.
      */
     public static int absoluteToRegion(double absolute) {
@@ -38,6 +41,7 @@ public class CoordFunctions {
      * Converts an absolute {@code int} coordinate to a chunk coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk coordinate.
      */
     public static int absoluteToChunk(int absolute) {
@@ -48,6 +52,7 @@ public class CoordFunctions {
      * Converts an absolute {@code long} coordinate to a chunk coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk coordinate.
      */
     public static long absoluteToChunk(long absolute) {
@@ -58,6 +63,7 @@ public class CoordFunctions {
      * Converts an absolute {@code double} coordinate to a chunk coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk coordinate.
      */
     public static int absoluteToChunk(double absolute) {
@@ -68,6 +74,7 @@ public class CoordFunctions {
      * Converts an absolute {@code int} coordinate to a chunk-relative coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk-relative coordinate.
      */
     public static int absoluteToChunkRelative(int absolute) {
@@ -78,6 +85,7 @@ public class CoordFunctions {
      * Converts an absolute {@code long} coordinate to a chunk-relative coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk-relative coordinate.
      */
     public static long absoluteToChunkRelative(long absolute) {
@@ -88,6 +96,7 @@ public class CoordFunctions {
      * Converts an absolute {@code double} coordinate to a chunk-relative coordinate.
      *
      * @param absolute the absolute coordinate.
+     *
      * @return the chunk-relative coordinate.
      */
     public static double absoluteToChunkRelative(double absolute) {
@@ -98,6 +107,7 @@ public class CoordFunctions {
      * Converts a region {@code int} coordinate to an absolute coordinate.
      *
      * @param region the region coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static int regionToAbsolute(int region) {
@@ -108,6 +118,7 @@ public class CoordFunctions {
      * Converts a region {@code long} coordinate to an absolute coordinate.
      *
      * @param region the region coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static long regionToAbsolute(long region) {
@@ -118,7 +129,8 @@ public class CoordFunctions {
      * Converts region and chunk {@code int} coordinates to an absolute coordinate.
      *
      * @param region the region coordinate.
-     * @param chunk the chunk coordinate.
+     * @param chunk  the chunk coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static int regionAndChunkToAbsolute(int region, int chunk) {
@@ -129,7 +141,8 @@ public class CoordFunctions {
      * Converts region and chunk {@code long} coordinates to an absolute coordinate.
      *
      * @param region the region coordinate.
-     * @param chunk the chunk coordinate.
+     * @param chunk  the chunk coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static long regionAndChunkToAbsolute(long region, long chunk) {
@@ -139,9 +152,10 @@ public class CoordFunctions {
     /**
      * Converts region, chunk, and relative {@code int} coordinates to an absolute coordinate.
      *
-     * @param region the region coordinate.
-     * @param chunk the chunk coordinate.
+     * @param region   the region coordinate.
+     * @param chunk    the chunk coordinate.
      * @param relative the relative coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static int regionChunkAndRelativeToAbsolute(int region, int chunk, int relative) {
@@ -151,9 +165,10 @@ public class CoordFunctions {
     /**
      * Converts region, chunk, and relative {@code long} coordinates to an absolute coordinate.
      *
-     * @param region the region coordinate.
-     * @param chunk the chunk coordinate.
+     * @param region   the region coordinate.
+     * @param chunk    the chunk coordinate.
      * @param relative the relative coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static long regionChunkAndRelativeToAbsolute(long region, long chunk, long relative) {
@@ -164,6 +179,7 @@ public class CoordFunctions {
      * Converts a chunk {@code int} coordinate to an absolute coordinate.
      *
      * @param chunk the chunk coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static int chunkToAbsolute(int chunk) {
@@ -174,6 +190,7 @@ public class CoordFunctions {
      * Converts a chunk {@code long} coordinate to an absolute coordinate.
      *
      * @param chunk the chunk coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static long chunkToAbsolute(long chunk) {
@@ -183,8 +200,9 @@ public class CoordFunctions {
     /**
      * Converts chunk and relative {@code int} coordinates to an absolute coordinate.
      *
-     * @param chunk the chunk coordinate.
+     * @param chunk    the chunk coordinate.
      * @param relative the relative coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static int chunkAndRelativeToAbsolute(int chunk, int relative) {
@@ -194,8 +212,9 @@ public class CoordFunctions {
     /**
      * Converts chunk and relative {@code long} coordinates to an absolute coordinate.
      *
-     * @param chunk the chunk coordinate.
+     * @param chunk    the chunk coordinate.
      * @param relative the relative coordinate.
+     *
      * @return the absolute coordinate.
      */
     public static long chunkAndRelativeToAbsolute(long chunk, long relative) {

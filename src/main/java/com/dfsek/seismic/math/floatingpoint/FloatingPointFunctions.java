@@ -78,7 +78,6 @@ public class FloatingPointFunctions {
     /**
      * Returns the modulus of two {@code double} values.
      *
-     *
      * @param a the dividend.
      * @param b the divisor.
      *

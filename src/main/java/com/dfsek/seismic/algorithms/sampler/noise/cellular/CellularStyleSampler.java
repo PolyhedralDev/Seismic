@@ -347,7 +347,5 @@ public abstract class CellularStyleSampler extends NoiseFunction {
                                 double y, double z, double centerX, double centerY, double centerZ, int closestHash) {
             return getReturn(sampler, sl, distance0, distance1, distance2, x, y, centerX, centerY, closestHash);
         }
-
-        ;
     }
 }
