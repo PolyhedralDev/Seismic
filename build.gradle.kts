@@ -97,11 +97,17 @@ repositories {
 dependencies {
     api(libs.jetbrains.annotations)
     implementation(libs.slf4j.api)
+
     jmh(libs.slf4j.simple)
-    testImplementation(libs.bundles.junit)
     jmh(libs.bundles.jmh)
     testAnnotationProcessor(libs.jmh.generator.annprocess)
+
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
+
 
 tasks {
     withType<JavaCompile>().configureEach {
