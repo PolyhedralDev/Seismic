@@ -137,10 +137,10 @@ public class CellularSampler extends CellularStyleSampler {
                 }
                 distance0 = newDistance;
 
-                if (needsClosestHash) {
+                if(needsClosestHash) {
                     closestHash = hash;
                 }
-                if (needsCoords) {
+                if(needsCoords) {
                     centerX = (vecX + x) * invFrequency;
                     centerY = (vecY + y) * invFrequency;
                 }
@@ -321,10 +321,10 @@ public class CellularSampler extends CellularStyleSampler {
                 }
                 distance0 = newDistance;
 
-                if (needsClosestHash) {
+                if(needsClosestHash) {
                     closestHash = hash;
                 }
-                if (needsCoords) {
+                if(needsCoords) {
                     centerX = (vecX + x) * invFrequency;
                     centerY = (vecY + y) * invFrequency;
                     centerZ = (vecZ + z) * invFrequency;
