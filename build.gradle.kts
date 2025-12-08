@@ -52,6 +52,12 @@ nyx {
             allJavadocWarnings = true
             noMissingJavadocWarnings = true
             javadocWarningsAsErrors = true
+            compilerArgs.addAll(
+                listOf(
+                    "-XDignore.symbol.file",
+                    "-Xlint:-removal",
+                )
+            )
         }
     }
 
@@ -100,12 +106,12 @@ dependencies {
 
     jmh(libs.slf4j.simple)
     jmh(libs.bundles.jmh)
-    testAnnotationProcessor(libs.jmh.generator.annprocess)
 
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
     testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.platform.launcher)
+    testRuntimeOnly(libs.slf4j.simple)
 }
 
 
@@ -123,26 +129,25 @@ tasks {
         failFast = true
         maxParallelForks = (Runtime.getRuntime().availableProcessors() - 1).coerceAtLeast(1)
     }
-}
-
-tasks.register("dumpClasses") {
-    dependsOn("compileJava")
-    val outputDir = layout.buildDirectory.dir("classes/java/main").get().asFile
-    val outputFile = layout.buildDirectory.file("tmp/META-INF/CLASS_MANIFEST_seismic").get().asFile
-    inputs.dir(outputDir)
-    outputs.file(outputFile)
-    doLast {
-        outputFile.printWriter().use { writer ->
-            fileTree(outputDir).matching { include("**/*.class") }.forEach {
-                writer.println(it.relativeTo(outputDir).path.replace("/", ".").removeSuffix(".class"))
-            }
+    withType<Jar>().configureEach {
+        dependsOn("dumpClasses")
+        from(layout.buildDirectory.dir("tmp/META-INF")) {
+            into("META-INF")
         }
     }
-}
 
-tasks.jar {
-    dependsOn("dumpClasses")
-    from(layout.buildDirectory.dir("tmp/META-INF")) {
-        into("META-INF")
+    register("dumpClasses") {
+        dependsOn("compileJava")
+        val outputDir = layout.buildDirectory.dir("classes/java/main").get().asFile
+        val outputFile = layout.buildDirectory.file("tmp/META-INF/CLASS_MANIFEST_seismic").get().asFile
+        inputs.dir(outputDir)
+        outputs.file(outputFile)
+        doLast {
+            outputFile.printWriter().use { writer ->
+                fileTree(outputDir).matching { include("**/*.class") }.forEach {
+                    writer.println(it.relativeTo(outputDir).path.replace("/", ".").removeSuffix(".class"))
+                }
+            }
+        }
     }
 }
