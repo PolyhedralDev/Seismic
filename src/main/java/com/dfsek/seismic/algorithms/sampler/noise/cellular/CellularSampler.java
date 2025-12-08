@@ -53,6 +53,7 @@ public class CellularSampler extends CellularStyleSampler {
         this.needsCoords = returnType == CellularReturnType.LocalNoiseLookup;
     }
 
+    //Manually unrolled
     @Override
     public double getNoiseRaw(long sl, double x, double y) {
         int seed = (int) sl;
