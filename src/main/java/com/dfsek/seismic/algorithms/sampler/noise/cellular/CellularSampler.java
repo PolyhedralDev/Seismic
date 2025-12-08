@@ -89,9 +89,9 @@ public class CellularSampler extends CellularStyleSampler {
         double[] minusCord = {
             xrMinusX, yrMinusY,
             xrMinusX, yrPlus1MinusY,
-            xrPlus1MinusX, yrMinusY,
             xrMinusX, yrMinus1MinusY,
             xrMinus1MinusX, yrMinusY,
+            xrPlus1MinusX, yrMinusY,
             xrPlus1MinusX, yrPlus1MinusY,
             xrPlus1MinusX, yrMinus1MinusY,
             xrMinus1MinusX, yrMinus1MinusY,
@@ -101,9 +101,9 @@ public class CellularSampler extends CellularStyleSampler {
         int[] primed = {
             xrPrimed, yrPrimed,
             xrPrimed, yrPlus1Primed,
-            xrPlus1Primed, yrPrimed,
             xrPrimed, yrMinus1Primed,
             xrMinus1Primed, yrPrimed,
+            xrPlus1Primed, yrPrimed,
             xrPlus1Primed, yrPlus1Primed,
             xrPlus1Primed, yrMinus1Primed,
             xrMinus1Primed, yrMinus1Primed,
