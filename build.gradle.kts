@@ -106,6 +106,7 @@ dependencies {
 
     jmh(libs.slf4j.simple)
     jmh(libs.bundles.jmh)
+    jmhAnnotationProcessor(libs.jmh.generator.annprocess)
 
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
