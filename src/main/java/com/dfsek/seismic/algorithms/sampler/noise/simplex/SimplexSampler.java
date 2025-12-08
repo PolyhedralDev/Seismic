@@ -11,16 +11,17 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 
 
 public class SimplexSampler extends SimplexStyleSampler {
-    private static final Double2[] GRAD_2D = {
-        new Double2(-1, -1), new Double2(1, -1), new Double2(-1, 1), new Double2(1, 1),
-        new Double2(0, -1), new Double2(-1, 0), new Double2(0, 1), new Double2(1, 0),
-        };
-    private static final Double3[] GRAD_3D = {
-        new Double3(1, 1, 0), new Double3(-1, 1, 0), new Double3(1, -1, 0), new Double3(-1, -1, 0),
-        new Double3(1, 0, 1), new Double3(-1, 0, 1), new Double3(1, 0, -1), new Double3(-1, 0, -1),
-        new Double3(0, 1, 1), new Double3(0, -1, 1), new Double3(0, 1, -1), new Double3(0, -1, -1),
-        new Double3(1, 1, 0), new Double3(0, -1, 1), new Double3(-1, 1, 0), new Double3(0, -1, -1),
-        };
+    private static final double[] GRAD_2D = {
+        -1, -1, 1, -1, -1, 1, 1, 1,
+        0, -1, -1, 0, 0, 1, 1, 0
+    };
+
+    private static final double[] GRAD_3D = {
+        1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1, 0,
+        1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, -1,
+        0, 1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1,
+        1, 1, 0, 0, -1, 1, -1, 1, 0, 0, -1, -1
+    };
 
     private static final double F2 = 1.0 / 2.0;
     private static final double F3 = (1.0 / 3.0);
@@ -46,9 +47,9 @@ public class SimplexSampler extends SimplexStyleSampler {
         hash = hash * hash * hash * 60493;
         hash = (hash >> 13) ^ hash;
 
-        Double3 g = SimplexSampler.GRAD_3D[hash & 15];
+        int index = (hash & 15) * 3;
 
-        return xd * g.x + yd * g.y + zd * g.z;
+        return xd * GRAD_3D[index] + yd * GRAD_3D[index + 1] + zd * GRAD_3D[index + 2];
     }
 
     private static double gradCoord2D(int seed, int x, int y, double xd, double yd) {
@@ -59,9 +60,9 @@ public class SimplexSampler extends SimplexStyleSampler {
         hash = hash * hash * hash * 60493;
         hash = (hash >> 13) ^ hash;
 
-        Double2 g = SimplexSampler.GRAD_2D[hash & 7];
+        int index = (hash & 7) * 2;
 
-        return xd * g.x + yd * g.y;
+        return xd * GRAD_2D[index] + yd * GRAD_2D[index + 1];
     }
 
     @Override
@@ -232,12 +233,5 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         return 32 * (n0 + n1 + n2 + n3);
-    }
-
-    private record Double2(double x, double y) {
-    }
-
-
-    private record Double3(double x, double y, double z) {
     }
 }
