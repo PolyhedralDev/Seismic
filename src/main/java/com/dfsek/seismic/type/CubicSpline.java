@@ -9,9 +9,9 @@ import java.util.List;
 
 public class CubicSpline {
 
-    private final double @NotNull [] fromValues;
-    private final double @NotNull [] toValues;
-    private final double @NotNull [] gradients;
+    private final double[] fromValues;
+    private final double[] toValues;
+    private final double[] gradients;
 
     /**
      * Constructs a CubicSpline from a list of points.
