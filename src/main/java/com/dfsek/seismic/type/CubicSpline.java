@@ -42,7 +42,7 @@ public class CubicSpline {
      *
      * @return the interpolated value
      */
-    public static double calculate(double in, double @NotNull [] fromValues, double[] toValues, double[] gradients) {
+    public static double calculate(double in, @NotNull double[] fromValues, double[] toValues, double[] gradients) {
         int pointIdx = CubicSpline.floorBinarySearch(in, fromValues) - 1;
 
         int pointIdxLast = fromValues.length - 1;
@@ -72,7 +72,7 @@ public class CubicSpline {
         }
     }
 
-    private static int floorBinarySearch(double targetValue, double @NotNull [] values) {
+    private static int floorBinarySearch(double targetValue, @NotNull double[] values) {
         int left = 0;
         int right = values.length;
         int idx = right - left;
