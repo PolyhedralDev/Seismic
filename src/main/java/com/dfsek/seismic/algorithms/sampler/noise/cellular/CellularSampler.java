@@ -145,7 +145,9 @@ public class CellularSampler extends CellularStyleSampler {
                     centerY = (vecY + y) * invFrequency;
                 }
             } else if(needsDistance2 && newDistance < distance1) {
-                distance2 = distance1;
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
                 distance1 = newDistance;
             } else if(needsDistance3 && newDistance < distance2) {
                 distance2 = newDistance;
@@ -330,7 +332,9 @@ public class CellularSampler extends CellularStyleSampler {
                     centerZ = (vecZ + z) * invFrequency;
                 }
             } else if(needsDistance2 && newDistance < distance1) {
-                distance2 = distance1;
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
                 distance1 = newDistance;
             } else if(needsDistance3 && newDistance < distance2) {
                 distance2 = newDistance;
