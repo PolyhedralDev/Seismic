@@ -31,47 +31,47 @@ public class FloatingPointFunctions {
     /**
      * Returns a rounded {@code double} value to the nearest {@code int} value.
      *
-     * @param x a value.
+     * @param n a value.
      *
      * @return the rounded value.
      */
-    public static int round(double x) {
-        return x < 0 ? (int) (x - 0.5) : (int) (x + 0.5);
+    public static int round(double n) {
+        return n < 0 ? (int) (n - 0.5) : (int) (n + 0.5);
     }
 
     /**
      * Returns the largest (closest to negative infinity) {@code int} value that is less than or equal to the {@code double} argument.
      *
-     * @param x a value.
+     * @param n a value.
      *
      * @return floored value.
      */
-    public static int floor(double x) {
-        int xi = (int) x;
-        return x < xi ? xi - 1 : xi;
+    public static int floor(double n) {
+        int ni = (int) n;
+        return n < ni ? ni - 1 : ni;
     }
 
     /**
      * Returns the smallest (closest to positive infinity) {@code int} value that is less than or equal to the {@code double} argument.
      *
-     * @param x a value.
+     * @param n a value.
      *
      * @return ceilinged value.
      */
-    public static int ceil(double x) {
-        int xi = (int) x;
-        return x > xi ? xi + 1 : xi;
+    public static int ceil(double n) {
+        int ni = (int) n;
+        return n > ni ? ni + 1 : ni;
     }
 
     /**
      * Returns the fractional part of a {@code double} value.
      *
-     * @param x a value.
+     * @param n a value.
      *
      * @return the fractional part of the input value.
      */
-    public static double getFraction(double x) {
-        return x - Math.floor(x);
+    public static double getFraction(double n) {
+        return n - Math.floor(n);
     }
 
 

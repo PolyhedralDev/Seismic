@@ -3,6 +3,7 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 
+@
 public class AdditionSampler extends BinaryArithmeticSampler {
     public AdditionSampler(Sampler left, Sampler right) {
         super(left, right);

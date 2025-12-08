@@ -52,7 +52,7 @@ public class TrigonometryConstants {
      * @see TrigonometryConstants#PI
      */
     @SuppressWarnings("BigDecimalMethodWithoutRoundingCalled")
-    public static final double HALF_PI = BigDecimal.valueOf(PI).divide(BigDecimal.valueOf(2)).doubleValue();
+    public static final double HALF_PI = BigDecimal.valueOf(TrigonometryConstants.PI).divide(BigDecimal.valueOf(2)).doubleValue();
 
     /**
      * The {@code double} value that is closer than any other superior value to half of

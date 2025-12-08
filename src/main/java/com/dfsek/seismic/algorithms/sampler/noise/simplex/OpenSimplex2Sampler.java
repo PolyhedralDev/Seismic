@@ -50,7 +50,8 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         }
 
 
-        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (GRADIENT_SCALE_SECONDARY + a));
+        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (
+            OpenSimplex2StyleSampler.GRADIENT_SCALE_SECONDARY + a));
         if(c > 0) {
             double x2 = x0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
@@ -214,7 +215,8 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             out[2] = ArithmeticFunctions.fma(-8 * rampValue * aaa, y0, ArithmeticFunctions.fma(gy, aaaa, out[2]));
         }
 
-        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (GRADIENT_SCALE_SECONDARY + a));
+        double c = ArithmeticFunctions.fma(OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY, t, (
+            OpenSimplex2StyleSampler.GRADIENT_SCALE_SECONDARY + a));
         if(c > 0) {
             double x2 = x0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;

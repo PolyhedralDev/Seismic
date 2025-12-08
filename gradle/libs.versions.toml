@@ -40,7 +40,8 @@ jmh-generator-bytecode = { group = "org.openjdk.jmh", name = "jmh-generator-byte
 junit = [
     "junit-jupiter-api",
     "junit-jupiter-engine",
-    "junit-jupiter-params"
+    "junit-jupiter-params",
+    "junit-platform-launcher"
 ]
 jmh = [
     "jmh-core",

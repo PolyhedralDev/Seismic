@@ -127,7 +127,7 @@ public final class VMConstants {
      * true if we know Compress and Cast has fast throughput.
      *
      */
-    public static final boolean HAS_FAST_COMPRESS_MASK_CAST = hasFastCompressMaskCast();
+    public static final boolean HAS_FAST_COMPRESS_MASK_CAST = VMConstants.hasFastCompressMaskCast();
 
 
     private VMConstants() {
@@ -191,7 +191,7 @@ public final class VMConstants {
     }
 
     private static boolean hasFastCompressMaskCast() {
-        return (OS_ARCH.equals("aarch64") && HAS_SVE) || (OS_ARCH.equals("amd64") && HAS_AVX2);
+        return (VMConstants.OS_ARCH.equals("aarch64") && VMConstants.HAS_SVE) || (VMConstants.OS_ARCH.equals("amd64") && VMConstants.HAS_AVX2);
     }
 
     private static String getSysProp() {

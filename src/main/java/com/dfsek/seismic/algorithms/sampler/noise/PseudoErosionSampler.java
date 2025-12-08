@@ -27,7 +27,7 @@ public class PseudoErosionSampler extends NoiseFunction {
     private final double slopeMaskNoneSq;
     private final double jitter;
     private final double maxCellDistSq;
-    private final double maxCellDistSqRecip;
+    private final double maxCellDistSqReciprocal;
     private final boolean averageErosionImpulses;
 
     public PseudoErosionSampler(double frequency, long salt, int octaves, double gain, double lacunarity, double slopeStrength,
@@ -52,7 +52,7 @@ public class PseudoErosionSampler extends NoiseFunction {
         this.jitter = 0.43701595 * jitterModifier;
         this.averageErosionImpulses = averageErosionImpulses;
         this.maxCellDistSq = 1 + jitter * jitter;
-        this.maxCellDistSqRecip = 1 / maxCellDistSq;
+        this.maxCellDistSqReciprocal = 1 / maxCellDistSq;
     }
 
     public static double hashX(double seed, double n) {
@@ -83,7 +83,7 @@ public class PseudoErosionSampler extends NoiseFunction {
                 double cellOriginDeltaY = (y - cellY) + cellOffsetY;
                 double cellOriginDistSq = ArithmeticFunctions.fma(cellOriginDeltaX, cellOriginDeltaX, cellOriginDeltaY * cellOriginDeltaY);
                 if(cellOriginDistSq > maxCellDistSq) continue; // Skip calculating cells too far away
-                double ampTmp = (cellOriginDistSq * maxCellDistSqRecip) - 1;
+                double ampTmp = (cellOriginDistSq * maxCellDistSqReciprocal) - 1;
                 double amp = ampTmp * ampTmp; // Decrease cell amplitude further away
                 cumAmp += amp;
                 double directionalStrength = LinearAlgebraFunctions.dotProduct(cellOriginDeltaX, cellOriginDeltaY, dirX, dirY) *

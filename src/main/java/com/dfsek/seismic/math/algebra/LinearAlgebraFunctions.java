@@ -75,6 +75,7 @@ public class LinearAlgebraFunctions {
      *
      * @return the non-negative Euclidean norm, {@code sqrt(x*x + y*y)}
      */
+    @SuppressWarnings("SuspiciousNameCombination")
     public static double hypot(double x, double y) {
         x = Math.abs(x);
         y = Math.abs(y);
@@ -118,13 +119,14 @@ public class LinearAlgebraFunctions {
      *
      * @return the non-negative Euclidean norm, {@code sqrt(x*x + y*y + z*z)}
      */
+    @SuppressWarnings({ "ExpressionComparedToItself", "SuspiciousNameCombination" })
     public static double hypot(double x, double y, double z) {
         x = Math.abs(x);
         y = Math.abs(y);
         z = Math.abs(z);
         /*
          * Considering that z magnitude is the most likely to be the smaller,
-         * hence ensuring z <= y <= x, and not x <= y <= z, for less swaps.
+         * hence ensuring z <= y <= x, and not x <= y <= z, for fewer swaps.
          */
         // Ensuring z <= y.
         if(z > y) {
