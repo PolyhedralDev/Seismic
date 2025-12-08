@@ -114,6 +114,21 @@ public final class VMConstants {
      * true if we know FMA has faster throughput than separate mul/add.
      */
     public static final boolean HAS_FAST_SCALAR_FMA = VMConstants.hasFastScalarFMA();
+    /**
+     * true for cpu with AVX support at least AVX2.
+     */
+    private static final boolean HAS_AVX2 = HotspotVMOptionsUtils.get("UseAVX").map(Integer::valueOf).orElse(0) >= 2;
+    /**
+     * true for arm cpu with SVE support.
+     *
+     */
+    private static final boolean HAS_SVE = HotspotVMOptionsUtils.get("UseSVE").map(Integer::valueOf).orElse(0) >= 1;
+    /**
+     * true if we know Compress and Cast has fast throughput.
+     *
+     */
+    public static final boolean HAS_FAST_COMPRESS_MASK_CAST = hasFastCompressMaskCast();
+
 
     private VMConstants() {
     } // can't construct
@@ -173,6 +188,10 @@ public final class VMConstants {
         }
         // everyone else is slow, until proven otherwise by benchmarks
         return false;
+    }
+
+    private static boolean hasFastCompressMaskCast() {
+        return (OS_ARCH.equals("aarch64") && HAS_SVE) || (OS_ARCH.equals("amd64") && HAS_AVX2);
     }
 
     private static String getSysProp() {

@@ -62,13 +62,4 @@ public class TrigonometryConstants {
      * @see TrigonometryConstants#HALF_PI
      */
     public static final double HALF_PI_SUP = Double.longBitsToDouble(Double.doubleToRawLongBits(TrigonometryConstants.HALF_PI) + 1);
-
-    //Polynomial defs for atan2 taken from https://mazzo.li/posts/vectorized-atan2.html
-    protected static final double a1 = 0.99997726;
-    protected static final double a3 = -0.33262347;
-    protected static final double a5 = 0.19354346;
-    protected static final double a7 = -0.11643287;
-    protected static final double a9 = 0.05265332;
-    protected static final double a11 = -0.01172120;
-
 }

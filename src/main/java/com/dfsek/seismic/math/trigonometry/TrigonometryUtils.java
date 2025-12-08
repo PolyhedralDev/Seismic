@@ -6,14 +6,19 @@ import java.util.random.RandomGenerator;
 
 
 class TrigonometryUtils {
-    public static final double PI_OVER_2 = TrigonometryConstants.PI * 0.5;
+    //Polynomial defs for atan2 taken from https://mazzo.li/posts/vectorized-atan2.html
+    protected static final double a1 = 0.99997726;
+    protected static final double a3 = -0.33262347;
+    protected static final double a5 = 0.19354346;
+    protected static final double a7 = -0.11643287;
+    protected static final double a9 = 0.05265332;
+    protected static final double a11 = -0.01172120;
     private static final int lookupBits = 16;
     static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
     private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
-
     static {
         sinTable = new int[TrigonometryUtils.lookupTableSizeWithMargin];
         for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {

@@ -34,11 +34,11 @@ final class HotspotVMOptionsUtils {
     /**
      * True if the Java VM is based on Hotspot and has the Hotspot MX bean readable by Seismic
      */
-    public static final boolean IS_HOTSPOT_VM;
-    private static final Logger LOGGER = LoggerFactory.getLogger(HotspotVMOptionsUtils.class);
-    private static final String MANAGEMENT_FACTORY_CLASS = "java.lang.management.ManagementFactory";
-    private static final String HOTSPOT_BEAN_CLASS = "com.sun.management.HotSpotDiagnosticMXBean";
-    private static final Function<String, Optional<String>> ACCESSOR;
+    static final boolean IS_HOTSPOT_VM;
+    static final Logger LOGGER = LoggerFactory.getLogger(HotspotVMOptionsUtils.class);
+    static final String MANAGEMENT_FACTORY_CLASS = "java.lang.management.ManagementFactory";
+    static final String HOTSPOT_BEAN_CLASS = "com.sun.management.HotSpotDiagnosticMXBean";
+    static final Function<String, Optional<String>> ACCESSOR;
 
     static {
         boolean isHotspot = false;

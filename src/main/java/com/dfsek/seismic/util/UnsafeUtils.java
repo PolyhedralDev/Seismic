@@ -7,7 +7,7 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "removal", "ConstantConditions", "RedundantSuppression" })
 public class UnsafeUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(UnsafeUtils.class);
 
@@ -25,7 +25,7 @@ public class UnsafeUtils {
                         try {
                             return UnsafeUtils.getUnsafeWithoutAccessController();
                         } catch(IllegalAccessException e) {
-                            UnsafeUtils.LOGGER.warn("Unsafe Unavailable :" + System.lineSeparator() + "{}", e);
+                            UnsafeUtils.LOGGER.warn("Unsafe Unavailable :{}", System.lineSeparator(), e);
                             UnsafeUtils.canUseUnsafe = false;
                             return null;
                         }
@@ -36,7 +36,7 @@ public class UnsafeUtils {
                     }
                 }
             } catch(Exception e) {
-                UnsafeUtils.LOGGER.warn("Unsafe Unavailable :" + System.lineSeparator() + "{}", e);
+                UnsafeUtils.LOGGER.warn("Unsafe Unavailable :{}", System.lineSeparator(), e);
                 UnsafeUtils.canUseUnsafe = false;
                 return null;
             }

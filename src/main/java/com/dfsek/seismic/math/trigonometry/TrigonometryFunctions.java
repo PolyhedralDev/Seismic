@@ -27,7 +27,7 @@ public class TrigonometryFunctions {
      */
     public static double cos(double angle) {
         return TrigonometryUtils.sinLookup(
-            (int) ((angle + TrigonometryUtils.PI_OVER_2) * TrigonometryUtils.radianToIndex) & 0xFFFF);
+            (int) ((angle + HALF_PI) * TrigonometryUtils.radianToIndex) & 0xFFFF);
     }
 
     /**
@@ -94,8 +94,8 @@ public class TrigonometryFunctions {
         // Approximate atan
         double zSq = atanInput * atanInput;
         double res = atanInput * ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq,
-            ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, TrigonometryConstants.a11, TrigonometryConstants.a9),
-                TrigonometryConstants.a7), TrigonometryConstants.a5), TrigonometryConstants.a3), TrigonometryConstants.a1);
+            ArithmeticFunctions.fma(zSq, ArithmeticFunctions.fma(zSq, TrigonometryUtils.a11, TrigonometryUtils.a9),
+                TrigonometryUtils.a7), TrigonometryUtils.a5), TrigonometryUtils.a3), TrigonometryUtils.a1);
 
         res = swap ? (HALF_PI - res) : res;
         res = x < 0.0 ? (PI - res) : res;
