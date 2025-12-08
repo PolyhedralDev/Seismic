@@ -25,7 +25,7 @@ public class Vector2Int {
      *
      * @return a new `Vector2IntImpl` instance with the specified coordinates
      */
-    public static Vector2Int of(int x, int z) {
+    public static @NotNull Vector2Int of(int x, int z) {
         return new Vector2Int(x, z);
     }
 
@@ -184,7 +184,7 @@ public class Vector2Int {
     }
 
 
-    public String toString() {
+    public @NotNull String toString() {
         return "(" + x + ", " + z + ")";
     }
 
@@ -202,7 +202,7 @@ public class Vector2Int {
          *
          * @return a new `Mutable` instance with the specified coordinates
          */
-        public static Vector2Int.Mutable of(int x, int z) {
+        public static @NotNull Vector2Int.Mutable of(int x, int z) {
             return new Vector2Int.Mutable(x, z);
         }
 

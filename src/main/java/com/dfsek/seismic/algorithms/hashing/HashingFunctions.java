@@ -1,5 +1,8 @@
 package com.dfsek.seismic.algorithms.hashing;
 
+import org.jetbrains.annotations.Nullable;
+
+
 public class HashingFunctions {
     /**
      * Returns a {@code long} hash code of a string.
@@ -8,7 +11,7 @@ public class HashingFunctions {
      *
      * @return the hashcode of the string.
      */
-    public static long hashString(String s) {
+    public static long hashString(@Nullable String s) {
         if(s == null) {
             return 0;
         }

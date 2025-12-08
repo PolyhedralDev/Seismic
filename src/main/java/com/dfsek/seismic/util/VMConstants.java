@@ -19,6 +19,7 @@
 package com.dfsek.seismic.util;
 
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -191,10 +192,11 @@ public final class VMConstants {
     }
 
     private static boolean hasFastCompressMaskCast() {
-        return (VMConstants.OS_ARCH.equals("aarch64") && VMConstants.HAS_SVE) || (VMConstants.OS_ARCH.equals("amd64") && VMConstants.HAS_AVX2);
+        return (VMConstants.OS_ARCH.equals("aarch64") && VMConstants.HAS_SVE) || (VMConstants.OS_ARCH.equals("amd64") &&
+                                                                                  VMConstants.HAS_AVX2);
     }
 
-    private static String getSysProp() {
+    private static @Nullable String getSysProp() {
         try {
             return AccessControllerUtils.doPrivileged(() -> System.getProperty("sun.arch.data.model"));
         } catch(

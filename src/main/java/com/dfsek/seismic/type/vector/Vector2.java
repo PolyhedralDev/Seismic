@@ -27,7 +27,7 @@ public class Vector2 {
      *
      * @return a new `Vector2Impl` instance with the specified coordinates
      */
-    public static Vector2 of(double x, double z) {
+    public static @NotNull Vector2 of(double x, double z) {
         return new Vector2(x, z);
     }
 
@@ -208,7 +208,7 @@ public class Vector2 {
     }
 
 
-    public String toString() {
+    public @NotNull String toString() {
         return "(" + x + ", " + z + ")";
     }
 
@@ -226,7 +226,7 @@ public class Vector2 {
          *
          * @return a new `Mutable` instance with the specified coordinates
          */
-        public static Vector2.Mutable of(double x, double z) {
+        public static @NotNull Vector2.Mutable of(double x, double z) {
             return new Vector2.Mutable(x, z);
         }
 

@@ -28,7 +28,7 @@ public class Vector3 {
      *
      * @return a new `Vector3Impl` instance with the specified coordinates
      */
-    public static Vector3 of(double x, double y, double z) {
+    public static @NotNull Vector3 of(double x, double y, double z) {
         return new Vector3(x, y, z);
     }
 
@@ -229,7 +229,7 @@ public class Vector3 {
     }
 
 
-    public String toString() {
+    public @NotNull String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
 
@@ -249,7 +249,7 @@ public class Vector3 {
          *
          * @return a new `Mutable` instance with the specified coordinates
          */
-        public static Vector3.Mutable of(double x, double y, double z) {
+        public static @NotNull Vector3.Mutable of(double x, double y, double z) {
             return new Vector3.Mutable(x, y, z);
         }
 
@@ -504,7 +504,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        public @NotNull Mutable rotateAroundAxis(@NotNull Vector3 axis, Rotation rotation) {
+        public @NotNull Mutable rotateAroundAxis(@NotNull Vector3 axis, @NotNull Rotation rotation) {
             return rotateAroundAxis(axis, Math.toRadians(rotation.getDegrees()));
 
         }
@@ -529,7 +529,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        public @NotNull Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, Rotation rotation) {
+        public @NotNull Mutable rotateAroundNonUnitAxis(@NotNull Vector3 axis, @NotNull Rotation rotation) {
             return rotateAroundNonUnitAxis(axis, Math.toRadians(rotation.getDegrees()));
         }
 
@@ -569,7 +569,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        public @NotNull Mutable rotateAroundX(Rotation rotation) {
+        public @NotNull Mutable rotateAroundX(@NotNull Rotation rotation) {
             return rotateAroundX(Math.toRadians(rotation.getDegrees()));
         }
 
@@ -596,7 +596,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        public @NotNull Mutable rotateAroundY(Rotation rotation) {
+        public @NotNull Mutable rotateAroundY(@NotNull Rotation rotation) {
             return rotateAroundY(Math.toRadians(rotation.getDegrees()));
         }
 
@@ -623,7 +623,7 @@ public class Vector3 {
          *
          * @return the same vector
          */
-        public @NotNull Mutable rotateAroundZ(Rotation rotation) {
+        public @NotNull Mutable rotateAroundZ(@NotNull Rotation rotation) {
             return rotateAroundZ(Math.toRadians(rotation.getDegrees()));
 
         }

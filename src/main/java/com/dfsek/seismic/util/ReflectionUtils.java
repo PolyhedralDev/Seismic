@@ -1,5 +1,6 @@
 package com.dfsek.seismic.util;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,7 @@ public class ReflectionUtils {
      *
      * @return the class object for the given class name
      */
-    public static Class<?> getClass(String className) {
+    public static @Nullable Class<?> getClass(String className) {
         return ReflectionUtils.reflectedClasses.computeIfAbsent(className, ReflectionUtils::getReflectedClass);
     }
 
@@ -46,7 +47,7 @@ public class ReflectionUtils {
      *
      * @return the method object for the given class and method name
      */
-    public static Method getMethod(Class<?> clss, String mthod) {
+    public static @Nullable Method getMethod(Class<?> clss, String mthod) {
         return ReflectionUtils.reflectedMethods.computeIfAbsent(new ClassMethod(clss, mthod), ReflectionUtils::getReflectedMethod);
     }
 
@@ -58,7 +59,7 @@ public class ReflectionUtils {
      *
      * @return the field object for the given class and field name
      */
-    public static Field getField(Class<?> clss, String fild) {
+    public static @Nullable Field getField(Class<?> clss, String fild) {
         return ReflectionUtils.reflectedFields.computeIfAbsent(new ClassField(clss, fild), ReflectionUtils::getReflectedField);
     }
 
@@ -101,7 +102,7 @@ public class ReflectionUtils {
         }
     }
 
-    private static Field getReflectedField(ClassField clssfild) {
+    private static @Nullable Field getReflectedField(ClassField clssfild) {
         try {
             return clssfild.clss.getField(clssfild.fild());
         } catch(NoSuchFieldException e) {
@@ -110,7 +111,7 @@ public class ReflectionUtils {
         return null;
     }
 
-    private static Method getReflectedMethod(ClassMethod clssmthod) {
+    private static @Nullable Method getReflectedMethod(ClassMethod clssmthod) {
         try {
             return clssmthod.clss.getMethod(clssmthod.mthod);
         } catch(NoSuchMethodException e) {
@@ -119,7 +120,7 @@ public class ReflectionUtils {
         return null;
     }
 
-    private static Class<?> getReflectedClass(String className) {
+    private static @Nullable Class<?> getReflectedClass(String className) {
         try {
             Class<?> classObj;
             int $loc = className.indexOf('$');
@@ -136,7 +137,7 @@ public class ReflectionUtils {
         return null;
     }
 
-    private static Class<?> getNestedClass(Class<?> upperClass, String nestedClassName) {
+    private static @Nullable Class<?> getNestedClass(Class<?> upperClass, String nestedClassName) {
         Class<?>[] classObjArr = upperClass.getDeclaredClasses();
         for(Class<?> classArrObj : classObjArr) {
             if(classArrObj.getName().equals(upperClass.getName() + "$" + nestedClassName)) {

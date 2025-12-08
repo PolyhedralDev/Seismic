@@ -1,5 +1,6 @@
 package com.dfsek.seismic.util;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.Unsafe;
@@ -12,9 +13,9 @@ public class UnsafeUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(UnsafeUtils.class);
 
     public static boolean canUseUnsafe = true;
-    public static final Unsafe UNSAFE = UnsafeUtils.findUnsafe();
+    public static final @Nullable Unsafe UNSAFE = UnsafeUtils.findUnsafe();
 
-    private static Unsafe findUnsafe() {
+    private static @Nullable Unsafe findUnsafe() {
         try {
             return Unsafe.getUnsafe();
         } catch(SecurityException se) {
@@ -44,7 +45,7 @@ public class UnsafeUtils {
         return null;
     }
 
-    static Unsafe getUnsafeWithoutAccessController() throws IllegalAccessException {
+    static @Nullable Unsafe getUnsafeWithoutAccessController() throws IllegalAccessException {
         Class<Unsafe> type = Unsafe.class;
         try {
             Field field = ReflectionUtils.getField(type, "theUnsafe");

@@ -7,6 +7,9 @@
 
 package com.dfsek.seismic.type;
 
+import org.jetbrains.annotations.NotNull;
+
+
 public enum Rotation {
 
     CW_90(90),
@@ -28,7 +31,7 @@ public enum Rotation {
      *
      * @throws IllegalArgumentException if the degrees do not match any Rotation
      */
-    public static Rotation fromDegrees(int deg) {
+    public static @NotNull Rotation fromDegrees(int deg) {
         return switch(Math.floorMod(deg, 360)) {
             case 0 -> Rotation.NONE;
             case 90 -> Rotation.CW_90;
@@ -43,7 +46,7 @@ public enum Rotation {
      *
      * @return the inverse Rotation
      */
-    public Rotation inverse() {
+    public @NotNull Rotation inverse() {
         return switch(this) {
             case NONE -> Rotation.NONE;
             case CCW_90 -> Rotation.CW_90;
@@ -59,7 +62,7 @@ public enum Rotation {
      *
      * @return the resulting Rotation
      */
-    public Rotation rotate(Rotation rotation) {
+    public Rotation rotate(@NotNull Rotation rotation) {
         return Rotation.fromDegrees(this.degrees + rotation.degrees);
     }
 

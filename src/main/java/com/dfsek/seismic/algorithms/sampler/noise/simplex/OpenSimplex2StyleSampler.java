@@ -7,7 +7,8 @@ public abstract class OpenSimplex2StyleSampler extends SimplexStyleSampler {
     protected static final double UNSKEW_2D_MINUS_1 = OpenSimplex2StyleSampler.UNSKEW_2D - 1;
     protected static final double DOUBLE_UNSKEW_2D = 2 * OpenSimplex2StyleSampler.UNSKEW_2D;
     protected static final double ONE_MINUS_DOUBLE_UNSKEW_2D = 1 - OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D;
-    protected static final double GRADIENT_SCALE_PRIMARY = (2 * OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D * (1 / OpenSimplex2StyleSampler.UNSKEW_2D - 2));
+    protected static final double GRADIENT_SCALE_PRIMARY =
+        (2 * OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D * (1 / OpenSimplex2StyleSampler.UNSKEW_2D - 2));
     protected static final double GRADIENT_SCALE_SECONDARY = (-2 * OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D *
                                                               OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D);
     protected static final double DOUBLE_UNSKEW_2D_MINUS_1 = OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D - 1;

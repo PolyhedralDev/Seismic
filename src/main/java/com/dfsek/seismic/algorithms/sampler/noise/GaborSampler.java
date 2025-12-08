@@ -20,7 +20,6 @@ public class GaborSampler extends NoiseFunction {
     private final double deviation;
     private final double a;
     private final double f0;
-
     private final double kernelRadius;
     private final double g;
     private final double rotation;

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 public interface Sampler {
-    static Sampler zero() {
+    static @NotNull Sampler zero() {
         return new Sampler() {
             @Override
             public double getSample(long seed, double x, double y) {

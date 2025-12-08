@@ -346,8 +346,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         out[2] = gy0 * aaaa0 - 8 * rampValue0 * aaa0 * y0;
 
 
-        double a1 = 2 * (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D) * (1 / OpenSimplex2StyleSampler.UNSKEW_2D - 2) * t + ((-2 * (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D) * (1 - 2 *
-                                                                                                                                                                                     OpenSimplex2StyleSampler.UNSKEW_2D)) + a0);
+        double a1 = 2 * (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D) * (1 / OpenSimplex2StyleSampler.UNSKEW_2D - 2) * t +
+                    ((-2 * (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D) * (1 - 2 *
+                                                                               OpenSimplex2StyleSampler.UNSKEW_2D)) + a0);
         double x1 = x0 - (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D);
         double y1 = y0 - (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D);
         double aa1 = a1 * a1, aaa1 = aa1 * a1, aaaa1 = aa1 * aa1;

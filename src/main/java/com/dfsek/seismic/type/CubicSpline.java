@@ -9,16 +9,16 @@ import java.util.List;
 
 public class CubicSpline {
 
-    private final double[] fromValues;
-    private final double[] toValues;
-    private final double[] gradients;
+    private final double @NotNull [] fromValues;
+    private final double @NotNull [] toValues;
+    private final double @NotNull [] gradients;
 
     /**
      * Constructs a CubicSpline from a list of points.
      *
      * @param points the list of points to construct the spline from
      */
-    public CubicSpline(List<Point> points) {
+    public CubicSpline(@NotNull List<Point> points) {
         Collections.sort(points);
 
         this.fromValues = new double[points.size()];
@@ -42,7 +42,7 @@ public class CubicSpline {
      *
      * @return the interpolated value
      */
-    public static double calculate(double in, double[] fromValues, double[] toValues, double[] gradients) {
+    public static double calculate(double in, double @NotNull [] fromValues, double[] toValues, double[] gradients) {
         int pointIdx = CubicSpline.floorBinarySearch(in, fromValues) - 1;
 
         int pointIdxLast = fromValues.length - 1;
@@ -72,7 +72,7 @@ public class CubicSpline {
         }
     }
 
-    private static int floorBinarySearch(double targetValue, double[] values) {
+    private static int floorBinarySearch(double targetValue, double @NotNull [] values) {
         int left = 0;
         int right = values.length;
         int idx = right - left;
