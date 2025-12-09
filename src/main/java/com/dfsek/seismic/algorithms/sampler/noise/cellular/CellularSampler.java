@@ -414,14 +414,11 @@ public class CellularSampler extends CellularStyleSampler {
         int yr = FloatingPointFunctions.round(y);
         int zr = FloatingPointFunctions.round(z);
 
-        double distance0 = Double.MAX_VALUE;
-        double distance1 = Double.MAX_VALUE;
-        double distance2 = Double.MAX_VALUE;
-        int closestHash = 0;
-
-        double centerX = x;
-        double centerY = y;
-        double centerZ = z;
+        NoiseState3D state = new NoiseState3D(
+            Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE,
+            0,
+            x, y, z
+        );
 
         int xrMinus1 = xr - 1, xrPlus1 = xr + 1;
         int yrMinus1 = yr - 1, yrPlus1 = yr + 1;
@@ -451,146 +448,106 @@ public class CellularSampler extends CellularStyleSampler {
         int zrPlus1Primed = zrPlus1 * NoiseFunction.PRIME_Z;
         int zrMinus1Primed = zrMinus1 * NoiseFunction.PRIME_Z;
 
-        double[] offsets = {
-            // Center
-            xrMinusX, yrMinusY, zrMinusZ,
-
-            // Faces
-            xrPlus1MinusX, yrMinusY, zrMinusZ,
-            xrMinus1MinusX, yrMinusY, zrMinusZ,
-            xrMinusX, yrPlus1MinusY, zrMinusZ,
-            xrMinusX, yrMinus1MinusY, zrMinusZ,
-            xrMinusX, yrMinusY, zrPlus1MinusZ,
-            xrMinusX, yrMinusY, zrMinus1MinusZ,
-
-            // Edges
-            xrPlus1MinusX, yrPlus1MinusY, zrMinusZ,
-            xrPlus1MinusX, yrMinus1MinusY, zrMinusZ,
-            xrMinus1MinusX, yrPlus1MinusY, zrMinusZ,
-            xrMinus1MinusX, yrMinus1MinusY, zrMinusZ,
-
-            xrPlus1MinusX, yrMinusY, zrPlus1MinusZ,
-            xrPlus1MinusX, yrMinusY, zrMinus1MinusZ,
-            xrMinus1MinusX, yrMinusY, zrPlus1MinusZ,
-            xrMinus1MinusX, yrMinusY, zrMinus1MinusZ,
-
-            xrMinusX, yrPlus1MinusY, zrPlus1MinusZ,
-            xrMinusX, yrPlus1MinusY, zrMinus1MinusZ,
-            xrMinusX, yrMinus1MinusY, zrPlus1MinusZ,
-            xrMinusX, yrMinus1MinusY, zrMinus1MinusZ,
-
-            // Corners
-            xrPlus1MinusX, yrPlus1MinusY, zrPlus1MinusZ,
-            xrPlus1MinusX, yrPlus1MinusY, zrMinus1MinusZ,
-            xrPlus1MinusX, yrMinus1MinusY, zrPlus1MinusZ,
-            xrPlus1MinusX, yrMinus1MinusY, zrMinus1MinusZ,
-
-            xrMinus1MinusX, yrPlus1MinusY, zrPlus1MinusZ,
-            xrMinus1MinusX, yrPlus1MinusY, zrMinus1MinusZ,
-            xrMinus1MinusX, yrMinus1MinusY, zrPlus1MinusZ,
-            xrMinus1MinusX, yrMinus1MinusY, zrMinus1MinusZ
-        };
-
-        int[] primed = {
-            // Center
-            xrPrimed, yrPrimed, zrPrimed,
-
-            // Faces
-            xrPlus1Primed, yrPrimed, zrPrimed,
-            xrMinus1Primed, yrPrimed, zrPrimed,
-            xrPrimed, yrPlus1Primed, zrPrimed,
-            xrPrimed, yrMinus1Primed, zrPrimed,
-            xrPrimed, yrPrimed, zrPlus1Primed,
-            xrPrimed, yrPrimed, zrMinus1Primed,
-
-            // Edges
-            xrPlus1Primed, yrPlus1Primed, zrPrimed,
-            xrPlus1Primed, yrMinus1Primed, zrPrimed,
-            xrMinus1Primed, yrPlus1Primed, zrPrimed,
-            xrMinus1Primed, yrMinus1Primed, zrPrimed,
-
-            xrPlus1Primed, yrPrimed, zrPlus1Primed,
-            xrPlus1Primed, yrPrimed, zrMinus1Primed,
-            xrMinus1Primed, yrPrimed, zrPlus1Primed,
-            xrMinus1Primed, yrPrimed, zrMinus1Primed,
-
-            xrPrimed, yrPlus1Primed, zrPlus1Primed,
-            xrPrimed, yrPlus1Primed, zrMinus1Primed,
-            xrPrimed, yrMinus1Primed, zrPlus1Primed,
-            xrPrimed, yrMinus1Primed, zrMinus1Primed,
-
-            // Corners
-            xrPlus1Primed, yrPlus1Primed, zrPlus1Primed,
-            xrPlus1Primed, yrPlus1Primed, zrMinus1Primed,
-            xrPlus1Primed, yrMinus1Primed, zrPlus1Primed,
-            xrPlus1Primed, yrMinus1Primed, zrMinus1Primed,
-
-            xrMinus1Primed, yrPlus1Primed, zrPlus1Primed,
-            xrMinus1Primed, yrPlus1Primed, zrMinus1Primed,
-            xrMinus1Primed, yrMinus1Primed, zrPlus1Primed,
-            xrMinus1Primed, yrMinus1Primed, zrMinus1Primed
-        };
-
-        for(int i = 0; i < 81; i += 3) {
-            int xPrimed = primed[i];
-            int yPrimed = primed[i + 1];
-            int zPrimed = primed[i + 2];
-
-            double xiMinusX = offsets[i];
-            double yiMinusY = offsets[i + 1];
-            double ziMinusZ = offsets[i + 2];
-            int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
-            int idx = hash & (255 << 2);
-
-            double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], threeDCellularJitter, xiMinusX);
-            double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], threeDCellularJitter, yiMinusY);
-            double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], threeDCellularJitter, ziMinusZ);
-
-            double newDistance = switch(distanceFunction) {
-                case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
-                    ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
-                case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
-                case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX,
-                    ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
-            };
-
-            if(newDistance < distance0) {
-                if(needsDistance2) {
-                    if(needsDistance3) {
-                        distance2 = distance1;
-                    }
-                    distance1 = distance0;
-                }
-                distance0 = newDistance;
-
-                if(needsClosestHash) {
-                    closestHash = hash;
-                }
-                if(needsCoords) {
-                    centerX = (vecX + x) * invFrequency;
-                    centerY = (vecY + y) * invFrequency;
-                    centerZ = (vecZ + z) * invFrequency;
-                }
-            } else if(needsDistance2 && newDistance < distance1) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = newDistance;
-            } else if(needsDistance3 && newDistance < distance2) {
-                distance2 = newDistance;
-            }
-        }
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPrimed, xrMinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPrimed, xrPlus1MinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPrimed, xrMinus1MinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPrimed, xrMinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPrimed, xrMinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPlus1Primed, xrMinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrMinus1Primed, xrMinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPrimed, xrPlus1MinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPrimed, xrPlus1MinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPrimed, xrMinus1MinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPrimed, xrMinus1MinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPlus1Primed, xrPlus1MinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrMinus1Primed, xrPlus1MinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPlus1Primed, xrMinus1MinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrMinus1Primed, xrMinus1MinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPlus1Primed, xrMinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrMinus1Primed, xrMinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPlus1Primed, xrMinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrMinus1Primed, xrMinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPlus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrMinus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPlus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrMinus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPlus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrMinus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPlus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(twoDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrMinus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
 
         if(needsDistance0Sq) {
-            distance0 = Math.sqrt(distance0);
+            state.distance0 = Math.sqrt(state.distance0);
         }
         if(needsDistance1Sq) {
-            distance1 = Math.sqrt(distance1);
+            state.distance1 = Math.sqrt(state.distance1);
         }
         if(needsDistance2Sq) {
-            distance2 = Math.sqrt(distance2);
+            state.distance2 = Math.sqrt(state.distance2);
         }
 
-        return returnType.getReturn(this, sl, distance0, distance1, distance2, x, y, z, centerX, centerY, centerZ, closestHash);
+        return returnType.getReturn(this, sl, state.distance0, state.distance1, state.distance2, x, y, z, state.centerX, state.centerY,
+            state.centerZ, state.closestHash);
+    }
+
+    void noiseLoopCalc3D(double threeDCellularJitter, int seed, double x, double y, double z,
+                         NoiseState3D state, int xPrimed, int yPrimed, int zPrimed, double xiMinusX, double yiMinusY, double ziMinusZ) {
+        int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
+        int idx = hash & (255 << 2);
+
+        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], threeDCellularJitter, xiMinusX);
+        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], threeDCellularJitter, yiMinusY);
+        double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], threeDCellularJitter, ziMinusZ);
+
+        double newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,
+                ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY) + Math.abs(vecZ)) + ArithmeticFunctions.fma(vecX, vecX,
+                ArithmeticFunctions.fma(vecY, vecY, vecZ * vecZ));
+        };
+
+        if(newDistance < state.distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    state.distance2 = state.distance1;
+                }
+                state.distance1 = state.distance0;
+            }
+            state.distance0 = newDistance;
+
+            if(needsClosestHash) {
+                state.closestHash = hash;
+            }
+            if(needsCoords) {
+                state.centerX = (vecX + x) * invFrequency;
+                state.centerY = (vecY + y) * invFrequency;
+                state.centerZ = (vecZ + z) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < state.distance1) {
+            if(needsDistance3) {
+                state.distance2 = state.distance1;
+            }
+            state.distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < state.distance2) {
+            state.distance2 = newDistance;
+        }
+    }
+
+    private static class NoiseState3D {
+        double centerX, centerY, centerZ;
+        double distance0, distance1, distance2;
+        int closestHash;
+
+        NoiseState3D(double distance0, double distance1, double distance2, int closestHash, double centerX, double centerY,
+                     double centerZ) {
+            this.distance0 = distance0;
+            this.distance1 = distance1;
+            this.distance2 = distance2;
+            this.closestHash = closestHash;
+            this.centerX = centerX;
+            this.centerY = centerY;
+            this.centerZ = centerZ;
+        }
     }
 }
