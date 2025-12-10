@@ -98,14 +98,6 @@ public final class VMConstants {
      */
     public static final String JAVA_VENDOR = VMConstants.getSysProp("java.vendor", VMConstants.UNKNOWN);
     /**
-     * The value of {@code System.getProperty("java.vendor.version")}.
-     */
-    public static final String JAVA_VENDOR_VERSION = VMConstants.getSysProp("java.vendor.version", VMConstants.UNKNOWN);
-    /**
-     * true if we should allow huge methods.
-     */
-    public static final boolean HAS_FAST_HUGE_METHODS = VMConstants.hasFastHugeMethods();
-    /**
      * maximum supported vectorsize.
      */
     private static final int MAX_VECTOR_SIZE =
@@ -202,15 +194,6 @@ public final class VMConstants {
     private static boolean hasFastCompressMaskCast() {
         return (VMConstants.OS_ARCH.equals("aarch64") && VMConstants.HAS_SVE) || (VMConstants.OS_ARCH.equals("amd64") &&
                                                                                   VMConstants.HAS_AVX2);
-    }
-
-    private static boolean hasFastHugeMethods() {
-        String value = VMConstants.getSysProp("seismic.useHugeMethods", "auto");
-        if("auto".equals(value)) {
-            return JAVA_VENDOR_VERSION.startsWith("Oracle GraalVM");
-        } else {
-            return Boolean.parseBoolean(value);
-        }
     }
 
     private static @Nullable String getSysProp() {
