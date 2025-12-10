@@ -87,282 +87,280 @@ public class CellularSampler extends CellularStyleSampler {
         int yrPlus1Primed = yrPlus1 * NoiseFunction.PRIME_Y;
         int yrMinus1Primed = yrMinus1 * NoiseFunction.PRIME_Y;
 
-        int hash8 = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPrimed);
-        int idx8 = hash8 & (255 << 1);
-
-        double vecX8 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx8], twoDCellularJitter, xrMinusX);
-        double vecY8 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx8 | 1], twoDCellularJitter, yrMinusY);
-
-        double newDistance8 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX8, vecX8, vecY8 * vecY8);
-            case Manhattan -> Math.abs(vecX8) + Math.abs(vecY8);
-            case Hybrid -> (Math.abs(vecX8) + Math.abs(vecY8)) + ArithmeticFunctions.fma(vecX8, vecX8, vecY8 * vecY8);
-        };
-
-        if(newDistance8 < distance0) {
-            distance0 = newDistance8;
-
-            if(needsClosestHash) {
-                closestHash = hash8;
-            }
-            if(needsCoords) {
-                centerX = (vecX8 + x) * invFrequency;
-                centerY = (vecY8 + y) * invFrequency;
-            }
-        }
-        int hash7 = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPlus1Primed);
-        int idx7 = hash7 & (255 << 1);
-
-        double vecX7 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx7], twoDCellularJitter, xrMinusX);
-        double vecY7 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx7 | 1], twoDCellularJitter, yrPlus1MinusY);
-
-        double newDistance7 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX7, vecX7, vecY7 * vecY7);
-            case Manhattan -> Math.abs(vecX7) + Math.abs(vecY7);
-            case Hybrid -> (Math.abs(vecX7) + Math.abs(vecY7)) + ArithmeticFunctions.fma(vecX7, vecX7, vecY7 * vecY7);
-        };
-
-        if(newDistance7 < distance0) {
-            if(needsDistance2) {
-                distance1 = distance0;
-            }
-            distance0 = newDistance7;
-
-            if(needsClosestHash) {
-                closestHash = hash7;
-            }
-            if(needsCoords) {
-                centerX = (vecX7 + x) * invFrequency;
-                centerY = (vecY7 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance7 < distance1) {
-            distance1 = newDistance7;
-        } else if(needsDistance3 && newDistance7 < distance2) {
-            distance2 = newDistance7;
-        }
-        int hash6 = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrMinus1Primed);
-        int idx6 = hash6 & (255 << 1);
-
-        double vecX6 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx6], twoDCellularJitter, xrMinusX);
-        double vecY6 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx6 | 1], twoDCellularJitter, yrMinus1MinusY);
-
-        double newDistance6 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX6, vecX6, vecY6 * vecY6);
-            case Manhattan -> Math.abs(vecX6) + Math.abs(vecY6);
-            case Hybrid -> (Math.abs(vecX6) + Math.abs(vecY6)) + ArithmeticFunctions.fma(vecX6, vecX6, vecY6 * vecY6);
-        };
-
-        if(newDistance6 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance6;
-
-            if(needsClosestHash) {
-                closestHash = hash6;
-            }
-            if(needsCoords) {
-                centerX = (vecX6 + x) * invFrequency;
-                centerY = (vecY6 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance6 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance6;
-        } else if(needsDistance3 && newDistance6 < distance2) {
-            distance2 = newDistance6;
-        }
-        int hash5 = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPrimed);
-        int idx5 = hash5 & (255 << 1);
-
-        double vecX5 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx5], twoDCellularJitter, xrMinus1MinusX);
-        double vecY5 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx5 | 1], twoDCellularJitter, yrMinusY);
-
-        double newDistance5 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX5, vecX5, vecY5 * vecY5);
-            case Manhattan -> Math.abs(vecX5) + Math.abs(vecY5);
-            case Hybrid -> (Math.abs(vecX5) + Math.abs(vecY5)) + ArithmeticFunctions.fma(vecX5, vecX5, vecY5 * vecY5);
-        };
-
-        if(newDistance5 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance5;
-
-            if(needsClosestHash) {
-                closestHash = hash5;
-            }
-            if(needsCoords) {
-                centerX = (vecX5 + x) * invFrequency;
-                centerY = (vecY5 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance5 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance5;
-        } else if(needsDistance3 && newDistance5 < distance2) {
-            distance2 = newDistance5;
-        }
-        int hash4 = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPrimed);
-        int idx4 = hash4 & (255 << 1);
-
-        double vecX4 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx4], twoDCellularJitter, xrPlus1MinusX);
-        double vecY4 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx4 | 1], twoDCellularJitter, yrMinusY);
-
-        double newDistance4 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX4, vecX4, vecY4 * vecY4);
-            case Manhattan -> Math.abs(vecX4) + Math.abs(vecY4);
-            case Hybrid -> (Math.abs(vecX4) + Math.abs(vecY4)) + ArithmeticFunctions.fma(vecX4, vecX4, vecY4 * vecY4);
-        };
-
-        if(newDistance4 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance4;
-
-            if(needsClosestHash) {
-                closestHash = hash4;
-            }
-            if(needsCoords) {
-                centerX = (vecX4 + x) * invFrequency;
-                centerY = (vecY4 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance4 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance4;
-        } else if(needsDistance3 && newDistance4 < distance2) {
-            distance2 = newDistance4;
-        }
-        int hash3 = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPlus1Primed);
-        int idx3 = hash3 & (255 << 1);
-
-        double vecX3 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx3], twoDCellularJitter, xrPlus1MinusX);
-        double vecY3 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx3 | 1], twoDCellularJitter, yrPlus1MinusY);
-
-        double newDistance3 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX3, vecX3, vecY3 * vecY3);
-            case Manhattan -> Math.abs(vecX3) + Math.abs(vecY3);
-            case Hybrid -> (Math.abs(vecX3) + Math.abs(vecY3)) + ArithmeticFunctions.fma(vecX3, vecX3, vecY3 * vecY3);
-        };
-
-        if(newDistance3 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance3;
-
-            if(needsClosestHash) {
-                closestHash = hash3;
-            }
-            if(needsCoords) {
-                centerX = (vecX3 + x) * invFrequency;
-                centerY = (vecY3 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance3 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance3;
-        } else if(needsDistance3 && newDistance3 < distance2) {
-            distance2 = newDistance3;
-        }
-        int hash2 = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrMinus1Primed);
-        int idx2 = hash2 & (255 << 1);
-
-        double vecX2 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx2], twoDCellularJitter, xrPlus1MinusX);
-        double vecY2 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx2 | 1], twoDCellularJitter, yrMinus1MinusY);
-
-        double newDistance2 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX2, vecX2, vecY2 * vecY2);
-            case Manhattan -> Math.abs(vecX2) + Math.abs(vecY2);
-            case Hybrid -> (Math.abs(vecX2) + Math.abs(vecY2)) + ArithmeticFunctions.fma(vecX2, vecX2, vecY2 * vecY2);
-        };
-
-        if(newDistance2 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance2;
-
-            if(needsClosestHash) {
-                closestHash = hash2;
-            }
-            if(needsCoords) {
-                centerX = (vecX2 + x) * invFrequency;
-                centerY = (vecY2 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance2 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance2;
-        } else if(needsDistance3 && newDistance2 < distance2) {
-            distance2 = newDistance2;
-        }
-        int hash1 = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrMinus1Primed);
-        int idx1 = hash1 & (255 << 1);
-
-        double vecX1 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx1], twoDCellularJitter, xrMinus1MinusX);
-        double vecY1 = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx1 | 1], twoDCellularJitter, yrMinus1MinusY);
-
-        double newDistance1 = switch(distanceFunction) {
-            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX1, vecX1, vecY1 * vecY1);
-            case Manhattan -> Math.abs(vecX1) + Math.abs(vecY1);
-            case Hybrid -> (Math.abs(vecX1) + Math.abs(vecY1)) + ArithmeticFunctions.fma(vecX1, vecX1, vecY1 * vecY1);
-        };
-
-        if(newDistance1 < distance0) {
-            if(needsDistance2) {
-                if(needsDistance3) {
-                    distance2 = distance1;
-                }
-                distance1 = distance0;
-            }
-            distance0 = newDistance1;
-
-            if(needsClosestHash) {
-                closestHash = hash1;
-            }
-            if(needsCoords) {
-                centerX = (vecX1 + x) * invFrequency;
-                centerY = (vecY1 + y) * invFrequency;
-            }
-        } else if(needsDistance2 && newDistance1 < distance1) {
-            if(needsDistance3) {
-                distance2 = distance1;
-            }
-            distance1 = newDistance1;
-        } else if(needsDistance3 && newDistance1 < distance2) {
-            distance2 = newDistance1;
-        }
-        int hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPlus1Primed);
+        int hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPrimed);
         int idx = hash & (255 << 1);
 
-        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
-        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
+        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
 
         double newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPlus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            distance1 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrMinus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPrimed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPrimed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPlus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrMinus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrMinus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+
+        newDistance = switch(distanceFunction) {
+            case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+            case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
+            case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
+        };
+
+        if(newDistance < distance0) {
+            if(needsDistance2) {
+                if(needsDistance3) {
+                    distance2 = distance1;
+                }
+                distance1 = distance0;
+            }
+            distance0 = newDistance;
+
+            if(needsClosestHash) {
+                closestHash = hash;
+            }
+            if(needsCoords) {
+                centerX = (vecX + x) * invFrequency;
+                centerY = (vecY + y) * invFrequency;
+            }
+        } else if(needsDistance2 && newDistance < distance1) {
+            if(needsDistance3) {
+                distance2 = distance1;
+            }
+            distance1 = newDistance;
+        } else if(needsDistance3 && newDistance < distance2) {
+            distance2 = newDistance;
+        }
+        hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPlus1Primed);
+        idx = hash & (255 << 1);
+
+        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+
+        newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
             case Manhattan -> Math.abs(vecX) + Math.abs(vecY);
             case Hybrid -> (Math.abs(vecX) + Math.abs(vecY)) + ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
