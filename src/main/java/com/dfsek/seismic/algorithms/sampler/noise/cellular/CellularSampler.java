@@ -26,6 +26,7 @@ public class CellularSampler extends CellularStyleSampler {
     private final boolean needsDistance0Sq;
     private final boolean needsDistance1Sq;
     private final boolean needsDistance2Sq;
+    private final boolean needs3dCoords;
 
     public CellularSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
                            CellularReturnType returnType,
@@ -50,7 +51,8 @@ public class CellularSampler extends CellularStyleSampler {
         this.needsDistance3 = usesDistance3Operators || returnType == CellularReturnType.Distance3;
         this.needsDistance2 = needsDistance3 || usesDistance2Operators || returnType == CellularReturnType.Distance2;
         this.needsClosestHash = returnType == CellularReturnType.CellValue;
-        this.needsCoords = returnType == CellularReturnType.LocalNoiseLookup;
+        this.needs3dCoords = returnType == CellularReturnType.LocalNoiseLookup;
+        this.needsCoords = returnType == CellularReturnType.Angle || needs3dCoords;
     }
 
     //Manually unrolled
@@ -520,7 +522,9 @@ public class CellularSampler extends CellularStyleSampler {
             if(needsCoords) {
                 state.centerX = (vecX + x) * invFrequency;
                 state.centerY = (vecY + y) * invFrequency;
-                state.centerZ = (vecZ + z) * invFrequency;
+                if(needs3dCoords) {
+                    state.centerZ = (vecZ + z) * invFrequency;
+                }
             }
         } else if(needsDistance2 && newDistance < state.distance1) {
             if(needsDistance3) {
