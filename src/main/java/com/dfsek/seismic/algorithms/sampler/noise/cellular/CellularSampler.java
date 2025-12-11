@@ -51,7 +51,7 @@ public class CellularSampler extends CellularStyleSampler {
         this.needsDistance3 = usesDistance3Operators || returnType == CellularReturnType.Distance3;
         this.needsDistance2 = needsDistance3 || usesDistance2Operators || returnType == CellularReturnType.Distance2;
         this.needsClosestHash = returnType == CellularReturnType.CellValue;
-        this.needs3dCoords = returnType == CellularReturnType.LocalNoiseLookup;
+        this.needs3dCoords = returnType == CellularReturnType.LocalNoiseLookup || returnType == CellularReturnType.NoiseLookup;
         this.needsCoords = returnType == CellularReturnType.Angle || needs3dCoords;
     }
 
