@@ -79,7 +79,7 @@ public class HashingFunctions {
      *
      * @return SplitMix64 hash.
      */
-    private static long splitMix64(long z) {
+    public static long splitMix64(long z) {
         z = (z ^ (z >>> 30)) * 0xbf58476d1ce4e5b9L;
         z = (z ^ (z >>> 27)) * 0x94d049bb133111ebL;
         return z ^ (z >>> 31);
