@@ -3,9 +3,20 @@ package com.dfsek.seismic.algorithms.sampler.noise.cellular;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.type.DistanceFunction;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
+
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.Throughput)
@@ -13,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class CellularSamplerBenchmark {
 
     private NoiseFunction cellular;
-    
+
     private long seed;
     private int startX;
     private int startY;

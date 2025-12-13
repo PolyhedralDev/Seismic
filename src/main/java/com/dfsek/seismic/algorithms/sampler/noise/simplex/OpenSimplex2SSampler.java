@@ -265,7 +265,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             double aC = zAFlipMask1 + a1;
             if(aC > 0) {
                 double zC = (zNMask | 1) + z1;
-                value += (aC * aC) * (aC * aC) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
+                value += (aC * aC) * (aC * aC) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X,
+                    j + NoiseFunction.PRIME_Y,
                     k + (zNMask & (NoiseFunction.PRIME_Z << 1)), x1, y1, zC);
                 skipD = true;
             }

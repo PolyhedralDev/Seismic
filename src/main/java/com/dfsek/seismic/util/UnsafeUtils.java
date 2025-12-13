@@ -10,22 +10,38 @@ import java.lang.reflect.Field;
 
 @SuppressWarnings({ "deprecation", "removal", "ConstantConditions", "RedundantSuppression" })
 public class UnsafeUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnsafeUtils.class);
-
-    public static boolean canUseUnsafe = true;
-    public static final @Nullable Unsafe UNSAFE = UnsafeUtils.findUnsafe();
-
     public static final long DOUBLE_ARRAY_BASE;
     public static final int DOUBLE_ARRAY_SHIFT;
-
     public static final long INT_ARRAY_BASE;
     public static final int INT_ARRAY_SHIFT;
-
     public static final long LONG_ARRAY_BASE;
     public static final int LONG_ARRAY_SHIFT;
-
     public static final long FLOAT_ARRAY_BASE;
     public static final int FLOAT_ARRAY_SHIFT;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnsafeUtils.class);
+    public static boolean canUseUnsafe = true;
+    public static final @Nullable Unsafe UNSAFE = UnsafeUtils.findUnsafe();
+    static {
+        DOUBLE_ARRAY_BASE = UNSAFE.arrayBaseOffset(double[].class);
+        int doubleScale = UNSAFE.arrayIndexScale(double[].class);
+        if((doubleScale & (doubleScale - 1)) != 0) throw new Error("Double scale not power of 2");
+        DOUBLE_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(doubleScale);
+
+        INT_ARRAY_BASE = UNSAFE.arrayBaseOffset(int[].class);
+        int intScale = UNSAFE.arrayIndexScale(int[].class);
+        if((intScale & (intScale - 1)) != 0) throw new Error("Int scale not power of 2");
+        INT_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(intScale);
+
+        LONG_ARRAY_BASE = UNSAFE.arrayBaseOffset(long[].class);
+        int longScale = UNSAFE.arrayIndexScale(long[].class);
+        if((longScale & (longScale - 1)) != 0) throw new Error("Long scale not power of 2");
+        LONG_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(longScale);
+
+        FLOAT_ARRAY_BASE = UNSAFE.arrayBaseOffset(float[].class);
+        int floatScale = UNSAFE.arrayIndexScale(float[].class);
+        if((floatScale & (floatScale - 1)) != 0) throw new Error("Float scale not power of 2");
+        FLOAT_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(floatScale);
+    }
 
     private static @Nullable Unsafe findUnsafe() {
         try {
@@ -72,28 +88,6 @@ public class UnsafeUtils {
             }
         }
         return null;
-    }
-
-    static {
-        DOUBLE_ARRAY_BASE = UNSAFE.arrayBaseOffset(double[].class);
-        int doubleScale = UNSAFE.arrayIndexScale(double[].class);
-        if ((doubleScale & (doubleScale - 1)) != 0) throw new Error("Double scale not power of 2");
-        DOUBLE_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(doubleScale);
-
-        INT_ARRAY_BASE = UNSAFE.arrayBaseOffset(int[].class);
-        int intScale = UNSAFE.arrayIndexScale(int[].class);
-        if ((intScale & (intScale - 1)) != 0) throw new Error("Int scale not power of 2");
-        INT_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(intScale);
-
-        LONG_ARRAY_BASE = UNSAFE.arrayBaseOffset(long[].class);
-        int longScale = UNSAFE.arrayIndexScale(long[].class);
-        if ((longScale & (longScale - 1)) != 0) throw new Error("Long scale not power of 2");
-        LONG_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(longScale);
-
-        FLOAT_ARRAY_BASE = UNSAFE.arrayBaseOffset(float[].class);
-        int floatScale = UNSAFE.arrayIndexScale(float[].class);
-        if ((floatScale & (floatScale - 1)) != 0) throw new Error("Float scale not power of 2");
-        FLOAT_ARRAY_SHIFT = 31 - Integer.numberOfLeadingZeros(floatScale);
     }
 
     /**

@@ -472,32 +472,58 @@ public class CellularSampler extends CellularStyleSampler {
         double[] vecs = CellularSampler.RAND_VECS_3D;
 
         noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPrimed, xrMinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPrimed, xrPlus1MinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPrimed, xrMinus1MinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPrimed, xrMinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPrimed, xrMinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPlus1Primed, xrMinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrMinus1Primed, xrMinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPrimed, xrPlus1MinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPrimed, xrPlus1MinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPrimed, xrMinus1MinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPrimed, xrMinus1MinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPlus1Primed, xrPlus1MinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrMinus1Primed, xrPlus1MinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPlus1Primed, xrMinus1MinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrMinus1Primed, xrMinus1MinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPlus1Primed, xrMinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrMinus1Primed, xrMinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPlus1Primed, xrMinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrMinus1Primed, xrMinusX, yrMinus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPlus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrMinus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPlus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrMinus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPlus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrMinus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPlus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrMinus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPrimed, xrPlus1MinusX, yrMinusY,
+            zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPrimed, xrMinus1MinusX, yrMinusY,
+            zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPrimed, xrMinusX, yrPlus1MinusY,
+            zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPrimed, xrMinusX, yrMinus1MinusY,
+            zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPlus1Primed, xrMinusX, yrMinusY,
+            zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrMinus1Primed, xrMinusX, yrMinusY,
+            zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPrimed, xrPlus1MinusX,
+            yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPrimed, xrPlus1MinusX,
+            yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPrimed, xrMinus1MinusX,
+            yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPrimed, xrMinus1MinusX,
+            yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPlus1Primed, xrPlus1MinusX, yrMinusY,
+            zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrMinus1Primed, xrPlus1MinusX, yrMinusY,
+            zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPlus1Primed, xrMinus1MinusX, yrMinusY,
+            zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrMinus1Primed, xrMinus1MinusX,
+            yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPlus1Primed, xrMinusX, yrPlus1MinusY,
+            zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrMinus1Primed, xrMinusX, yrPlus1MinusY,
+            zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPlus1Primed, xrMinusX, yrMinus1MinusY,
+            zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrMinus1Primed, xrMinusX,
+            yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPlus1Primed, xrPlus1MinusX,
+            yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrMinus1Primed, xrPlus1MinusX,
+            yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPlus1Primed, xrPlus1MinusX,
+            yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrMinus1Primed, xrPlus1MinusX,
+            yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPlus1Primed, xrMinus1MinusX,
+            yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrMinus1Primed, xrMinus1MinusX,
+            yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPlus1Primed, xrMinus1MinusX,
+            yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrMinus1Primed, xrMinus1MinusX,
+            yrMinus1MinusY, zrMinus1MinusZ);
 
         if(needsDistance0Sq) {
             state.distance0 = Math.sqrt(state.distance0);

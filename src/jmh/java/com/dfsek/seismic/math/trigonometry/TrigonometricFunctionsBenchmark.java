@@ -1,8 +1,19 @@
 package com.dfsek.seismic.math.trigonometry;
 
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
+
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.Throughput)
@@ -22,7 +33,7 @@ public class TrigonometricFunctionsBenchmark {
         input2 = new double[SIZE];
         Random random = new Random();
 
-        for (int i = 0; i < SIZE; i++) {
+        for(int i = 0; i < SIZE; i++) {
             input1[i] = random.nextDouble() * 2 * Math.PI;
             input2[i] = random.nextDouble() * 2 * Math.PI;
         }

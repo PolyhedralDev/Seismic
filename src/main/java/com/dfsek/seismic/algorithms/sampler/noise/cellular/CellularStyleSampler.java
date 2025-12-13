@@ -184,7 +184,8 @@ public abstract class CellularStyleSampler extends NoiseFunction {
         0.01426758847d, -0.9998982128d, -0.6734383991d, 0.7392433447d, 0.639412098d, -0.7688642071d, 0.9211571421d, 0.3891908523d,
         -0.146637214d, -0.9891903394d, -0.782318098d, 0.6228791163d, -0.5039610839d, -0.8637263605d, -0.7743120191d, -0.6328039957d,
         };
-
+    protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
+    protected static final long DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
     protected final DistanceFunction distanceFunction;
     protected final CellularReturnType returnType;
     protected final double jitterModifier;
@@ -193,8 +194,7 @@ public abstract class CellularStyleSampler extends NoiseFunction {
     protected final double invFrequency;
     protected final double twoDCellularJitter;
     protected final double threeDCellularJitter;
-    protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
-    protected static final long DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
+
     public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
                                 CellularReturnType returnType,
                                 double jitterModifier, boolean saltLookup) {

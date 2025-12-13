@@ -14,14 +14,14 @@ class TrigonometryUtils {
     protected static final double a7 = -0.11643287;
     protected static final double a9 = 0.05265332;
     protected static final double a11 = -0.01172120;
+    protected static final long INT_ARRAY_BASE = UnsafeUtils.INT_ARRAY_BASE;
+    protected static final long INT_ARRAY_SHIFT = UnsafeUtils.INT_ARRAY_SHIFT;
     private static final int lookupBits = 16;
     static final int lookupTableSize = 1 << TrigonometryUtils.lookupBits;
     private static final int lookupTableSizeWithMargin = TrigonometryUtils.lookupTableSize + 1;
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
-    protected static final long INT_ARRAY_BASE = UnsafeUtils.INT_ARRAY_BASE;
-    protected static final long INT_ARRAY_SHIFT = UnsafeUtils.INT_ARRAY_SHIFT;
     static {
         sinTable = new int[TrigonometryUtils.lookupTableSizeWithMargin];
         for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
