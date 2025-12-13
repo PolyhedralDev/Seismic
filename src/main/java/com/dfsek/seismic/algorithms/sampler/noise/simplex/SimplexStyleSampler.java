@@ -84,7 +84,7 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     };
 
     protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
-    protected static final int DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
+    protected static final long DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
 
     public SimplexStyleSampler(double frequency, long salt) {
         super(frequency, salt);
@@ -99,13 +99,13 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     }
 
     protected static double gradCoord(double[] grads, int seed, int xPrimed, int yPrimed, double xd, double yd) {
-        int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed);
+        long index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed);
 
         double xg = UnsafeUtils.UNSAFE.getDouble(grads,
-            DOUBLE_ARRAY_BASE + (((long) index) << DOUBLE_ARRAY_SHIFT));
+            DOUBLE_ARRAY_BASE + (index << DOUBLE_ARRAY_SHIFT));
 
         double yg = UnsafeUtils.UNSAFE.getDouble(grads,
-            DOUBLE_ARRAY_BASE + (((long) (index | 1)) << DOUBLE_ARRAY_SHIFT));
+            DOUBLE_ARRAY_BASE + ((index | 1) << DOUBLE_ARRAY_SHIFT));
 
         return ArithmeticFunctions.fma(xd, xg, yd * yg);
     }
@@ -120,16 +120,16 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     }
 
     protected static double gradCoord(double[] grads, int seed, int xPrimed, int yPrimed, int zPrimed, double xd, double yd, double zd) {
-        int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed, zPrimed);
+        long index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed, zPrimed);
 
         double xg = UnsafeUtils.UNSAFE.getDouble(grads,
-            DOUBLE_ARRAY_BASE + (((long) index) << DOUBLE_ARRAY_SHIFT));
+            DOUBLE_ARRAY_BASE + (index << DOUBLE_ARRAY_SHIFT));
 
         double yg = UnsafeUtils.UNSAFE.getDouble(grads,
-            DOUBLE_ARRAY_BASE + (((long) (index | 1)) << DOUBLE_ARRAY_SHIFT));
+            DOUBLE_ARRAY_BASE + ((index | 1) << DOUBLE_ARRAY_SHIFT));
 
         double zg = UnsafeUtils.UNSAFE.getDouble(grads,
-            DOUBLE_ARRAY_BASE + (((long) (index | 2)) << DOUBLE_ARRAY_SHIFT));
+            DOUBLE_ARRAY_BASE + ((index | 2) << DOUBLE_ARRAY_SHIFT));
 
         return ArithmeticFunctions.fma(xd, xg, ArithmeticFunctions.fma(yd, yg, zd * zg));
     }

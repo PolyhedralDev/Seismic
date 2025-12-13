@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 
 /**
@@ -339,11 +340,13 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double y0 = yi - t;
 
         double[] out = { 0.0f, 0.0f, 0.0f };
+        double[] grads = SimplexStyleSampler.GRADIENTS_2D;
 
         double a0 = (2.0 / 3.0) - x0 * x0 - y0 * y0;
         double aa0 = a0 * a0, aaa0 = aa0 * a0, aaaa0 = aa0 * aa0;
-        int gi0 = SimplexStyleSampler.gradCoordIndex(seed, i, j);
-        double gx0 = SimplexStyleSampler.GRADIENTS_2D[gi0], gy0 = SimplexStyleSampler.GRADIENTS_2D[gi0 | 1];
+        long gi0 = SimplexStyleSampler.gradCoordIndex(seed, i, j);
+        double gx0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi0 << DOUBLE_ARRAY_SHIFT));
+        double gy0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi0 | 1) << DOUBLE_ARRAY_SHIFT));
         double rampValue0 = gx0 * x0 + gy0 * y0;
         out[0] = aaaa0 * rampValue0;
         out[1] = gx0 * aaaa0 - 8 * rampValue0 * aaa0 * x0;
@@ -356,8 +359,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double x1 = x0 - (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D);
         double y1 = y0 - (1 - 2 * OpenSimplex2StyleSampler.UNSKEW_2D);
         double aa1 = a1 * a1, aaa1 = aa1 * a1, aaaa1 = aa1 * aa1;
-        int gi1 = SimplexStyleSampler.gradCoordIndex(seed, i1, j1);
-        double gx1 = SimplexStyleSampler.GRADIENTS_2D[gi1], gy1 = SimplexStyleSampler.GRADIENTS_2D[gi1 | 1];
+        long gi1 = SimplexStyleSampler.gradCoordIndex(seed, i1, j1);
+        double gx1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi1 << DOUBLE_ARRAY_SHIFT));
+        double gy1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi1 | 1) << DOUBLE_ARRAY_SHIFT));
         double rampValue1 = gx1 * x1 + gy1 * y1;
         out[0] += aaaa1 * rampValue1;
         out[1] += gx1 * aaaa1 - 8 * rampValue1 * aaa1 * x1;
@@ -372,8 +376,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (NoiseFunction.PRIME_X << 1), j + NoiseFunction.PRIME_Y);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (NoiseFunction.PRIME_X << 1), j + NoiseFunction.PRIME_Y);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -385,8 +390,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -400,8 +406,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                    int gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + (NoiseFunction.PRIME_Y << 1));
-                    double gx3 = SimplexStyleSampler.GRADIENTS_2D[gi3], gy3 = SimplexStyleSampler.GRADIENTS_2D[gi3 | 1];
+                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + (NoiseFunction.PRIME_Y << 1));
+                    double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
+                    double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue3 = gx3 * x3 + gy3 * y3;
                     out[0] += aaaa3 * rampValue3;
                     out[1] += gx3 * aaaa3 - 8 * rampValue3 * aaa3 * x3;
@@ -413,8 +420,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                    int gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
-                    double gx3 = SimplexStyleSampler.GRADIENTS_2D[gi3], gy3 = SimplexStyleSampler.GRADIENTS_2D[gi3 | 1];
+                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
+                    double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
+                    double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue3 = gx3 * x3 + gy3 * y3;
                     out[0] += aaaa3 * rampValue3;
                     out[1] += gx3 * aaaa3 - 8 * rampValue3 * aaa3 * x3;
@@ -428,8 +436,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i - NoiseFunction.PRIME_X, j);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i - NoiseFunction.PRIME_X, j);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -441,8 +450,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -456,8 +466,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j - NoiseFunction.PRIME_Y);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j - NoiseFunction.PRIME_Y);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -469,8 +480,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
-                    double gx2 = SimplexStyleSampler.GRADIENTS_2D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_2D[gi2 | 1];
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
+                    double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+                    double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
                     out[0] += aaaa2 * rampValue2;
                     out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -511,16 +523,18 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         int zNMask = (int) (-0.5 - zi);
 
         double[] out = { 0.0f, 0.0f, 0.0f, 0.0f };
+        double[] grads = SimplexStyleSampler.GRADIENTS_3D;
 
         double x0 = xi + xNMask;
         double y0 = yi + yNMask;
         double z0 = zi + zNMask;
         double a0 = 0.75 - x0 * x0 - y0 * y0 - z0 * z0;
         double aa0 = a0 * a0, aaa0 = aa0 * a0, aaaa0 = aa0 * aa0;
-        int gi0 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
+        long gi0 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
             k + (zNMask & NoiseFunction.PRIME_Z));
-        double gx0 = SimplexStyleSampler.GRADIENTS_3D[gi0], gy0 = SimplexStyleSampler.GRADIENTS_3D[gi0 | 1], gz0 =
-            SimplexStyleSampler.GRADIENTS_3D[gi0 | 2];
+        double gx0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi0) << DOUBLE_ARRAY_SHIFT));
+        double gy0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 1)) << DOUBLE_ARRAY_SHIFT));
+        double gz0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 2)) << DOUBLE_ARRAY_SHIFT));
         double rampValue0 = gx0 * x0 + gy0 * y0 + gz0 * z0;
         out[0] = aaaa0 * rampValue0;
         out[1] = gx0 * aaaa0 - 8 * rampValue0 * aaa0 * x0;
@@ -532,10 +546,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double z1 = zi - 0.5;
         double a1 = 0.75 - x1 * x1 - y1 * y1 - z1 * z1;
         double aa1 = a1 * a1, aaa1 = aa1 * a1, aaaa1 = aa1 * aa1;
-        int gi1 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
+        long gi1 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
             k + NoiseFunction.PRIME_Z);
-        double gx1 = SimplexStyleSampler.GRADIENTS_3D[gi1], gy1 = SimplexStyleSampler.GRADIENTS_3D[gi1 | 1], gz1 =
-            SimplexStyleSampler.GRADIENTS_3D[gi1 | 2];
+        double gx1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi1 << DOUBLE_ARRAY_SHIFT));
+        double gy1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi1 | 1) << DOUBLE_ARRAY_SHIFT));
+        double gz1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi1 | 2) << DOUBLE_ARRAY_SHIFT));
         double rampValue1 = gx1 * x1 + gy1 * y1 + gz1 * z1;
         out[0] += aaaa1 * rampValue1;
         out[1] += gx1 * aaaa1 - 8 * rampValue1 * aaa1 * x1;
@@ -554,10 +569,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(a2 > 0) {
             double x2 = x0 - (xNMask | 1);
             double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-            int gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
+            long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
                 k + (zNMask & NoiseFunction.PRIME_Z));
-            double gx2 = SimplexStyleSampler.GRADIENTS_3D[gi2], gy2 = SimplexStyleSampler.GRADIENTS_3D[gi2 | 1], gz2 =
-                SimplexStyleSampler.GRADIENTS_3D[gi2 | 2];
+            double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
+            double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
+            double gz2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 2) << DOUBLE_ARRAY_SHIFT));
             double rampValue2 = gx2 * x2 + gy2 * y0 + gz2 * z0;
             out[0] += aaaa2 * rampValue2;
             out[1] += gx2 * aaaa2 - 8 * rampValue2 * aaa2 * x2;
@@ -569,10 +585,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y3 = y0 - (yNMask | 1);
                 double z3 = z0 - (zNMask | 1);
                 double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                int gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X),
+                long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X),
                     j + (~yNMask & NoiseFunction.PRIME_Y), k + (~zNMask & NoiseFunction.PRIME_Z));
-                double gx3 = SimplexStyleSampler.GRADIENTS_3D[gi3], gy3 = SimplexStyleSampler.GRADIENTS_3D[gi3 | 1], gz3 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi3 | 2];
+                double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
+                double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue3 = gx3 * x0 + gy3 * y3 + gz3 * z3;
                 out[0] += aaaa3 * rampValue3;
                 out[1] += gx3 * aaaa3 - 8 * rampValue3 * aaa3 * x0;
@@ -584,10 +601,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a4 > 0) {
                 double x4 = (xNMask | 1) + x1;
                 double aa4 = a4 * a4, aaa4 = aa4 * a4, aaaa4 = aa4 * aa4;
-                int gi4 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
+                long gi4 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
                     k + NoiseFunction.PRIME_Z);
-                double gx4 = SimplexStyleSampler.GRADIENTS_3D[gi4], gy4 = SimplexStyleSampler.GRADIENTS_3D[gi4 | 1], gz4 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi4 | 2];
+                double gx4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi4 << DOUBLE_ARRAY_SHIFT));
+                double gy4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi4 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi4 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue4 = gx4 * x4 + gy4 * y1 + gz4 * z1;
                 out[0] += aaaa4 * rampValue4;
                 out[1] += gx4 * aaaa4 - 8 * rampValue4 * aaa4 * x4;
@@ -602,10 +620,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(a6 > 0) {
             double y6 = y0 - (yNMask | 1);
             double aa6 = a6 * a6, aaa6 = aa6 * a6, aaaa6 = aa6 * aa6;
-            int gi6 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (~yNMask & NoiseFunction.PRIME_Y),
+            long gi6 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (~yNMask & NoiseFunction.PRIME_Y),
                 k + (zNMask & NoiseFunction.PRIME_Z));
-            double gx6 = SimplexStyleSampler.GRADIENTS_3D[gi6], gy6 = SimplexStyleSampler.GRADIENTS_3D[gi6 | 1], gz6 =
-                SimplexStyleSampler.GRADIENTS_3D[gi6 | 2];
+            double gx6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi6 << DOUBLE_ARRAY_SHIFT));
+            double gy6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi6 | 1) << DOUBLE_ARRAY_SHIFT));
+            double gz6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi6 | 2) << DOUBLE_ARRAY_SHIFT));
             double rampValue6 = gx6 * x0 + gy6 * y6 + gz6 * z0;
             out[0] += aaaa6 * rampValue6;
             out[1] += gx6 * aaaa6 - 8 * rampValue6 * aaa6 * x0;
@@ -617,10 +636,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double x7 = x0 - (xNMask | 1);
                 double z7 = z0 - (zNMask | 1);
                 double aa7 = a7 * a7, aaa7 = aa7 * a7, aaaa7 = aa7 * aa7;
-                int gi7 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
+                long gi7 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
                     j + (yNMask & NoiseFunction.PRIME_Y), k + (~zNMask & NoiseFunction.PRIME_Z));
-                double gx7 = SimplexStyleSampler.GRADIENTS_3D[gi7], gy7 = SimplexStyleSampler.GRADIENTS_3D[gi7 | 1], gz7 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi7 | 2];
+                double gx7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi7 << DOUBLE_ARRAY_SHIFT));
+                double gy7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi7 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi7 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue7 = gx7 * x7 + gy7 * y0 + gz7 * z7;
                 out[0] += aaaa7 * rampValue7;
                 out[1] += gx7 * aaaa7 - 8 * rampValue7 * aaa7 * x7;
@@ -632,10 +652,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a8 > 0) {
                 double y8 = (yNMask | 1) + y1;
                 double aa8 = a8 * a8, aaa8 = aa8 * a8, aaaa8 = aa8 * aa8;
-                int gi8 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
+                long gi8 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
                     k + NoiseFunction.PRIME_Z);
-                double gx8 = SimplexStyleSampler.GRADIENTS_3D[gi8], gy8 = SimplexStyleSampler.GRADIENTS_3D[gi8 | 1], gz8 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi8 | 2];
+                double gx8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi8 << DOUBLE_ARRAY_SHIFT));
+                double gy8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi8 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi8 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue8 = gx8 * x1 + gy8 * y8 + gz8 * z1;
                 out[0] += aaaa8 * rampValue8;
                 out[1] += gx8 * aaaa8 - 8 * rampValue8 * aaa8 * x1;
@@ -650,10 +671,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(aA > 0) {
             double zA = z0 - (zNMask | 1);
             double aaA = aA * aA, aaaA = aaA * aA, aaaaA = aaA * aaA;
-            int giA = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
+            long giA = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
                 k + (~zNMask & NoiseFunction.PRIME_Z));
-            double gxA = SimplexStyleSampler.GRADIENTS_3D[giA], gyA = SimplexStyleSampler.GRADIENTS_3D[giA | 1], gzA =
-                SimplexStyleSampler.GRADIENTS_3D[giA | 2];
+            double gxA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giA << DOUBLE_ARRAY_SHIFT));
+            double gyA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giA | 1) << DOUBLE_ARRAY_SHIFT));
+            double gzA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giA | 2) << DOUBLE_ARRAY_SHIFT));
             double rampValueA = gxA * x0 + gyA * y0 + gzA * zA;
             out[0] += aaaaA * rampValueA;
             out[1] += gxA * aaaaA - 8 * rampValueA * aaaA * x0;
@@ -665,10 +687,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double xB = x0 - (xNMask | 1);
                 double yB = y0 - (yNMask | 1);
                 double aaB = aB * aB, aaaB = aaB * aB, aaaaB = aaB * aaB;
-                int giB = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
+                long giB = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
                     j + (~yNMask & NoiseFunction.PRIME_Y), k + (zNMask & NoiseFunction.PRIME_Z));
-                double gxB = SimplexStyleSampler.GRADIENTS_3D[giB], gyB = SimplexStyleSampler.GRADIENTS_3D[giB | 1], gzB =
-                    SimplexStyleSampler.GRADIENTS_3D[giB | 2];
+                double gxB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giB << DOUBLE_ARRAY_SHIFT));
+                double gyB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giB | 1) << DOUBLE_ARRAY_SHIFT));
+                double gzB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giB | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValueB = gxB * xB + gyB * yB + gzB * z0;
                 out[0] += aaaaB * rampValueB;
                 out[1] += gxB * aaaaB - 8 * rampValueB * aaaB * xB;
@@ -680,10 +703,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(aC > 0) {
                 double zC = (zNMask | 1) + z1;
                 double aaC = aC * aC, aaaC = aaC * aC, aaaaC = aaC * aaC;
-                int giC = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
+                long giC = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
                     k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
-                double gxC = SimplexStyleSampler.GRADIENTS_3D[giC], gyC = SimplexStyleSampler.GRADIENTS_3D[giC | 1], gzC =
-                    SimplexStyleSampler.GRADIENTS_3D[giC | 2];
+                double gxC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giC << DOUBLE_ARRAY_SHIFT));
+                double gyC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giC | 1) << DOUBLE_ARRAY_SHIFT));
+                double gzC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giC | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValueC = gxC * x1 + gyC * y1 + gzC * zC;
                 out[0] += aaaaC * rampValueC;
                 out[1] += gxC * aaaaC - 8 * rampValueC * aaaC * x1;
@@ -699,10 +723,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y5 = (yNMask | 1) + y1;
                 double z5 = (zNMask | 1) + z1;
                 double aa5 = a5 * a5, aaa5 = aa5 * a5, aaaa5 = aa5 * aa5;
-                int gi5 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
+                long gi5 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
                     k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
-                double gx5 = SimplexStyleSampler.GRADIENTS_3D[gi5], gy5 = SimplexStyleSampler.GRADIENTS_3D[gi5 | 1], gz5 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi5 | 2];
+                double gx5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi5 << DOUBLE_ARRAY_SHIFT));
+                double gy5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi5 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi5 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue5 = gx5 * x1 + gy5 * y5 + gz5 * z5;
                 out[0] += aaaa5 * rampValue5;
                 out[1] += gx5 * aaaa5 - 8 * rampValue5 * aaa5 * x1;
@@ -717,10 +742,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double x9 = (xNMask | 1) + x1;
                 double z9 = (zNMask | 1) + z1;
                 double aa9 = a9 * a9, aaa9 = aa9 * a9, aaaa9 = aa9 * aa9;
-                int gi9 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
+                long gi9 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
                     k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
-                double gx9 = SimplexStyleSampler.GRADIENTS_3D[gi9], gy9 = SimplexStyleSampler.GRADIENTS_3D[gi9 | 1], gz9 =
-                    SimplexStyleSampler.GRADIENTS_3D[gi9 | 2];
+                double gx9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi9 << DOUBLE_ARRAY_SHIFT));
+                double gy9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi9 | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi9 | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValue9 = gx9 * x9 + gy9 * y1 + gz9 * z9;
                 out[0] += aaaa9 * rampValue9;
                 out[1] += gx9 * aaaa9 - 8 * rampValue9 * aaa9 * x9;
@@ -735,10 +761,11 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double xD = (xNMask | 1) + x1;
                 double yD = (yNMask | 1) + y1;
                 double aaD = aD * aD, aaaD = aaD * aD, aaaaD = aaD * aaD;
-                int giD = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
+                long giD = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
                     j + (yNMask & (NoiseFunction.PRIME_Y << 1)), k + NoiseFunction.PRIME_Z);
-                double gxD = SimplexStyleSampler.GRADIENTS_3D[giD], gyD = SimplexStyleSampler.GRADIENTS_3D[giD | 1], gzD =
-                    SimplexStyleSampler.GRADIENTS_3D[giD | 2];
+                double gxD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giD << DOUBLE_ARRAY_SHIFT));
+                double gyD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giD | 1) << DOUBLE_ARRAY_SHIFT));
+                double gzD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giD | 2) << DOUBLE_ARRAY_SHIFT));
                 double rampValueD = gxD * xD + gyD * yD + gzD * z1;
                 out[0] += aaaaD * rampValueD;
                 out[1] += gxD * aaaaD - 8 * rampValueD * aaaD * xD;

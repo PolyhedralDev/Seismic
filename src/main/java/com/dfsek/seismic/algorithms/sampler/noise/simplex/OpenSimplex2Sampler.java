@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 
 /**
@@ -207,12 +208,16 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         j *= NoiseFunction.PRIME_Y;
 
         double[] out = { 0.0f, 0.0f, 0.0f };
+        double[] grads = SimplexStyleSampler.GRADIENTS_2D;
 
         double a = OpenSimplex2StyleSampler.RSQUARED_2D - x0 * x0 - y0 * y0;
         if(a > 0) {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
-            int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
-            double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
+            long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
+
+            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi) << DOUBLE_ARRAY_SHIFT));
+            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi | 1)) << DOUBLE_ARRAY_SHIFT));
+
             double rampValue = ArithmeticFunctions.fma(gx, x0, gy * y0);
             out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
             out[1] = ArithmeticFunctions.fma(-8 * rampValue * aaa, x0, ArithmeticFunctions.fma(gx, aaaa, out[1]));
@@ -225,8 +230,11 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double x2 = x0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
-            int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
-            double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
+            long gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
+
+            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi) << DOUBLE_ARRAY_SHIFT));
+            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi | 1)) << DOUBLE_ARRAY_SHIFT));
+
             double rampValue = ArithmeticFunctions.fma(gx, x2, gy * y2);
             out[0] = ArithmeticFunctions.fma(cccc, rampValue, out[0]);
             out[1] = ArithmeticFunctions.fma(-8 * rampValue * ccc, x2, ArithmeticFunctions.fma(gx, cccc, out[1]));
@@ -239,8 +247,11 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
-                double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
+                long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
+
+                double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+
                 double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
                 out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                 out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x1, ArithmeticFunctions.fma(gx, bbbb, out[1]));
@@ -252,8 +263,11 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double b = OpenSimplex2StyleSampler.RSQUARED_2D - x1 * x1 - y1 * y1;
             if(b > 0) {
                 double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                int gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
-                double gx = SimplexStyleSampler.GRADIENTS_2D[gi], gy = SimplexStyleSampler.GRADIENTS_2D[gi | 1];
+                long gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
+
+                double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+
                 double rampValue = ArithmeticFunctions.fma(gx, x1, gy * y1);
                 out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                 out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x1, ArithmeticFunctions.fma(gx, bbbb, out[1]));
@@ -297,14 +311,18 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         k *= NoiseFunction.PRIME_Z;
 
         double[] out = { 0.0f, 0.0f, 0.0f, 0.0f };
+        double[] grads = SimplexStyleSampler.GRADIENTS_3D;
         double a = (OpenSimplex2StyleSampler.RSQUARED_3D - x0 * x0) - (ArithmeticFunctions.fma(y0, y0, z0 * z0));
 
         for(int l = 0; ; l++) {
             if(a > 0) {
                 double aa = a * a, aaa = aa * a, aaaa = aa * aa;
-                int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k);
-                double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                    SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k);
+
+                double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+                double gz = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 2) << DOUBLE_ARRAY_SHIFT));
+
                 double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, y0, gz * z0));
                 out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
                 out[1] = ArithmeticFunctions.fma(-8 * rampValue * aaa, x0, ArithmeticFunctions.fma(gx, aaaa, out[1]));
@@ -317,9 +335,12 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                 if(b > 1) {
                     b -= 1;
                     double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                    int gi = SimplexStyleSampler.gradCoordIndex(seed, i - xNSign * NoiseFunction.PRIME_X, j, k);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                    long gi = SimplexStyleSampler.gradCoordIndex(seed, i - xNSign * NoiseFunction.PRIME_X, j, k);
+
+                    double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                    double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+                    double gz = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 2) << DOUBLE_ARRAY_SHIFT));
+
                     double rampValue = ArithmeticFunctions.fma(gx, (x0 + xNSign), ArithmeticFunctions.fma(gy, y0, gz * z0));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, (x0 + xNSign), ArithmeticFunctions.fma(gx, bbbb, out[1]));
@@ -332,9 +353,12 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                 if(b > 1) {
                     b -= 1;
                     double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                    int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                    long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k);
+
+                    double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                    double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+                    double gz = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 2) << DOUBLE_ARRAY_SHIFT));
+
                     double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, (y0 + yNSign), gz * z0));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x0, ArithmeticFunctions.fma(gx, bbbb, out[1]));
@@ -346,9 +370,12 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                 if(b > 1) {
                     b -= 1;
                     double bb = b * b, bbb = bb * b, bbbb = bb * bb;
-                    int gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z);
-                    double gx = SimplexStyleSampler.GRADIENTS_3D[gi], gy = SimplexStyleSampler.GRADIENTS_3D[gi | 1], gz =
-                        SimplexStyleSampler.GRADIENTS_3D[gi | 2];
+                    long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z);
+
+                    double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+                    double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
+                    double gz = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 2) << DOUBLE_ARRAY_SHIFT));
+
                     double rampValue = ArithmeticFunctions.fma(gx, x0, ArithmeticFunctions.fma(gy, y0, gz * (z0 + zNSign)));
                     out[0] = ArithmeticFunctions.fma(bbbb, rampValue, out[0]);
                     out[1] = ArithmeticFunctions.fma(-8 * rampValue * bbb, x0, ArithmeticFunctions.fma(gx, bbbb, out[1]));

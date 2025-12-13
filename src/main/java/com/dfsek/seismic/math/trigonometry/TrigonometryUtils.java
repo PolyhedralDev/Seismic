@@ -21,7 +21,7 @@ class TrigonometryUtils {
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
     protected static final long INT_ARRAY_BASE = UnsafeUtils.INT_ARRAY_BASE;
-    protected static final int INT_ARRAY_SHIFT = UnsafeUtils.INT_ARRAY_SHIFT;
+    protected static final long INT_ARRAY_SHIFT = UnsafeUtils.INT_ARRAY_SHIFT;
     static {
         sinTable = new int[TrigonometryUtils.lookupTableSizeWithMargin];
         for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
