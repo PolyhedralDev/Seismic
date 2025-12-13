@@ -83,7 +83,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             }
         }
 
-        return value * 99.83685446303647;
+        return value * 99.83685446303647f;
     }
 
     @Override
@@ -207,7 +207,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         i *= NoiseFunction.PRIME_X;
         j *= NoiseFunction.PRIME_Y;
 
-        double[] out = { 0.0, 0.0, 0.0 };
+        double[] out = { 0.0f, 0.0f, 0.0f };
         double[] grads = SimplexStyleSampler.GRADIENTS_2D;
 
         double a = OpenSimplex2StyleSampler.RSQUARED_2D - x0 * x0 - y0 * y0;
@@ -275,9 +275,9 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             }
         }
 
-        out[0] *= 99.83685446303647;
-        out[1] *= 99.83685446303647;
-        out[2] *= 99.83685446303647;
+        out[0] *= 99.83685446303647f;
+        out[1] *= 99.83685446303647f;
+        out[2] *= 99.83685446303647f;
         return out;
     }
 
@@ -310,7 +310,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         j *= NoiseFunction.PRIME_Y;
         k *= NoiseFunction.PRIME_Z;
 
-        double[] out = { 0.0, 0.0, 0.0, 0.0 };
+        double[] out = { 0.0f, 0.0f, 0.0f, 0.0f };
         double[] grads = SimplexStyleSampler.GRADIENTS_3D;
         double a = (OpenSimplex2StyleSampler.RSQUARED_3D - x0 * x0) - (ArithmeticFunctions.fma(y0, y0, z0 * z0));
 
