@@ -13,6 +13,7 @@ import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 
 /**
@@ -92,8 +93,12 @@ public class CellularSampler extends CellularStyleSampler {
         int hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPrimed);
         int idx = hash & (255 << 1);
 
-        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
-        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
+        double[] vecs = CellularSampler.RAND_VECS_2D;
+
+        double vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
+        double vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinusY);
 
         double newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -115,8 +120,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPlus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrPlus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -143,8 +150,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrMinus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -179,8 +188,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPrimed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -215,8 +226,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPrimed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -251,8 +264,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrPlus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrPlus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -287,8 +302,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrPlus1Primed, yrMinus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrPlus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrPlus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -323,8 +340,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrMinus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrMinus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -359,8 +378,10 @@ public class CellularSampler extends CellularStyleSampler {
         hash = HashingFunctions.hashPrimeCoords(seed, xrMinus1Primed, yrPlus1Primed);
         idx = hash & (255 << 1);
 
-        vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx], twoDCellularJitter, xrMinus1MinusX);
-        vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_2D[idx | 1], twoDCellularJitter, yrPlus1MinusY);
+        vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinus1MinusX);
+        vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrPlus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -448,33 +469,35 @@ public class CellularSampler extends CellularStyleSampler {
         int zrPlus1Primed = zrPlus1 * NoiseFunction.PRIME_Z;
         int zrMinus1Primed = zrMinus1 * NoiseFunction.PRIME_Z;
 
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPrimed, xrMinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPrimed, xrPlus1MinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPrimed, xrMinus1MinusX, yrMinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPrimed, xrMinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPrimed, xrMinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPlus1Primed, xrMinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrMinus1Primed, xrMinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPrimed, xrPlus1MinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPrimed, xrPlus1MinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPrimed, xrMinus1MinusX, yrPlus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPrimed, xrMinus1MinusX, yrMinus1MinusY, zrMinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPlus1Primed, xrPlus1MinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrMinus1Primed, xrPlus1MinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPlus1Primed, xrMinus1MinusX, yrMinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrMinus1Primed, xrMinus1MinusX, yrMinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPlus1Primed, xrMinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrMinus1Primed, xrMinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPlus1Primed, xrMinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrMinus1Primed, xrMinusX, yrMinus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPlus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrMinus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPlus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrMinus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPlus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrMinus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPlus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
-        noiseLoopCalc3D(threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrMinus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        double[] vecs = CellularSampler.RAND_VECS_3D;
+
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPrimed, xrMinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPrimed, xrPlus1MinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPrimed, xrMinus1MinusX, yrMinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPrimed, xrMinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPrimed, xrMinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrPlus1Primed, xrMinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPrimed, zrMinus1Primed, xrMinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPrimed, xrPlus1MinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPrimed, xrPlus1MinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPrimed, xrMinus1MinusX, yrPlus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPrimed, xrMinus1MinusX, yrMinus1MinusY, zrMinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrPlus1Primed, xrPlus1MinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPrimed, zrMinus1Primed, xrPlus1MinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrPlus1Primed, xrMinus1MinusX, yrMinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPrimed, zrMinus1Primed, xrMinus1MinusX, yrMinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrPlus1Primed, xrMinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrPlus1Primed, zrMinus1Primed, xrMinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrPlus1Primed, xrMinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPrimed, yrMinus1Primed, zrMinus1Primed, xrMinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrPlus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrPlus1Primed, zrMinus1Primed, xrPlus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrPlus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrPlus1Primed, yrMinus1Primed, zrMinus1Primed, xrPlus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrPlus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrPlus1Primed, zrMinus1Primed, xrMinus1MinusX, yrPlus1MinusY, zrMinus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrPlus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrPlus1MinusZ);
+        noiseLoopCalc3D(vecs, threeDCellularJitter, seed, x, y, z, state, xrMinus1Primed, yrMinus1Primed, zrMinus1Primed, xrMinus1MinusX, yrMinus1MinusY, zrMinus1MinusZ);
 
         if(needsDistance0Sq) {
             state.distance0 = Math.sqrt(state.distance0);
@@ -490,14 +513,17 @@ public class CellularSampler extends CellularStyleSampler {
             state.centerZ, state.closestHash);
     }
 
-    void noiseLoopCalc3D(double threeDCellularJitter, int seed, double x, double y, double z,
+    void noiseLoopCalc3D(double[] vecs, double threeDCellularJitter, int seed, double x, double y, double z,
                          NoiseState3D state, int xPrimed, int yPrimed, int zPrimed, double xiMinusX, double yiMinusY, double ziMinusZ) {
         int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
         int idx = hash & (255 << 2);
 
-        double vecX = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx], threeDCellularJitter, xiMinusX);
-        double vecY = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 1], threeDCellularJitter, yiMinusY);
-        double vecZ = ArithmeticFunctions.fma(CellularSampler.RAND_VECS_3D[idx | 2], threeDCellularJitter, ziMinusZ);
+        double vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), threeDCellularJitter, xiMinusX);
+        double vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), threeDCellularJitter, yiMinusY);
+        double vecZ = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
+            DOUBLE_ARRAY_BASE + (((long) (idx | 2)) << DOUBLE_ARRAY_SHIFT)), threeDCellularJitter, ziMinusZ);
 
         double newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX,

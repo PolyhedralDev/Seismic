@@ -1,6 +1,7 @@
 package com.dfsek.seismic.math.trigonometry;
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 import java.util.random.RandomGenerator;
 
@@ -19,6 +20,8 @@ class TrigonometryUtils {
     private static final float tauOverLookupSize = (float) (TrigonometryConstants.TAU / TrigonometryUtils.lookupTableSize);
     static final double radianToIndex = (~(-1 << TrigonometryUtils.lookupBits) + 1) / TrigonometryConstants.TAU;
     private static final int[] sinTable;
+    protected static final long INT_ARRAY_BASE = UnsafeUtils.INT_ARRAY_BASE;
+    protected static final int INT_ARRAY_SHIFT = UnsafeUtils.INT_ARRAY_SHIFT;
     static {
         sinTable = new int[TrigonometryUtils.lookupTableSizeWithMargin];
         for(int i = 0; i < TrigonometryUtils.lookupTableSizeWithMargin; i++) {
@@ -101,6 +104,7 @@ class TrigonometryUtils {
 
         // Fetch the corresponding value from the LUT and invert the sign bit as needed
         // This directly manipulate the sign bit on the float bits to simplify logic
-        return Float.intBitsToFloat(TrigonometryUtils.sinTable[pos] ^ neg);
+        return Float.intBitsToFloat(UnsafeUtils.UNSAFE.getInt(sinTable,
+            INT_ARRAY_BASE + (((long) pos) << INT_ARRAY_SHIFT)) ^ neg);
     }
 }

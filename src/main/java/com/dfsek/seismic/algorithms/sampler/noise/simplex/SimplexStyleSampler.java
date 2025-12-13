@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.DerivativeNoiseFunction;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 
 /**
@@ -82,6 +83,9 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         1, 1, 0, 0, 0, -1, 1, 0, -1, 1, 0, 0, 0, -1, -1, 0
     };
 
+    protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
+    protected static final int DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
+
     public SimplexStyleSampler(double frequency, long salt) {
         super(frequency, salt);
     }
@@ -94,14 +98,18 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         return hash;
     }
 
-    protected static double gradCoord(int seed, int xPrimed, int yPrimed, double xd, double yd) {
+    protected static double gradCoord(double[] grads, int seed, int xPrimed, int yPrimed, double xd, double yd) {
         int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed);
 
-        double xg = SimplexStyleSampler.GRADIENTS_2D[index];
-        double yg = SimplexStyleSampler.GRADIENTS_2D[index | 1];
+        double xg = UnsafeUtils.UNSAFE.getDouble(grads,
+            DOUBLE_ARRAY_BASE + (((long) index) << DOUBLE_ARRAY_SHIFT));
+
+        double yg = UnsafeUtils.UNSAFE.getDouble(grads,
+            DOUBLE_ARRAY_BASE + (((long) (index | 1)) << DOUBLE_ARRAY_SHIFT));
 
         return ArithmeticFunctions.fma(xd, xg, yd * yg);
     }
+
 
     protected static int gradCoordIndex(int seed, int xPrimed, int yPrimed, int zPrimed) {
         int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed, zPrimed);
@@ -111,12 +119,17 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
         return hash;
     }
 
-    protected static double gradCoord(int seed, int xPrimed, int yPrimed, int zPrimed, double xd, double yd, double zd) {
+    protected static double gradCoord(double[] grads, int seed, int xPrimed, int yPrimed, int zPrimed, double xd, double yd, double zd) {
         int index = SimplexStyleSampler.gradCoordIndex(seed, xPrimed, yPrimed, zPrimed);
 
-        double xg = SimplexStyleSampler.GRADIENTS_3D[index];
-        double yg = SimplexStyleSampler.GRADIENTS_3D[index | 1];
-        double zg = SimplexStyleSampler.GRADIENTS_3D[index | 2];
+        double xg = UnsafeUtils.UNSAFE.getDouble(grads,
+            DOUBLE_ARRAY_BASE + (((long) index) << DOUBLE_ARRAY_SHIFT));
+
+        double yg = UnsafeUtils.UNSAFE.getDouble(grads,
+            DOUBLE_ARRAY_BASE + (((long) (index | 1)) << DOUBLE_ARRAY_SHIFT));
+
+        double zg = UnsafeUtils.UNSAFE.getDouble(grads,
+            DOUBLE_ARRAY_BASE + (((long) (index | 2)) << DOUBLE_ARRAY_SHIFT));
 
         return ArithmeticFunctions.fma(xd, xg, ArithmeticFunctions.fma(yd, yg, zd * zg));
     }

@@ -40,11 +40,13 @@ public class PerlinSampler extends SimplexStyleSampler {
         int x1 = x0 + NoiseFunction.PRIME_X;
         int y1 = y0 + NoiseFunction.PRIME_Y;
 
+        double[] grads = SimplexStyleSampler.GRADIENTS_2D;
+
         return InterpolationFunctions.biLerp(
-            SimplexStyleSampler.gradCoord(seed, x0, y0, xd0, yd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, xd1, yd0),
-            SimplexStyleSampler.gradCoord(seed, x0, y1, xd0, yd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, xd1, yd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y0, xd0, yd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y0, xd1, yd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y1, xd0, yd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y1, xd1, yd1),
             xs, ys
         ) * 1.4247691104677813;
     }
@@ -74,15 +76,17 @@ public class PerlinSampler extends SimplexStyleSampler {
         int y1 = y0 + NoiseFunction.PRIME_Y;
         int z1 = z0 + NoiseFunction.PRIME_Z;
 
+        double[] grads = SimplexStyleSampler.GRADIENTS_3D;
+
         return InterpolationFunctions.triLerp(
-            SimplexStyleSampler.gradCoord(seed, x0, y0, z0, xd0, yd0, zd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, z0, xd1, yd0, zd0),
-            SimplexStyleSampler.gradCoord(seed, x0, y1, z0, xd0, yd1, zd0),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, z0, xd1, yd1, zd0),
-            SimplexStyleSampler.gradCoord(seed, x0, y0, z1, xd0, yd0, zd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y0, z1, xd1, yd0, zd1),
-            SimplexStyleSampler.gradCoord(seed, x0, y1, z1, xd0, yd1, zd1),
-            SimplexStyleSampler.gradCoord(seed, x1, y1, z1, xd1, yd1, zd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y0, z0, xd0, yd0, zd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y0, z0, xd1, yd0, zd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y1, z0, xd0, yd1, zd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y1, z0, xd1, yd1, zd0),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y0, z1, xd0, yd0, zd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y0, z1, xd1, yd0, zd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x0, y1, z1, xd0, yd1, zd1),
+            SimplexStyleSampler.gradCoord(grads, seed, x1, y1, z1, xd1, yd1, zd1),
             xs, ys, zs
         ) * 0.964921414852142333984375;
     }

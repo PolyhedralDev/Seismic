@@ -43,10 +43,12 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
 
         double value = 0;
 
+        double[] grads = SimplexStyleSampler.GRADIENTS_2D;
+
         double a = OpenSimplex2StyleSampler.RSQUARED_2D - x0 * x0 - y0 * y0;
         if(a > 0) {
             double aa = a * a;
-            value = aa * aa * SimplexStyleSampler.gradCoord(seed, i, j, x0, y0);
+            value = aa * aa * SimplexStyleSampler.gradCoord(grads, seed, i, j, x0, y0);
         }
 
 
@@ -57,7 +59,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double y2 = y0 + OpenSimplex2StyleSampler.DOUBLE_UNSKEW_2D_MINUS_1;
             double cc = c * c;
             value = ArithmeticFunctions.fma(cc * cc,
-                SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y, x2, y2), value);
+                SimplexStyleSampler.gradCoord(grads, seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y, x2, y2), value);
         }
 
         if(y0 > x0) {
@@ -67,7 +69,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             if(b > 0) {
                 double bb = b * b;
                 value = ArithmeticFunctions.fma(bb * bb,
-                    SimplexStyleSampler.gradCoord(seed, i, j + NoiseFunction.PRIME_Y, x1, y1), value);
+                    SimplexStyleSampler.gradCoord(grads, seed, i, j + NoiseFunction.PRIME_Y, x1, y1), value);
             }
         } else {
             double x1 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
@@ -76,7 +78,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             if(b > 0) {
                 double bb = b * b;
                 value = ArithmeticFunctions.fma(bb * bb,
-                    SimplexStyleSampler.gradCoord(seed, i + NoiseFunction.PRIME_X, j, x1, y1), value);
+                    SimplexStyleSampler.gradCoord(grads, seed, i + NoiseFunction.PRIME_X, j, x1, y1), value);
             }
         }
 
@@ -115,10 +117,12 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         double value = 0;
         double a = (OpenSimplex2StyleSampler.RSQUARED_3D - x0 * x0) - ArithmeticFunctions.fma(y0, y0, z0 * z0);
 
+        double[] grads = SimplexStyleSampler.GRADIENTS_3D;
+
         for(int l = 0; ; l++) {
             if(a > 0) {
                 double aa = a * a;
-                value = ArithmeticFunctions.fma(aa * aa, SimplexStyleSampler.gradCoord(seed, i, j, k, x0, y0, z0), value);
+                value = ArithmeticFunctions.fma(aa * aa, SimplexStyleSampler.gradCoord(grads, seed, i, j, k, x0, y0, z0), value);
             }
 
             if(ax0 >= ay0 && ax0 >= az0) {
@@ -127,7 +131,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                     b -= 1;
                     double bb = b * b;
                     value = ArithmeticFunctions.fma(bb * bb,
-                        SimplexStyleSampler.gradCoord(seed, i - xNSign * NoiseFunction.PRIME_X, j, k, x0 + xNSign,
+                        SimplexStyleSampler.gradCoord(grads, seed, i - xNSign * NoiseFunction.PRIME_X, j, k, x0 + xNSign,
                             y0, z0), value);
                 }
             } else if(ay0 > ax0 && ay0 >= az0) {
@@ -136,7 +140,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                     b -= 1;
                     double bb = b * b;
                     value = ArithmeticFunctions.fma(bb * bb,
-                        SimplexStyleSampler.gradCoord(seed, i, j - yNSign * NoiseFunction.PRIME_Y, k, x0,
+                        SimplexStyleSampler.gradCoord(grads, seed, i, j - yNSign * NoiseFunction.PRIME_Y, k, x0,
                             y0 + yNSign, z0), value);
                 }
             } else {
@@ -145,7 +149,7 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
                     b -= 1;
                     double bb = b * b;
                     value = ArithmeticFunctions.fma(bb * bb,
-                        SimplexStyleSampler.gradCoord(seed, i, j, k - zNSign * NoiseFunction.PRIME_Z, x0, y0,
+                        SimplexStyleSampler.gradCoord(grads, seed, i, j, k - zNSign * NoiseFunction.PRIME_Z, x0, y0,
                             z0 + zNSign), value);
                 }
             }

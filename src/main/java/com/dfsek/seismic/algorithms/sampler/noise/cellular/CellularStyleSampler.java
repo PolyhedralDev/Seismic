@@ -5,6 +5,7 @@ import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
+import com.dfsek.seismic.util.UnsafeUtils;
 
 
 public abstract class CellularStyleSampler extends NoiseFunction {
@@ -192,7 +193,8 @@ public abstract class CellularStyleSampler extends NoiseFunction {
     protected final double invFrequency;
     protected final double twoDCellularJitter;
     protected final double threeDCellularJitter;
-
+    protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
+    protected static final int DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
     public CellularStyleSampler(double frequency, long salt, Sampler noiseLookup, DistanceFunction distanceFunction,
                                 CellularReturnType returnType,
                                 double jitterModifier, boolean saltLookup) {
