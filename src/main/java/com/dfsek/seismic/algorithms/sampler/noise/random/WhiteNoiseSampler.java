@@ -16,7 +16,7 @@ import com.dfsek.seismic.type.sampler.Sampler;
  * NoiseSampler implementation to produce random, uniformly distributed (white) noise.
  */
 public class WhiteNoiseSampler implements Sampler {
-    private static final long POSITIVE_POW1 = 0b01111111111L << 52;
+    private static final long POSITIVE_POW1 = 0b10000000000L << 52;
     private final long salt;
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
@@ -50,13 +50,12 @@ public class WhiteNoiseSampler implements Sampler {
     }
 
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) *
-               2;
+        return Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 3;
     }
 
     @Override
     public double getSample(long seed, double x, double y) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y) - 1.5) * 2;
+        return WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y) - 3;
     }
 
     @Override
