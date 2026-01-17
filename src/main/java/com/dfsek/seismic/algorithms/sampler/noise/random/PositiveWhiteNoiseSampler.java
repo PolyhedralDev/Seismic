@@ -16,9 +16,11 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
  */
 public class PositiveWhiteNoiseSampler extends WhiteNoiseSampler {
     private static final long POSITIVE_POW1 = 0b01111111111L << 52;
+    private final long salt;
 
-    public PositiveWhiteNoiseSampler(double frequency, long salt) {
-        super(frequency, salt);
+    public PositiveWhiteNoiseSampler(long salt) {
+        super(salt);
+        this.salt = salt;
     }
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
@@ -28,12 +30,12 @@ public class PositiveWhiteNoiseSampler extends WhiteNoiseSampler {
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 1);
+    public double getSample(long seed, double x, double y) {
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y) - 1);
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1);
+    public double getSample(long seed, double x, double y, double z) {
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y, z) - 1);
     }
 }

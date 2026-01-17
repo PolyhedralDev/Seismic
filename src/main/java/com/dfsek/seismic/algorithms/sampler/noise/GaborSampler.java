@@ -40,7 +40,7 @@ public class GaborSampler extends NoiseFunction {
         double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
         g = Math.exp(-impulsesPerCell);
 
-        rand = new WhiteNoiseSampler(frequency, salt);
+        rand = new WhiteNoiseSampler(salt);
     }
 
     private double gaborNoise(long seed, double x, double y) {
