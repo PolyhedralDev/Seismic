@@ -9,21 +9,24 @@ package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.type.sampler.Sampler;
 
 
 /**
  * NoiseSampler implementation to provide random, normally distributed (Gaussian) noise.
  */
-public class GaussianNoiseSampler extends NoiseFunction {
+public class GaussianNoiseSampler implements Sampler {
     private final WhiteNoiseSampler whiteNoiseSampler; // Back with a white noise sampler.
+    private final long salt;
 
-    public GaussianNoiseSampler(double frequency, long salt) {
-        super(frequency, salt);
-        whiteNoiseSampler = new WhiteNoiseSampler(frequency, salt);
+    public GaussianNoiseSampler(long salt) {
+        this.salt = salt;
+        whiteNoiseSampler = new WhiteNoiseSampler(0);
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
+    public double getSample(long seed, double x, double y) {
+        seed += salt; // saves us a few adds
         double v1, v2, s;
         do {
             v1 = whiteNoiseSampler.getSample(seed++, x, y);
@@ -35,7 +38,8 @@ public class GaussianNoiseSampler extends NoiseFunction {
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
+    public double getSample(long seed, double x, double y, double z) {
+        seed += salt; // saves us a few adds
         double v1, v2, s;
         do {
             v1 = whiteNoiseSampler.getSample(seed++, x, y, z);

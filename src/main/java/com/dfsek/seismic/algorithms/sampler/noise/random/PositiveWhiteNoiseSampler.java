@@ -16,24 +16,38 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
  */
 public class PositiveWhiteNoiseSampler extends WhiteNoiseSampler {
     private static final long POSITIVE_POW1 = 0b01111111111L << 52;
+    private final long salt;
 
-    public PositiveWhiteNoiseSampler(double frequency, long salt) {
-        super(frequency, salt);
+    public PositiveWhiteNoiseSampler(long salt) {
+        super(salt);
+        this.salt = salt;
     }
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
+    public static double getNoiseUnmapped(long seed, double x, double y, double z) {
+        long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) |
+                    POSITIVE_POW1; // Sign and exponent
+        return Double.longBitsToDouble(base);
+    }
+
+    public static double getNoiseUnmapped(long seed, double x, double y) {
+        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | POSITIVE_POW1; // Sign and exponent
+        return Double.longBitsToDouble(base);
+    }
+
+    @Override
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | PositiveWhiteNoiseSampler.POSITIVE_POW1) -
-                1.5) * 2;
+        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | POSITIVE_POW1) -
+                1);
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 1);
+    public double getSample(long seed, double x, double y) {
+        return (getNoiseUnmapped(seed + salt, x, y) - 1);
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1);
+    public double getSample(long seed, double x, double y, double z) {
+        return (getNoiseUnmapped(seed + salt, x, y, z) - 1);
     }
 }

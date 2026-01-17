@@ -9,17 +9,19 @@ package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.type.sampler.Sampler;
 
 
 /**
  * NoiseSampler implementation to produce random, uniformly distributed (white) noise.
  */
-public class WhiteNoiseSampler extends NoiseFunction {
-    private static final long POSITIVE_POW1 = 0b01111111111L << 52;
+public class WhiteNoiseSampler implements Sampler {
+    private static final long POSITIVE_POW1 = 0b10000000000L << 52;
+    private final long salt;
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
-    public WhiteNoiseSampler(double frequency, long salt) {
-        super(frequency, salt);
+    public WhiteNoiseSampler(long salt) {
+        this.salt = salt;
     }
 
     public static long randomBits(long seed, double x, double y, double z) {
@@ -38,27 +40,26 @@ public class WhiteNoiseSampler extends NoiseFunction {
 
     public static double getNoiseUnmapped(long seed, double x, double y, double z) {
         long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) |
-                    WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+                    POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
     public static double getNoiseUnmapped(long seed, double x, double y) {
-        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
     public double getNoiseRaw(long seed) {
-        return (Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 1.5) *
-               2;
+        return Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | POSITIVE_POW1) - 3;
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 1.5) * 2;
+    public double getSample(long seed, double x, double y) {
+        return WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y) - 3;
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 1.5) * 2;
+    public double getSample(long seed, double x, double y, double z) {
+        return (WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y, z) - 1.5) * 2;
     }
 }
