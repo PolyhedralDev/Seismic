@@ -1,7 +1,5 @@
 package com.dfsek.seismic.algorithms.sampler.noise.random;
 
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
-import com.dfsek.seismic.type.sampler.Sampler;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -39,6 +37,36 @@ public class WhiteNoiseBenchmark {
         startZ = r.nextInt(10000);
 
         seed = r.nextLong();
+    }
+
+    @Benchmark
+    @Fork(1)
+    @Warmup(iterations = 5, time = 1)
+    @Measurement(iterations = 10, time = 5)
+    public double mask() {
+        double sum = 0.0;
+
+        for(int x = 0; x < 16; x++) {
+            for(int z = 0; z < 16; z++) {
+                sum += Double.longBitsToDouble(WhiteNoiseSampler.randomBits(seed, x, z) & 0x000fffffffffffffL);
+            }
+        }
+        return sum;
+    }
+
+    @Benchmark
+    @Fork(1)
+    @Warmup(iterations = 5, time = 1)
+    @Measurement(iterations = 10, time = 5)
+    public double shift() {
+        double sum = 0.0;
+
+        for(int x = 0; x < 16; x++) {
+            for(int z = 0; z < 16; z++) {
+                sum += Double.longBitsToDouble(WhiteNoiseSampler.randomBits(seed, x, z) >>> 12);
+            }
+        }
+        return sum;
     }
 
     @Benchmark

@@ -40,17 +40,17 @@ public class WhiteNoiseSampler implements Sampler {
 
     public static double getNoiseUnmapped(long seed, double x, double y, double z) {
         long base = ((WhiteNoiseSampler.randomBits(seed, x, y, z)) & 0x000fffffffffffffL) |
-                    WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+                    POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
     public static double getNoiseUnmapped(long seed, double x, double y) {
-        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1; // Sign and exponent
+        long base = (WhiteNoiseSampler.randomBits(seed, x, y) & 0x000fffffffffffffL) | POSITIVE_POW1; // Sign and exponent
         return Double.longBitsToDouble(base);
     }
 
     public double getNoiseRaw(long seed) {
-        return Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | WhiteNoiseSampler.POSITIVE_POW1) - 3;
+        return Double.longBitsToDouble((HashingFunctions.murmur64(seed) & 0x000fffffffffffffL) | POSITIVE_POW1) - 3;
     }
 
     @Override
