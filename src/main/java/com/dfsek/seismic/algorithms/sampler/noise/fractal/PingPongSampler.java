@@ -26,7 +26,7 @@ public class PingPongSampler extends FractalNoiseFunction {
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
+    public double getSample(long seed, double x, double y) {
         double sum = 0;
         double amp = fractalBounding;
 
@@ -44,7 +44,7 @@ public class PingPongSampler extends FractalNoiseFunction {
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
+    public double getSample(long seed, double x, double y, double z) {
         double sum = 0;
         double amp = fractalBounding;
 

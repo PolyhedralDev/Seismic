@@ -8,7 +8,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 

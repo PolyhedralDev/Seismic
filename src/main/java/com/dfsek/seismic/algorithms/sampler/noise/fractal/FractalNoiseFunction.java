@@ -7,11 +7,11 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
-import com.dfsek.seismic.algorithms.sampler.noise.DerivativeNoiseFunction;
+import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 
-public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
+public abstract class FractalNoiseFunction implements DerivativeSampler {
     protected final Sampler input;
     protected final double fractalBounding;
     protected final int octaves;
@@ -20,7 +20,6 @@ public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
     protected final double weightedStrength;
 
     public FractalNoiseFunction(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
-        super(1, salt);
         this.input = input;
         this.gain = gain;
         this.lacunarity = lacunarity;
@@ -43,12 +42,12 @@ public abstract class FractalNoiseFunction extends DerivativeNoiseFunction {
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long seed, double x, double y) {
+    public double[] getSampleDerivative(long seed, double x, double y) {
         throw new UnsupportedOperationException("Implementation failed to check or set isDifferentiable correctly");
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long seed, double x, double y, double z) {
+    public double[] getSampleDerivative(long seed, double x, double y, double z) {
         throw new UnsupportedOperationException("Implementation failed to check or set isDifferentiable correctly");
     }
 }

@@ -7,22 +7,18 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.math.numericanalysis.interpolation.sigmoid.SmoothstepFunctions;
+import com.dfsek.seismic.type.sampler.Sampler;
 
 
 /**
  * NoiseSampler implementation to provide Perlin Noise.
  */
 public class PerlinSampler extends SimplexStyleSampler {
-    public PerlinSampler(double frequency, long salt) {
-        super(frequency, salt);
-    }
-
     @Override
-    public double getNoiseRaw(long sl, double x, double y) {
+    public double getSample(long sl, double x, double y) {
         int seed = (int) sl;
         int x0 = FloatingPointFunctions.floor(x);
         int y0 = FloatingPointFunctions.floor(y);
@@ -35,10 +31,10 @@ public class PerlinSampler extends SimplexStyleSampler {
         double xs = SmoothstepFunctions.quinticPolynomialSmoothstep(xd0);
         double ys = SmoothstepFunctions.quinticPolynomialSmoothstep(yd0);
 
-        x0 *= NoiseFunction.PRIME_X;
-        y0 *= NoiseFunction.PRIME_Y;
-        int x1 = x0 + NoiseFunction.PRIME_X;
-        int y1 = y0 + NoiseFunction.PRIME_Y;
+        x0 *= Sampler.PRIME_X;
+        y0 *= Sampler.PRIME_Y;
+        int x1 = x0 + Sampler.PRIME_X;
+        int y1 = y0 + Sampler.PRIME_Y;
 
         double[] grads = SimplexStyleSampler.GRADIENTS_2D;
 
@@ -52,7 +48,7 @@ public class PerlinSampler extends SimplexStyleSampler {
     }
 
     @Override
-    public double getNoiseRaw(long sl, double x, double y, double z) {
+    public double getSample(long sl, double x, double y, double z) {
         int seed = (int) sl;
         int x0 = FloatingPointFunctions.floor(x);
         int y0 = FloatingPointFunctions.floor(y);
@@ -69,12 +65,12 @@ public class PerlinSampler extends SimplexStyleSampler {
         double ys = SmoothstepFunctions.quinticPolynomialSmoothstep(yd0);
         double zs = SmoothstepFunctions.quinticPolynomialSmoothstep(zd0);
 
-        x0 *= NoiseFunction.PRIME_X;
-        y0 *= NoiseFunction.PRIME_Y;
-        z0 *= NoiseFunction.PRIME_Z;
-        int x1 = x0 + NoiseFunction.PRIME_X;
-        int y1 = y0 + NoiseFunction.PRIME_Y;
-        int z1 = z0 + NoiseFunction.PRIME_Z;
+        x0 *= Sampler.PRIME_X;
+        y0 *= Sampler.PRIME_Y;
+        z0 *= Sampler.PRIME_Z;
+        int x1 = x0 + Sampler.PRIME_X;
+        int y1 = y0 + Sampler.PRIME_Y;
+        int z1 = z0 + Sampler.PRIME_Z;
 
         double[] grads = SimplexStyleSampler.GRADIENTS_3D;
 

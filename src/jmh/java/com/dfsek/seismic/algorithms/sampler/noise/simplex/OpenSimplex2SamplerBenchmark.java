@@ -1,6 +1,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.type.sampler.Sampler;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 public class OpenSimplex2SamplerBenchmark {
-    private NoiseFunction sampler;
+    private Sampler sampler;
 
     private long seed;
     private int startX;
@@ -29,7 +30,7 @@ public class OpenSimplex2SamplerBenchmark {
 
     @Setup
     public void setup() {
-        sampler = new OpenSimplex2Sampler(0.02d, 123123L << 1);
+        sampler = new OpenSimplex2Sampler().frequency(4);
 
         Random r = new Random();
         startX = r.nextInt(10000);
@@ -50,12 +51,12 @@ public class OpenSimplex2SamplerBenchmark {
         int sy = startY;
         int sz = startZ;
         long s = seed;
-        NoiseFunction ns = sampler;
+        Sampler ns = sampler;
 
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 384; y++) {
                 for(int z = 0; z < 16; z++) {
-                    sum += ns.getNoiseRaw(s, sx + x, sy + y, sz + z);
+                    sum += ns.getSample(s, sx + x, sy + y, sz + z);
                 }
             }
         }
@@ -72,11 +73,11 @@ public class OpenSimplex2SamplerBenchmark {
         int sx = startX;
         int sy = startY;
         long s = seed;
-        NoiseFunction ns = sampler;
+        Sampler ns = sampler;
 
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 16; y++) {
-                sum += ns.getNoiseRaw(s, sx + x, sy + y);
+                sum += ns.getSample(s, sx + x, sy + y);
             }
         }
         return sum;

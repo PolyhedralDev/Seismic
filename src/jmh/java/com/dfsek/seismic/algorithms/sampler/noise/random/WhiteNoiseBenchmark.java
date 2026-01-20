@@ -11,8 +11,11 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
+import java.lang.classfile.ClassFile;
+import java.lang.constant.ConstantDescs;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import  static java.lang.constant.ConstantDescs.*;
 
 
 @State(Scope.Benchmark)
@@ -21,6 +24,25 @@ import java.util.concurrent.TimeUnit;
 public class WhiteNoiseBenchmark {
 
     private WhiteNoiseSampler f;
+
+    public static void main(String... args) {
+        byte[] bytes = ClassFile.of().build(CD_Hello,
+            clb -> clb.withFlags(ClassFile.ACC_PUBLIC)
+                .withMethod(ConstantDescs.INIT_NAME, ConstantDescs.MTD_void,
+                    ClassFile.ACC_PUBLIC,
+                    mb -> mb.withCode(
+                        cob -> cob.aload(0)
+                            .invokespecial(ConstantDescs.CD_Object,
+                                ConstantDescs.INIT_NAME, ConstantDescs.MTD_void)
+                            .return_()))
+                .withMethod("main", MTD_void_StringArray, ClassFile.ACC_PUBLIC + ClassFile.ACC_STATIC,
+                    mb -> mb.withCode(
+                        cob -> cob.getstatic(CD_System, "out", CD_PrintStream)
+                            .ldc("Hello World")
+                            .invokevirtual(CD_PrintStream, "println", MTD_void_String)
+                            .return_())));
+
+    }
 
     private long seed;
     private int startX;

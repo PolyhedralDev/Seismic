@@ -7,8 +7,8 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.type.sampler.Sampler;
 import com.dfsek.seismic.util.UnsafeUtils;
 
 
@@ -16,14 +16,8 @@ import com.dfsek.seismic.util.UnsafeUtils;
  * NoiseSampler implementation to provide OpenSimplex2 (Smooth Variant) noise.
  */
 public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
-
-    public OpenSimplex2SSampler(double frequency, long salt) {
-        super(frequency, salt);
-    }
-
-    @Override
     @SuppressWarnings("NumericOverflow")
-    public double getNoiseRaw(long sl, double x, double y) {
+    public static double simplex(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2S case is a modified 2D simplex noise.
         double s = (x + y) * OpenSimplex2StyleSampler.SKEW_2D;
@@ -36,10 +30,10 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        i *= NoiseFunction.PRIME_X;
-        j *= NoiseFunction.PRIME_Y;
-        int i1 = i + NoiseFunction.PRIME_X;
-        int j1 = j + NoiseFunction.PRIME_Y;
+        i *= Sampler.PRIME_X;
+        j *= Sampler.PRIME_Y;
+        int i1 = i + Sampler.PRIME_X;
+        int j1 = j + Sampler.PRIME_Y;
 
         double t = (xi + yi) * OpenSimplex2StyleSampler.UNSKEW_2D;
         double x0 = xi - t;
@@ -63,15 +57,15 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y2 = y0 + (3 * OpenSimplex2StyleSampler.UNSKEW_2D - 1);
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + (NoiseFunction.PRIME_X << 1),
-                        j + NoiseFunction.PRIME_Y, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + (Sampler.PRIME_X << 1),
+                        j + Sampler.PRIME_Y, x2, y2);
                 }
             } else {
                 double x2 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D;
                 double y2 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j + NoiseFunction.PRIME_Y, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j + Sampler.PRIME_Y, x2, y2);
                 }
             }
 
@@ -80,15 +74,15 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y3 = y0 + (3 * OpenSimplex2StyleSampler.UNSKEW_2D - 2);
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
-                    value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + NoiseFunction.PRIME_X,
-                        j + (NoiseFunction.PRIME_Y << 1), x3, y3);
+                    value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + Sampler.PRIME_X,
+                        j + (Sampler.PRIME_Y << 1), x3, y3);
                 }
             } else {
                 double x3 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
                 double y3 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
-                    value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + NoiseFunction.PRIME_X, j, x3, y3);
+                    value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + Sampler.PRIME_X, j, x3, y3);
                 }
             }
         } else {
@@ -97,14 +91,14 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y2 = y0 - OpenSimplex2StyleSampler.UNSKEW_2D;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i - NoiseFunction.PRIME_X, j, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i - Sampler.PRIME_X, j, x2, y2);
                 }
             } else {
                 double x2 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
                 double y2 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + NoiseFunction.PRIME_X, j, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + Sampler.PRIME_X, j, x2, y2);
                 }
             }
 
@@ -113,14 +107,14 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y2 = y0 - OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j - NoiseFunction.PRIME_Y, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j - Sampler.PRIME_Y, x2, y2);
                 }
             } else {
                 double x2 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D;
                 double y2 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
-                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j + NoiseFunction.PRIME_Y, x2, y2);
+                    value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j + Sampler.PRIME_Y, x2, y2);
                 }
             }
         }
@@ -128,9 +122,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         return value * 18.24196194486065;
     }
 
-    @Override
     @SuppressWarnings("NumericOverflow")
-    public double getNoiseRaw(long sl, double x, double y, double z) {
+    public static double simplex(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2S case uses two offset rotated cube grids.
         double r = (x + y + z) * OpenSimplex2StyleSampler.ROTATE_3D; // Rotation, not skew
@@ -146,9 +139,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double yi = y - j;
         double zi = z - k;
 
-        i *= NoiseFunction.PRIME_X;
-        j *= NoiseFunction.PRIME_Y;
-        k *= NoiseFunction.PRIME_Z;
+        i *= Sampler.PRIME_X;
+        j *= Sampler.PRIME_Y;
+        k *= Sampler.PRIME_Z;
         int seed2 = seed + 1293373;
 
         int xNMask = (int) (-0.5 - xi);
@@ -161,9 +154,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double y0 = yi + yNMask;
         double z0 = zi + zNMask;
         double a0 = 0.75 - x0 * x0 - y0 * y0 - z0 * z0;
-        double value = (a0 * a0) * (a0 * a0) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & NoiseFunction.PRIME_X),
-            j + (yNMask & NoiseFunction.PRIME_Y), k + (zNMask &
-                                                       NoiseFunction.PRIME_Z), x0,
+        double value = (a0 * a0) * (a0 * a0) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & Sampler.PRIME_X),
+            j + (yNMask & Sampler.PRIME_Y), k + (zNMask &
+                                                       Sampler.PRIME_Z), x0,
             y0,
             z0);
 
@@ -171,8 +164,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double y1 = yi - 0.5;
         double z1 = zi - 0.5;
         double a1 = 0.75 - x1 * x1 - y1 * y1 - z1 * z1;
-        value += (a1 * a1) * (a1 * a1) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
-            k + NoiseFunction.PRIME_Z, x1, y1, z1);
+        value += (a1 * a1) * (a1 * a1) * SimplexStyleSampler.gradCoord(grads, seed2, i + Sampler.PRIME_X, j + Sampler.PRIME_Y,
+            k + Sampler.PRIME_Z, x1, y1, z1);
 
         double xAFlipMask0 = ((xNMask | 1) << 1) * x1;
         double yAFlipMask0 = ((yNMask | 1) << 1) * y1;
@@ -185,9 +178,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double a2 = xAFlipMask0 + a0;
         if(a2 > 0) {
             double x2 = x0 - (xNMask | 1);
-            value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & NoiseFunction.PRIME_X),
-                j + (yNMask & NoiseFunction.PRIME_Y), k + (zNMask &
-                                                           NoiseFunction.PRIME_Z), x2,
+            value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & Sampler.PRIME_X),
+                j + (yNMask & Sampler.PRIME_Y), k + (zNMask &
+                                                           Sampler.PRIME_Z), x2,
                 y0,
                 z0);
         } else {
@@ -195,9 +188,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a3 > 0) {
                 double y3 = y0 - (yNMask | 1);
                 double z3 = z0 - (zNMask | 1);
-                value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & NoiseFunction.PRIME_X),
-                    j + (~yNMask & NoiseFunction.PRIME_Y), k + (~zNMask &
-                                                                NoiseFunction.PRIME_Z),
+                value += (a3 * a3) * (a3 * a3) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & Sampler.PRIME_X),
+                    j + (~yNMask & Sampler.PRIME_Y), k + (~zNMask &
+                                                                Sampler.PRIME_Z),
                     x0,
                     y3, z3);
             }
@@ -205,8 +198,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             double a4 = xAFlipMask1 + a1;
             if(a4 > 0) {
                 double x4 = (xNMask | 1) + x1;
-                value += (a4 * a4) * (a4 * a4) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
-                    j + NoiseFunction.PRIME_Y, k + NoiseFunction.PRIME_Z, x4, y1, z1);
+                value += (a4 * a4) * (a4 * a4) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (Sampler.PRIME_X << 1)),
+                    j + Sampler.PRIME_Y, k + Sampler.PRIME_Z, x4, y1, z1);
                 skip5 = true;
             }
         }
@@ -215,9 +208,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double a6 = yAFlipMask0 + a0;
         if(a6 > 0) {
             double y6 = y0 - (yNMask | 1);
-            value += (a6 * a6) * (a6 * a6) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & NoiseFunction.PRIME_X),
-                j + (~yNMask & NoiseFunction.PRIME_Y), k + (zNMask &
-                                                            NoiseFunction.PRIME_Z), x0,
+            value += (a6 * a6) * (a6 * a6) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & Sampler.PRIME_X),
+                j + (~yNMask & Sampler.PRIME_Y), k + (zNMask &
+                                                            Sampler.PRIME_Z), x0,
                 y6,
                 z0);
         } else {
@@ -225,9 +218,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a7 > 0) {
                 double x7 = x0 - (xNMask | 1);
                 double z7 = z0 - (zNMask | 1);
-                value += (a7 * a7) * (a7 * a7) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & NoiseFunction.PRIME_X),
-                    j + (yNMask & NoiseFunction.PRIME_Y), k + (~zNMask &
-                                                               NoiseFunction.PRIME_Z),
+                value += (a7 * a7) * (a7 * a7) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & Sampler.PRIME_X),
+                    j + (yNMask & Sampler.PRIME_Y), k + (~zNMask &
+                                                               Sampler.PRIME_Z),
                     x7,
                     y0, z7);
             }
@@ -235,8 +228,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             double a8 = yAFlipMask1 + a1;
             if(a8 > 0) {
                 double y8 = (yNMask | 1) + y1;
-                value += (a8 * a8) * (a8 * a8) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X,
-                    j + (yNMask & (NoiseFunction.PRIME_Y << 1)), k + NoiseFunction.PRIME_Z, x1, y8, z1);
+                value += (a8 * a8) * (a8 * a8) * SimplexStyleSampler.gradCoord(grads, seed2, i + Sampler.PRIME_X,
+                    j + (yNMask & (Sampler.PRIME_Y << 1)), k + Sampler.PRIME_Z, x1, y8, z1);
                 skip9 = true;
             }
         }
@@ -245,9 +238,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double aA = zAFlipMask0 + a0;
         if(aA > 0) {
             double zA = z0 - (zNMask | 1);
-            value += (aA * aA) * (aA * aA) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & NoiseFunction.PRIME_X),
-                j + (yNMask & NoiseFunction.PRIME_Y), k + (~zNMask &
-                                                           NoiseFunction.PRIME_Z), x0,
+            value += (aA * aA) * (aA * aA) * SimplexStyleSampler.gradCoord(grads, seed, i + (xNMask & Sampler.PRIME_X),
+                j + (yNMask & Sampler.PRIME_Y), k + (~zNMask &
+                                                           Sampler.PRIME_Z), x0,
                 y0,
                 zA);
         } else {
@@ -255,9 +248,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(aB > 0) {
                 double xB = x0 - (xNMask | 1);
                 double yB = y0 - (yNMask | 1);
-                value += (aB * aB) * (aB * aB) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & NoiseFunction.PRIME_X),
-                    j + (~yNMask & NoiseFunction.PRIME_Y), k + (zNMask &
-                                                                NoiseFunction.PRIME_Z),
+                value += (aB * aB) * (aB * aB) * SimplexStyleSampler.gradCoord(grads, seed, i + (~xNMask & Sampler.PRIME_X),
+                    j + (~yNMask & Sampler.PRIME_Y), k + (zNMask &
+                                                                Sampler.PRIME_Z),
                     xB,
                     yB, z0);
             }
@@ -265,9 +258,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             double aC = zAFlipMask1 + a1;
             if(aC > 0) {
                 double zC = (zNMask | 1) + z1;
-                value += (aC * aC) * (aC * aC) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X,
-                    j + NoiseFunction.PRIME_Y,
-                    k + (zNMask & (NoiseFunction.PRIME_Z << 1)), x1, y1, zC);
+                value += (aC * aC) * (aC * aC) * SimplexStyleSampler.gradCoord(grads, seed2, i + Sampler.PRIME_X,
+                    j + Sampler.PRIME_Y,
+                    k + (zNMask & (Sampler.PRIME_Z << 1)), x1, y1, zC);
                 skipD = true;
             }
         }
@@ -277,9 +270,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a5 > 0) {
                 double y5 = (yNMask | 1) + y1;
                 double z5 = (zNMask | 1) + z1;
-                value += (a5 * a5) * (a5 * a5) * SimplexStyleSampler.gradCoord(grads, seed2, i + NoiseFunction.PRIME_X,
-                    j + (yNMask & (NoiseFunction.PRIME_Y << 1)), k + (zNMask & (
-                        NoiseFunction.PRIME_Z << 1)),
+                value += (a5 * a5) * (a5 * a5) * SimplexStyleSampler.gradCoord(grads, seed2, i + Sampler.PRIME_X,
+                    j + (yNMask & (Sampler.PRIME_Y << 1)), k + (zNMask & (
+                        Sampler.PRIME_Z << 1)),
                     x1, y5, z5);
             }
         }
@@ -289,9 +282,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a9 > 0) {
                 double x9 = (xNMask | 1) + x1;
                 double z9 = (zNMask | 1) + z1;
-                value += (a9 * a9) * (a9 * a9) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
-                    j + NoiseFunction.PRIME_Y, k + (zNMask & (
-                        NoiseFunction.PRIME_Z << 1)),
+                value += (a9 * a9) * (a9 * a9) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (Sampler.PRIME_X << 1)),
+                    j + Sampler.PRIME_Y, k + (zNMask & (
+                        Sampler.PRIME_Z << 1)),
                     x9,
                     y1, z9);
             }
@@ -302,9 +295,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(aD > 0) {
                 double xD = (xNMask | 1) + x1;
                 double yD = (yNMask | 1) + y1;
-                value += (aD * aD) * (aD * aD) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
-                    j + (yNMask & (NoiseFunction.PRIME_Y << 1)), k +
-                                                                 NoiseFunction.PRIME_Z,
+                value += (aD * aD) * (aD * aD) * SimplexStyleSampler.gradCoord(grads, seed2, i + (xNMask & (Sampler.PRIME_X << 1)),
+                    j + (yNMask & (Sampler.PRIME_Y << 1)), k +
+                                                                 Sampler.PRIME_Z,
                     xD, yD, z1);
             }
         }
@@ -318,7 +311,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long sl, double x, double y) {
+    public double[] getSampleDerivative(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2S case is a modified 2D simplex noise.
         double s = (x + y) * OpenSimplex2StyleSampler.SKEW_2D;
@@ -331,10 +324,10 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double xi = x - i;
         double yi = y - j;
 
-        i *= NoiseFunction.PRIME_X;
-        j *= NoiseFunction.PRIME_Y;
-        int i1 = i + NoiseFunction.PRIME_X;
-        int j1 = j + NoiseFunction.PRIME_Y;
+        i *= Sampler.PRIME_X;
+        j *= Sampler.PRIME_Y;
+        int i1 = i + Sampler.PRIME_X;
+        int j1 = j + Sampler.PRIME_Y;
 
         double t = (xi + yi) * OpenSimplex2StyleSampler.UNSKEW_2D;
         double x0 = xi - t;
@@ -377,7 +370,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (NoiseFunction.PRIME_X << 1), j + NoiseFunction.PRIME_Y);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (Sampler.PRIME_X << 1), j + Sampler.PRIME_Y);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -391,7 +384,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + Sampler.PRIME_Y);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -407,7 +400,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + (NoiseFunction.PRIME_Y << 1));
+                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + Sampler.PRIME_X, j + (Sampler.PRIME_Y << 1));
                     double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
                     double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue3 = gx3 * x3 + gy3 * y3;
@@ -421,7 +414,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a3 = (2.0 / 3.0) - x3 * x3 - y3 * y3;
                 if(a3 > 0) {
                     double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
+                    long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + Sampler.PRIME_X, j);
                     double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
                     double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue3 = gx3 * x3 + gy3 * y3;
@@ -437,7 +430,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i - NoiseFunction.PRIME_X, j);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i - Sampler.PRIME_X, j);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -451,7 +444,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + Sampler.PRIME_X, j);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -467,7 +460,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j - NoiseFunction.PRIME_Y);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j - Sampler.PRIME_Y);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -481,7 +474,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + NoiseFunction.PRIME_Y);
+                    long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i, j + Sampler.PRIME_Y);
                     double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
                     double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
                     double rampValue2 = gx2 * x2 + gy2 * y2;
@@ -498,7 +491,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long sl, double x, double y, double z) {
+    public double[] getSampleDerivative(long sl, double x, double y, double z) {
         int seed = (int) sl;
         // 3D OpenSimplex2S case uses two offset rotated cube grids.
         double r = (x + y + z) * OpenSimplex2StyleSampler.ROTATE_3D; // Rotation, not skew
@@ -514,9 +507,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double yi = y - j;
         double zi = z - k;
 
-        i *= NoiseFunction.PRIME_X;
-        j *= NoiseFunction.PRIME_Y;
-        k *= NoiseFunction.PRIME_Z;
+        i *= Sampler.PRIME_X;
+        j *= Sampler.PRIME_Y;
+        k *= Sampler.PRIME_Z;
         int seed2 = seed + 1293373;
 
         int xNMask = (int) (-0.5 - xi);
@@ -531,8 +524,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double z0 = zi + zNMask;
         double a0 = 0.75 - x0 * x0 - y0 * y0 - z0 * z0;
         double aa0 = a0 * a0, aaa0 = aa0 * a0, aaaa0 = aa0 * aa0;
-        long gi0 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
-            k + (zNMask & NoiseFunction.PRIME_Z));
+        long gi0 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & Sampler.PRIME_X), j + (yNMask & Sampler.PRIME_Y),
+            k + (zNMask & Sampler.PRIME_Z));
         double gx0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi0) << DOUBLE_ARRAY_SHIFT));
         double gy0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 1)) << DOUBLE_ARRAY_SHIFT));
         double gz0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 2)) << DOUBLE_ARRAY_SHIFT));
@@ -547,8 +540,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double z1 = zi - 0.5;
         double a1 = 0.75 - x1 * x1 - y1 * y1 - z1 * z1;
         double aa1 = a1 * a1, aaa1 = aa1 * a1, aaaa1 = aa1 * aa1;
-        long gi1 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
-            k + NoiseFunction.PRIME_Z);
+        long gi1 = SimplexStyleSampler.gradCoordIndex(seed2, i + Sampler.PRIME_X, j + Sampler.PRIME_Y,
+            k + Sampler.PRIME_Z);
         double gx1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi1 << DOUBLE_ARRAY_SHIFT));
         double gy1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi1 | 1) << DOUBLE_ARRAY_SHIFT));
         double gz1 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi1 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -570,8 +563,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(a2 > 0) {
             double x2 = x0 - (xNMask | 1);
             double aa2 = a2 * a2, aaa2 = aa2 * a2, aaaa2 = aa2 * aa2;
-            long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
-                k + (zNMask & NoiseFunction.PRIME_Z));
+            long gi2 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & Sampler.PRIME_X), j + (yNMask & Sampler.PRIME_Y),
+                k + (zNMask & Sampler.PRIME_Z));
             double gx2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi2 << DOUBLE_ARRAY_SHIFT));
             double gy2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 1) << DOUBLE_ARRAY_SHIFT));
             double gz2 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi2 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -586,8 +579,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y3 = y0 - (yNMask | 1);
                 double z3 = z0 - (zNMask | 1);
                 double aa3 = a3 * a3, aaa3 = aa3 * a3, aaaa3 = aa3 * aa3;
-                long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X),
-                    j + (~yNMask & NoiseFunction.PRIME_Y), k + (~zNMask & NoiseFunction.PRIME_Z));
+                long gi3 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & Sampler.PRIME_X),
+                    j + (~yNMask & Sampler.PRIME_Y), k + (~zNMask & Sampler.PRIME_Z));
                 double gx3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi3 << DOUBLE_ARRAY_SHIFT));
                 double gy3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz3 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi3 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -602,8 +595,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a4 > 0) {
                 double x4 = (xNMask | 1) + x1;
                 double aa4 = a4 * a4, aaa4 = aa4 * a4, aaaa4 = aa4 * aa4;
-                long gi4 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
-                    k + NoiseFunction.PRIME_Z);
+                long gi4 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (Sampler.PRIME_X << 1)), j + Sampler.PRIME_Y,
+                    k + Sampler.PRIME_Z);
                 double gx4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi4 << DOUBLE_ARRAY_SHIFT));
                 double gy4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi4 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz4 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi4 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -621,8 +614,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(a6 > 0) {
             double y6 = y0 - (yNMask | 1);
             double aa6 = a6 * a6, aaa6 = aa6 * a6, aaaa6 = aa6 * aa6;
-            long gi6 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (~yNMask & NoiseFunction.PRIME_Y),
-                k + (zNMask & NoiseFunction.PRIME_Z));
+            long gi6 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & Sampler.PRIME_X), j + (~yNMask & Sampler.PRIME_Y),
+                k + (zNMask & Sampler.PRIME_Z));
             double gx6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi6 << DOUBLE_ARRAY_SHIFT));
             double gy6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi6 | 1) << DOUBLE_ARRAY_SHIFT));
             double gz6 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi6 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -637,8 +630,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double x7 = x0 - (xNMask | 1);
                 double z7 = z0 - (zNMask | 1);
                 double aa7 = a7 * a7, aaa7 = aa7 * a7, aaaa7 = aa7 * aa7;
-                long gi7 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
-                    j + (yNMask & NoiseFunction.PRIME_Y), k + (~zNMask & NoiseFunction.PRIME_Z));
+                long gi7 = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & Sampler.PRIME_X),
+                    j + (yNMask & Sampler.PRIME_Y), k + (~zNMask & Sampler.PRIME_Z));
                 double gx7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi7 << DOUBLE_ARRAY_SHIFT));
                 double gy7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi7 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz7 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi7 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -653,8 +646,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(a8 > 0) {
                 double y8 = (yNMask | 1) + y1;
                 double aa8 = a8 * a8, aaa8 = aa8 * a8, aaaa8 = aa8 * aa8;
-                long gi8 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
-                    k + NoiseFunction.PRIME_Z);
+                long gi8 = SimplexStyleSampler.gradCoordIndex(seed2, i + Sampler.PRIME_X, j + (yNMask & (Sampler.PRIME_Y << 1)),
+                    k + Sampler.PRIME_Z);
                 double gx8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi8 << DOUBLE_ARRAY_SHIFT));
                 double gy8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi8 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz8 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi8 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -672,8 +665,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         if(aA > 0) {
             double zA = z0 - (zNMask | 1);
             double aaA = aA * aA, aaaA = aaA * aA, aaaaA = aaA * aaA;
-            long giA = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
-                k + (~zNMask & NoiseFunction.PRIME_Z));
+            long giA = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & Sampler.PRIME_X), j + (yNMask & Sampler.PRIME_Y),
+                k + (~zNMask & Sampler.PRIME_Z));
             double gxA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giA << DOUBLE_ARRAY_SHIFT));
             double gyA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giA | 1) << DOUBLE_ARRAY_SHIFT));
             double gzA = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giA | 2) << DOUBLE_ARRAY_SHIFT));
@@ -688,8 +681,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double xB = x0 - (xNMask | 1);
                 double yB = y0 - (yNMask | 1);
                 double aaB = aB * aB, aaaB = aaB * aB, aaaaB = aaB * aaB;
-                long giB = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & NoiseFunction.PRIME_X),
-                    j + (~yNMask & NoiseFunction.PRIME_Y), k + (zNMask & NoiseFunction.PRIME_Z));
+                long giB = SimplexStyleSampler.gradCoordIndex(seed, i + (~xNMask & Sampler.PRIME_X),
+                    j + (~yNMask & Sampler.PRIME_Y), k + (zNMask & Sampler.PRIME_Z));
                 double gxB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giB << DOUBLE_ARRAY_SHIFT));
                 double gyB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giB | 1) << DOUBLE_ARRAY_SHIFT));
                 double gzB = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giB | 2) << DOUBLE_ARRAY_SHIFT));
@@ -704,8 +697,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
             if(aC > 0) {
                 double zC = (zNMask | 1) + z1;
                 double aaC = aC * aC, aaaC = aaC * aC, aaaaC = aaC * aaC;
-                long giC = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y,
-                    k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
+                long giC = SimplexStyleSampler.gradCoordIndex(seed2, i + Sampler.PRIME_X, j + Sampler.PRIME_Y,
+                    k + (zNMask & (Sampler.PRIME_Z << 1)));
                 double gxC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giC << DOUBLE_ARRAY_SHIFT));
                 double gyC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giC | 1) << DOUBLE_ARRAY_SHIFT));
                 double gzC = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giC | 2) << DOUBLE_ARRAY_SHIFT));
@@ -724,8 +717,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double y5 = (yNMask | 1) + y1;
                 double z5 = (zNMask | 1) + z1;
                 double aa5 = a5 * a5, aaa5 = aa5 * a5, aaaa5 = aa5 * aa5;
-                long gi5 = SimplexStyleSampler.gradCoordIndex(seed2, i + NoiseFunction.PRIME_X, j + (yNMask & (NoiseFunction.PRIME_Y << 1)),
-                    k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
+                long gi5 = SimplexStyleSampler.gradCoordIndex(seed2, i + Sampler.PRIME_X, j + (yNMask & (Sampler.PRIME_Y << 1)),
+                    k + (zNMask & (Sampler.PRIME_Z << 1)));
                 double gx5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi5 << DOUBLE_ARRAY_SHIFT));
                 double gy5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi5 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz5 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi5 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -743,8 +736,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double x9 = (xNMask | 1) + x1;
                 double z9 = (zNMask | 1) + z1;
                 double aa9 = a9 * a9, aaa9 = aa9 * a9, aaaa9 = aa9 * aa9;
-                long gi9 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)), j + NoiseFunction.PRIME_Y,
-                    k + (zNMask & (NoiseFunction.PRIME_Z << 1)));
+                long gi9 = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (Sampler.PRIME_X << 1)), j + Sampler.PRIME_Y,
+                    k + (zNMask & (Sampler.PRIME_Z << 1)));
                 double gx9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi9 << DOUBLE_ARRAY_SHIFT));
                 double gy9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi9 | 1) << DOUBLE_ARRAY_SHIFT));
                 double gz9 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi9 | 2) << DOUBLE_ARRAY_SHIFT));
@@ -762,8 +755,8 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 double xD = (xNMask | 1) + x1;
                 double yD = (yNMask | 1) + y1;
                 double aaD = aD * aD, aaaD = aaD * aD, aaaaD = aaD * aaD;
-                long giD = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (NoiseFunction.PRIME_X << 1)),
-                    j + (yNMask & (NoiseFunction.PRIME_Y << 1)), k + NoiseFunction.PRIME_Z);
+                long giD = SimplexStyleSampler.gradCoordIndex(seed2, i + (xNMask & (Sampler.PRIME_X << 1)),
+                    j + (yNMask & (Sampler.PRIME_Y << 1)), k + Sampler.PRIME_Z);
                 double gxD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (giD << DOUBLE_ARRAY_SHIFT));
                 double gyD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giD | 1) << DOUBLE_ARRAY_SHIFT));
                 double gzD = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((giD | 2) << DOUBLE_ARRAY_SHIFT));
@@ -780,5 +773,15 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         out[2] *= 9.046026385208288;
         out[3] *= 9.046026385208288;
         return out;
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y) {
+        return simplex(seed, x, y);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y, double z) {
+        return simplex(seed, x, y, z);
     }
 }

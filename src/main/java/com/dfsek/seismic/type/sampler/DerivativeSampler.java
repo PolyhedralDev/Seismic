@@ -22,7 +22,9 @@ public interface DerivativeSampler extends Sampler {
      *
      * @return If the noise sampler provides a derivative or not
      */
-    boolean isDifferentiable();
+    default boolean isDifferentiable() {
+        return true;
+    }
 
     /**
      * Get 3D noise at the given {@code Vector3} coordinates, using the given seed.

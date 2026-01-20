@@ -8,7 +8,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise.cellular;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.DistanceFunction;
@@ -83,12 +82,12 @@ public class CellularSampler extends CellularStyleSampler {
         double xrMinus1MinusX = xrMinus1 - x;
         double yrMinus1MinusY = yrMinus1 - y;
 
-        int xrPrimed = xr * NoiseFunction.PRIME_X;
-        int yrPrimed = yr * NoiseFunction.PRIME_Y;
-        int xrPlus1Primed = xrPlus1 * NoiseFunction.PRIME_X;
-        int xrMinus1Primed = xrMinus1 * NoiseFunction.PRIME_X;
-        int yrPlus1Primed = yrPlus1 * NoiseFunction.PRIME_Y;
-        int yrMinus1Primed = yrMinus1 * NoiseFunction.PRIME_Y;
+        int xrPrimed = xr * Sampler.PRIME_X;
+        int yrPrimed = yr * Sampler.PRIME_Y;
+        int xrPlus1Primed = xrPlus1 * Sampler.PRIME_X;
+        int xrMinus1Primed = xrMinus1 * Sampler.PRIME_X;
+        int yrPlus1Primed = yrPlus1 * Sampler.PRIME_Y;
+        int yrMinus1Primed = yrMinus1 * Sampler.PRIME_Y;
 
         int hash = HashingFunctions.hashPrimeCoords(seed, xrPrimed, yrPrimed);
         long idx = hash & (255 << 1);
@@ -457,17 +456,17 @@ public class CellularSampler extends CellularStyleSampler {
         double zrPlus1MinusZ = zrPlus1 - z;
         double zrMinus1MinusZ = zrMinus1 - z;
 
-        int xrPrimed = xr * NoiseFunction.PRIME_X;
-        int xrPlus1Primed = xrPlus1 * NoiseFunction.PRIME_X;
-        int xrMinus1Primed = xrMinus1 * NoiseFunction.PRIME_X;
+        int xrPrimed = xr * Sampler.PRIME_X;
+        int xrPlus1Primed = xrPlus1 * Sampler.PRIME_X;
+        int xrMinus1Primed = xrMinus1 * Sampler.PRIME_X;
 
-        int yrPrimed = yr * NoiseFunction.PRIME_Y;
-        int yrPlus1Primed = yrPlus1 * NoiseFunction.PRIME_Y;
-        int yrMinus1Primed = yrMinus1 * NoiseFunction.PRIME_Y;
+        int yrPrimed = yr * Sampler.PRIME_Y;
+        int yrPlus1Primed = yrPlus1 * Sampler.PRIME_Y;
+        int yrMinus1Primed = yrMinus1 * Sampler.PRIME_Y;
 
-        int zrPrimed = zr * NoiseFunction.PRIME_Z;
-        int zrPlus1Primed = zrPlus1 * NoiseFunction.PRIME_Z;
-        int zrMinus1Primed = zrMinus1 * NoiseFunction.PRIME_Z;
+        int zrPrimed = zr * Sampler.PRIME_Z;
+        int zrPlus1Primed = zrPlus1 * Sampler.PRIME_Z;
+        int zrMinus1Primed = zrMinus1 * Sampler.PRIME_Z;
 
         double[] vecs = CellularSampler.RAND_VECS_3D;
 

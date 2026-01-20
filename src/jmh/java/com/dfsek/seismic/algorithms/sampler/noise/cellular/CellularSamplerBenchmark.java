@@ -32,7 +32,7 @@ public class CellularSamplerBenchmark {
 
     @Setup
     public void setup() {
-        cellular = new CellularSampler(0.02d, 123123, new OpenSimplex2Sampler(0.2d, 12372834),
+        cellular = new CellularSampler(0.02d, 123123, new OpenSimplex2Sampler(),
             DistanceFunction.EuclideanSq, CellularStyleSampler.CellularReturnType.Distance, 1.0d, true);
 
         Random r = new Random();

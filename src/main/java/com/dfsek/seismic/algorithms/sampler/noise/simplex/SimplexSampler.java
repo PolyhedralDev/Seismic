@@ -33,11 +33,6 @@ public class SimplexSampler extends SimplexStyleSampler {
     private static final int Y_PRIME = 31337;
     private static final int Z_PRIME = 6971;
 
-    public SimplexSampler(double frequency, long salt) {
-        super(frequency, salt);
-    }
-
-
     private static double gradCoord3D(int seed, int x, int y, int z, double xd, double yd, double zd) {
         int hash = seed;
         hash ^= SimplexSampler.X_PRIME * x;
@@ -66,7 +61,7 @@ public class SimplexSampler extends SimplexStyleSampler {
     }
 
     @Override
-    public double getNoiseRaw(long sl, double x, double y) {
+    public double getSample(long sl, double x, double y) {
         int seed = (int) sl;
         double t = (x + y) * SimplexSampler.F2;
         int i = FloatingPointFunctions.floor(x + t);
@@ -123,7 +118,7 @@ public class SimplexSampler extends SimplexStyleSampler {
     }
 
     @Override
-    public double getNoiseRaw(long sl, double x, double y, double z) {
+    public double getSample(long sl, double x, double y, double z) {
         int seed = (int) sl;
         double t = (x + y + z) * SimplexSampler.F3;
         int i = FloatingPointFunctions.floor(x + t);

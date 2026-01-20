@@ -8,6 +8,13 @@
 package com.dfsek.seismic.type.sampler;
 
 
+import com.dfsek.seismic.algorithms.sampler.arithmetic.AdditionSampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.DivisionSampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.MultiplicationSampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.SubtractionSampler;
+import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.type.vector.Vector2;
 import com.dfsek.seismic.type.vector.Vector2Int;
 import com.dfsek.seismic.type.vector.Vector3;
@@ -16,18 +23,21 @@ import org.jetbrains.annotations.NotNull;
 
 
 public interface Sampler {
-    static @NotNull Sampler zero() {
-        return new Sampler() {
-            @Override
-            public double getSample(long seed, double x, double y) {
-                return 0;
-            }
+    /**
+     * The prime number used for the x-coordinate in noise generation.
+     */
+    int PRIME_X = 501125321;
+    /**
+     * The prime number used for the y-coordinate in noise generation.
+     */
+    int PRIME_Y = 1136930381;
+    /**
+     * The prime number used for the z-coordinate in noise generation.
+     */
+    int PRIME_Z = 1720413743;
 
-            @Override
-            public double getSample(long seed, double x, double y, double z) {
-                return 0;
-            }
-        };
+    static @NotNull Sampler zero() {
+        return new ConstantSampler(0);
     }
 
     /**
@@ -126,5 +136,49 @@ public interface Sampler {
      */
     default double getSample(long seed, int x, int y, int z) {
         return getSample(seed, (double) x, y, z);
+    }
+
+    default Sampler frequency(double frequency) {
+        return FrequencySampler.frequency(frequency, this);
+    }
+
+    default Sampler frequency(double frequencyX, double frequencyY, double frequencyZ) {
+        return FrequencySampler.frequency(frequencyX, frequencyY, frequencyZ, this);
+    }
+
+    default Sampler salt(long salt) {
+        return SaltSampler.salt(salt, this);
+    }
+
+    default Sampler plus(Sampler p) {
+        return new AdditionSampler(this, p);
+    }
+
+    default Sampler minus(Sampler p) {
+        return new SubtractionSampler(this, p);
+    }
+
+    default Sampler mul(Sampler p) {
+        return new MultiplicationSampler(this, p);
+    }
+
+    default Sampler div(Sampler p) {
+        return new DivisionSampler(this, p);
+    }
+
+    default double frequencyX() {
+        return 1;
+    }
+
+    default double frequencyY() {
+        return 1;
+    }
+
+    default double frequencyZ() {
+        return 1;
+    }
+
+    default Sampler compile() {
+        return this;
     }
 }

@@ -9,15 +9,15 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import com.dfsek.seismic.algorithms.sampler.noise.DerivativeNoiseFunction;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.util.UnsafeUtils;
 
 
 /**
  * Abstract NoiseSampler implementation for simplex-style noise functions.
  */
-public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
+public abstract class SimplexStyleSampler implements DerivativeSampler {
     protected static final double[] GRADIENTS_2D = {
         0.130526192220052d, 0.99144486137381d, 0.38268343236509d, 0.923879532511287d, 0.608761429008721d, 0.793353340291235d,
         0.793353340291235d, 0.608761429008721d, 0.923879532511287d, 0.38268343236509d, 0.99144486137381d, 0.130526192220051d,
@@ -86,10 +86,6 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     protected static final long DOUBLE_ARRAY_BASE = UnsafeUtils.DOUBLE_ARRAY_BASE;
     protected static final long DOUBLE_ARRAY_SHIFT = UnsafeUtils.DOUBLE_ARRAY_SHIFT;
 
-    public SimplexStyleSampler(double frequency, long salt) {
-        super(frequency, salt);
-    }
-
     protected static int gradCoordIndex(int seed, int xPrimed, int yPrimed) {
         int hash = HashingFunctions.hashPrimeCoords(seed, xPrimed, yPrimed);
         hash ^= hash >> 15;
@@ -135,12 +131,12 @@ public abstract class SimplexStyleSampler extends DerivativeNoiseFunction {
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long seed, double x, double y) {
+    public double[] getSampleDerivative(long seed, double x, double y) {
         throw new UnsupportedOperationException("Implementation failed to check or set isDifferentiable correctly");
     }
 
     @Override
-    public double[] getNoiseDerivativeRaw(long seed, double x, double y, double z) {
+    public double[] getSampleDerivative(long seed, double x, double y, double z) {
         throw new UnsupportedOperationException("Implementation failed to check or set isDifferentiable correctly");
     }
 

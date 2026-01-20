@@ -1,0 +1,79 @@
+package com.dfsek.seismic.algorithms.sampler.arithmetic;
+
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.type.sampler.Sampler;
+
+
+public class FrequencySampler implements Sampler {
+    private final double frequencyX;
+    private final double frequencyY;
+    private final double frequencyZ;
+    private final Sampler in;
+
+    private FrequencySampler(double frequencyX, double frequencyY, double frequencyZ, Sampler in) {
+        this.frequencyX = frequencyX;
+        this.frequencyY = frequencyY;
+        this.frequencyZ = frequencyZ;
+        this.in = in;
+    }
+
+    public static Sampler frequency(double frequencyX, double frequencyY, double frequencyZ, Sampler in) {
+        if(FloatingPointFunctions.equals(frequencyX, 1) && FloatingPointFunctions.equals(frequencyY, 1) && FloatingPointFunctions.equals(
+            frequencyZ, 1)) return in;
+        return new FrequencySampler(frequencyX, frequencyY, frequencyZ, in);
+    }
+
+    public static Sampler frequency(double frequency, Sampler in) {
+        if(FloatingPointFunctions.equals(frequency, 1)) return in;
+        return new FrequencySampler(frequency, in);
+    }
+
+    private FrequencySampler(double frequency, Sampler in) {
+        this(frequency, frequency, frequency, in);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y) {
+        return in.getSample(seed, x * frequencyX, y * frequencyY);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y, double z) {
+        return in.getSample(seed, x * frequencyX, y * frequencyY, z * frequencyZ);
+    }
+
+    @Override
+    public Sampler frequency(double frequency) {
+        double newX = frequencyX * frequency;
+        double newY = frequencyY * frequency;
+        double newZ = frequencyZ * frequency;
+        if(FloatingPointFunctions.equals(newX, 1) && FloatingPointFunctions.equals(newY, 1) && FloatingPointFunctions.equals(newZ, 1))
+            return in;
+        return new FrequencySampler(newX, newY, newZ, in);
+    }
+
+    @Override
+    public Sampler frequency(double frequencyX, double frequencyY, double frequencyZ) {
+        double newX = frequencyX * this.frequencyX;
+        double newY = frequencyY * this.frequencyY;
+        double newZ = frequencyZ * this.frequencyZ;
+        if(FloatingPointFunctions.equals(newX, 1) && FloatingPointFunctions.equals(newY, 1) && FloatingPointFunctions.equals(newZ, 1))
+            return in;
+        return new FrequencySampler(newX, newY, newZ, in);
+    }
+
+    @Override
+    public double frequencyX() {
+        return frequencyX;
+    }
+
+    @Override
+    public double frequencyZ() {
+        return frequencyY;
+    }
+
+    @Override
+    public double frequencyY() {
+        return frequencyZ;
+    }
+}

@@ -38,7 +38,7 @@ nyx {
     }
 
     compile {
-        jvmTarget = 21
+        jvmTarget = 25
 
         javadocJar = true
         sourcesJar = true

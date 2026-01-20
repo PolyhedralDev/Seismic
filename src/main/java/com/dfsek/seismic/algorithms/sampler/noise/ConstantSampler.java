@@ -7,24 +7,36 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise;
 
+import com.dfsek.seismic.type.sampler.Sampler;
+
+
 /**
  * Sampler3D implementation that returns a constant.
  */
-public class ConstantSampler extends NoiseFunction {
+public class ConstantSampler implements Sampler {
     private final double constant;
 
     public ConstantSampler(double constant) {
-        super(0, 0);
         this.constant = constant;
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y) {
+    public double getSample(long seed, double x, double y) {
         return constant;
     }
 
     @Override
-    public double getNoiseRaw(long seed, double x, double y, double z) {
+    public double getSample(long seed, double x, double y, double z) {
         return constant;
+    }
+
+    @Override
+    public Sampler frequency(double frequency) {
+        return this;
+    }
+
+    @Override
+    public Sampler frequency(double frequencyX, double frequencyY, double frequencyZ) {
+        return this;
     }
 }
