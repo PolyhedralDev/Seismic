@@ -1,10 +1,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
-import com.dfsek.seismic.algorithms.sampler.noise.cellular.CellularSampler;
-import com.dfsek.seismic.algorithms.sampler.noise.cellular.CellularStyleSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointConstants;
-import com.dfsek.seismic.type.DistanceFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
 import org.junit.jupiter.api.Test;
 
