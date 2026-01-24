@@ -1,6 +1,8 @@
-package com.dfsek.seismic.algorithms.sampler.noise.simplex;
+package com.dfsek.seismic.algorithms.sampler.noise.compiler;
 
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.algorithms.sampler.noise.fractal.BrownianMotionSampler;
+import com.dfsek.seismic.algorithms.sampler.noise.fractal.WeightedBrownianMotionSampler;
+import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -20,8 +22,10 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
-public class OpenSimplex2SamplerBenchmark {
+public class CompiledFBM {
     private Sampler sampler;
+    private Sampler samplerTree;
+    private Sampler samplerCompiled;
 
     private long seed;
     private int startX;
@@ -30,7 +34,10 @@ public class OpenSimplex2SamplerBenchmark {
 
     @Setup
     public void setup() {
-        sampler = OpenSimplex2Sampler.instance().frequency(4);
+
+        samplerTree = new BrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 4);
+        samplerCompiled = samplerTree.compile();
+        sampler = new WeightedBrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4);
 
         Random r = new Random();
         startX = r.nextInt(10000);
@@ -44,14 +51,14 @@ public class OpenSimplex2SamplerBenchmark {
     @Fork(1)
     @Warmup(iterations = 5, time = 1)
     @Measurement(iterations = 10, time = 5)
-    public double benchmarkOS23D() {
+    public double benchmarkTree() {
         double sum = 0.0;
 
         int sx = startX;
         int sy = startY;
         int sz = startZ;
         long s = seed;
-        Sampler ns = sampler;
+        Sampler ns = samplerTree;
 
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 384; y++) {
@@ -67,17 +74,43 @@ public class OpenSimplex2SamplerBenchmark {
     @Fork(1)
     @Warmup(iterations = 5, time = 1)
     @Measurement(iterations = 10, time = 5)
-    public double benchmarkOS22D() {
+    public double benchmarkCompiled() {
         double sum = 0.0;
 
         int sx = startX;
         int sy = startY;
+        int sz = startZ;
+        long s = seed;
+        Sampler ns = samplerCompiled;
+
+        for(int x = 0; x < 16; x++) {
+            for(int y = 0; y < 384; y++) {
+                for(int z = 0; z < 16; z++) {
+                    sum += ns.getSample(s, sx + x, sy + y, sz + z);
+                }
+            }
+        }
+        return sum;
+    }
+
+    @Benchmark
+    @Fork(1)
+    @Warmup(iterations = 5, time = 1)
+    @Measurement(iterations = 10, time = 5)
+    public double benchmarkBaseline() {
+        double sum = 0.0;
+
+        int sx = startX;
+        int sy = startY;
+        int sz = startZ;
         long s = seed;
         Sampler ns = sampler;
 
         for(int x = 0; x < 16; x++) {
-            for(int y = 0; y < 16; y++) {
-                sum += ns.getSample(s, sx + x, sy + y);
+            for(int y = 0; y < 384; y++) {
+                for(int z = 0; z < 16; z++) {
+                    sum += ns.getSample(s, sx + x, sy + y, sz + z);
+                }
             }
         }
         return sum;
