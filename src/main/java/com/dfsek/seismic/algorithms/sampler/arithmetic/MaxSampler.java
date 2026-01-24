@@ -2,6 +2,14 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.classfile.Opcode;
+import java.lang.classfile.instruction.InvokeInstruction;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
+
+import static java.lang.constant.ConstantDescs.CD_Double;
+
 
 public class MaxSampler extends BinaryArithmeticSampler {
     public MaxSampler(Sampler left, Sampler right) {
@@ -18,5 +26,10 @@ public class MaxSampler extends BinaryArithmeticSampler {
         double leftValue = left[0];
         double rightValue = right[0];
         return leftValue > rightValue ? left : right;
+    }
+
+    @Override
+    public CodeBuilder operator(CodeBuilder b) {
+        return b.invokestatic(ClassDesc.of("java.lang.Math"), "max", MethodTypeDesc.of(CD_Double, CD_Double, CD_Double));
     }
 }

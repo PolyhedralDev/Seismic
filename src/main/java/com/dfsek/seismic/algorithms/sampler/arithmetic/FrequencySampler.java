@@ -3,6 +3,8 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public class FrequencySampler implements Sampler {
     private final double frequencyX;
@@ -75,5 +77,73 @@ public class FrequencySampler implements Sampler {
     @Override
     public double frequencyY() {
         return frequencyZ;
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        int xSlot_ = max;
+        max += 2;
+        int zSlot_ = max;
+        max += 2;
+        if(FloatingPointFunctions.equals(frequencyX, frequencyZ)) {
+            return in.build(b
+                .dload(xSlot)
+                .loadConstant(frequencyX)
+                .dmul()
+                .dstore(xSlot_)
+                .dload(zSlot)
+                .loadConstant(frequencyZ)
+                .dmul()
+                .dstore(zSlot_), seedSlot, xSlot_, zSlot_, max);
+        } else {
+            return in.build(b
+                .dload(xSlot)
+                .loadConstant(frequencyX)
+                .dup2()
+                .dmul()
+                .dstore(xSlot_)
+                .loadConstant(frequencyZ)
+                .dmul()
+                .dstore(zSlot_), seedSlot, xSlot_, zSlot_, max);
+        }
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        int xSlot_ = max;
+        max += 2;
+        int ySlot_ = max;
+        max += 2;
+        int zSlot_ = max;
+        max += 2;
+        if(FloatingPointFunctions.equals(frequencyX, frequencyZ) && FloatingPointFunctions.equals(frequencyY, frequencyZ)) {
+            return in.build(b
+                .dload(xSlot)
+                .loadConstant(frequencyX)
+                .dmul()
+                .dstore(xSlot_)
+                .dload(ySlot)
+                .loadConstant(frequencyY)
+                .dmul()
+                .dstore(ySlot_)
+                .dload(zSlot)
+                .loadConstant(frequencyZ)
+                .dmul()
+                .dstore(zSlot_), seedSlot, xSlot_, ySlot_, zSlot_, max);
+        } else {
+            return in.build(b
+                .dload(xSlot)
+                .loadConstant(frequencyX)
+                .dup2()
+                .dup2()
+                .dmul()
+                .dstore(xSlot_)
+                .loadConstant(frequencyY)
+                .dmul()
+                .dstore(ySlot_)
+                .loadConstant(frequencyZ)
+                .dmul()
+                .dstore(zSlot_), seedSlot, xSlot_, ySlot_, zSlot_, max);
+        }
     }
 }

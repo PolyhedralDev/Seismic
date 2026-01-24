@@ -2,6 +2,10 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.classfile.Opcode;
+import java.lang.classfile.instruction.OperatorInstruction;
+
 
 public class SubtractionSampler extends BinaryArithmeticSampler {
     public SubtractionSampler(Sampler left, Sampler right) {
@@ -21,5 +25,10 @@ public class SubtractionSampler extends BinaryArithmeticSampler {
             out[i] = left[i] - right[i];
         }
         return out;
+    }
+
+    @Override
+    public CodeBuilder operator(CodeBuilder b) {
+        return b.dsub();
     }
 }

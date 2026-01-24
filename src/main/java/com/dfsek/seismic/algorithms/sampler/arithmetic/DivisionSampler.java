@@ -2,6 +2,10 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.classfile.Opcode;
+import java.lang.classfile.instruction.OperatorInstruction;
+
 
 public class DivisionSampler extends BinaryArithmeticSampler {
     public DivisionSampler(Sampler left, Sampler right) {
@@ -23,5 +27,10 @@ public class DivisionSampler extends BinaryArithmeticSampler {
             out[i] = (left[i] * right[0] - left[0] * right[i]) / (r2);
         }
         return out;
+    }
+
+    @Override
+    public CodeBuilder operator(CodeBuilder b) {
+        return b.ddiv();
     }
 }

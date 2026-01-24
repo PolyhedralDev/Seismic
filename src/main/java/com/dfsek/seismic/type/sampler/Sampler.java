@@ -14,15 +14,28 @@ import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.MultiplicationSampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SubtractionSampler;
+import com.dfsek.seismic.algorithms.sampler.compiler.Node;
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.type.vector.Vector2;
 import com.dfsek.seismic.type.vector.Vector2Int;
 import com.dfsek.seismic.type.vector.Vector3;
 import com.dfsek.seismic.type.vector.Vector3Int;
+import com.dfsek.seismic.util.DynamicClassLoader;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.classfile.ClassFile;
+import java.lang.classfile.constantpool.ConstantPoolBuilder;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
 
-public interface Sampler {
+import static java.lang.classfile.ClassFile.ACC_PUBLIC;
+import static java.lang.constant.ConstantDescs.CD_double;
+import static java.lang.constant.ConstantDescs.CD_int;
+import static java.lang.constant.ConstantDescs.CD_long;
+import static java.lang.constant.ConstantDescs.CD_void;
+
+
+public interface Sampler extends Node {
     /**
      * The prime number used for the x-coordinate in noise generation.
      */
@@ -179,6 +192,32 @@ public interface Sampler {
     }
 
     default Sampler compile() {
-        return this;
+        byte[] clazzBytes = ClassFile
+            .of()
+            .build(ClassDesc.of("com.dfsek.seismic.generated.TestSampler"),
+                classBuilder -> members(classBuilder
+                    .withInterfaces(ConstantPoolBuilder.of().classEntry(ClassDesc.of(Sampler.class.getName())))
+                    .withMethod("getSample",
+                        MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double),
+                        ACC_PUBLIC,
+                        b -> b.withCode(c -> build(c, 1, 3, 5, 7, 9).dreturn())
+                    )
+                    .withMethod("<init>",
+                        MethodTypeDesc.of(CD_void),
+                        ACC_PUBLIC,
+                        b -> b.withCode(c -> c
+                            .aload(0)
+                            .invokespecial(ClassDesc.of("java.lang.Object"), "<init>", MethodTypeDesc.of(CD_void))
+                            .return_())
+                    )));
+        DynamicClassLoader loader = new DynamicClassLoader();
+
+        Class<?> clazz = loader.defineClass("com.dfsek.seismic.generated.TestSampler", clazzBytes);
+        try {
+            Object instance = clazz.getDeclaredConstructor().newInstance();
+            return (Sampler) instance;
+        } catch(ReflectiveOperationException e) {
+            throw new Error(e); // Should literally never happen
+        }
     }
 }

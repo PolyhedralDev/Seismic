@@ -3,6 +3,8 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public abstract class BinaryArithmeticSampler implements DerivativeSampler {
     private final Sampler left;
@@ -45,4 +47,20 @@ public abstract class BinaryArithmeticSampler implements DerivativeSampler {
     public abstract double operate(double left, double right);
 
     public abstract double[] operateDerivative(double[] left, double[] right);
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        left.build(b, seedSlot, xSlot, zSlot, 4);
+        right.build(b, seedSlot, xSlot, zSlot, 4);
+        return operator(b);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        left.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+        right.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+        return operator(b);
+    }
+
+    public abstract CodeBuilder operator(CodeBuilder b);
 }

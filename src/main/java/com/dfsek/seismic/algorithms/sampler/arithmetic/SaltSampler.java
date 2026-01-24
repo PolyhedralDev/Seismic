@@ -2,6 +2,8 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public class SaltSampler implements Sampler {
     private final long salt;
@@ -25,5 +27,21 @@ public class SaltSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return in.getSample(seed + salt, x, y, z);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return in.build(b.lload(seedSlot)
+            .loadConstant(salt)
+            .ladd()
+            .lstore(max), max, xSlot, zSlot, max + 1);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return in.build(b.lload(seedSlot)
+            .loadConstant(salt)
+            .ladd()
+            .lstore(max), max, xSlot, ySlot, zSlot, max + 1);
     }
 }

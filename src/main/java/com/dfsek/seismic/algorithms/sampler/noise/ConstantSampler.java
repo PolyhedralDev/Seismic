@@ -9,6 +9,8 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 /**
  * Sampler3D implementation that returns a constant.
@@ -38,5 +40,15 @@ public class ConstantSampler implements Sampler {
     @Override
     public Sampler frequency(double frequencyX, double frequencyY, double frequencyZ) {
         return this;
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return b.loadConstant(constant);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return b.loadConstant(constant);
     }
 }
