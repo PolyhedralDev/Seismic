@@ -10,6 +10,8 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public class DomainWarpedSampler implements Sampler {
     private final Sampler function;
@@ -37,5 +39,64 @@ public class DomainWarpedSampler implements Sampler {
             y + warp.getSample(seed++, x, y, z) * amplitude,
             z + warp.getSample(seed, x, y, z) * amplitude
         );
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        int seedX = max;
+        max += 2;
+        int seedY = max;
+        max += 2;
+        return function.build(warp.build(warp.build(b
+                    .lload(seedSlot)
+                    .dup2()
+                    .loadConstant(1L)
+                    .ladd()
+                    .lstore(seedX)
+                    .loadConstant(2L)
+                    .ladd()
+                    .lstore(seedY), seedX, xSlot, zSlot, max)
+                .dload(zSlot)
+                .dadd()
+                .dstore(seedX), seedY, xSlot, zSlot, max)
+            .dload(xSlot)
+            .dadd()
+            .dstore(seedY), seedSlot, seedX, seedY, max);
+
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        int seedX = max;
+        max += 2;
+        int seedY = max;
+        max += 2;
+        int seedZ = max;
+        max += 2;
+        return function.build(
+            warp.build(
+                    warp.build(
+                            warp.build(b
+                                    .lload(seedSlot)
+                                    .dup2()
+                                    .dup2()
+                                    .loadConstant(1L)
+                                    .ladd()
+                                    .lstore(seedX)
+                                    .loadConstant(2L)
+                                    .ladd()
+                                    .lstore(seedY)
+                                    .loadConstant(3L)
+                                    .ladd()
+                                    .lstore(seedZ), seedX, xSlot, ySlot, zSlot, max)
+                                .dload(xSlot)
+                                .dadd()
+                                .dstore(seedX), seedY, xSlot, ySlot, zSlot, max)
+                        .dload(ySlot)
+                        .dadd()
+                        .dstore(seedY), seedZ, xSlot, ySlot, zSlot, max)
+                .dload(zSlot)
+                .dadd()
+                .dstore(seedZ), seedSlot, seedX, seedY, seedZ, max);
     }
 }
