@@ -26,6 +26,8 @@ public class CompiledFBM {
     private Sampler sampler;
     private Sampler samplerTree;
     private Sampler samplerCompiled;
+    private Sampler weighted;
+    private Sampler weightedCompiled;
 
     private long seed;
     private int startX;
@@ -35,7 +37,9 @@ public class CompiledFBM {
     @Setup
     public void setup() {
 
-        samplerTree = new BrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 4);
+        samplerTree = BrownianMotionSampler.of(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4);
+        weighted = BrownianMotionSampler.of(OpenSimplex2Sampler.instance(), 0.5, 2, 0.5, 4);
+        weightedCompiled = weighted.compile();
         samplerCompiled = samplerTree.compile();
         sampler = new WeightedBrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4);
 
@@ -82,6 +86,52 @@ public class CompiledFBM {
         int sz = startZ;
         long s = seed;
         Sampler ns = samplerCompiled;
+
+        for(int x = 0; x < 16; x++) {
+            for(int y = 0; y < 384; y++) {
+                for(int z = 0; z < 16; z++) {
+                    sum += ns.getSample(s, sx + x, sy + y, sz + z);
+                }
+            }
+        }
+        return sum;
+    }
+
+    @Benchmark
+    @Fork(1)
+    @Warmup(iterations = 5, time = 1)
+    @Measurement(iterations = 10, time = 5)
+    public double benchmarkWeighted() {
+        double sum = 0.0;
+
+        int sx = startX;
+        int sy = startY;
+        int sz = startZ;
+        long s = seed;
+        Sampler ns = weighted;
+
+        for(int x = 0; x < 16; x++) {
+            for(int y = 0; y < 384; y++) {
+                for(int z = 0; z < 16; z++) {
+                    sum += ns.getSample(s, sx + x, sy + y, sz + z);
+                }
+            }
+        }
+        return sum;
+    }
+
+    @Benchmark
+    @Fork(1)
+    @Warmup(iterations = 5, time = 1)
+    @Measurement(iterations = 10, time = 5)
+    public double benchmarkWeightedCompiled() {
+        double sum = 0.0;
+
+        int sx = startX;
+        int sy = startY;
+        int sz = startZ;
+        long s = seed;
+        Sampler ns = weightedCompiled;
 
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 384; y++) {

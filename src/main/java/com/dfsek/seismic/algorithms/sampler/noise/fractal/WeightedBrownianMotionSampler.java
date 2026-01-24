@@ -11,6 +11,12 @@ import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctio
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
+
+import static java.lang.constant.ConstantDescs.CD_double;
+
 
 public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
     protected final double weightedStrength;
@@ -111,5 +117,84 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
         }
 
         return sum;
+    }
+
+    // cant be clever with this one, wont be able to benefit from abstract optimisations :(
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        int xSlot_ = max;
+        max += 2;
+        int ySlot_ = max;
+        max += 2;
+        int zSlot_ = max;
+        max += 2;
+        int seedSlot_ = max;
+        max += 2;
+        int noiseSlot = max;
+        max += 2;
+        int sumSlot = max;
+        max += 2;
+        int ampSlot = max;
+        max += 2;
+
+        b.dload(xSlot)
+            .dstore(xSlot_)
+            .dload(ySlot)
+            .dstore(ySlot_)
+            .dload(zSlot)
+            .dstore(zSlot_)
+            .lload(seedSlot)
+            .lstore(seedSlot_)
+            .loadConstant(fractalBounding)
+            .dup2() // for weighted strength app
+            .dup2() // for aggregate
+            .dstore(ampSlot);
+        input.build(b, seedSlot, xSlot, ySlot, zSlot, max)
+            .dup2()
+            .dstore(noiseSlot)
+            .dmul() // noise * amp
+            .dstore(sumSlot);
+
+        for(int i = 1; i < octaves; i++) {
+
+            b.loadConstant(1L)
+                .lload(seedSlot_)
+                .ladd()
+                .lstore(seedSlot_)
+                .loadConstant(1d)
+                .dup2()
+                .dload(noiseSlot)
+                .dadd()
+                .loadConstant(0.5d)
+                .dmul()
+                .loadConstant(weightedStrength)
+                .invokestatic(ClassDesc.of(InterpolationFunctions.class.getName()), "lerp", MethodTypeDesc.of(CD_double, CD_double, CD_double, CD_double))
+                .dmul()
+                .loadConstant(gain)
+                .dmul()
+                .dstore(ampSlot)
+                .loadConstant(lacunarity)
+                .dup2()
+                .dup2()
+                .dload(xSlot_)
+                .dmul()
+                .dstore(xSlot_)
+                .dload(ySlot_)
+                .dmul()
+                .dstore(ySlot_)
+                .dload(zSlot_)
+                .dmul()
+                .dstore(zSlot_)
+                .dload(ampSlot)
+                .dup2();
+
+            input.build(b, seedSlot_, xSlot_, ySlot_, zSlot_, max)
+                .dmul()
+                .dload(sumSlot)
+                .dadd()
+                .dstore(sumSlot);
+        }
+
+        return b.dload(sumSlot);
     }
 }

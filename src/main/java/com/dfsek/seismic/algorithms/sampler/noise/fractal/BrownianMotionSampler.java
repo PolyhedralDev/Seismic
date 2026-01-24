@@ -11,6 +11,7 @@ import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.MultiplicationSampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
@@ -21,7 +22,14 @@ import java.lang.classfile.CodeBuilder;
 public class BrownianMotionSampler extends FractalNoiseFunction {
     private final Sampler built;
 
-    public BrownianMotionSampler(Sampler input, double gain, double lacunarity, int octaves) {
+    public static Sampler of(Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
+        if(octaves == 0) return Sampler.zero();
+        if(octaves == 1) return input;
+        if(FloatingPointFunctions.equals(weightedStrength, 0)) return new BrownianMotionSampler(input, gain, lacunarity, octaves);
+        return new WeightedBrownianMotionSampler(input, gain, lacunarity, weightedStrength, octaves);
+    }
+
+    private BrownianMotionSampler(Sampler input, double gain, double lacunarity, int octaves) {
         super(input, gain, lacunarity, octaves);
         Sampler built = Sampler.zero();
 
