@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler;
 
 
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -82,16 +83,28 @@ public class KernelSampler implements Sampler {
         for(int kx = 0; kx < kernel.length; kx++) {
             for(int ky = 0; ky < kernel[kx].length; ky++) {
                 double k = kernel[kx][ky];
-                if(k != 0) {
-                    b.loadConstant((double) kx)
-                        .dload(xSlot)
-                        .dadd()
-                        .dstore(xSlot_)
-                        .loadConstant((double) ky)
-                        .dload(zSlot)
-                        .dadd()
-                        .dstore(zSlot_);
-                    in.build(b, seedSlot, xSlot_, ySlot, zSlot_, max)
+                if(!FloatingPointFunctions.equals(0, k)) {
+                    int pickX = xSlot_;
+                    if(kx == 0) {
+                        pickX = xSlot;
+                    } else {
+                        b.loadConstant((double) kx)
+                            .dload(xSlot)
+                            .dadd()
+                            .dstore(xSlot_);
+                    }
+                    int pickZ = zSlot_;
+                    if(ky == 0) {
+                        pickZ = zSlot;
+                    } else {
+                        b
+                            .loadConstant((double) ky)
+                            .dload(zSlot)
+                            .dadd()
+                            .dstore(zSlot_);
+
+                    }
+                    in.build(b, seedSlot, pickX, ySlot, pickZ, max)
                         .loadConstant(k)
                         .dmul()
                         .dload(accumulatorSlot)
