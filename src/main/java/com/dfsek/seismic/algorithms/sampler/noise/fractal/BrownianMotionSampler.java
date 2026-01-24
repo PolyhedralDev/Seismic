@@ -7,51 +7,40 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
+import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.MultiplicationSampler;
+import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
+import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public class BrownianMotionSampler extends FractalNoiseFunction {
-    public BrownianMotionSampler(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
-        super(salt, input, gain, lacunarity, weightedStrength, octaves);
+    private final Sampler built;
+
+    public BrownianMotionSampler(Sampler input, double gain, double lacunarity, int octaves) {
+        super(input, gain, lacunarity, octaves);
+        Sampler built = Sampler.zero();
+
+        double amp = fractalBounding;
+        for(int i = 0; i < octaves; i++) {
+            built = built.plus(MultiplicationSampler.of(SaltSampler.salt(i, FrequencySampler.frequency(lacunarity, input)), new ConstantSampler(amp)));
+            amp *= gain;
+        }
+        this.built = built;
     }
 
     @Override
     public double getSample(long seed, double x, double y) {
-        double sum = 0;
-        double amp = fractalBounding;
-
-        for(int i = 0; i < octaves; i++) {
-            double noise = input.getSample(seed++, x, y);
-            sum += noise * amp;
-            amp *= InterpolationFunctions.lerp(1.0, Math.min(noise + 1, 2) * 0.5, weightedStrength);
-
-            x *= lacunarity;
-            y *= lacunarity;
-            amp *= gain;
-        }
-
-        return sum;
+        return built.getSample(seed, x, y);
     }
 
     @Override
     public double getSample(long seed, double x, double y, double z) {
-        double sum = 0;
-        double amp = fractalBounding;
-
-        for(int i = 0; i < octaves; i++) {
-            double noise = input.getSample(seed++, x, y, z);
-            sum += noise * amp;
-            amp *= InterpolationFunctions.lerp(1.0, (noise + 1) * 0.5, weightedStrength);
-
-            x *= lacunarity;
-            y *= lacunarity;
-            z *= lacunarity;
-            amp *= gain;
-        }
-
-        return sum;
+        return built.getSample(seed, x, y, z);
     }
 
     @Override
@@ -75,8 +64,6 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
             sum[1] += noise[1] * amp;
             sum[2] += noise[2] * amp;
 
-            amp *= InterpolationFunctions.lerp(1.0, Math.min(noise[0] + 1, 2) * 0.5, weightedStrength);
-
             x *= lacunarity;
             y *= lacunarity;
             amp *= gain;
@@ -99,8 +86,6 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
             sum[2] += noise[2] * amp;
             sum[3] += noise[3] * amp;
 
-            amp *= InterpolationFunctions.lerp(1.0, (noise[0] + 1) * 0.5, weightedStrength);
-
             x *= lacunarity;
             y *= lacunarity;
             z *= lacunarity;
@@ -108,5 +93,15 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         }
 
         return sum;
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return built.build(b, seedSlot, xSlot, zSlot, max);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return built.build(b, seedSlot, xSlot, ySlot, zSlot, max);
     }
 }

@@ -1,13 +1,21 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
+import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
 
 
 public class AdditionSampler extends BinaryArithmeticSampler {
-    public AdditionSampler(Sampler left, Sampler right) {
+    private AdditionSampler(Sampler left, Sampler right) {
         super(left, right);
+    }
+
+    public static Sampler of(Sampler left, Sampler right) {
+        if(left instanceof ConstantSampler c && FloatingPointFunctions.equals(c.constant(), 0)) return right;
+        if(right instanceof ConstantSampler c && FloatingPointFunctions.equals(c.constant(), 0)) return left;
+        return new AdditionSampler(left, right);
     }
 
     @Override

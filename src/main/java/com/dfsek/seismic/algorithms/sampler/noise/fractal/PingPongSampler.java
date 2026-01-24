@@ -12,11 +12,13 @@ import com.dfsek.seismic.type.sampler.Sampler;
 
 
 public class PingPongSampler extends FractalNoiseFunction {
+    protected final double weightedStrength;
     private final double pingPongStrength;
 
     public PingPongSampler(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves,
                            double pingPongStrength) {
-        super(salt, input, gain, lacunarity, weightedStrength, octaves);
+        super(input, gain, lacunarity, octaves);
+        this.weightedStrength = weightedStrength;
         this.pingPongStrength = pingPongStrength;
     }
 

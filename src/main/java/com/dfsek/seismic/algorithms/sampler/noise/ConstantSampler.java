@@ -63,4 +63,8 @@ public class ConstantSampler implements Sampler {
     public int hashCode() {
         return Objects.hashCode(constant);
     }
+
+    public double constant() {
+        return constant;
+    }
 }

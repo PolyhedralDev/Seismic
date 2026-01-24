@@ -35,7 +35,7 @@ public class SaltSampler implements Sampler {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), max, xSlot, zSlot, max + 1);
+            .lstore(max), max, xSlot, zSlot, max + 2);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SaltSampler implements Sampler {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), max, xSlot, ySlot, zSlot, max + 1);
+            .lstore(max), max, xSlot, ySlot, zSlot, max + 2);
     }
 
     @Override

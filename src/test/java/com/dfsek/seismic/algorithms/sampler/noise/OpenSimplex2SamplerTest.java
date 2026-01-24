@@ -12,13 +12,13 @@ class OpenSimplex2SamplerTest {
 
     @Test
     void getNoiseRaw() {
-        Sampler sampler = new OpenSimplex2Sampler();
+        Sampler sampler = OpenSimplex2Sampler.instance();
         assertEquals(-0.6864350184376126, sampler.getSample(12, 12, 456), FloatingPointConstants.EPSILON);
     }
 
     @Test
     void getNoiseRaw3D() {
-        Sampler sampler = new OpenSimplex2Sampler();
+        Sampler sampler = OpenSimplex2Sampler.instance();
         assertEquals(-0.11021875000090221, sampler.getSample(123, 5674, 43, 423), FloatingPointConstants.EPSILON);
     }
 }

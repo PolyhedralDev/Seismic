@@ -17,13 +17,11 @@ public abstract class FractalNoiseFunction implements DerivativeSampler {
     protected final int octaves;
     protected final double gain;
     protected final double lacunarity;
-    protected final double weightedStrength;
 
-    public FractalNoiseFunction(long salt, Sampler input, double gain, double lacunarity, double weightedStrength, int octaves) {
+    public FractalNoiseFunction(Sampler input, double gain, double lacunarity, int octaves) {
         this.input = input;
         this.gain = gain;
         this.lacunarity = lacunarity;
-        this.weightedStrength = weightedStrength;
         this.octaves = octaves;
 
         double gainAbs = Math.abs(this.gain);

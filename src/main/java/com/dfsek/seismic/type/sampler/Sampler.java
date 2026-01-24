@@ -164,7 +164,7 @@ public interface Sampler extends Node {
     }
 
     default Sampler plus(Sampler p) {
-        return new AdditionSampler(this, p);
+        return AdditionSampler.of(this, p);
     }
 
     default Sampler minus(Sampler p) {
@@ -172,7 +172,7 @@ public interface Sampler extends Node {
     }
 
     default Sampler mul(Sampler p) {
-        return new MultiplicationSampler(this, p);
+        return MultiplicationSampler.of(this, p);
     }
 
     default Sampler div(Sampler p) {
