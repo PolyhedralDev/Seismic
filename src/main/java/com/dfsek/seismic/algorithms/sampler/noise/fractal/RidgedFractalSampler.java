@@ -11,6 +11,8 @@ import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctio
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Objects;
+
 
 public class RidgedFractalSampler extends FractalNoiseFunction {
 
@@ -126,5 +128,17 @@ public class RidgedFractalSampler extends FractalNoiseFunction {
         }
 
         return sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof RidgedFractalSampler that)) return false;
+        if(!super.equals(o)) return false;
+        return Double.compare(weightedStrength, that.weightedStrength) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), weightedStrength);
     }
 }

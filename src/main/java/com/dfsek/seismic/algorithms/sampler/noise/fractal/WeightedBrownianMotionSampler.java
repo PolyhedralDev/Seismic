@@ -14,6 +14,7 @@ import com.dfsek.seismic.type.sampler.Sampler;
 import java.lang.classfile.CodeBuilder;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
+import java.util.Objects;
 
 import static java.lang.constant.ConstantDescs.CD_double;
 
@@ -196,5 +197,17 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
         }
 
         return b.dload(sumSlot);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof WeightedBrownianMotionSampler that)) return false;
+        if(!super.equals(o)) return false;
+        return Double.compare(weightedStrength, that.weightedStrength) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), weightedStrength);
     }
 }

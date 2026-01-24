@@ -17,6 +17,7 @@ import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 public class BrownianMotionSampler extends FractalNoiseFunction {
@@ -54,7 +55,7 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
         double amp = fractalBounding;
         double freq = 1.0;
         for(int i = 0; i < octaves; i++) {
-            built = built.plus(MultiplicationSampler.of(SaltSampler.salt(i, FrequencySampler.frequency(freq, input)), new ConstantSampler(amp)));
+            built = built.plus(SaltSampler.salt(i, FrequencySampler.frequency(freq, input).mul(new ConstantSampler(amp))));
             amp *= gain;
             freq *= lacunarity;
         }
@@ -131,5 +132,17 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
     @Override
     public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         return built.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof BrownianMotionSampler that)) return false;
+        if(!super.equals(o)) return false;
+        return Objects.equals(built, that.built);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), built);
     }
 }

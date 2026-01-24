@@ -10,6 +10,8 @@ package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Objects;
+
 
 public abstract class FractalNoiseFunction implements DerivativeSampler {
     protected final Sampler input;
@@ -47,5 +49,18 @@ public abstract class FractalNoiseFunction implements DerivativeSampler {
     @Override
     public double[] getSampleDerivative(long seed, double x, double y, double z) {
         throw new UnsupportedOperationException("Implementation failed to check or set isDifferentiable correctly");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof FractalNoiseFunction that)) return false;
+        return Double.compare(fractalBounding, that.fractalBounding) == 0 && octaves == that.octaves && Double.compare(gain, that.gain) ==
+                                                                                                        0 && Double.compare(lacunarity,
+            that.lacunarity) == 0 && Objects.equals(input, that.input);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(input, fractalBounding, octaves, gain, lacunarity);
     }
 }

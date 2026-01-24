@@ -10,6 +10,8 @@ package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Objects;
+
 
 public class PingPongSampler extends FractalNoiseFunction {
     protected final double weightedStrength;
@@ -62,5 +64,17 @@ public class PingPongSampler extends FractalNoiseFunction {
         }
 
         return sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof PingPongSampler that)) return false;
+        if(!super.equals(o)) return false;
+        return Double.compare(weightedStrength, that.weightedStrength) == 0 && Double.compare(pingPongStrength, that.pingPongStrength) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), weightedStrength, pingPongStrength);
     }
 }
