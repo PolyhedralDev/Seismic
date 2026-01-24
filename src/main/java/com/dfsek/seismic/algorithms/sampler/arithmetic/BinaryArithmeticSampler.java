@@ -4,6 +4,7 @@ import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 public abstract class BinaryArithmeticSampler implements DerivativeSampler {
@@ -63,4 +64,16 @@ public abstract class BinaryArithmeticSampler implements DerivativeSampler {
     }
 
     public abstract CodeBuilder operator(CodeBuilder b);
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right, getClass());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof BinaryArithmeticSampler that) return this.left.equals(that.left) && this.right.equals(that.right) &&
+                                                               this.getClass().equals(that.getClass());
+        return false;
+    }
 }

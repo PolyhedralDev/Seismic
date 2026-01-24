@@ -10,6 +10,9 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 
 public class KernelSampler implements Sampler {
     private final double[][] kernel;
@@ -57,5 +60,16 @@ public class KernelSampler implements Sampler {
         }
 
         return accumulator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof KernelSampler that)) return false;
+        return Double.compare(frequency, that.frequency) == 0 && Objects.deepEquals(kernel, that.kernel) && Objects.equals(in, that.in);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.deepHashCode(kernel), in, frequency);
     }
 }

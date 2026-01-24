@@ -12,9 +12,8 @@ import java.io.IOException;
 
 public class Test {
     static void main() throws IOException {
-
-        Sampler s = FrequencySampler.frequency(0.5, SaltSampler.salt(10L, new AdditionSampler(new OpenSimplex2Sampler(), new ConstantSampler(2)))).compile();
-        Sampler s2 = new DomainWarpedSampler(new OpenSimplex2Sampler(), new OpenSimplex2Sampler(), 0.8).compile();
+        Sampler s = FrequencySampler.frequency(0.5, SaltSampler.salt(10L, new AdditionSampler(OpenSimplex2Sampler.instance(), new ConstantSampler(2)))).compile();
+        Sampler s2 = new DomainWarpedSampler(OpenSimplex2Sampler.instance(), OpenSimplex2Sampler.instance(), 0.8).compile();
         System.out.printf("%s", s2.getSample(0, 100.4, 2, 3));
     }
 }

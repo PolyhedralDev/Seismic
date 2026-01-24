@@ -4,6 +4,7 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 public class FrequencySampler implements Sampler {
@@ -145,5 +146,17 @@ public class FrequencySampler implements Sampler {
                 .dmul()
                 .dstore(zSlot_), seedSlot, xSlot_, ySlot_, zSlot_, max);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof FrequencySampler that)) return false;
+        return Double.compare(frequencyX, that.frequencyX) == 0 && Double.compare(frequencyY, that.frequencyY) == 0 && Double.compare(
+            frequencyZ, that.frequencyZ) == 0 && Objects.equals(in, that.in);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(frequencyX, frequencyY, frequencyZ, in);
     }
 }

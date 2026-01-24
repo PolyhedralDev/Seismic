@@ -26,6 +26,16 @@ import static java.lang.constant.ConstantDescs.CD_long;
  */
 public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
 
+    private OpenSimplex2Sampler() {
+
+    }
+
+    private static final OpenSimplex2Sampler INSTANCE = new OpenSimplex2Sampler();
+
+    public static OpenSimplex2Sampler instance() {
+        return INSTANCE;
+    }
+
     public static double simplex(long sl, double x, double y) {
         int seed = (int) sl;
         // 2D OpenSimplex2 case uses the same algorithm as ordinary Simplex.
@@ -447,4 +457,6 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             .invokestatic(ClassDesc.of(OpenSimplex2Sampler.class.getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double));
 
     }
+
+
 }

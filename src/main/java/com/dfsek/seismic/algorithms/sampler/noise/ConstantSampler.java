@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 /**
@@ -50,5 +51,16 @@ public class ConstantSampler implements Sampler {
     @Override
     public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         return b.loadConstant(constant);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof ConstantSampler that)) return false;
+        return Double.compare(constant, that.constant) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(constant);
     }
 }

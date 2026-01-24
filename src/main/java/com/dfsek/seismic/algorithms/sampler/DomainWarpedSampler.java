@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 public class DomainWarpedSampler implements Sampler {
@@ -62,7 +63,6 @@ public class DomainWarpedSampler implements Sampler {
             .dload(xSlot)
             .dadd()
             .dstore(seedY), seedSlot, seedX, seedY, max);
-
     }
 
     @Override
@@ -98,5 +98,16 @@ public class DomainWarpedSampler implements Sampler {
                 .dload(zSlot)
                 .dadd()
                 .dstore(seedZ), seedSlot, seedX, seedY, seedZ, max);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof DomainWarpedSampler that)) return false;
+        return Double.compare(amplitude, that.amplitude) == 0 && Objects.equals(function, that.function) && Objects.equals(warp, that.warp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(function, warp, amplitude);
     }
 }

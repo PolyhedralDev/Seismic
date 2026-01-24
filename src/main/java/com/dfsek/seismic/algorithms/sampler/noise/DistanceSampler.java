@@ -3,6 +3,8 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.type.DistanceFunction;
 
+import java.util.Objects;
+
 
 public class DistanceSampler extends NoiseFunction {
 
@@ -53,5 +55,18 @@ public class DistanceSampler extends NoiseFunction {
         double dist = DistanceSampler.distance3d(distanceFunction, dx, dy, dz);
         if(normalize) return Math.min(((2 * dist) / distanceAtRadius) - 1, 1);
         return dist;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof DistanceSampler that)) return false;
+        return Double.compare(ox, that.ox) == 0 && Double.compare(oy, that.oy) == 0 && Double.compare(oz, that.oz) == 0 &&
+               normalize == that.normalize && Double.compare(radius, that.radius) == 0 && Double.compare(distanceAtRadius,
+            that.distanceAtRadius) == 0 && distanceFunction == that.distanceFunction;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(distanceFunction, ox, oy, oz, normalize, radius, distanceAtRadius);
     }
 }

@@ -3,6 +3,8 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Objects;
+
 
 public class LinearHeightmapSampler implements Sampler {
     private final Sampler sampler;
@@ -24,5 +26,16 @@ public class LinearHeightmapSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return -y + base + sampler.getSample(seed, x, y, z) * scale;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof LinearHeightmapSampler that)) return false;
+        return Double.compare(scale, that.scale) == 0 && Double.compare(base, that.base) == 0 && Objects.equals(sampler, that.sampler);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sampler, scale, base);
     }
 }

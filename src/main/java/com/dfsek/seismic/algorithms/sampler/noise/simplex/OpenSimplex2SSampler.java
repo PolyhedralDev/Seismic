@@ -16,6 +16,15 @@ import com.dfsek.seismic.util.UnsafeUtils;
  * NoiseSampler implementation to provide OpenSimplex2 (Smooth Variant) noise.
  */
 public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
+    private static final OpenSimplex2SSampler INSTANCE = new OpenSimplex2SSampler();
+    private OpenSimplex2SSampler() {
+
+    }
+
+    public static OpenSimplex2SSampler instance() {
+        return INSTANCE;
+    }
+
     @SuppressWarnings("NumericOverflow")
     public static double simplex(long sl, double x, double y) {
         int seed = (int) sl;

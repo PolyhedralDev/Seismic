@@ -3,6 +3,7 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.Objects;
 
 
 public class SaltSampler implements Sampler {
@@ -43,5 +44,16 @@ public class SaltSampler implements Sampler {
             .loadConstant(salt)
             .ladd()
             .lstore(max), max, xSlot, ySlot, zSlot, max + 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof SaltSampler that)) return false;
+        return salt == that.salt && Objects.equals(in, that.in);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(salt, in);
     }
 }

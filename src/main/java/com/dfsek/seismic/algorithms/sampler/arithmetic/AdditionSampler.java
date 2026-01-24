@@ -3,8 +3,6 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
-import java.lang.classfile.Opcode;
-import java.lang.classfile.instruction.OperatorInstruction;
 
 
 public class AdditionSampler extends BinaryArithmeticSampler {

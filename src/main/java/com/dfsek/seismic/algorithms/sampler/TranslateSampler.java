@@ -3,6 +3,8 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.util.Objects;
+
 
 public class TranslateSampler implements Sampler {
 
@@ -24,5 +26,17 @@ public class TranslateSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return sampler.getSample(seed, x - dx, y - dy, z - dz);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof TranslateSampler that)) return false;
+        return Double.compare(dx, that.dx) == 0 && Double.compare(dy, that.dy) == 0 && Double.compare(dz, that.dz) == 0 && Objects.equals(
+            sampler, that.sampler);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sampler, dx, dy, dz);
     }
 }
