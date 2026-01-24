@@ -12,6 +12,14 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 import com.dfsek.seismic.util.UnsafeUtils;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
+
+import static java.lang.constant.ConstantDescs.CD_Double;
+import static java.lang.constant.ConstantDescs.CD_double;
+import static java.lang.constant.ConstantDescs.CD_long;
+
 
 /**
  * NoiseSampler implementation to provide OpenSimplex2 noise.
@@ -418,5 +426,25 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return simplex(seed, x, y, z);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return b
+            .lload(seedSlot)
+            .dload(xSlot)
+            .dload(zSlot)
+            .invokestatic(ClassDesc.of(OpenSimplex2Sampler.class.getName()), "simplex", MethodTypeDesc.of(CD_Double, CD_long, CD_Double, CD_Double));
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return b
+            .lload(seedSlot)
+            .dload(xSlot)
+            .dload(ySlot)
+            .dload(zSlot)
+            .invokestatic(ClassDesc.of(OpenSimplex2Sampler.class.getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double));
+
     }
 }
