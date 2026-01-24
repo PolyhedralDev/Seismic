@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -17,18 +18,14 @@ import java.util.Objects;
 public class KernelSampler implements Sampler {
     private final double[][] kernel;
     private final Sampler in;
-    private final double frequency;
 
-    public KernelSampler(double frequency, double[][] kernel, Sampler in) {
-        this.frequency = frequency;
+    public KernelSampler(double[][] kernel, Sampler in) {
         this.kernel = kernel;
         this.in = in;
     }
 
     @Override
     public double getSample(long seed, double x, double y) {
-        x *= frequency;
-        y *= frequency;
         double accumulator = 0;
 
         for(int kx = 0; kx < kernel.length; kx++) {
@@ -45,9 +42,6 @@ public class KernelSampler implements Sampler {
 
     @Override
     public double getSample(long seed, double x, double y, double z) {
-        x *= frequency;
-        y *= frequency;
-        z *= frequency;
         double accumulator = 0;
 
         for(int kx = 0; kx < kernel.length; kx++) {
@@ -65,11 +59,48 @@ public class KernelSampler implements Sampler {
     @Override
     public boolean equals(Object o) {
         if(!(o instanceof KernelSampler that)) return false;
-        return Double.compare(frequency, that.frequency) == 0 && Objects.deepEquals(kernel, that.kernel) && Objects.equals(in, that.in);
+        return Objects.deepEquals(kernel, that.kernel) && Objects.equals(in, that.in);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Arrays.deepHashCode(kernel), in, frequency);
+        return Objects.hash(Arrays.deepHashCode(kernel), in);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        int xSlot_ = max;
+        max += 2;
+        int zSlot_ = max;
+        max += 2;
+        int accumulatorSlot = max;
+        max += 2;
+        b
+            .loadConstant(0d)
+            .dstore(accumulatorSlot);
+
+        for(int kx = 0; kx < kernel.length; kx++) {
+            for(int ky = 0; ky < kernel[kx].length; ky++) {
+                double k = kernel[kx][ky];
+                if(k != 0) {
+                    b.loadConstant((double) kx)
+                        .dload(xSlot)
+                        .dadd()
+                        .dstore(xSlot_)
+                        .loadConstant((double) ky)
+                        .dload(zSlot)
+                        .dadd()
+                        .dstore(zSlot_);
+                    in.build(b, seedSlot, xSlot_, ySlot, zSlot_, max)
+                        .loadConstant(k)
+                        .dmul()
+                        .dload(accumulatorSlot)
+                        .dadd()
+                        .dstore(accumulatorSlot);
+                }
+            }
+        }
+
+        return b.dload(accumulatorSlot);
     }
 }
