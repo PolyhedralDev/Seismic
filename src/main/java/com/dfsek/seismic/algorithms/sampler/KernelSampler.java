@@ -10,10 +10,18 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
+import com.dfsek.seismic.type.vector.Vector2Int;
 
 import java.lang.classfile.CodeBuilder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class KernelSampler implements Sampler {
@@ -70,41 +78,59 @@ public class KernelSampler implements Sampler {
 
     @Override
     public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        int xSlot_ = max;
-        max += 2;
-        int zSlot_ = max;
-        max += 2;
         int accumulatorSlot = max;
         max += 2;
         b
             .loadConstant(0d)
             .dstore(accumulatorSlot);
 
+        Set<Vector2Int> requiredCells = new HashSet<>();
+
         for(int kx = 0; kx < kernel.length; kx++) {
             for(int ky = 0; ky < kernel[kx].length; ky++) {
                 double k = kernel[kx][ky];
                 if(!FloatingPointFunctions.equals(0, k)) {
-                    int pickX = xSlot_;
-                    if(kx == 0) {
-                        pickX = xSlot;
-                    } else {
-                        b.loadConstant((double) kx)
-                            .dload(xSlot)
-                            .dadd()
-                            .dstore(xSlot_);
-                    }
-                    int pickZ = zSlot_;
-                    if(ky == 0) {
-                        pickZ = zSlot;
-                    } else {
-                        b
-                            .loadConstant((double) ky)
-                            .dload(zSlot)
-                            .dadd()
-                            .dstore(zSlot_);
+                    requiredCells.add(Vector2Int.of(kx, ky));
+                }
+            }
+        }
+        Set<Integer> requiredX = requiredCells.stream().map(Vector2Int::getX).collect(Collectors.toSet());
+        Set<Integer> requiredZ = requiredCells.stream().map(Vector2Int::getZ).collect(Collectors.toSet());
 
-                    }
-                    in.build(b, seedSlot, pickX, ySlot, pickZ, max)
+        Map<Integer, Integer> xVals = new HashMap<>();
+        Map<Integer, Integer> zVals = new HashMap<>();
+
+        for(Integer x : requiredX) {
+            if(x == 0) {
+                xVals.put(x, xSlot);
+                continue;
+            }
+            xVals.put(x, max);
+            b.loadConstant((double) x)
+                .dload(xSlot)
+                .dadd()
+                .dstore(max);
+            max+=2;
+        }
+
+        for(Integer z : requiredZ) {
+            if(z == 0) {
+                zVals.put(z, zSlot);
+                continue;
+            }
+            zVals.put(z, max);
+            b.loadConstant((double) z)
+                .dload(zSlot)
+                .dadd()
+                .dstore(max);
+            max+=2;
+        }
+
+        for(int kx = 0; kx < kernel.length; kx++) {
+            for(int ky = 0; ky < kernel[kx].length; ky++) {
+                double k = kernel[kx][ky];
+                if(!FloatingPointFunctions.equals(0, k)) {
+                    in.build(b, seedSlot, xVals.get(kx), ySlot, zVals.get(ky), max)
                         .loadConstant(k)
                         .dmul()
                         .dload(accumulatorSlot)
