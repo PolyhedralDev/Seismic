@@ -15,7 +15,8 @@ public class SaltSampler implements Sampler {
         this.in = in;
     }
 
-    public static SaltSampler salt(long salt, Sampler in) {
+    public static Sampler salt(long salt, Sampler in) {
+        if(salt == 0) return in;
         if(in instanceof SaltSampler s) return new SaltSampler(s.salt + salt, s.in);
         return new SaltSampler(salt, in);
     }
