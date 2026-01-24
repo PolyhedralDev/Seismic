@@ -40,6 +40,6 @@ public class MultiplicationSampler extends BinaryArithmeticSampler {
 
     @Override
     public CodeBuilder operator(CodeBuilder b) {
-        return b.ddiv();
+        return b.dmul();
     }
 }

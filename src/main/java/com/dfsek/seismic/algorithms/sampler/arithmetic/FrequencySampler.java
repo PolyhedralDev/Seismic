@@ -28,6 +28,7 @@ public class FrequencySampler implements Sampler {
 
     public static Sampler frequency(double frequency, Sampler in) {
         if(FloatingPointFunctions.equals(frequency, 1)) return in;
+        if(FloatingPointFunctions.equals(frequency, 0)) return Sampler.zero();
         return new FrequencySampler(frequency, in);
     }
 
