@@ -438,25 +438,4 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
         return simplex(seed, x, y, z);
     }
 
-    @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
-        return b
-            .lload(seedSlot)
-            .dload(xSlot)
-            .dload(zSlot)
-            .invokestatic(ClassDesc.of(OpenSimplex2Sampler.class.getName()), "simplex", MethodTypeDesc.of(CD_Double, CD_long, CD_Double, CD_Double));
-    }
-
-    @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        return b
-            .lload(seedSlot)
-            .dload(xSlot)
-            .dload(ySlot)
-            .dload(zSlot)
-            .invokestatic(ClassDesc.of(OpenSimplex2Sampler.class.getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double));
-
-    }
-
-
 }

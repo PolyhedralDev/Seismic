@@ -17,8 +17,7 @@ import com.dfsek.seismic.type.sampler.Sampler;
  * NoiseSampler implementation to provide Perlin Noise.
  */
 public class PerlinSampler extends SimplexStyleSampler {
-    @Override
-    public double getSample(long sl, double x, double y) {
+    public static double simplex(long sl, double x, double y) {
         int seed = (int) sl;
         int x0 = FloatingPointFunctions.floor(x);
         int y0 = FloatingPointFunctions.floor(y);
@@ -47,8 +46,7 @@ public class PerlinSampler extends SimplexStyleSampler {
         ) * 1.4247691104677813;
     }
 
-    @Override
-    public double getSample(long sl, double x, double y, double z) {
+    public static double simplex(long sl, double x, double y, double z) {
         int seed = (int) sl;
         int x0 = FloatingPointFunctions.floor(x);
         int y0 = FloatingPointFunctions.floor(y);
@@ -85,5 +83,15 @@ public class PerlinSampler extends SimplexStyleSampler {
             SimplexStyleSampler.gradCoord(grads, seed, x1, y1, z1, xd1, yd1, zd1),
             xs, ys, zs
         ) * 0.964921414852142333984375;
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y) {
+        return simplex(seed, x, y);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y, double z) {
+        return simplex(seed, x, y, z);
     }
 }

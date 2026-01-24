@@ -13,6 +13,14 @@ import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.util.UnsafeUtils;
 
+import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
+
+import static java.lang.constant.ConstantDescs.CD_Double;
+import static java.lang.constant.ConstantDescs.CD_double;
+import static java.lang.constant.ConstantDescs.CD_long;
+
 
 /**
  * Abstract NoiseSampler implementation for simplex-style noise functions.
@@ -143,5 +151,25 @@ public abstract class SimplexStyleSampler implements DerivativeSampler {
     @Override
     public boolean isDifferentiable() {
         return false;
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return b
+            .lload(seedSlot)
+            .dload(xSlot)
+            .dload(zSlot)
+            .invokestatic(
+                ClassDesc.of(getClass().getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double));
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return b
+            .lload(seedSlot)
+            .dload(xSlot)
+            .dload(ySlot)
+            .dload(zSlot)
+            .invokestatic(ClassDesc.of(getClass().getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double));
     }
 }

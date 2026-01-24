@@ -60,8 +60,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         return xd * GRAD_2D[index] + yd * GRAD_2D[index + 1];
     }
 
-    @Override
-    public double getSample(long sl, double x, double y) {
+    public static double simplex(long sl, double x, double y) {
         int seed = (int) sl;
         double t = (x + y) * SimplexSampler.F2;
         int i = FloatingPointFunctions.floor(x + t);
@@ -117,8 +116,7 @@ public class SimplexSampler extends SimplexStyleSampler {
         return 50 * (n0 + n1 + n2);
     }
 
-    @Override
-    public double getSample(long sl, double x, double y, double z) {
+    public static double simplex(long sl, double x, double y, double z) {
         int seed = (int) sl;
         double t = (x + y + z) * SimplexSampler.F3;
         int i = FloatingPointFunctions.floor(x + t);
@@ -228,5 +226,15 @@ public class SimplexSampler extends SimplexStyleSampler {
         }
 
         return 32 * (n0 + n1 + n2 + n3);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y) {
+        return simplex(seed, x, y);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y, double z) {
+        return simplex(seed, x, y, z);
     }
 }
