@@ -31,6 +31,24 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
 
     private BrownianMotionSampler(Sampler input, double gain, double lacunarity, int octaves) {
         super(input, gain, lacunarity, octaves);
+
+        /*
+         *         double sum = 0;
+         *         double amp = fractalBounding;
+         *
+         *         for(int i = 0; i < octaves; i++) {
+         *             double noise = input.getSample(seed++, x, y, z);
+         *             sum += noise * amp;
+         *
+         *             x *= lacunarity;
+         *             y *= lacunarity;
+         *             z *= lacunarity;
+         *             amp *= gain;
+         *         }
+         *
+         *         return sum;
+         */
+
         Sampler built = Sampler.zero();
 
         double amp = fractalBounding;
