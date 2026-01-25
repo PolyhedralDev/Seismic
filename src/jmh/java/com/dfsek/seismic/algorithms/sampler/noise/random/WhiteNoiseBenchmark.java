@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise.random;
 
+import com.dfsek.seismic.type.sampler.Sampler;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -11,11 +12,8 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
-import java.lang.classfile.ClassFile;
-import java.lang.constant.ConstantDescs;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import  static java.lang.constant.ConstantDescs.*;
 
 
 @State(Scope.Benchmark)
@@ -23,7 +21,7 @@ import  static java.lang.constant.ConstantDescs.*;
 @OutputTimeUnit(TimeUnit.SECONDS)
 public class WhiteNoiseBenchmark {
 
-    private WhiteNoiseSampler f;
+    private Sampler f;
 
     private long seed;
     private int startX;
@@ -32,7 +30,7 @@ public class WhiteNoiseBenchmark {
 
     @Setup
     public void setup() {
-        f = new WhiteNoiseSampler(123123);
+        f = WhiteNoiseSampler.instance();
 
         Random r = new Random();
         startX = r.nextInt(10000);
@@ -83,7 +81,7 @@ public class WhiteNoiseBenchmark {
         int sy = startY;
         int sz = startZ;
         long s = seed;
-        WhiteNoiseSampler ns = f;
+        Sampler ns = f;
 
         for(int x = 0; x < 16; x++) {
             for(int z = 0; z < 16; z++) {
@@ -105,7 +103,7 @@ public class WhiteNoiseBenchmark {
         int sx = startX;
         int sy = startY;
         long s = seed;
-        WhiteNoiseSampler ns = f;
+        Sampler ns = f;
 
         for(int x = 0; x < 16; x++) {
             for(int y = 0; y < 16; y++) {

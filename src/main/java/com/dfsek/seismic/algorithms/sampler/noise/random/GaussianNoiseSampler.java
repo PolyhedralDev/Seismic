@@ -15,17 +15,12 @@ import com.dfsek.seismic.type.sampler.Sampler;
  * NoiseSampler implementation to provide random, normally distributed (Gaussian) noise.
  */
 public class GaussianNoiseSampler implements Sampler {
-    private final WhiteNoiseSampler whiteNoiseSampler; // Back with a white noise sampler.
-    private final long salt;
 
-    public GaussianNoiseSampler(long salt) {
-        this.salt = salt;
-        whiteNoiseSampler = new WhiteNoiseSampler(0);
+    public GaussianNoiseSampler() {
     }
 
-    @Override
-    public double getSample(long seed, double x, double y) {
-        seed += salt; // saves us a few adds
+    public static double random(long seed, double x, double y) {
+        Sampler whiteNoiseSampler = WhiteNoiseSampler.instance();
         double v1, v2, s;
         do {
             v1 = whiteNoiseSampler.getSample(seed++, x, y);
@@ -36,9 +31,8 @@ public class GaussianNoiseSampler implements Sampler {
         return v1 * multiplier;
     }
 
-    @Override
-    public double getSample(long seed, double x, double y, double z) {
-        seed += salt; // saves us a few adds
+    public static double random(long seed, double x, double y, double z) {
+        Sampler whiteNoiseSampler = WhiteNoiseSampler.instance();
         double v1, v2, s;
         do {
             v1 = whiteNoiseSampler.getSample(seed++, x, y, z);
@@ -47,5 +41,15 @@ public class GaussianNoiseSampler implements Sampler {
         } while(s >= 1 || s == 0);
         double multiplier = Math.sqrt(-2 * Math.log(s) / s);
         return v1 * multiplier;
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y) {
+        return random(seed, x, y);
+    }
+
+    @Override
+    public double getSample(long seed, double x, double y, double z) {
+        return random(seed, x, y, z);
     }
 }

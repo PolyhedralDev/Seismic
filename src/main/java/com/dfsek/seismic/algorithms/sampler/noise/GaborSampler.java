@@ -9,14 +9,16 @@ package com.dfsek.seismic.algorithms.sampler.noise;
 
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
+import com.dfsek.seismic.algorithms.sampler.noise.random.PositiveWhiteNoiseSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.math.trigonometry.TrigonometryConstants;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
+import com.dfsek.seismic.type.sampler.Sampler;
 
 
 public class GaborSampler extends NoiseFunction {
-    private final WhiteNoiseSampler rand;
+    private static final PositiveWhiteNoiseSampler rand = PositiveWhiteNoiseSampler.instance();
     private final double deviation;
     private final double a;
     private final double f0;
@@ -39,8 +41,6 @@ public class GaborSampler extends NoiseFunction {
         double impulseDensity = (impulsesPerKernel / (TrigonometryConstants.PI * kernelRadius * kernelRadius));
         double impulsesPerCell = impulseDensity * kernelRadius * kernelRadius;
         g = Math.exp(-impulsesPerCell);
-
-        rand = new WhiteNoiseSampler(salt);
     }
 
     private double gaborNoise(long seed, double x, double y) {

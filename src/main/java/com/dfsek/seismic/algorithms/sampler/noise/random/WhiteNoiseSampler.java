@@ -8,8 +8,14 @@
 package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
-import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
 import com.dfsek.seismic.type.sampler.Sampler;
+
+import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
+import java.lang.constant.MethodTypeDesc;
+
+import static java.lang.constant.ConstantDescs.CD_double;
+import static java.lang.constant.ConstantDescs.CD_long;
 
 
 /**
@@ -17,11 +23,14 @@ import com.dfsek.seismic.type.sampler.Sampler;
  */
 public class WhiteNoiseSampler implements Sampler {
     private static final long POSITIVE_POW1 = 0b10000000000L << 52;
-    private final long salt;
+    private static final WhiteNoiseSampler INSTANCE = new WhiteNoiseSampler();
     // Bits that when applied to the exponent/sign section of a double, produce a positive number with a power of 1.
 
-    public WhiteNoiseSampler(long salt) {
-        this.salt = salt;
+    private WhiteNoiseSampler() {
+    }
+
+    public static Sampler instance() {
+        return INSTANCE;
     }
 
     public static long randomBits(long seed, double x, double y, double z) {
@@ -55,11 +64,34 @@ public class WhiteNoiseSampler implements Sampler {
 
     @Override
     public double getSample(long seed, double x, double y) {
-        return WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y) - 3;
+        return WhiteNoiseSampler.getNoiseUnmapped(seed, x, y) - 3;
     }
 
     @Override
     public double getSample(long seed, double x, double y, double z) {
-        return (WhiteNoiseSampler.getNoiseUnmapped(seed + salt, x, y, z) - 1.5) * 2;
+        return WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 3;
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return b
+            .dload(seedSlot)
+            .dload(xSlot)
+            .dload(zSlot)
+            .invokestatic(ClassDesc.of(WhiteNoiseSampler.class.getName()), "getNoiseUnmapped", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double))
+            .loadConstant(3.0D)
+            .dsub();
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return b
+            .dload(seedSlot)
+            .dload(xSlot)
+            .dload(ySlot)
+            .dload(zSlot)
+            .invokestatic(ClassDesc.of(WhiteNoiseSampler.class.getName()), "getNoiseUnmapped", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double))
+            .loadConstant(3.0D)
+            .dsub();
     }
 }
