@@ -7,6 +7,7 @@ import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
 
 import static java.lang.constant.ConstantDescs.CD_Double;
+import static java.lang.constant.ConstantDescs.CD_double;
 
 
 public class MinSampler extends BinaryArithmeticSampler {
@@ -28,6 +29,6 @@ public class MinSampler extends BinaryArithmeticSampler {
 
     @Override
     public CodeBuilder operator(CodeBuilder b) {
-        return b.invokestatic(ClassDesc.of("java.lang.Math"), "min", MethodTypeDesc.of(CD_Double, CD_Double, CD_Double));
+        return b.invokestatic(ClassDesc.of("java.lang.Math"), "min", MethodTypeDesc.of(CD_double, CD_double, CD_double));
     }
 }

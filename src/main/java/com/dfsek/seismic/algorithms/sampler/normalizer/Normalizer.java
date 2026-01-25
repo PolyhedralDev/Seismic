@@ -10,6 +10,8 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 public abstract class Normalizer implements Sampler {
     private final Sampler sampler;
@@ -29,4 +31,16 @@ public abstract class Normalizer implements Sampler {
     public double getSample(long seed, double x, double y, double z) {
         return normalize(sampler.getSample(seed, x, y, z));
     }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+        return sampler.build(b, seedSlot, xSlot, zSlot, max);
+    }
+
+    @Override
+    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return sampler.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+    }
+
+    public abstract CodeBuilder operator(CodeBuilder b);
 }

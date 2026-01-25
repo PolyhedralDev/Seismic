@@ -11,6 +11,8 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 import com.dfsek.seismic.math.statistic.StatisticFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 /**
  * Normalizer to redistribute normally distributed data to a continuous distribution via an automatically generated lookup table.
@@ -49,5 +51,10 @@ public class NormalNormalizer extends Normalizer {
         } else fin = (double) end / (lookup.length);
 
         return (fin - 0.5) * 2;
+    }
+
+    @Override
+    public CodeBuilder operator(CodeBuilder b) {
+        throw new UnsupportedOperationException();
     }
 }

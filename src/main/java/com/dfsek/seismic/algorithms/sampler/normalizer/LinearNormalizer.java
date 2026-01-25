@@ -10,6 +10,8 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 import com.dfsek.seismic.type.sampler.Sampler;
 
+import java.lang.classfile.CodeBuilder;
+
 
 /**
  * Normalizer to linearly scale data's range.
@@ -27,5 +29,15 @@ public class LinearNormalizer extends Normalizer {
     @Override
     public double normalize(double in) {
         return (in - min) * (2 / (max - min)) - 1;
+    }
+
+    @Override
+    public CodeBuilder operator(CodeBuilder b) {
+        return b.loadConstant(min)
+            .dsub()
+            .loadConstant(2 / (max - min))
+            .dmul()
+            .loadConstant(1D)
+            .dsub();
     }
 }

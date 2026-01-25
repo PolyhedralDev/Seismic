@@ -9,6 +9,7 @@ import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
 
 import static java.lang.constant.ConstantDescs.CD_Double;
+import static java.lang.constant.ConstantDescs.CD_double;
 
 
 public class MaxSampler extends BinaryArithmeticSampler {
@@ -30,6 +31,6 @@ public class MaxSampler extends BinaryArithmeticSampler {
 
     @Override
     public CodeBuilder operator(CodeBuilder b) {
-        return b.invokestatic(ClassDesc.of("java.lang.Math"), "max", MethodTypeDesc.of(CD_Double, CD_Double, CD_Double));
+        return b.invokestatic(ClassDesc.of("java.lang.Math"), "max", MethodTypeDesc.of(CD_double, CD_double, CD_double));
     }
 }
