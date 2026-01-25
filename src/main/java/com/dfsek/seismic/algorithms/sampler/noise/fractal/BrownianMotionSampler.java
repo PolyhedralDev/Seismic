@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
 import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
@@ -124,13 +125,23 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
         return built.build(b, clazz, seedSlot, xSlot, zSlot, max);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
         return built.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
+    }
+
+    @Override
+    public int lvSize2() {
+        return 0;
+    }
+
+    @Override
+    public int lvSize3() {
+        return 0;
     }
 
     @Override

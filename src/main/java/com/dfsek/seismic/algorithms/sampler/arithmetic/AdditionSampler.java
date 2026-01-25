@@ -15,6 +15,7 @@ public class AdditionSampler extends BinaryArithmeticSampler {
     public static Sampler of(Sampler left, Sampler right) {
         if(left instanceof ConstantSampler c && FloatingPointFunctions.equals(c.constant(), 0)) return right;
         if(right instanceof ConstantSampler c && FloatingPointFunctions.equals(c.constant(), 0)) return left;
+        if(left.equals(right)) return MultiplicationSampler.of(left, new ConstantSampler(2));
         return new AdditionSampler(left, right);
     }
 

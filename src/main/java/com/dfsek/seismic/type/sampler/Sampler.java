@@ -175,7 +175,7 @@ public interface Sampler extends Node {
     }
 
     default Sampler div(Sampler p) {
-        return new DivisionSampler(this, p);
+        return DivisionSampler.of(this, p);
     }
 
     default double frequencyX() {
@@ -188,36 +188,5 @@ public interface Sampler extends Node {
 
     default double frequencyZ() {
         return 1;
-    }
-
-    default Sampler compile() {
-        ClassDesc clazz = DynamicClassLoader.generate("com.dfsek.seismic.generated.TestSampler");
-        byte[] clazzBytes = ClassFile
-            .of()
-            .build(clazz,
-                classBuilder -> members(classBuilder
-                    .withInterfaces(ConstantPoolBuilder.of().classEntry(ClassDesc.of(Sampler.class.getName())))
-                    .withMethod("getSample",
-                        MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double),
-                        ACC_PUBLIC,
-                        b -> b.withCode(c -> build(c, clazz, 1, 3, 5, 7, 9).dreturn())
-                    )
-                    .withMethod("<init>",
-                        MethodTypeDesc.of(CD_void),
-                        ACC_PUBLIC,
-                        b -> b.withCode(c -> c
-                            .aload(0)
-                            .invokespecial(ClassDesc.of("java.lang.Object"), "<init>", MethodTypeDesc.of(CD_void))
-                            .return_())
-                    ), clazz));
-        DynamicClassLoader loader = new DynamicClassLoader();
-
-        Class<?> clazzD = loader.defineClass(clazz.packageName() + "." + clazz.displayName(), clazzBytes);
-        try {
-            Object instance = clazzD.getDeclaredConstructor().newInstance();
-            return (Sampler) instance;
-        } catch(ReflectiveOperationException e) {
-            throw new Error(e); // Should literally never happen
-        }
     }
 }

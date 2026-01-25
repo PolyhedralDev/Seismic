@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler;
 
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 import com.dfsek.seismic.type.vector.Vector2Int;
@@ -86,7 +87,7 @@ public class KernelSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
         return b
             .lload(seedSlot)
             .dload(xSlot)
@@ -178,6 +179,6 @@ public class KernelSampler implements Sampler {
         ).withMethod("kernelSamplerGENERATED" + uid,
             MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double),
             ACC_PUBLIC | ACC_STATIC,
-            m -> m.withCode(b -> in.build(b, clazz, 0, 2, 4, 6, 8).dreturn()));
+            m -> m.withCode(b -> in.build(b, clazz, 0, 2, 4, 6, new MaxS(8, in.lvSize2(), in.lvSize3())).dreturn()));
     }
 }

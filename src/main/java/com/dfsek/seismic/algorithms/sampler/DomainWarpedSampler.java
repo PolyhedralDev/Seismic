@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler;
 
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -44,11 +45,11 @@ public class DomainWarpedSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
-        int seedX = max;
-        max += 2;
-        int seedY = max;
-        max += 2;
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
+        int seedX = max.max();
+        max = max.store2();
+        int seedY = max.max();
+        max = max.store2();
         return function.build(warp.build(warp.build(b
                     .lload(seedSlot)
                     .dup2()
@@ -67,13 +68,13 @@ public class DomainWarpedSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        int seedX = max;
-        max += 2;
-        int seedY = max;
-        max += 2;
-        int seedZ = max;
-        max += 2;
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
+        int seedX = max.max();
+        max = max.store2();
+        int seedY = max.max();
+        max = max.store2();
+        int seedZ = max.max();
+        max = max.store2();
         return function.build(
             warp.build(
                     warp.build(

@@ -1,14 +1,22 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
+import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
+import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
-import java.lang.classfile.Opcode;
-import java.lang.classfile.instruction.OperatorInstruction;
 
 
 public class DivisionSampler extends BinaryArithmeticSampler {
-    public DivisionSampler(Sampler left, Sampler right) {
+
+    public static Sampler of(Sampler left, Sampler right) {
+        if(left.equals(right)) return new ConstantSampler(1);
+        if(left instanceof ConstantSampler l && right instanceof ConstantSampler r) return new ConstantSampler(l.constant() / r.constant());
+        if(right instanceof ConstantSampler c && FloatingPointFunctions.equals(c.constant(), 1)) return left;
+        return new DivisionSampler(left, right);
+    }
+
+    private DivisionSampler(Sampler left, Sampler right) {
         super(left, right);
     }
 

@@ -7,6 +7,7 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
@@ -122,21 +123,21 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
 
     // cant be clever with this one, wont be able to benefit from abstract optimisations :(
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        int xSlot_ = max;
-        max += 2;
-        int ySlot_ = max;
-        max += 2;
-        int zSlot_ = max;
-        max += 2;
-        int seedSlot_ = max;
-        max += 2;
-        int noiseSlot = max;
-        max += 2;
-        int sumSlot = max;
-        max += 2;
-        int ampSlot = max;
-        max += 2;
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
+        int xSlot_ = max.max();
+        max = max.store2();
+        int ySlot_ = max.max();
+        max = max.store2();
+        int zSlot_ = max.max();
+        max = max.store2();
+        int seedSlot_ = max.max();
+        max = max.store2();
+        int noiseSlot = max.max();
+        max = max.store2();
+        int sumSlot = max.max();
+        max = max.store2();
+        int ampSlot = max.max();
+        max = max.store2();
 
         b.dload(xSlot)
             .dstore(xSlot_)
@@ -197,6 +198,16 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
         }
 
         return b.dload(sumSlot);
+    }
+
+    @Override
+    public int lvSize2() {
+        return 12;
+    }
+
+    @Override
+    public int lvSize3() {
+        return 14;
     }
 
     @Override

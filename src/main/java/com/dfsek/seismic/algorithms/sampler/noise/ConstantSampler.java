@@ -7,6 +7,7 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise;
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -45,12 +46,12 @@ public class ConstantSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
         return b.loadConstant(constant);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
         return b.loadConstant(constant);
     }
 

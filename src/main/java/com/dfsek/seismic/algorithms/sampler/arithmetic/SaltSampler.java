@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -33,19 +34,29 @@ public class SaltSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), clazz, max, xSlot, zSlot, max + 2);
+            .lstore(max.max()), clazz, max.max(), xSlot, zSlot, max.store2());
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), clazz, max, xSlot, ySlot, zSlot, max + 2);
+            .lstore(max.max()), clazz, max.max(), xSlot, ySlot, zSlot, max.store2());
+    }
+
+    @Override
+    public int lvSize2() {
+        return 2;
+    }
+
+    @Override
+    public int lvSize3() {
+        return 2;
     }
 
     @Override

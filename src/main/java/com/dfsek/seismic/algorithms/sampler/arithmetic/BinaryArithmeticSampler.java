@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
+import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
@@ -51,17 +52,27 @@ public abstract class BinaryArithmeticSampler implements DerivativeSampler {
     public abstract double[] operateDerivative(double[] left, double[] right);
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
-        left.build(b, clazz, seedSlot, xSlot, zSlot, 4);
-        right.build(b, clazz, seedSlot, xSlot, zSlot, 4);
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
+        left.build(b, clazz, seedSlot, xSlot, zSlot, max);
+        right.build(b, clazz, seedSlot, xSlot, zSlot, max);
         return operator(b);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
         left.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
         right.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
         return operator(b);
+    }
+
+    @Override
+    public int lvSize2() {
+        return 0;
+    }
+
+    @Override
+    public int lvSize3() {
+        return 0;
     }
 
     public abstract CodeBuilder operator(CodeBuilder b);
