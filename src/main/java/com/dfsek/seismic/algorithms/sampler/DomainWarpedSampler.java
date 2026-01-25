@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
 import java.util.Objects;
 
 
@@ -43,7 +44,7 @@ public class DomainWarpedSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
         int seedX = max;
         max += 2;
         int seedY = max;
@@ -56,17 +57,17 @@ public class DomainWarpedSampler implements Sampler {
                     .lstore(seedX)
                     .loadConstant(2L)
                     .ladd()
-                    .lstore(seedY), seedX, xSlot, zSlot, max)
+                    .lstore(seedY), clazz, seedX, xSlot, zSlot, max)
                 .dload(zSlot)
                 .dadd()
-                .dstore(seedX), seedY, xSlot, zSlot, max)
+                .dstore(seedX), clazz, seedY, xSlot, zSlot, max)
             .dload(xSlot)
             .dadd()
-            .dstore(seedY), seedSlot, seedX, seedY, max);
+            .dstore(seedY), clazz, seedSlot, seedX, seedY, max);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         int seedX = max;
         max += 2;
         int seedY = max;
@@ -88,16 +89,16 @@ public class DomainWarpedSampler implements Sampler {
                                     .lstore(seedY)
                                     .loadConstant(3L)
                                     .ladd()
-                                    .lstore(seedZ), seedX, xSlot, ySlot, zSlot, max)
+                                    .lstore(seedZ), clazz, seedX, xSlot, ySlot, zSlot, max)
                                 .dload(xSlot)
                                 .dadd()
-                                .dstore(seedX), seedY, xSlot, ySlot, zSlot, max)
+                                .dstore(seedX), clazz, seedY, xSlot, ySlot, zSlot, max)
                         .dload(ySlot)
                         .dadd()
-                        .dstore(seedY), seedZ, xSlot, ySlot, zSlot, max)
+                        .dstore(seedY), clazz, seedZ, xSlot, ySlot, zSlot, max)
                 .dload(zSlot)
                 .dadd()
-                .dstore(seedZ), seedSlot, seedX, seedY, seedZ, max);
+                .dstore(seedZ), clazz, seedSlot, seedX, seedY, seedZ, max);
     }
 
     @Override

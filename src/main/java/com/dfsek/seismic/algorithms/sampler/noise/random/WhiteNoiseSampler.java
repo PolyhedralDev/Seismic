@@ -73,7 +73,7 @@ public class WhiteNoiseSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
         return b
             .dload(seedSlot)
             .dload(xSlot)
@@ -84,7 +84,7 @@ public class WhiteNoiseSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         return b
             .dload(seedSlot)
             .dload(xSlot)

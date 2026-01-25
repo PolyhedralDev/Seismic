@@ -3,6 +3,7 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
 import java.util.Objects;
 
 
@@ -32,19 +33,19 @@ public class SaltSampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), max, xSlot, zSlot, max + 2);
+            .lstore(max), clazz, max, xSlot, zSlot, max + 2);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         return in.build(b.lload(seedSlot)
             .loadConstant(salt)
             .ladd()
-            .lstore(max), max, xSlot, ySlot, zSlot, max + 2);
+            .lstore(max), clazz, max, xSlot, ySlot, zSlot, max + 2);
     }
 
     @Override

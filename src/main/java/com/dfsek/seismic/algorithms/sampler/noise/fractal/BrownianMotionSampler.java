@@ -8,15 +8,14 @@
 package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
 import com.dfsek.seismic.algorithms.sampler.arithmetic.FrequencySampler;
-import com.dfsek.seismic.algorithms.sampler.arithmetic.MultiplicationSampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
-import com.dfsek.seismic.math.numericanalysis.interpolation.InterpolationFunctions;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
 import java.util.Objects;
 
 
@@ -125,13 +124,13 @@ public class BrownianMotionSampler extends FractalNoiseFunction {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
-        return built.build(b, seedSlot, xSlot, zSlot, max);
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
+        return built.build(b, clazz, seedSlot, xSlot, zSlot, max);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        return built.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return built.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
     }
 
     @Override

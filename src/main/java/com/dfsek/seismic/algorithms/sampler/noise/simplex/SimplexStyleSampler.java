@@ -17,7 +17,6 @@ import java.lang.classfile.CodeBuilder;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
 
-import static java.lang.constant.ConstantDescs.CD_Double;
 import static java.lang.constant.ConstantDescs.CD_double;
 import static java.lang.constant.ConstantDescs.CD_long;
 
@@ -154,7 +153,7 @@ public abstract class SimplexStyleSampler implements DerivativeSampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
         return b
             .lload(seedSlot)
             .dload(xSlot)
@@ -164,7 +163,7 @@ public abstract class SimplexStyleSampler implements DerivativeSampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         return b
             .lload(seedSlot)
             .dload(xSlot)

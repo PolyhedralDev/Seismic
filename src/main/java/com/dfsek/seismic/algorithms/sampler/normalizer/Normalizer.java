@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
 
 
 public abstract class Normalizer implements Sampler {
@@ -33,13 +34,13 @@ public abstract class Normalizer implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
-        return sampler.build(b, seedSlot, xSlot, zSlot, max);
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
+        return sampler.build(b, clazz, seedSlot, xSlot, zSlot, max);
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
-        return sampler.build(b, seedSlot, xSlot, ySlot, zSlot, max);
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+        return sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
     }
 
     public abstract CodeBuilder operator(CodeBuilder b);

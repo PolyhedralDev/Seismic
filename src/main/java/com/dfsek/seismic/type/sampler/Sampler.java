@@ -30,7 +30,6 @@ import java.lang.constant.MethodTypeDesc;
 
 import static java.lang.classfile.ClassFile.ACC_PUBLIC;
 import static java.lang.constant.ConstantDescs.CD_double;
-import static java.lang.constant.ConstantDescs.CD_int;
 import static java.lang.constant.ConstantDescs.CD_long;
 import static java.lang.constant.ConstantDescs.CD_void;
 
@@ -192,15 +191,16 @@ public interface Sampler extends Node {
     }
 
     default Sampler compile() {
+        ClassDesc clazz = ClassDesc.of("com.dfsek.seismic.generated.TestSampler");
         byte[] clazzBytes = ClassFile
             .of()
-            .build(ClassDesc.of("com.dfsek.seismic.generated.TestSampler"),
+            .build(clazz,
                 classBuilder -> members(classBuilder
                     .withInterfaces(ConstantPoolBuilder.of().classEntry(ClassDesc.of(Sampler.class.getName())))
                     .withMethod("getSample",
                         MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double),
                         ACC_PUBLIC,
-                        b -> b.withCode(c -> build(c, 1, 3, 5, 7, 9).dreturn())
+                        b -> b.withCode(c -> build(c, clazz, 1, 3, 5, 7, 9).dreturn())
                     )
                     .withMethod("<init>",
                         MethodTypeDesc.of(CD_void),
@@ -209,12 +209,12 @@ public interface Sampler extends Node {
                             .aload(0)
                             .invokespecial(ClassDesc.of("java.lang.Object"), "<init>", MethodTypeDesc.of(CD_void))
                             .return_())
-                    )));
+                    ), clazz));
         DynamicClassLoader loader = new DynamicClassLoader();
 
-        Class<?> clazz = loader.defineClass("com.dfsek.seismic.generated.TestSampler", clazzBytes);
+        Class<?> clazzD = loader.defineClass("com.dfsek.seismic.generated.TestSampler", clazzBytes);
         try {
-            Object instance = clazz.getDeclaredConstructor().newInstance();
+            Object instance = clazzD.getDeclaredConstructor().newInstance();
             return (Sampler) instance;
         } catch(ReflectiveOperationException e) {
             throw new Error(e); // Should literally never happen

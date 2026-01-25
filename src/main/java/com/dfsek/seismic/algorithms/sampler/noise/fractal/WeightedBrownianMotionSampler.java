@@ -122,7 +122,7 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
 
     // cant be clever with this one, wont be able to benefit from abstract optimisations :(
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         int xSlot_ = max;
         max += 2;
         int ySlot_ = max;
@@ -150,7 +150,7 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
             .dup2() // for weighted strength app
             .dup2() // for aggregate
             .dstore(ampSlot);
-        input.build(b, seedSlot, xSlot, ySlot, zSlot, max)
+        input.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max)
             .dup2()
             .dstore(noiseSlot)
             .dmul() // noise * amp
@@ -189,7 +189,7 @@ public class WeightedBrownianMotionSampler extends FractalNoiseFunction {
                 .dload(ampSlot)
                 .dup2();
 
-            input.build(b, seedSlot_, xSlot_, ySlot_, zSlot_, max)
+            input.build(b, clazz, seedSlot_, xSlot_, ySlot_, zSlot_, max)
                 .dmul()
                 .dload(sumSlot)
                 .dadd()

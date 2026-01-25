@@ -4,6 +4,7 @@ import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
+import java.lang.constant.ClassDesc;
 import java.util.Objects;
 
 
@@ -82,7 +83,7 @@ public class FrequencySampler implements Sampler {
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, int max) {
         int xSlot_ = max;
         max += 2;
         int zSlot_ = max;
@@ -96,7 +97,7 @@ public class FrequencySampler implements Sampler {
                 .dload(zSlot)
                 .loadConstant(frequencyZ)
                 .dmul()
-                .dstore(zSlot_), seedSlot, xSlot_, zSlot_, max);
+                .dstore(zSlot_), clazz, seedSlot, xSlot_, zSlot_, max);
         } else {
             return in.build(b
                 .dload(xSlot)
@@ -106,12 +107,12 @@ public class FrequencySampler implements Sampler {
                 .dstore(xSlot_)
                 .loadConstant(frequencyZ)
                 .dmul()
-                .dstore(zSlot_), seedSlot, xSlot_, zSlot_, max);
+                .dstore(zSlot_), clazz, seedSlot, xSlot_, zSlot_, max);
         }
     }
 
     @Override
-    public CodeBuilder build(CodeBuilder b, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
+    public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, int max) {
         int xSlot_ = max;
         max += 2;
         int ySlot_ = max;
@@ -131,7 +132,7 @@ public class FrequencySampler implements Sampler {
                 .dload(zSlot)
                 .loadConstant(frequencyZ)
                 .dmul()
-                .dstore(zSlot_), seedSlot, xSlot_, ySlot_, zSlot_, max);
+                .dstore(zSlot_), clazz, seedSlot, xSlot_, ySlot_, zSlot_, max);
         } else {
             return in.build(b
                 .dload(xSlot)
@@ -145,7 +146,7 @@ public class FrequencySampler implements Sampler {
                 .dstore(ySlot_)
                 .loadConstant(frequencyZ)
                 .dmul()
-                .dstore(zSlot_), seedSlot, xSlot_, ySlot_, zSlot_, max);
+                .dstore(zSlot_), clazz, seedSlot, xSlot_, ySlot_, zSlot_, max);
         }
     }
 
