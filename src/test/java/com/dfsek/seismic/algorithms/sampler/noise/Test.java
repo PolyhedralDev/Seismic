@@ -20,6 +20,16 @@ public class Test {
             new double[] {1, -4, 1},
             new double[] {0,  1, 0}
         }, OpenSimplex2Sampler.instance());
+        s = new KernelSampler(new double[][]{
+            new double[] {0,  1, 0},
+            new double[] {1, -4, 1},
+            new double[] {0,  1, 0}
+        }, s);
+        s = new KernelSampler(new double[][]{
+            new double[] {0,  1, 0},
+            new double[] {1, -4, 1},
+            new double[] {0,  1, 0}
+        }, s);
         Sampler s2 = s.compile();
         //Sampler s = BrownianMotionSampler.of(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4).compile();
         //Sampler s2 = new WeightedBrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4).compile();

@@ -97,6 +97,7 @@ public class KernelSampler implements Sampler {
 
     @Override
     public ClassBuilder members(ClassBuilder cb, ClassDesc clazz) {
+        in.members(cb, clazz);
         return cb.withMethod("kernelGENERATED" + uid,
             MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double),
             ACC_PUBLIC | ACC_STATIC,
