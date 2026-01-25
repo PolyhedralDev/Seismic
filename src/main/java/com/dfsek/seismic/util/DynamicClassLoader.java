@@ -7,10 +7,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.constant.ClassDesc;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class DynamicClassLoader extends ClassLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(DynamicClassLoader.class);
+    private static final ConcurrentHashMap<String, AtomicInteger> GENERATED = new ConcurrentHashMap<>();
     public DynamicClassLoader() {
         super(Node.class.getClassLoader());
     }
@@ -30,5 +34,9 @@ public class DynamicClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         return Class.forName(name);
+    }
+
+    public static ClassDesc generate(String key) {
+        return ClassDesc.of(key + GENERATED.computeIfAbsent(key, k -> new AtomicInteger(0)).getAndIncrement());
     }
 }

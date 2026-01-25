@@ -191,7 +191,7 @@ public interface Sampler extends Node {
     }
 
     default Sampler compile() {
-        ClassDesc clazz = ClassDesc.of("com.dfsek.seismic.generated.TestSampler");
+        ClassDesc clazz = DynamicClassLoader.generate("com.dfsek.seismic.generated.TestSampler");
         byte[] clazzBytes = ClassFile
             .of()
             .build(clazz,
@@ -212,7 +212,7 @@ public interface Sampler extends Node {
                     ), clazz));
         DynamicClassLoader loader = new DynamicClassLoader();
 
-        Class<?> clazzD = loader.defineClass("com.dfsek.seismic.generated.TestSampler", clazzBytes);
+        Class<?> clazzD = loader.defineClass(clazz.packageName() + "." + clazz.displayName(), clazzBytes);
         try {
             Object instance = clazzD.getDeclaredConstructor().newInstance();
             return (Sampler) instance;
