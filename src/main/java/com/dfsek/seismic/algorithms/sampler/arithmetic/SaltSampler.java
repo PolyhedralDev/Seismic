@@ -19,7 +19,7 @@ public class SaltSampler implements Sampler {
 
     public static Sampler salt(long salt, Sampler in) {
         if(salt == 0) return in;
-        if(in instanceof SaltSampler s) return new SaltSampler(s.salt + salt, s.in);
+        if(in instanceof SaltSampler s) return salt(s.salt + salt, s.in);
         return new SaltSampler(salt, in);
     }
 

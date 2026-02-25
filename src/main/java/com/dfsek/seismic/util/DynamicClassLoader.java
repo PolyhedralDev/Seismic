@@ -20,7 +20,7 @@ public class DynamicClassLoader extends ClassLoader {
     }
 
     public Class<?> defineClass(String name, byte[] data) {
-        File dump = new File("./.seismic/out/classes/" + name.substring(name.lastIndexOf('.') + 1) + ".class");
+        File dump = new File(".seismic/out/classes/" + name.replace('.', '/') + ".class");
         dump.getParentFile().mkdirs();
         LOGGER.info("Dumping class {} to {}", name, dump.getAbsolutePath());
         try(FileOutputStream out = new FileOutputStream(dump)) {

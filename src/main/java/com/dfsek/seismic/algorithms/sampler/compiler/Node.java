@@ -9,6 +9,8 @@ import java.lang.classfile.CodeBuilder;
 import java.lang.classfile.constantpool.ConstantPoolBuilder;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.MethodTypeDesc;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import static java.lang.classfile.ClassFile.ACC_PUBLIC;
 import static java.lang.constant.ConstantDescs.CD_double;
@@ -29,8 +31,12 @@ public interface Node {
         return b;
     }
 
-    default Node optimise() {
+    default Node optimise(Map<Node, StoreNode> stores) {
         return this;
+    }
+
+    default Stream<Node> flatten() {
+        return Stream.of(this);
     }
 
     default int lvSize2() {

@@ -1,12 +1,14 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.algorithms.sampler.compiler.Node;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
 import java.lang.constant.ClassDesc;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public abstract class BinaryArithmeticSampler implements DerivativeSampler {
@@ -56,6 +58,11 @@ public abstract class BinaryArithmeticSampler implements DerivativeSampler {
         left.build(b, clazz, seedSlot, xSlot, zSlot, max);
         right.build(b, clazz, seedSlot, xSlot, zSlot, max);
         return operator(b);
+    }
+
+    @Override
+    public Stream<Node> flatten() {
+        return Stream.of(left, right, this);
     }
 
     @Override

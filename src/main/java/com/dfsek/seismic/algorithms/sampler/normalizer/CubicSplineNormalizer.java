@@ -4,10 +4,6 @@ import com.dfsek.seismic.type.CubicSpline;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
-import java.lang.constant.ClassDesc;
-import java.lang.constant.MethodTypeDesc;
-
-import static java.lang.constant.ConstantDescs.CD_double;
 
 
 public class CubicSplineNormalizer extends Normalizer {
