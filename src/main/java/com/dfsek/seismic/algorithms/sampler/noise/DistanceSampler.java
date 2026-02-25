@@ -1,6 +1,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.DistanceFunction;
 
 import java.util.Objects;
@@ -68,5 +69,10 @@ public class DistanceSampler extends NoiseFunction {
     @Override
     public int hashCode() {
         return Objects.hash(distanceFunction, ox, oy, oz, normalize, radius, distanceAtRadius);
+    }
+
+    @Override
+    public Range range() {
+        return Range.positive();
     }
 }

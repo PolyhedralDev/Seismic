@@ -1,6 +1,7 @@
 package com.dfsek.seismic.algorithms.sampler;
 
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.util.Objects;
@@ -26,6 +27,11 @@ public class TranslateSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return sampler.getSample(seed, x - dx, y - dy, z - dz);
+    }
+
+    @Override
+    public Range range() {
+        return sampler.range();
     }
 
     @Override

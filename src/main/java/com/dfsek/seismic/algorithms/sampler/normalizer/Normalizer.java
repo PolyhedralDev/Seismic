@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -45,4 +46,9 @@ public abstract class Normalizer implements Sampler {
     }
 
     public abstract CodeBuilder operator(CodeBuilder b);
+
+    @Override
+    public Range range() {
+        return Range.infinity(); // TODO: actual ranges for impls other than clamp
+    }
 }

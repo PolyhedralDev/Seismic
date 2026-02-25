@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 
@@ -51,5 +52,9 @@ public class GaussianNoiseSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return random(seed, x, y, z);
+    }
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }

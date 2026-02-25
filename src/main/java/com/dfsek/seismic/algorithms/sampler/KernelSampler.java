@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler;
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 import com.dfsek.seismic.type.vector.Vector2Int;
 
@@ -73,6 +74,17 @@ public class KernelSampler implements Sampler {
         }
 
         return accumulator;
+    }
+
+    @Override
+    public Range range() {
+        double sum = 0;
+        for(double[] z : kernel) {
+            for(double val : z) {
+                sum += val;
+            }
+        }
+        return in.range().mul(sum);
     }
 
     @Override

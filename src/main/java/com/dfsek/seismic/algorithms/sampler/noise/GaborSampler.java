@@ -12,6 +12,7 @@ import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.random.PositiveWhiteNoiseSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.random.WhiteNoiseSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.math.trigonometry.TrigonometryConstants;
 import com.dfsek.seismic.math.trigonometry.TrigonometryFunctions;
 import com.dfsek.seismic.type.sampler.Sampler;
@@ -94,5 +95,10 @@ public class GaborSampler extends NoiseFunction {
     @Override
     public double getNoiseRaw(long seed, double x, double y, double z) {
         return gaborNoise(seed, x, z);
+    }
+
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }

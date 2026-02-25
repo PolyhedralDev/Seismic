@@ -16,6 +16,7 @@ import com.dfsek.seismic.algorithms.sampler.arithmetic.SaltSampler;
 import com.dfsek.seismic.algorithms.sampler.arithmetic.SubtractionSampler;
 import com.dfsek.seismic.algorithms.sampler.compiler.Node;
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.vector.Vector2;
 import com.dfsek.seismic.type.vector.Vector2Int;
 import com.dfsek.seismic.type.vector.Vector3;
@@ -189,4 +190,6 @@ public interface Sampler extends Node {
     default double frequencyZ() {
         return 1;
     }
+
+    Range range();
 }

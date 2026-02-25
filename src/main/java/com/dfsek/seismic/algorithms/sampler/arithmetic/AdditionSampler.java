@@ -2,6 +2,7 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.algorithms.sampler.noise.ConstantSampler;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -37,5 +38,10 @@ public class AdditionSampler extends BinaryArithmeticSampler {
     @Override
     public CodeBuilder operator(CodeBuilder b) {
         return b.dadd();
+    }
+
+    @Override
+    public Range range() {
+        return left.range().add(right.range());
     }
 }

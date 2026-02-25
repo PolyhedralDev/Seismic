@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler;
 
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -42,6 +43,11 @@ public class DomainWarpedSampler implements Sampler {
             y + warp.getSample(seed++, x, y, z) * amplitude,
             z + warp.getSample(seed, x, y, z) * amplitude
         );
+    }
+
+    @Override
+    public Range range() {
+        return function.range();
     }
 
     @Override

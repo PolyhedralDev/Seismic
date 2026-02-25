@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.value;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.noise.NoiseFunction;
+import com.dfsek.seismic.math.range.Range;
 
 
 public abstract class ValueStyleNoise extends NoiseFunction {
@@ -32,5 +33,9 @@ public abstract class ValueStyleNoise extends NoiseFunction {
         hash *= hash;
         hash ^= hash << 19;
         return hash * (1 / 2147483648.0);
+    }
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }

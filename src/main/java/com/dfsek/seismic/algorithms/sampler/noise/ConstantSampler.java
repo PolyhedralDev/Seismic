@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -43,6 +44,11 @@ public class ConstantSampler implements Sampler {
     @Override
     public Sampler frequency(double frequencyX, double frequencyY, double frequencyZ) {
         return this;
+    }
+
+    @Override
+    public Range range() {
+        return Range.value(constant);
     }
 
     @Override

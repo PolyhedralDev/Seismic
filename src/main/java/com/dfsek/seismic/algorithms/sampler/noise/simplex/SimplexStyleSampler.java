@@ -11,6 +11,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.simplex;
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.math.arithmetic.ArithmeticFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.util.UnsafeUtils;
 
@@ -171,5 +172,10 @@ public abstract class SimplexStyleSampler implements DerivativeSampler {
             .dload(ySlot)
             .dload(zSlot)
             .invokestatic(ClassDesc.of(getClass().getName()), "simplex", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double));
+    }
+
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }

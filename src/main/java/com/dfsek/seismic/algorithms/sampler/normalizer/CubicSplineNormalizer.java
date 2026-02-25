@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.normalizer;
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.CubicSpline;
 import com.dfsek.seismic.type.sampler.Sampler;
 

@@ -8,6 +8,7 @@
 package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -38,5 +39,10 @@ public class ClampNormalizer extends Normalizer {
             .invokestatic(ClassDesc.of("java.lang.Math"), "min", MethodTypeDesc.of(CD_double, CD_double, CD_double))
             .loadConstant(min)
             .invokestatic(ClassDesc.of("java.lang.Math"), "max", MethodTypeDesc.of(CD_double, CD_double, CD_double));
+    }
+
+    @Override
+    public Range range() {
+        return new Range(min, max);
     }
 }

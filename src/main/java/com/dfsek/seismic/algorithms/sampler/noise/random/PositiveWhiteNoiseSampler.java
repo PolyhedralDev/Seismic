@@ -10,6 +10,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -82,5 +83,9 @@ public class PositiveWhiteNoiseSampler implements Sampler {
             .invokestatic(ClassDesc.of(PositiveWhiteNoiseSampler.class.getName()), "getNoiseUnmapped", MethodTypeDesc.of(CD_double, CD_long, CD_double, CD_double, CD_double))
             .loadConstant(1.0D)
             .dsub();
+    }
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }

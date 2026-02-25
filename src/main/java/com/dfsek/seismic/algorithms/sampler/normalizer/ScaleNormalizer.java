@@ -2,6 +2,7 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -30,5 +31,10 @@ public class ScaleNormalizer extends Normalizer {
     @Override
     public CodeBuilder operator(CodeBuilder b) {
         return b.loadConstant(scale).dmul();
+    }
+
+    @Override
+    public Range range() {
+        return sampler.range().mul(scale);
     }
 }

@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.noise.random;
 
 import com.dfsek.seismic.algorithms.hashing.HashingFunctions;
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -71,6 +72,11 @@ public class WhiteNoiseSampler implements Sampler {
     @Override
     public double getSample(long seed, double x, double y, double z) {
         return WhiteNoiseSampler.getNoiseUnmapped(seed, x, y, z) - 3;
+    }
+
+    @Override
+    public Range range() {
+        return Range.one();
     }
 
     @Override

@@ -1,65 +1,69 @@
-/*
- * Copyright (c) 2020-2025 Polyhedral Development
- *
- * The Terra API is licensed under the terms of the MIT License. For more details,
- * reference the LICENSE file in the common/api directory.
- */
-
 package com.dfsek.seismic.math.range;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Iterator;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
-
-
-public interface Range extends Iterable<Integer> {
-    Range multiply(int mult);
-
-    Range reflect(int pt);
-
-    int get(RandomGenerator r);
-
-    Range intersects(Range other);
-
-    Range add(int add);
-
-    Range sub(int sub);
-
-    @NotNull
-    @Override
-    Iterator<Integer> iterator();
-
-    boolean isInRange(int test);
-
-    int getMax();
-
-    Range setMax(int max);
-
-    int getMin();
-
-    Range setMin(int min);
-
-    int getRange();
-
-    default <T> T ifInRange(int y, T inRange, T notInRange) {
-        if(isInRange(y)) return inRange;
-        return notInRange;
+public record Range(double min, double max) {
+    public Range {
+        if(min > max) {
+            throw new IllegalArgumentException("Min cannot be greater than max");
+        }
+    }
+    public Range add(double i) {
+        return new Range(min + i, max + i);
+    }
+    public Range add(Range that) {
+        return new Range(this.min + that.min, this.max + that.max);
+    }
+    public Range sub(double i) {
+        return new Range(min - i, max - i);
+    }
+    public Range sub(Range that) {
+        return new Range(this.min - that.min, this.max - that.max);
+    }
+    public Range mul(double i) {
+        return new Range(min * i, max * i);
+    }
+    public Range mul(Range that) {
+        double minmin = this.min * that.min;
+        double minmax = this.min * that.max;
+        double maxmin = this.max * that.min;
+        double maxmax = this.max * that.max;
+        return new Range(Math.min(Math.min(minmin, minmax), Math.min(maxmin, maxmax)), Math.max(Math.max(minmin, minmax), Math.max(maxmin, maxmax)));
+    }
+    public Range frac(double i) {
+        //TODO: zero cases :)
+        return new Range(i / min, i / max);
+    }
+    public Range div(double i) {
+        return new Range(min / i, max / i);
+    }
+    public Range div(Range that) {
+        return mul(that.frac(1));
+    }
+    public Range and(Range that) {
+        return new Range(Math.max(this.min, that.min), Math.min(this.max, that.max));
+    }
+    public Range or(Range that) {
+        return new Range(Math.min(this.min, that.min), Math.max(this.max, that.max));
+    }
+    public Range min(Range that) {
+        return new Range(Math.min(this.min, that.min), Math.min(this.max, that.max));
+    }
+    public Range max(Range that) {
+        return new Range(Math.max(this.min, that.min), Math.max(this.max, that.max));
     }
 
-    default <T> T ifInRange(int y, Supplier<T> inRange, Supplier<T> notInRange) {
-        if(isInRange(y)) return inRange.get();
-        return notInRange.get();
+    public static Range one() {
+        return new Range(-1, 1);
     }
-
-    default <T> T ifInRange(int y, Supplier<T> inRange, T notInRange) {
-        if(isInRange(y)) return inRange.get();
-        return notInRange;
+    public static Range infinity() {
+        return new Range(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     }
-
-    default <T> T ifInRange(int y, T inRange, Supplier<T> notInRange) {
-        if(isInRange(y)) return inRange;
-        return notInRange.get();
+    public static Range positive() {
+        return new Range(0, Double.POSITIVE_INFINITY);
+    }
+    public static Range negative() {
+        return new Range(Double.NEGATIVE_INFINITY, 0);
+    }
+    public static Range value(double value) {
+        return new Range(value, value);
     }
 }

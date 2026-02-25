@@ -9,6 +9,7 @@ package com.dfsek.seismic.algorithms.sampler.normalizer;
 
 
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -43,5 +44,10 @@ public class PosterizationNormalizer extends Normalizer {
             .invokestatic(ClassDesc.of(FloatingPointFunctions.class.getName()), "round", MethodTypeDesc.of(CD_double, CD_double))
             .dmul()
             .ddiv();
+    }
+
+    @Override
+    public Range range() {
+        return sampler.range();
     }
 }

@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 
 
 public abstract class BinaryArithmeticSampler implements DerivativeSampler {
-    private final Sampler left;
-    private final Sampler right;
+    protected final Sampler left;
+    protected final Sampler right;
 
     protected BinaryArithmeticSampler(Sampler left, Sampler right) {
         this.left = left;

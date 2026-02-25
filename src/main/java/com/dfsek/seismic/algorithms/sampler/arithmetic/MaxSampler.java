@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -32,5 +33,9 @@ public class MaxSampler extends BinaryArithmeticSampler {
     @Override
     public CodeBuilder operator(CodeBuilder b) {
         return b.invokestatic(ClassDesc.of("java.lang.Math"), "max", MethodTypeDesc.of(CD_double, CD_double, CD_double));
+    }
+    @Override
+    public Range range() {
+        return left.range().max(right.range());
     }
 }

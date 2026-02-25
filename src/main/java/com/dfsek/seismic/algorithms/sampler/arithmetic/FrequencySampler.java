@@ -2,6 +2,7 @@ package com.dfsek.seismic.algorithms.sampler.arithmetic;
 
 import com.dfsek.seismic.algorithms.sampler.compiler.MaxS;
 import com.dfsek.seismic.math.floatingpoint.FloatingPointFunctions;
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.Sampler;
 
 import java.lang.classfile.CodeBuilder;
@@ -171,5 +172,9 @@ public class FrequencySampler implements Sampler {
     @Override
     public int hashCode() {
         return Objects.hash(frequencyX, frequencyY, frequencyZ, in);
+    }
+    @Override
+    public Range range() {
+        return in.range();
     }
 }

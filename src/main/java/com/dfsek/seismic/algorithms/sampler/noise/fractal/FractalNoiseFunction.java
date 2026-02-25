@@ -7,6 +7,7 @@
 
 package com.dfsek.seismic.algorithms.sampler.noise.fractal;
 
+import com.dfsek.seismic.math.range.Range;
 import com.dfsek.seismic.type.sampler.DerivativeSampler;
 import com.dfsek.seismic.type.sampler.Sampler;
 
@@ -62,5 +63,11 @@ public abstract class FractalNoiseFunction implements DerivativeSampler {
     @Override
     public int hashCode() {
         return Objects.hash(input, fractalBounding, octaves, gain, lacunarity);
+    }
+
+    // fractal bounding ensures noise remains in [0,1]
+    @Override
+    public Range range() {
+        return Range.one();
     }
 }
