@@ -22,6 +22,7 @@ public class DynamicClassLoader extends ClassLoader {
     public Class<?> defineClass(String name, byte[] data) {
         File dump = new File(".seismic/out/classes/" + name.replace('.', '/') + ".class");
         dump.getParentFile().mkdirs();
+        System.out.println(dump.getAbsolutePath());
         LOGGER.info("Dumping class {} to {}", name, dump.getAbsolutePath());
         try(FileOutputStream out = new FileOutputStream(dump)) {
             out.write(data);

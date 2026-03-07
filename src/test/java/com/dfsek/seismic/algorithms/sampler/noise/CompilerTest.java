@@ -1,5 +1,6 @@
 package com.dfsek.seismic.algorithms.sampler.noise;
 
+import com.dfsek.seismic.algorithms.sampler.LinearHeightmapSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.fractal.BrownianMotionSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.fractal.WeightedBrownianMotionSampler;
 import com.dfsek.seismic.algorithms.sampler.noise.simplex.OpenSimplex2Sampler;
@@ -14,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CompilerTest {
     @Test
     public void validateCompiler(){
-        Sampler s = BrownianMotionSampler.of(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4).compile();
+        Sampler s = BrownianMotionSampler.of(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4);
+        Sampler s3 = new LinearHeightmapSampler(OpenSimplex2Sampler.instance(), 8, 64).compile();
+        //s = s.compile();
         Sampler s2 = new WeightedBrownianMotionSampler(OpenSimplex2Sampler.instance(), 0.5, 2, 0, 4);
 
         Random r = new Random();
