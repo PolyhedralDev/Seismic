@@ -50,7 +50,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double a0 = (2.0 / 3.0) - x0 * x0 - y0 * y0;
         double value = (a0 * a0) * (a0 * a0) * SimplexStyleSampler.gradCoord(grads, seed, i, j, x0, y0);
 
-        double a1 = OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY * t + OpenSimplex2StyleSampler.GRADIENT_SCALE_SECONDARY;
+        double a1 = OpenSimplex2StyleSampler.GRADIENT_SCALE_PRIMARY * t + OpenSimplex2StyleSampler.GRADIENT_SCALE_SECONDARY + a0;
         double x1 = x0 - OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D;
         double y1 = y0 - OpenSimplex2StyleSampler.ONE_MINUS_DOUBLE_UNSKEW_2D;
         value += (a1 * a1) * (a1 * a1) * SimplexStyleSampler.gradCoord(grads, seed, i1, j1, x1, y1);
@@ -68,7 +68,7 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
                 }
             } else {
                 double x2 = x0 + OpenSimplex2StyleSampler.UNSKEW_2D;
-                double y2 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D;
+                double y2 = y0 + OpenSimplex2StyleSampler.UNSKEW_2D_MINUS_1;
                 double a2 = (2.0 / 3.0) - x2 * x2 - y2 * y2;
                 if(a2 > 0) {
                     value += (a2 * a2) * (a2 * a2) * SimplexStyleSampler.gradCoord(grads, seed, i, j + NoiseFunction.PRIME_Y, x2, y2);

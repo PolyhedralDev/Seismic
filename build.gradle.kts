@@ -116,6 +116,27 @@ dependencies {
 }
 
 
+// Disable signing unless -Psign is explicitly passed — allows publishToMavenLocal / Repsy without GPG setup.
+tasks.withType(org.gradle.plugins.signing.Sign::class.java).configureEach {
+    onlyIf { project.hasProperty("sign") }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Repsy"
+            url = uri("https://repo.repsy.io/mvn/diytechy/seismic")
+            credentials {
+                username = project.findProperty("repsy.user") as String? ?: System.getenv("REPSY_USERNAME")
+                password = project.findProperty("repsy.key") as String? ?: System.getenv("REPSY_PASSWORD")
+            }
+        }
+    }
+}
+
+// Override axion-release version for local patched builds. Remove this line for real releases.
+version = "2.5.7-PATCHED"
+
 tasks {
     withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -135,6 +156,10 @@ tasks {
         from(layout.buildDirectory.dir("tmp/META-INF")) {
             into("META-INF")
         }
+    }
+
+    named("build") {
+        finalizedBy("publishToMavenLocal")
     }
 
     register("dumpClasses") {
