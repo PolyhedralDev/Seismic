@@ -55,19 +55,28 @@ public class LinearHeightmapSampler implements Sampler {
         Label maxL = b.newLabel();
         Label endL = b.newLabel();
 
-        return b.loadConstant(base)
+        b.loadConstant(base)
             .dload(ySlot)
             .dsub()
             .dup2()
             .dup2()
             .loadConstant(samplerRange.max())
             .dcmpg()
+            .dup()
             .iconst_1()
             .if_icmpeq(maxL)
-            .loadConstant(0D)
+            .iconst_m1()
+            .if_icmpeq(minL);
+        sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
+        return b
+            .loadConstant(scale)
+            .dmul()
             .goto_(endL)
             .labelBinding(maxL)
             .loadConstant(samplerRange.max())
+            .goto_(endL)
+            .labelBinding(minL)
+            .loadConstant(samplerRange.min())
             .labelBinding(endL);
     }
 
