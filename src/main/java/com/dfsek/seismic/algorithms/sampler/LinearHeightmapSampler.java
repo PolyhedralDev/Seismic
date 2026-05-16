@@ -65,10 +65,11 @@ public class LinearHeightmapSampler implements Sampler {
             .dup()
             .iconst_1()
             .if_icmpeq(maxL)
+            .dup()
             .iconst_m1()
             .if_icmpeq(minL);
-        sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
-        return b
+
+        return sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max)
             .loadConstant(scale)
             .dmul()
             .goto_(endL)
