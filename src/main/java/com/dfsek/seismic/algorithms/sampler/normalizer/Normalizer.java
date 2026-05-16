@@ -37,12 +37,12 @@ public abstract class Normalizer implements Sampler {
 
     @Override
     public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int zSlot, MaxS max) {
-        return sampler.build(b, clazz, seedSlot, xSlot, zSlot, max);
+        return operator(sampler.build(b, clazz, seedSlot, xSlot, zSlot, max));
     }
 
     @Override
     public CodeBuilder build(CodeBuilder b, ClassDesc clazz, int seedSlot, int xSlot, int ySlot, int zSlot, MaxS max) {
-        return sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max);
+        return operator(sampler.build(b, clazz, seedSlot, xSlot, ySlot, zSlot, max));
     }
 
     public abstract CodeBuilder operator(CodeBuilder b);
