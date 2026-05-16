@@ -43,6 +43,6 @@ public class ClampNormalizer extends Normalizer {
 
     @Override
     public Range range() {
-        return new Range(min, max);
+        return new Range(min, max).and(sampler.range());
     }
 }
