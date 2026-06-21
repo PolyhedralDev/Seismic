@@ -102,12 +102,16 @@ public class ReflectionUtils {
         }
     }
 
-    private static @Nullable Field getReflectedField(ClassField clssfild) {
-        try {
-            return clssfild.clss.getField(clssfild.fild());
-        } catch(NoSuchFieldException e) {
-            ReflectionUtils.LOGGER.error("Field {} not found in class {}", clssfild.fild(), clssfild.clss.getName());
+    private static @Nullable Field getReflectedField(ClassField classField) {
+        Class<?> clazz = classField.clss;
+        while (clazz != null) {
+            try {
+                return clazz.getDeclaredField(classField.fild());
+            } catch (NoSuchFieldException ignored) {
+                clazz = clazz.getSuperclass();
+            }
         }
+        ReflectionUtils.LOGGER.error("Field {} not found in class {}", classField.fild(), classField.clss.getName());
         return null;
     }
 

@@ -533,9 +533,9 @@ public class OpenSimplex2SSampler extends OpenSimplex2StyleSampler {
         double aa0 = a0 * a0, aaa0 = aa0 * a0, aaaa0 = aa0 * aa0;
         long gi0 = SimplexStyleSampler.gradCoordIndex(seed, i + (xNMask & NoiseFunction.PRIME_X), j + (yNMask & NoiseFunction.PRIME_Y),
             k + (zNMask & NoiseFunction.PRIME_Z));
-        double gx0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi0) << DOUBLE_ARRAY_SHIFT));
-        double gy0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 1)) << DOUBLE_ARRAY_SHIFT));
-        double gz0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi0 | 2)) << DOUBLE_ARRAY_SHIFT));
+        double gx0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi0 << DOUBLE_ARRAY_SHIFT));
+        double gy0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi0 | 1) << DOUBLE_ARRAY_SHIFT));
+        double gz0 = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi0 | 2) << DOUBLE_ARRAY_SHIFT));
         double rampValue0 = gx0 * x0 + gy0 * y0 + gz0 * z0;
         out[0] = aaaa0 * rampValue0;
         out[1] = gx0 * aaaa0 - 8 * rampValue0 * aaa0 * x0;

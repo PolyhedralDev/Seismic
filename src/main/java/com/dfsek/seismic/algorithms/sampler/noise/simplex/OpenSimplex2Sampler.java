@@ -215,8 +215,8 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double aa = a * a, aaa = aa * a, aaaa = aa * aa;
             long gi = SimplexStyleSampler.gradCoordIndex(seed, i, j);
 
-            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi) << DOUBLE_ARRAY_SHIFT));
-            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi | 1)) << DOUBLE_ARRAY_SHIFT));
+            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
 
             double rampValue = ArithmeticFunctions.fma(gx, x0, gy * y0);
             out[0] = ArithmeticFunctions.fma(aaaa, rampValue, out[0]);
@@ -232,8 +232,8 @@ public class OpenSimplex2Sampler extends OpenSimplex2StyleSampler {
             double cc = c * c, ccc = cc * c, cccc = cc * cc;
             long gi = SimplexStyleSampler.gradCoordIndex(seed, i + NoiseFunction.PRIME_X, j + NoiseFunction.PRIME_Y);
 
-            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) gi) << DOUBLE_ARRAY_SHIFT));
-            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (((long) (gi | 1)) << DOUBLE_ARRAY_SHIFT));
+            double gx = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + (gi << DOUBLE_ARRAY_SHIFT));
+            double gy = UnsafeUtils.UNSAFE.getDouble(grads, DOUBLE_ARRAY_BASE + ((gi | 1) << DOUBLE_ARRAY_SHIFT));
 
             double rampValue = ArithmeticFunctions.fma(gx, x2, gy * y2);
             out[0] = ArithmeticFunctions.fma(cccc, rampValue, out[0]);

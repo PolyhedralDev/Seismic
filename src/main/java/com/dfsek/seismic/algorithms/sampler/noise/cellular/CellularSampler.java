@@ -96,9 +96,9 @@ public class CellularSampler extends CellularStyleSampler {
         double[] vecs = CellularSampler.RAND_VECS_2D;
 
         double vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
-            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
+            DOUBLE_ARRAY_BASE + (idx << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
         double vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
-            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinusY);
+            DOUBLE_ARRAY_BASE + ((idx | 1) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrMinusY);
 
         double newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
@@ -121,9 +121,9 @@ public class CellularSampler extends CellularStyleSampler {
         idx = hash & (255 << 1);
 
         vecX = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
-            DOUBLE_ARRAY_BASE + (((long) idx) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
+            DOUBLE_ARRAY_BASE + (idx << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, xrMinusX);
         vecY = ArithmeticFunctions.fma(UnsafeUtils.UNSAFE.getDouble(vecs,
-            DOUBLE_ARRAY_BASE + (((long) (idx | 1)) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrPlus1MinusY);
+            DOUBLE_ARRAY_BASE + ((idx | 1) << DOUBLE_ARRAY_SHIFT)), twoDCellularJitter, yrPlus1MinusY);
 
         newDistance = switch(distanceFunction) {
             case Euclidean, EuclideanSq -> ArithmeticFunctions.fma(vecX, vecX, vecY * vecY);
